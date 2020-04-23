@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import "./ProductDisplaySection.scss";
 import { NavLink } from 'react-router-dom';
-import ProductCard from '../ProductCard'
+import ProductCard from '../ProductCard';
 
 class ProductDisplaySection extends Component {
     

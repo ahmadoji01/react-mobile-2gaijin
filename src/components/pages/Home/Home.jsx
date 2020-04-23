@@ -5,6 +5,7 @@ import ProductDisplaySection from "../../elements/ProductDisplaySection"
 import CategorySlider from "../../elements/CategorySlider"
 import Toolbar from "../../elements/Toolbar";
 import './Home.scss';
+import ProductDisplaySlider from "../../elements/ProductDisplaySlider";
 
 class Home extends Component {
     
@@ -37,6 +38,7 @@ class Home extends Component {
                             <Header />
                             <HomeBanners />
                             <CategorySlider />
+                            <ProductDisplaySlider />
                         </div>
                     </div>
                 </div>

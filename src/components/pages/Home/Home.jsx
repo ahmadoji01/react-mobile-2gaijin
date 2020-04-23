@@ -2,6 +2,8 @@ import React, { Component } from "react";
 import Header from '../../elements/Header';
 import HomeBanners from "../../elements/HomeBanners";
 import ProductDisplaySection from "../../elements/ProductDisplaySection"
+import CategorySlider from "../../elements/CategorySlider"
+import Toolbar from "../../elements/Toolbar";
 import './Home.scss';
 
 class Home extends Component {
@@ -14,7 +16,7 @@ class Home extends Component {
     }
 
     componentWillMount() {
-        fetch('http://localhost:8080/api/')
+        fetch('http://localhost:8080/')
         .then((response) => response.json())
         .then((responseJson) => {
             const jsonData = responseJson.data;
@@ -28,9 +30,16 @@ class Home extends Component {
     render() {  
         return (
             <div className="App">
-                <Header />
-                <HomeBanners />
-                <ProductDisplaySection title="Featured Items" items={this.state.data.featureditems} />
+                <div className="page page-home page-with-subnavbar">
+                    <Toolbar />
+                    <div className="tabs">
+                        <div id="tab-home" className="tab tab-active tab-home">
+                            <Header />
+                            <HomeBanners />
+                            <CategorySlider />
+                        </div>
+                    </div>
+                </div>
             </div>
         );    
     }

@@ -12,10 +12,10 @@ class App extends Component {
       <BrowserRouter>
         <div>
           <Switch>
-            <Route path="/" component={Home} exact/>
+            <Route path="/" component={Home} />
             <Route path="/chatroom" component={ChatRoom}/>
             <Route path="/product" component={ChatRoom}/>
-          <Route component={Error}/>
+            <Route component={Error}/>
           </Switch>
         </div> 
       </BrowserRouter>

@@ -3,7 +3,9 @@
   <head>
     <meta charset="utf-8" />
     <link rel="icon" href="%PUBLIC_URL%/favicon.ico" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="default" />
     <meta name="theme-color" content="#000000" />
     <meta
       name="description"
@@ -28,40 +30,37 @@
     <title>2Gaijin.com - Secondhand Items Platform for Foreigners</title>
     
     <!-- meta -->
-    <meta content="width=device-width, initial-scale=1, maximum-scale=1, shrink-to-fit=no" name="viewport" />
+    <meta http-equiv="Content-Security-Policy" content="default-src * 'self' 'unsafe-inline' 'unsafe-eval' data: gap:">
     <meta name="description" content="This website is made by a gaijin special for gaijins who want to sell or buy second hand goods. Tips on how to survive in Japan, particularly Hokkaido" />
-    <link rel="canonical" href="https://2gaijin.com/en/categories/" />
+    <link rel="canonical" href="https://2gaijin.com" />
     <meta property="og:locale" content="en_US" />
     <meta property="og:locale:alternate" content="zh_CN" />
     <meta property="og:locale:alternate" content="ja_JP" />
     <meta property="og:type" content="website" />
     <meta property="og:title" content="Sell your second hand goods here! from gaijin 2 gaijin - 2gaijin.com" />
     <meta property="og:description" content="This website is made by a gaijin special for gaijins who want to sell or buy second hand goods. Tips on how to survive in Japan, particularly Hokkaido" />
-    <meta property="og:url" content="https://2gaijin.com/en/categories/" />
+    <meta property="og:url" content="https://2gaijin.com" />
     <meta property="og:site_name" content="2gaijin.com" />
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:description" content="This website is made by a gaijin special for gaijins who want to sell or buy second hand goods. Tips on how to survive in Japan, particularly Hokkaido" />
     <meta name="twitter:title" content="Sell your second hand goods here! from gaijin 2 gaijin - 2gaijin.com" />
     
     <!-- css -->
-    <link rel="stylesheet" href="css/animate.css">
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
-    <link rel="stylesheet" href="css/fontello.css">
-    <link rel="stylesheet" href="css/jquery-ui.css">
-    <link rel="stylesheet" href="css/lnr-icon.css">
-    <link rel="stylesheet" href="css/owl.carousel.css">
-    <link rel="stylesheet" href="css/slick.css">
-    <link rel="stylesheet" href="css/trumbowyg.min.css">
-    <link rel="stylesheet" href="css/bootstrap/bootstrap.min.css">
-    <link rel="stylesheet" href="https://unpkg.com/swiper/css/swiper.min.css">
+    <link rel="icon" href="images/favicon.png">
+    <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,400i,500,500i,700,900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/framework7/5.6.0/css/framework7.bundle.min.css">
+    <link rel="stylesheet" href="css/font-awesome.min.css">
     <link rel="stylesheet" href="css/style.css">
-    <link rel="stylesheet" href="css/custom.css">
-    <link rel="icon" type="image/png" sizes="16x16" href="images/favicon.png">
 
+    
   </head>
   <body>
     <noscript>You need to enable JavaScript to run this app.</noscript>
-    <div id="root"></div>
+    <div id="app">
+      <div className="view view-main view-init ios-edges" id="view-main" data-url="/">
+        <div id="root"></div>
+      </div>
+    </div>
     <!--
       This HTML file is a template.
       If you open it directly in the browser, you will see an empty page.
@@ -73,36 +72,8 @@
       To create a production bundle, use `npm run build` or `yarn build`.
     -->
 
-    <script src="js/vendor/jquery/jquery-1.12.3.js"></script>
-    <script src="js/vendor/jquery/popper.min.js"></script>
-    <script src="js/vendor/jquery/uikit.min.js"></script>
-    <script src="js/vendor/bootstrap.min.js"></script>
-    <script src="js/vendor/chart.bundle.min.js"></script>
-    <script src="js/vendor/grid.min.js"></script>
-    <script src="js/vendor/jquery-ui.min.js"></script>
-    <script src="js/vendor/jquery.barrating.min.js"></script>
-    <script src="js/vendor/jquery.countdown.min.js"></script>
-    <script src="js/vendor/jquery.counterup.min.js"></script>
-    <script src="js/vendor/jquery.easing1.3.js"></script>
-    <script src="js/vendor/owl.carousel.min.js"></script>
-    <script src="js/vendor/slick.min.js"></script>
-    <script src="js/vendor/tether.min.js"></script>
-    <script src="js/vendor/trumbowyg.min.js"></script>
-    <script src="js/vendor/waypoints.min.js"></script>
-    <script src="js/swiperjs/js/swiper.min.js"></script>
-    <script src="js/dashboard.js"></script>
-
-    <script src="https://unpkg.com/swiper/js/swiper.min.js"></script>
-
-    <script src="js/main.js"></script>
-    <script src="js/custom.js"></script>
-    <script type="text/javascript">
-    var swiper = new Swiper('.swiper-container', {
-        pagination: {
-            el: '.swiper-pagination',
-            dynamicBullets: true,
-        },
-    });
-    </script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/framework7/5.6.0/js/framework7.bundle.min.js"></script>
+	  <script src="js/routes.js"></script>
+	  <script src="js/app.js"></script>
   </body>
 </html>

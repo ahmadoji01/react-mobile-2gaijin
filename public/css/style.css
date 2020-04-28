@@ -190,11 +190,11 @@ ul li {
 }
 
 .segments {
-	padding: 25px 0;
+	padding: 15px 0;
 }
 
 .segments-bottom {
-	padding-bottom: 25px;
+	padding-bottom: 15px;
 }
 
 .section-title {
@@ -409,13 +409,14 @@ ul li {
 
 /*navbar*/
 .navbar {
-	background: #fff;
+	background: rgb(0,0,0,0);
 }
 
 .navbar .navbar-inner {
 	padding-left: 12px;
 	padding-right: 12px;
 	padding-top: 8px;
+	padding-bottom: 8px;
 }
 
 .navbar .nav-account-seller {
@@ -565,7 +566,7 @@ ul li {
 
 /*slider*/
 .slider {
-	margin-top: 69px;
+	margin-top: 15px;
 }
 
 .slider .swiper-container.swiper-container-horizontal > .swiper-pagination-bullets {
@@ -610,7 +611,8 @@ ul li {
 /*flash sale*/
 .flash-sale {
 	position: relative;
-	padding-top: 22px;
+	padding-top: 12px;
+	padding-bottom: 12px;
 }
 
 .flash-sale::after {
@@ -623,27 +625,31 @@ ul li {
 	z-index: -1000;
 	width: 100%;
 	height: 50%;
-	background: url(../images/bg-flash-sale.png);
+	background: url(./images/bg-flash-sale.png);
 	background-size: cover;
 	background-position: center 22%;
 }
 
 .flash-sale .swiper-container {
-	padding-bottom: 25px;
+	padding-right: 10px !important;
+	padding-left: 10px !important;
+	padding-bottom: 15px;
 }
 
 .flash-sale .flash-s-title {
 	text-align: center;
 	margin-bottom: 0;
+	background-color: #F17022;
 }
 
 .flash-sale .flash-s-title h3 {
+	padding-top: 15px;
 	margin-bottom: 15px;
 	color: #fff;
 }
 
 .flash-sale .swiper-slide {
-	width: 35%;
+	width: 32%;
 }
 
 .flash-sale .swiper-slide .content {
@@ -759,7 +765,7 @@ ul li {
 
 /*--- SEARCH ---*/
 .search {
-	padding-top: 64px;
+	padding-top: 20px;
 }
 
 .search .title-search-category {
@@ -1950,7 +1956,7 @@ form.list ul::after {
 
 /*searchbar*/
 .ios .searchbar {
-	background: #fff;
+	background: transparent !important;
 	box-shadow: 0 6px 8px 0 rgba(0, 0, 0, 0.03);
 }
 

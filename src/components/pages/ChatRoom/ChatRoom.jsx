@@ -1,5 +1,6 @@
 import React, { Component } from "react";
-import Header from '../../elements/Header';
+import Navbar from '../../elements/Navbar';
+import Sidebar from '../../elements/Sidebar';
 import ChatHistory from '../../elements/ChatHistory';
 import ChatInput from '../../elements/ChatInput';
 import { connect, sendMsg } from "../../../api";
@@ -33,7 +34,8 @@ class ChatRoom extends Component {
     render() {
         return (
             <div className="App">
-                <Header />
+                <Navbar />
+                <Sidebar />
                 <ChatHistory chatHistory={this.state.chatHistory} />
                 <ChatInput send={this.send} />
             </div>

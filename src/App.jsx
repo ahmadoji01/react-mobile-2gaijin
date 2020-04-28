@@ -8,6 +8,7 @@ import { App, View, Page, Navbar, Toolbar, Link } from 'framework7-react';
 
 const f7params = {
   // Array with app routes
+  theme: 'ios',
   routes: [
     {
         path: '/',

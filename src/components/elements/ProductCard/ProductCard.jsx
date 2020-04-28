@@ -8,10 +8,10 @@ class ProductCard extends Component {
         return(
             <div className="content content-shadow-product">
                 <a href="/product-details/">
-                    <img src="images/product1.jpg" alt="product" />
+                    <img src="images/product8.jpg" alt="product" />
                     <div className="text">
-                        <p className="title-product">Sweater with latest model</p>
-                        <p className="price">$85.00</p>
+                        <p className="title-product">Loafers with genuine leather, guaranteed</p>
+                        <p className="price">$299.99</p>
                         <p className="location">New York</p>
                     </div>
                 </a>

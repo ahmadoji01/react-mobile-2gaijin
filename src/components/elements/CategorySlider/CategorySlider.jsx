@@ -3,18 +3,18 @@ import "./CategorySlider.scss";
 
 const CategorySlider = () => (
     <div className="categories segments no-pd-b">
+        <div className="header-container">
+            <h3>Explore Categories</h3>
+        </div>
         <div className="container">
-            <div className="section-title">
-                <h3>Categories</h3>
-            </div>
             <div className="row">
                 <div className="col-20">
                     <div className="content">
-                        <a href="/categories-details/">
+                        <a href="/all-categories/">
                             <div className="icon">
-                                <i className="fas fa-mobile-alt"></i>
+                                <i className="fas fa-th"></i>
                             </div>
-                            <span>Phone</span>
+                            <span>Show All</span>
                         </a>
                     </div>
                 </div>
@@ -24,7 +24,49 @@ const CategorySlider = () => (
                             <div className="icon">
                                 <i className="fas fa-tshirt"></i>
                             </div>
-                            <span>T-Shirt</span>
+                            <span>Apparel</span>
+                        </a>
+                    </div>
+                </div>
+                <div className="col-20">
+                    <div className="content">
+                        <a href="/categories-details/">
+                            <div className="icon">
+                                <i className="fas fa-chair"></i>
+                            </div>
+                            <span>Furniture</span>
+                        </a>
+                    </div>
+                </div>
+                <div className="col-20">
+                    <div className="content">
+                        <a href="/categories-details/">
+                            <div className="icon">
+                                <i className="fas fa-camera"></i>
+                            </div>
+                            <span>Photo</span>
+                        </a>
+                    </div>
+                </div>
+                <div className="col-20">
+                    <div className="content">
+                        <a href="/categories-details/">
+                            <div className="icon">
+                                <i className="fas fa-headphones-alt"></i>
+                            </div>
+                            <span>Accessories</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div className="row">
+                <div className="col-20">
+                    <div className="content">
+                        <a href="/categories-details/">
+                            <div className="icon">
+                                <i className="fas fa-mobile-alt"></i>
+                            </div>
+                            <span>Handphone</span>
                         </a>
                     </div>
                 </div>
@@ -42,19 +84,29 @@ const CategorySlider = () => (
                     <div className="content">
                         <a href="/categories-details/">
                             <div className="icon">
-                                <i className="fas fa-tools"></i>
+                                <i className="fas fa-pizza-slice"></i>
                             </div>
-                            <span>Tools</span>
+                            <span>Food</span>
                         </a>
                     </div>
                 </div>
                 <div className="col-20">
-                    <div className="content all-categories-link">
-                        <a href="/all-categories/">
+                    <div className="content">
+                        <a href="/categories-details/">
                             <div className="icon">
-                                <i className="fas fa-angle-right"></i>
+                                <i className="fas fa-plug"></i>
                             </div>
-                            <span>See All</span>
+                            <span>Electronic</span>
+                        </a>
+                    </div>
+                </div>
+                <div className="col-20">
+                    <div className="content">
+                        <a href="/categories-details/">
+                            <div className="icon">
+                                <i className="fas fa-car"></i>
+                            </div>
+                            <span>Automotive</span>
                         </a>
                     </div>
                 </div>

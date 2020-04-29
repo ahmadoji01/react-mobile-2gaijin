@@ -34,22 +34,21 @@ class ProductDisplayContainer extends Component {
                         { items.map(function (item, i) {
                             if((i+1)%2 == 1) {
                                 if(typeof(items[i+1]) !== "undefined") {
-                                    console.log();
                                     return (
-                                        <div className="row">
+                                        <div className="row" key={i}>
                                             <div className="col-50">
-                                                <ProductCard item={items[i]} lat={currLat} lng={currLng} />
+                                                <ProductCard key={i} item={items[i]} lat={currLat} lng={currLng} />
                                             </div>
                                             <div className="col-50">
-                                                <ProductCard item={items[i+1]} lat={currLat} lng={currLng} />
+                                                <ProductCard key={i+1} item={items[i+1]} lat={currLat} lng={currLng} />
                                             </div>
                                         </div>
                                     );
                                 } else {
                                     return (
-                                        <div className="row">
+                                        <div className="row" key={i}>
                                             <div className="col-50">
-                                                <ProductCard item={items[i]} lat={currLat} lng={currLng} />
+                                                <ProductCard key={i} item={items[i]} lat={currLat} lng={currLng} />
                                             </div>
                                         </div>
                                     );

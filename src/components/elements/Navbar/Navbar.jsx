@@ -3,11 +3,11 @@ import "./Navbar.scss";
 import { NavLink } from 'react-router-dom';
 
 const Navbar = () => (
-    <div className="navbar navbar-home">
+    <div id="custom-navbar" className="navbar navbar-home">
         <div className="navbar-inner">
             <div className="left">
                 <a href="#" className="panel-open" data-panel="left">
-                    <i className="fas fa-bars"></i>
+                    <i id="bar-icon" className="fas fa-bars"></i>
                 </a>
             </div>
             <div className="title">
@@ -23,10 +23,10 @@ const Navbar = () => (
             </div>
             <div className="right">
                 <a href="/wishlist/">
-                    <i className="fas fa-heart"></i>
+                    <i id="notif-icon" className="fas fa-heart"></i>
                 </a>
                 <a href="/notification/">
-                    <i className="fas fa-bell"></i>
+                    <i id="msg-icon" className="fas fa-bell"></i>
                     <span></span>
                 </a>
             </div>

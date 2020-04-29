@@ -16,7 +16,13 @@ class ProductCard extends Component {
         var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a)); 
         var d = R * c;
 
-        return d.toFixed(1)
+        var text = "";
+
+        if (lat2 != 0.0) {
+            text = d.toFixed(1) + " km away";
+        }
+
+        return text;
     }
 
     render() {
@@ -30,7 +36,7 @@ class ProductCard extends Component {
                             <p className="title-product">{item.name}</p>
                             <p className="location">by {item.seller_name}</p>
                             <p className="price">¥{item.price}</p>
-                            <p className="title-product">{this.calcDistance(parseFloat(item.location[0]), parseFloat(item.location[1]), parseFloat(this.props.lat),  parseFloat(this.props.lng))} km away</p>
+                            <p className="title-product">{this.calcDistance(parseFloat(item.location[0]), parseFloat(item.location[1]), parseFloat(this.props.lat),  parseFloat(this.props.lng))}</p>
                         </div>
                     </a>
                 </div>

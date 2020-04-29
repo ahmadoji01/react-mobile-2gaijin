@@ -4,10 +4,24 @@ import { NavLink } from 'react-router-dom';
 import ProductCard from '../ProductCard';
 
 class ProductContainerInfinite extends Component {
+
+    state = {
+        currLat: 0.0,
+        currLng: 0.0
+    };
     
+    findCoordinates = () => {
+        navigator.geolocation.getCurrentPosition(position => {
+            const location = JSON.stringify(position);
+            this.setState({ currLat: position.coords.latitude, currLng: position.coords.longitude });
+        });
+    }
+
     render() {
         if(typeof(this.props.items) !== "undefined") {
             const items = this.props.items;
+            this.findCoordinates();
+            var currLat = this.state.currLat; var currLng = this.state.currLng;
             return(
                 <div className="recommended product segments-bottom">
                     <div className="container">
@@ -20,10 +34,10 @@ class ProductContainerInfinite extends Component {
                                     return (
                                         <div className="row">
                                             <div className="col-50">
-                                                <ProductCard item={items[i]} />
+                                                <ProductCard item={items[i]} lat={currLat} lng={currLng} />
                                             </div>
                                             <div className="col-50">
-                                                <ProductCard item={items[i+1]} />
+                                                <ProductCard item={items[i+1]} lat={currLat} lng={currLng} />
                                             </div>
                                         </div>
                                     );
@@ -31,7 +45,7 @@ class ProductContainerInfinite extends Component {
                                     return (
                                         <div className="row">
                                             <div className="col-50">
-                                                <ProductCard item={items[i]} />
+                                                <ProductCard item={items[i]} lat={currLat} lng={currLng} />
                                             </div>
                                         </div>
                                     );

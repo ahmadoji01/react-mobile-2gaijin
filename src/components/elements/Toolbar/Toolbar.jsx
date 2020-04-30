@@ -8,17 +8,17 @@ const Toolbar = () => (
                 <i className="fas fa-home"></i>
                 <span className="tabbar-label">Home</span>
             </a>
-            <a href="#tab-search" className="tab-link">
-                <i className="fas fa-search"></i>
-                <span className="tabbar-label">Search</span>
+            <a href="#tab-appointment" className="tab-link">
+                <i className="fas fa-map-marker-alt"></i>
+                <span className="tabbar-label">Appointment</span>
             </a>
-            <a href="#tab-brand" className="tab-link">
+            <a href="#tab-sell" className="tab-link">
                 <i className="fas fa-medal"></i>
-                <span className="tabbar-label">Official Brand</span>
+                <span className="tabbar-label">Start Selling</span>
             </a>
-            <a href="#tab-cart" className="tab-link">
-                <i className="fas fa-shopping-cart"></i>
-                <span className="tabbar-label">Cart</span>
+            <a href="#tab-wishlist" className="tab-link">
+                <i className="fas fa-heart"></i>
+                <span className="tabbar-label">Wishlist</span>
             </a>
             <a href="#tab-account" className="tab-link">
                 <i className="fas fa-user"></i>

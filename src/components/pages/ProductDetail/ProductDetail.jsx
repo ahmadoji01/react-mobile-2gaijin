@@ -14,7 +14,7 @@ class ProductDetail extends Component {
     }
 
     componentWillMount() {
-        fetch('http://localhost:8080/api/')
+        fetch('https://go.2gaijin.com/products/')
         .then((response) => response.json())
         .then((responseJson) => {
             const jsonData = responseJson.data;

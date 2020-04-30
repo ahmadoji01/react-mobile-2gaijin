@@ -1,4 +1,4 @@
-var socket = new WebSocket("ws://go.2gaijin.com/ws");
+var socket = new WebSocket("wss://go.2gaijin.com/ws");
 
 let connect = cb => {
   console.log("connecting");

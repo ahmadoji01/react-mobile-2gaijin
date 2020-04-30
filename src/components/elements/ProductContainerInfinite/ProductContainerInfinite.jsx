@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import "./ProductContainerInfinite.scss";
 import { NavLink } from 'react-router-dom';
 import ProductCard from '../ProductCard';
+import Masonry from 'react-masonry-css';
 
 class ProductContainerInfinite extends Component {
 
@@ -19,41 +20,25 @@ class ProductContainerInfinite extends Component {
 
     render() {
         if(typeof(this.props.items) !== "undefined") {
-            const items = this.props.items;
             this.findCoordinates();
             var currLat = this.state.currLat; var currLng = this.state.currLng;
+
+            var items = this.props.items;
+            items = items.map(function(item, i) {
+                return <div key={i+1}><ProductCard item={item} lat={currLat} lng={currLng} /></div>
+            });
             return(
                 <div className="recommended product segments-bottom">
                     <div className="container">
                         <div className="section-title">
                             <h3>{this.props.title}</h3>
                         </div>
-                        { items.map(function (item, i) {
-                            if((i+1)%2 == 1) {
-                                if(typeof(items[i+1]) !== "undefined") {
-                                    return (
-                                        <div className="row" key={i}>
-                                            <div className="col-50">
-                                                <ProductCard key={i} item={items[i]} lat={currLat} lng={currLng} />
-                                            </div>
-                                            <div className="col-50">
-                                                <ProductCard key={i+1} item={items[i+1]} lat={currLat} lng={currLng} />
-                                            </div>
-                                        </div>
-                                    );
-                                } else {
-                                    return (
-                                        <div className="row" key={i}>
-                                            <div className="col-50">
-                                                <ProductCard key={i} item={items[i]} lat={currLat} lng={currLng} />
-                                            </div>
-                                        </div>
-                                    );
-                                }
-                            } else {
-                                return '';
-                            }
-                        })}
+                        <Masonry
+                            breakpointCols={2}
+                            className="my-masonry-grid"
+                            columnClassName="my-masonry-grid_column">
+                            {items}
+                        </Masonry>
                     </div>
                 </div>
             );

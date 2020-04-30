@@ -14,7 +14,7 @@ class SmallProductCard extends Component {
                                 <li>{this.props.label}</li>
                             </ul>
                         </div>
-                        <img src={this.props.item["img_url"]} className="small-card-img" />
+                        <img src="images/flash-sale2.jpg" className="small-card-img" />
                         <div className="text">
                             <p>¥{this.props.item["price"]}</p>
                         </div>

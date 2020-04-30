@@ -31,7 +31,7 @@ class ProductCard extends Component {
             return(
                 <div className="content content-shadow-product">
                     <a href="/product-details/">
-                        <img src={item.img_url} alt="product" />
+                        <img src="images/product1.jpg" alt="product" />
                         <div className="text">
                             <p className="title-product">{item.name}</p>
                             <p className="location">by {item.seller_name}</p>

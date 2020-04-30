@@ -2,27 +2,26 @@ import React, { Component } from 'react';
 import "./ProductDisplayContainer.scss";
 import { NavLink } from 'react-router-dom';
 import ProductCard from '../ProductCard';
+import { geolocated } from 'react-geolocated';
+import Masonry from 'react-masonry-css';
 
 class ProductDisplayContainer extends Component {
 
-    state = {
-        currLat: 0.0,
-        currLng: 0.0
-    };
-    
-    findCoordinates = () => {
-        navigator.geolocation.getCurrentPosition(position => {
-            const location = JSON.stringify(position);
-            this.setState({ currLat: position.coords.latitude, currLng: position.coords.longitude });
-        });
-    }
-
     render() {
-        var currLat = 0.0; var currLng = 0.0;
         if(typeof(this.props.items) !== "undefined") {
-            const items = this.props.items;
-            this.findCoordinates();
-            var currLat = this.state.currLat; var currLng = this.state.currLng;
+            var currLat = 0.0; var currLng = 0.0;
+            if(this.props.isGeolocationEnabled) {
+                if(this.props.coords !== null) {
+                    currLat = this.props.coords.latitude;
+                    currLng = this.props.coords.longitude;
+                }
+            }
+
+            var items = this.props.items;
+            items = items.map(function(item, i) {
+                return <div key={i+1}><ProductCard item={item} lat={currLat} lng={currLng} /></div>
+            });
+
             return(
                 <div className="recommended product segments-bottom">
                     <div className="container">
@@ -31,32 +30,12 @@ class ProductDisplayContainer extends Component {
                                 <a href="#" className="see-all-link">See All</a>
                             </h3>
                         </div>
-                        { items.map(function (item, i) {
-                            if((i+1)%2 == 1) {
-                                if(typeof(items[i+1]) !== "undefined") {
-                                    return (
-                                        <div className="row" key={i}>
-                                            <div className="col-50">
-                                                <ProductCard key={i} item={items[i]} lat={currLat} lng={currLng} />
-                                            </div>
-                                            <div className="col-50">
-                                                <ProductCard key={i+1} item={items[i+1]} lat={currLat} lng={currLng} />
-                                            </div>
-                                        </div>
-                                    );
-                                } else {
-                                    return (
-                                        <div className="row" key={i}>
-                                            <div className="col-50">
-                                                <ProductCard key={i} item={items[i]} lat={currLat} lng={currLng} />
-                                            </div>
-                                        </div>
-                                    );
-                                }
-                            } else {
-                                return '';
-                            }
-                        })}
+                        <Masonry
+                            breakpointCols={2}
+                            className="my-masonry-grid"
+                            columnClassName="my-masonry-grid_column">
+                            {items}
+                        </Masonry>
                     </div>
                 </div>
             )
@@ -66,5 +45,10 @@ class ProductDisplayContainer extends Component {
     }
 }
 
-export default ProductDisplayContainer;
+export default geolocated({
+    positionOptions: {
+        enableHighAccuracy: true,
+    },
+    userDecisionTimeout: 5000,
+})(ProductDisplayContainer);
 

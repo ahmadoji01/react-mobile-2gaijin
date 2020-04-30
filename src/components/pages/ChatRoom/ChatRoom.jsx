@@ -1,8 +1,12 @@
 import React, { Component } from "react";
 import Navbar from '../../elements/Navbar';
 import Sidebar from '../../elements/Sidebar';
-import ChatHistory from '../../elements/ChatHistory';
-import ChatInput from '../../elements/ChatInput';
+import HomeBanners from "../../elements/HomeBanners";
+import CategorySlider from "../../elements/CategorySlider";
+import Toolbar from "../../elements/Toolbar";
+import ProductDisplaySlider from "../../elements/ProductDisplaySlider";
+import ProductDisplayContainer from "../../elements/ProductDisplayContainer";
+import ProductContainerInfinite from "../../elements/ProductContainerInfinite";
 import { connect, sendMsg } from "../../../api";
 import './ChatRoom.scss';
 
@@ -34,10 +38,17 @@ class ChatRoom extends Component {
     render() {
         return (
             <div className="App">
-                <Navbar />
-                <Sidebar />
-                <ChatHistory chatHistory={this.state.chatHistory} />
-                <ChatInput send={this.send} />
+                <div className="page page-chatroom page-with-subnavbar">
+                    <Toolbar />
+                    <Navbar />
+                    <div className="tabs">
+                        <div id="tab-chatroom" className="tab tab-active tab-chatroom">
+                            <div className="panel-backdrop"></div>
+                            <Sidebar />
+                            <CategorySlider />
+                        </div>
+                    </div>
+                </div>
             </div>
         );
     }

@@ -22,8 +22,8 @@ const Navbar = () => (
                 </form>
             </div>
             <div className="right">
-                <a href="/wishlist/">
-                    <i id="notif-icon" className="fas fa-heart"></i>
+                <a href="/login/">
+                    <i id="notif-icon" className="fas fa-comment-dots"></i>
                 </a>
                 <a href="/notification/">
                     <i id="msg-icon" className="fas fa-bell"></i>

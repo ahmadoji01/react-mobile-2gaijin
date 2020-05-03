@@ -1,6 +1,8 @@
 import React from "react";
 import "./Sidebar.scss";
 import { NavLink } from 'react-router-dom';
+import AuthService from "../../../services/auth.service";
+import authService from "../../../services/auth.service";
 
 const Sidebar = () => (
     <div className="panel panel-left panel-cover sidebar">
@@ -78,7 +80,7 @@ const Sidebar = () => (
                     </a>
                 </li>
                 <li>
-                    <a href="#" className="item-link panel-close item-content">
+                    <a href="/" onClick={authService.logout()} className="item-link panel-close item-content">
                         <div className="item-media">
                             <i className="fas fa-sign-out-alt"></i>
                         </div>

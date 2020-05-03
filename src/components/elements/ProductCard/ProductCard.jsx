@@ -16,10 +16,10 @@ class ProductCard extends Component {
         var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a)); 
         var d = R * c;
 
-        var text = "";
+        var text = d.toFixed(1) + " km away";
 
-        if (lat2 != 0.0) {
-            text = d.toFixed(1) + " km away";
+        if (lat1 == 0.0 || lat2 == 0.0) {
+            text = "";
         }
 
         return text;

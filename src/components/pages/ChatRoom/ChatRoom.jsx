@@ -1,12 +1,8 @@
 import React, { Component } from "react";
 import Navbar from '../../elements/Navbar';
 import Sidebar from '../../elements/Sidebar';
-import HomeBanners from "../../elements/HomeBanners";
 import CategorySlider from "../../elements/CategorySlider";
 import Toolbar from "../../elements/Toolbar";
-import ProductDisplaySlider from "../../elements/ProductDisplaySlider";
-import ProductDisplayContainer from "../../elements/ProductDisplayContainer";
-import ProductContainerInfinite from "../../elements/ProductContainerInfinite";
 import { connect, sendMsg } from "../../../api";
 import './ChatRoom.scss';
 

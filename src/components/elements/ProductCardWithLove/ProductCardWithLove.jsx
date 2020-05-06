@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
-import "./ProductCard.scss";
+import './ProductCardWithLove.scss';
 import { Link } from 'framework7-react';
 
-class ProductCard extends Component {
+class ProductCardWithLove extends Component {
     
     calcDistance(lat1, lng1, lat2, lng2) {
         var R = 6371; // Radius of the earth in km
@@ -31,6 +31,9 @@ class ProductCard extends Component {
             return(
                 <Link href={`/product/${item["_id"]}`} >
                     <div className="content content-shadow-product">
+                        <div className="love-button">
+                            <i className="fas fa-heart"></i>
+                        </div>
                         <img src="images/product1.jpg" alt="product" />
                         <div className="text">
                             <p className="title-product">{item.name}</p>
@@ -44,7 +47,7 @@ class ProductCard extends Component {
         } else {
             return '';
         }
-    }
+    } 
 }
-    
-export default ProductCard;
+
+export default ProductCardWithLove;

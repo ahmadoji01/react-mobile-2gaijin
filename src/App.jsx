@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
 import Home from './components/pages/Home';
 import ChatRoom from './components/pages/ChatRoom';
+import ProductDetail from './components/pages/ProductDetail';
 import "./App.css";
 
 import { App, View, Page, Navbar, Toolbar, Link } from 'framework7-react';
@@ -21,16 +22,16 @@ const f7params = {
         component: ChatRoom,
     },
     {
-        path: '/product',
-        component: ChatRoom,
+        path: '/product/:productID',
+        component: ProductDetail,
     },
     {
         path: '/login',
         component: Login,
     },
     {
-      path: '/register',
-      component: Register,
+        path: '/register',
+        component: Register,
     }
   ],
   // App Name

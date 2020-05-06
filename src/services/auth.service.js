@@ -1,5 +1,4 @@
 import axios from "axios";
-import qs from "querystring";
 
 class AuthService {
     login(email, password) {
@@ -14,10 +13,11 @@ class AuthService {
             }
         })
         .then(response => {
-            if (response.data["authentication_token"]) {
-                localStorage.setItem("user", JSON.stringify(response.data));
+            var data = response.data.data;
+            if (data["authentication_token"]) {
+                localStorage.setItem("user", JSON.stringify(data));
             }
-            return response.data;
+            return data;
         });
     }
 

@@ -37,26 +37,6 @@ class HomeTab extends Component {
     componentDidMount() {
         this.updateDimensions();
         window.addEventListener('resize', this.updateDimensions);
-        var tab = document.getElementById('tab-home');
-        var navbar = document.getElementById('custom-navbar');
-        var barIcon = document.getElementById('bar-icon');
-        var notifIcon = document.getElementById('notif-icon');
-        var msgIcon = document.getElementById('msg-icon');
-        tab.onscroll = function() {
-            if (tab.scrollTop >= 5) {
-                navbar.style.backgroundColor = "white";
-                navbar.classList.add("shadow-4");
-                notifIcon.style.color = "grey";
-                msgIcon.style.color = "grey";
-                barIcon.style.color = "grey";
-            } else if(tab.scrollTop < 5) {
-                navbar.style.backgroundColor = "#ffffff00";
-                navbar.classList.remove("shadow-4");
-                notifIcon.style.color = "white";
-                msgIcon.style.color = "white";
-                barIcon.style.color = "white";
-            }
-        };
     }
 
     componentWillMount() {

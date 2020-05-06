@@ -1,7 +1,7 @@
 import React, { Component } from "react";
-import Header from '../../elements/Header';
 import HomeBanners from "../../elements/HomeBanners";
-import ProductDisplaySection from "../../elements/ProductDisplaySection"
+import ProductDisplayContainer from "../../elements/ProductDisplayContainer";
+import { Navbar, Page } from "framework7-react";
 import './ProductDetail.scss';
 
 class ProductDetail extends Component {
@@ -14,7 +14,7 @@ class ProductDetail extends Component {
     }
 
     componentWillMount() {
-        fetch('https://go.2gaijin.com/products/')
+        fetch('https://go.2gaijin.com/products/' + this.props.productID)
         .then((response) => response.json())
         .then((responseJson) => {
             const jsonData = responseJson.data;
@@ -25,13 +25,15 @@ class ProductDetail extends Component {
         });
     }
 
-    render() {  
+    render() {
         return (
-            <div className="App">
-                <Header />
-                <HomeBanners />
-                <ProductDisplaySection title="Featured Items" items={this.state.data.featureditems} />
-            </div>
+            <Page className="page page-product page-with-subnavbar">
+                <Navbar title="My App" backLink="Back" large transparent></Navbar>
+                <div className="page-content">
+                    <ProductDisplayContainer title="Related Items" items={this.state.data.relateditems} />
+                    <ProductDisplayContainer title="Seller's Items" items={this.state.data.selleritems} />
+                </div>
+            </Page>
         );    
     }
 }

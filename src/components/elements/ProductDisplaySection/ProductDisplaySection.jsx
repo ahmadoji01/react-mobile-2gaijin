@@ -25,13 +25,12 @@ class ProductDisplaySection extends Component {
                             <div className="row">
                             { this.props.items.map(function (item, i) {
                                 return <ProductCard key={i} 
-                                        name={item.name} 
-                                        price={item.price} 
-                                        sellerName={item.seller_name} 
-                                        imgURL={item.img_url} 
-                                        location={item.loc} />;
-                            }
-                            )}
+                                    name={item.name} 
+                                    price={item.price} 
+                                    sellerName={item.seller_name} 
+                                    imgURL={item.img_url} 
+                                    location={item.loc} />;
+                            }) }
                             </div>
                             <div className="row">
                                 <div className="col-md-12">

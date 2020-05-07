@@ -10,6 +10,7 @@
     "axios": "^0.19.2",
     "framework7": "^5.6.0",
     "framework7-react": "^5.6.0",
+    "js-cookie": "^2.2.1",
     "node-sass": "^4.13.1",
     "query-string": "^6.12.1",
     "react": "^16.13.1",
@@ -20,6 +21,7 @@
     "react-router-dom": "^5.1.2",
     "react-scripts": "3.4.1",
     "react-validation": "^3.0.7",
+    "use-memory-storage": "0.0.1",
     "validator": "^13.0.0"
   },
   "scripts": {

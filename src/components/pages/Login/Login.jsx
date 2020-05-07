@@ -3,6 +3,7 @@ import Form from "react-validation/build/form";
 import Input from "react-validation/build/input";
 import CheckButton from "react-validation/build/button";
 import AuthService from "../../../services/auth.service";
+import { Navbar, View } from 'framework7-react';
 
 import { isEmail } from "validator";
 
@@ -66,7 +67,7 @@ class Login extends Component {
         if (this.checkBtn.context._errors.length === 0) {
             AuthService.login(this.state.email, this.state.password).then(
             () => {
-                console.log(localStorage.getItem('user'));
+                this.$f7router.navigate("/");
             },
             error => {
                 const resMessage =
@@ -88,135 +89,141 @@ class Login extends Component {
             });
         }
     }
+
+    componentWillMount() {
+        document.getElementById("navbar-home").style.display = "none";
+    }
+
+    componentWillUnmount() {
+        document.getElementById("navbar-home").style.display = "block";
+    }
     
     render() {
         return (
-            <div className="App">
-                <div className="page">
-                    <div className="navbar navbar-page">
-                        <div className="navbar-inner sliding">
-                            <div className="left">
-                                <a href="/" className="link back">
-                                    <i className="fas fa-arrow-left"></i>
-                                </a>
-                            </div>
-                            <div className="title">
-                                Sign In
-                            </div>
-                            <div className="right"></div>
+            <div className="page">
+                <div className="navbar navbar-page">
+                    <div className="navbar-inner sliding">
+                        <div className="left">
+                            <a href="/" className="link back">
+                                <i className="fas fa-arrow-left"></i>
+                            </a>
                         </div>
+                        <div className="title">
+                            Sign In
+                        </div>
+                        <div className="right"></div>
                     </div>
-                    <div className="page-content">
-                        <div className="sign-in segments">
-                            <div className="container">
-                                <Form className="list"
-                                    onSubmit={this.handleLogin}
-                                    ref={c => {this.form = c;}}
-                                    >
+                </div>
+                <div className="page-content">
+                    <div className="sign-in segments">
+                        <div className="container">
+                            <Form className="list"
+                                onSubmit={this.handleLogin}
+                                ref={c => {this.form = c;}}
+                                >
+                                <ul>
+                                    <li className="item-content item-input">
+                                        <div className="item-inner">
+                                            <div className="item-input-wrap">
+                                                <Input
+                                                    placeholder="Email"
+                                                    type="text"
+                                                    onChange={this.onChangeEmail}
+                                                    className="form-control"
+                                                    validations={[required, email]}
+                                                />
+                                            </div>
+                                        </div>
+                                    </li>
+                                    <li className="item-content item-input">
+                                        <div className="item-inner">
+                                            <div className="item-input-wrap">
+                                                <Input
+                                                    placeholder="Password"
+                                                    type="password"
+                                                    onChange={this.onChangePassword}
+                                                    className="form-control"
+                                                    validations={[required]}
+                                                />
+                                            </div>
+                                        </div>
+                                    </li>
+                                </ul>
+                                <div className="wrap-link-action">
                                     <ul>
-                                        <li className="item-content item-input">
-                                            <div className="item-inner">
-                                                <div className="item-input-wrap">
-                                                    <Input
-                                                        placeholder="Email"
-                                                        type="text"
-                                                        onChange={this.onChangeEmail}
-                                                        className="form-control"
-                                                        validations={[required, email]}
-                                                    />
+                                        <li>
+                                            <label className="item-checkbox item-content">
+                                                <input type="checkbox" />
+                                                <i className="icon icon-checkbox"></i>
+                                                <div className="item-inner">
+                                                    <div className="item-title">Remember me</div>
                                                 </div>
-                                            </div>
+                                            </label>
                                         </li>
-                                        <li className="item-content item-input">
-                                            <div className="item-inner">
-                                                <div className="item-input-wrap">
-                                                    <Input
-                                                        placeholder="Password"
-                                                        type="password"
-                                                        onChange={this.onChangePassword}
-                                                        className="form-control"
-                                                        validations={[required]}
-                                                    />
-                                                </div>
-                                            </div>
-                                        </li>
+                                        <li><a href="#">Forgot Password</a></li>
                                     </ul>
-                                    <div className="wrap-link-action">
-                                        <ul>
-                                            <li>
-                                                <label className="item-checkbox item-content">
-                                                    <input type="checkbox" />
-                                                    <i className="icon icon-checkbox"></i>
-                                                    <div className="item-inner">
-                                                        <div className="item-title">Remember me</div>
-                                                    </div>
-                                                </label>
-                                            </li>
-                                            <li><a href="#">Forgot Password</a></li>
-                                        </ul>
-                                    </div>
-                                    <div className="content-button">
-                                        <button
-                                            className="button primary-button"
-                                            disabled={this.state.loading} >
-                                                {this.state.loading && (
-                                                    <span className="spinner-border spinner-border-sm"></span>
-                                                )}
-                                            <span>Sign In</span>
-                                        </button>
-                                    </div>
-                                    {this.state.message && (
-                                        <div className="form-group">
-                                            <div className="alert alert-danger" role="alert">
-                                            {this.state.message}
-                                            </div>
+                                </div>
+                                <div className="content-button">
+                                    <button
+                                        className="button primary-button"
+                                        disabled={this.state.loading} >
+                                            {this.state.loading && (
+                                                <span className="spinner-border spinner-border-sm"></span>
+                                            )}
+                                        <span>Sign In</span>
+                                    </button>
+                                </div>
+                                {this.state.message && (
+                                    <div className="form-group">
+                                        <div className="alert alert-danger" role="alert">
+                                        {this.state.message}
                                         </div>
-                                    )}
-                                    <CheckButton
-                                        style={{ display: "none" }}
-                                        ref={c => {this.checkBtn = c;}}
-                                    />
-                                </Form>
-
-                                <div className="divider-space-content"></div>
-
-                                <div className="wrap-sign-in-with">
-                                    <div className="title">
-                                        <p>or sign in with</p>
-                                        <span></span>
                                     </div>
-                                    <div className="wrap-media-sign-in">
-                                        <div className="row">
-                                            <div className="col-33">
-                                                <a href="#">
-                                                    <div className="content bg-facebook">
-                                                        <i className="fab fa-facebook-f"></i>
-                                                    </div>
-                                                </a>
-                                            </div>
-                                            <div className="col-33">
-                                                <a href="#">
-                                                    <div className="content bg-twitter">
-                                                        <i className="fab fa-twitter"></i>
-                                                    </div>
-                                                </a>
-                                            </div>
-                                            <div className="col-33">
-                                                <a href="#">
-                                                    <div className="content bg-google">
-                                                        <i className="fab fa-google"></i>
-                                                    </div>
-                                                </a>
-                                            </div>
+                                )}
+                                <CheckButton
+                                    style={{ display: "none" }}
+                                    ref={c => {this.checkBtn = c;}}
+                                />
+                            </Form>
+
+                            <div className="divider-space-content"></div>
+
+                            <div className="wrap-sign-in-with">
+                                <div className="title">
+                                    <p>or sign in with</p>
+                                    <span></span>
+                                </div>
+                                <div className="wrap-media-sign-in">
+                                    <div className="row">
+                                        <div className="col-33">
+                                            <a href="#">
+                                                <div className="content bg-facebook">
+                                                    <i className="fab fa-facebook-f"></i>
+                                                </div>
+                                            </a>
+                                        </div>
+                                        <div className="col-33">
+                                            <a href="#">
+                                                <div className="content bg-twitter">
+                                                    <i className="fab fa-twitter"></i>
+                                                </div>
+                                            </a>
+                                        </div>
+                                        <div className="col-33">
+                                            <a href="#">
+                                                <div className="content bg-google">
+                                                    <i className="fab fa-google"></i>
+                                                </div>
+                                            </a>
                                         </div>
                                     </div>
                                 </div>
+                            </div>
 
-                                <div className="divider-space-content"></div>
+                            <div className="divider-space-content"></div>
 
-                                <div className="wrap-link-sign-in">
-                                    <p>Don't have an account? <a href="/register/">Sign Up</a></p>
-                                </div>
+                            <div className="wrap-link-sign-in">
+                                <p>Don't have an account? <a href="/register/">Sign Up</a></p>
                             </div>
                         </div>
                     </div>

@@ -1,8 +1,9 @@
 import React, { Component } from "react";
 import HomeBanners from "../../elements/HomeBanners";
 import ProductDisplayContainer from "../../elements/ProductDisplayContainer";
-import { Navbar, Page } from "framework7-react";
+import { App, Navbar, View, Views, Page } from "framework7-react";
 import './ProductDetail.scss';
+import Framework7 from "framework7";
 
 class ProductDetail extends Component {
     
@@ -23,16 +24,19 @@ class ProductDetail extends Component {
         .catch((error) => {
             console.error(error);
         });
+        document.getElementById("navbar-home").style.display = "none";
+    }
+
+    componentWillUnmount() {
+        document.getElementById("navbar-home").style.display = "block";
     }
 
     render() {
         return (
-            <Page className="page page-product page-with-subnavbar">
-                <Navbar title="My App" backLink="Back" large transparent></Navbar>
-                <div className="page-content">
-                    <ProductDisplayContainer title="Related Items" items={this.state.data.relateditems} />
-                    <ProductDisplayContainer title="Seller's Items" items={this.state.data.selleritems} />
-                </div>
+            <Page name="product" className="page page-product">
+                <Navbar title="My App" backLink="Back" large></Navbar>
+                <ProductDisplayContainer title="Related Items" items={this.state.data.relateditems} />
+                <ProductDisplayContainer title="Seller's Items" items={this.state.data.selleritems} />
             </Page>
         );    
     }

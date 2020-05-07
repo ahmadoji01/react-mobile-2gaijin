@@ -16,7 +16,6 @@ class WishlistTab extends Component {
     }
 
     componentWillMount() {
-        console.log(localStorage.getItem('user'));
         var user = AuthService.getCurrentUser();
         if (user) {
             return axios

@@ -9,6 +9,7 @@ class Sidebar extends Component {
         this.state = {
             data: [],
             isLoggedIn: false,
+            firstname: "",
         };
     }
 
@@ -16,15 +17,18 @@ class Sidebar extends Component {
         var user = AuthService.getCurrentUser();
         if(user) {
             this.setState({isLoggedIn: true});
+            this.setState({firstname: localStorage.getItem("first_name")});
         }
     }
     
     render() {
-        let loginElement;
+        let loginElement, sidebarHeadline;
         if(this.state.isLoggedIn) {
-            loginElement = <a href="/" onClick={AuthService.logout()} className="item-link panel-close item-content"><div className="item-media"><i className="fas fa-sign-out-alt"></i></div><div className="item-inner"><div className="item-title">Logout</div></div></a>
+            loginElement = <a href="/" className="item-link panel-close item-content"><div className="item-media"><i className="fas fa-sign-out-alt"></i></div><div className="item-inner"><div className="item-title">Logout</div></div></a>
+            sidebarHeadline = <h5>Hi, {this.state.firstname}</h5>;
         } else {
             loginElement = <a href="/login" className="item-link panel-close item-content"><div className="item-media"><i className="fas fa-sign-in-alt"></i></div><div className="item-inner"><div className="item-title">Login</div></div></a>
+            sidebarHeadline = <h5>Hi, <a href="/login">Login</a> to continue</h5>;
         }
 
         return (
@@ -33,7 +37,7 @@ class Sidebar extends Component {
                 <div className="user-view">
                     <div className="box">
                         <div className="title-name">
-                            <h5>Bekti Galan</h5>
+                            {sidebarHeadline}
                         </div>
                         <div className="title-balance">
                             <p><i className="fas fa-yen-sign"></i> 500</p>

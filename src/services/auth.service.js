@@ -1,4 +1,5 @@
 import axios from "axios";
+import Cookies from 'js-cookie';
 
 class AuthService {
     login(email, password) {
@@ -15,14 +16,20 @@ class AuthService {
         .then(response => {
             var data = response.data.data;
             if (data["authentication_token"]) {
-                localStorage.setItem("user", JSON.stringify(data));
+                localStorage.setItem("first_name", data.first_name);
+                localStorage.setItem("last_name", data.last_name);
+                localStorage.setItem("email", data.email);
+                localStorage.setItem("access_token", data.authentication_token);
             }
             return data;
         });
     }
 
     logout() {
-        localStorage.removeItem("user");
+        localStorage.removeItem("first_name");
+        localStorage.removeItem("last_name");
+        localStorage.removeItem("email");
+        localStorage.removeItem("access_token");
     }
 
     register(email, firstname, lastname, password) {
@@ -38,15 +45,14 @@ class AuthService {
             }
         }).then(response => {
             if (response.data["authentication_token"]) {
-                localStorage.setItem("user", JSON.stringify(response.data));
+                localStorage.setItem("access_token", response.data["authentication_token"]);
             }
-            console.log(response.data);
             return response.data;
         });
     }
 
     getCurrentUser() {
-        return JSON.parse(localStorage.getItem('user'));
+        return localStorage.getItem("access_token");
     }
 }
 

@@ -7,13 +7,14 @@ import HomeTab from "../../tabs/HomeTab";
 import AppointmentTab from "../../tabs/AppointmentTab/AppointmentTab";
 import AuthService from "../../../services/auth.service";
 import WishlistTab from "../../tabs/WishlistTab/WishlistTab";
+import Cookies from 'js-cookie';
 
 class Home extends Component {
-    
-    render() { 
+
+    render() {
         return (
-            <Page className="page page-home page-with-subnavbar">
-                <Navbar transparent>
+            <Page name="home" className="page page-home page-with-subnavbar">
+                <Navbar id="navbar-home" transparent>
                     <a href="#" className="panel-open" data-panel="left">
                         <i id="bar-icon" className="fas fa-bars"></i>
                     </a>

@@ -5,7 +5,7 @@ import ChatRoom from './components/pages/ChatRoom';
 import ProductDetail from './components/pages/ProductDetail';
 import "./App.css";
 
-import { App, View, Page, Navbar, Toolbar, Link } from 'framework7-react';
+import { App, Views, View, Page, Navbar, Toolbar, Link } from 'framework7-react';
 import Login from "./components/pages/Login/Login";
 import Register from "./components/pages/Register/Register";
 
@@ -24,6 +24,9 @@ const f7params = {
     {
         path: '/product/:productID',
         component: ProductDetail,
+        options: {
+          transition: 'f7-circle',
+        },
     },
     {
         path: '/login',

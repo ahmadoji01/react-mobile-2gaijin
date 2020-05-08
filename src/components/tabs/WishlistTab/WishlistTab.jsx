@@ -19,15 +19,16 @@ class WishlistTab extends Component {
         var user = AuthService.getCurrentUser();
         if (user) {
             return axios
-            .get("/sign_in", {}, { 
+            .get("/search?q=refrigerator", {}, { 
                 headers: {
-                    'Authorization': user.authentication_token,
+                    'Authorization': localStorage.getItem("access_token"),
                     'Content-Type': 'application/json'
                 }
             })
             .then(response => {
                 var fetchData = response.data.data;
-                this.setState({data: fetchData})
+                console.log(response);
+                this.setState({data: fetchData});
             });
         }
     }

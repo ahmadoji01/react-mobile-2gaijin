@@ -5,6 +5,7 @@ import { Navbar, Toolbar, NavLeft, NavTitle, NavRight, Link, Page, PageContent, 
 import './Home.scss';
 import HomeTab from "../../tabs/HomeTab";
 import AppointmentTab from "../../tabs/AppointmentTab/AppointmentTab";
+import AccountTab from "../../tabs/AccountTab/AccountTab";
 import AuthService from "../../../services/auth.service";
 import WishlistTab from "../../tabs/WishlistTab/WishlistTab";
 import Cookies from 'js-cookie';
@@ -47,6 +48,9 @@ class Home extends Component {
                     </div>
                     <div id="tab-wishlist" className="tab tab-wishlist">
                         <WishlistTab />
+                    </div>
+                    <div id="tab-account" className="tab tab-account">
+                        <AccountTab />
                     </div>
                 </div>
             </Page>

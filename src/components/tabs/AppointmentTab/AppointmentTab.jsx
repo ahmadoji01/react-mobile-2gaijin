@@ -3,6 +3,7 @@ import Sidebar from '../../elements/Sidebar';
 import HomeBanners from "../../elements/HomeBanners";
 import CategorySlider from "../../elements/CategorySlider";
 import './AppointmentTab.scss';
+import AppointmentBar from '../../elements/AppointmentBar';
 import ProductDisplaySlider from "../../elements/ProductDisplaySlider";
 import ProductDisplayContainer from "../../elements/ProductDisplayContainer";
 import ProductContainerInfinite from "../../elements/ProductContainerInfinite";
@@ -74,16 +75,14 @@ class AppointmentTab extends Component {
     render() {
         return (
             <React.Fragment>
-                <div className="background-absolute">
-                    <HomeBanners banners={this.state.data["banners"]}/>
+                <div className="transaction segments">
+                    <div className="container">
+                        <AppointmentBar />
+                        <AppointmentBar />
+                        <AppointmentBar />
+                        <AppointmentBar />
+                    </div>
                 </div>
-                <div className="panel-backdrop"></div>
-                <Sidebar />
-                <CategorySlider />
-                <ProductDisplaySlider title="Featured Items" items={this.state.data["featureditems"]} label="Featured" />
-                <ProductDisplayContainer title="Recently Added Items" items={this.state.data["recentitems"]} />
-                <ProductDisplaySlider title="Free Items" items={this.state.data["freeitems"]} label="Free" />
-                <ProductContainerInfinite title="Recommended Items" items={this.state.data["recommendeditems"]} />
             </React.Fragment>
         );
     }

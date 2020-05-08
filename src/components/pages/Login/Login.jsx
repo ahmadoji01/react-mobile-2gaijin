@@ -68,7 +68,6 @@ class Login extends Component {
             AuthService.login(this.state.email, this.state.password).then(
             () => {
                 this.$f7router.navigate("/");
-                document.getElementById("navbar-home").style.display = "block";
             },
             error => {
                 const resMessage =

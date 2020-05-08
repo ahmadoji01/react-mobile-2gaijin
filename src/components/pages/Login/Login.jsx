@@ -68,6 +68,7 @@ class Login extends Component {
             AuthService.login(this.state.email, this.state.password).then(
             () => {
                 this.$f7router.navigate("/");
+                document.getElementById("navbar-home").style.display = "block";
             },
             error => {
                 const resMessage =
@@ -90,12 +91,8 @@ class Login extends Component {
         }
     }
 
-    componentWillMount() {
+    componentDidMount() {
         document.getElementById("navbar-home").style.display = "none";
-    }
-
-    componentWillUnmount() {
-        document.getElementById("navbar-home").style.display = "block";
     }
     
     render() {

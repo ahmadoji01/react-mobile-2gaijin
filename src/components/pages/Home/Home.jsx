@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 //import Navbar from '../../elements/Navbar';
 //import Toolbar from "../../elements/Toolbar";
-import { Navbar, Toolbar, NavLeft, NavTitle, NavRight, Link, Page, PageContent, Searchbar, Subnavbar } from 'framework7-react';
+import { Navbar, Toolbar, NavLeft, NavTitle, NavRight, Link, Page, PageContent, Searchbar, Subnavbar, Block } from 'framework7-react';
 import './Home.scss';
 import HomeTab from "../../tabs/HomeTab";
 import AppointmentTab from "../../tabs/AppointmentTab/AppointmentTab";
@@ -10,6 +10,14 @@ import WishlistTab from "../../tabs/WishlistTab/WishlistTab";
 import Cookies from 'js-cookie';
 
 class Home extends Component {
+
+    constructor(props) {
+        super(props);
+    }
+
+    componentDidUpdate() {
+        document.getElementById("navbar-home").style.display = "block";
+    }
 
     render() {
         return (

@@ -24,11 +24,10 @@ class ProductDetail extends Component {
         .catch((error) => {
             console.error(error);
         });
-        document.getElementById("navbar-home").style.display = "none";
     }
 
-    componentWillUnmount() {
-        document.getElementById("navbar-home").style.display = "block";
+    componentDidUpdate() {
+        document.getElementById("navbar-home").style.display = "none";
     }
 
     render() {

@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 //import Navbar from '../../elements/Navbar';
 //import Toolbar from "../../elements/Toolbar";
-import { Navbar, Toolbar, NavLeft, NavTitle, NavRight, Link, Page, PageContent, Searchbar, Subnavbar, Block } from 'framework7-react';
+import { Icon, Navbar, Toolbar, NavLeft, NavTitle, NavRight, Link, Page, PageContent, Searchbar, Subnavbar, Block } from 'framework7-react';
 import './Home.scss';
 import HomeTab from "../../tabs/HomeTab";
 import AppointmentTab from "../../tabs/AppointmentTab/AppointmentTab";
@@ -29,15 +29,16 @@ class Home extends Component {
                     </a>
                     <Searchbar searchContainer=".search-list" placeholder="What are you looking for?" searchIn=".item-title" disableButton={!this.$theme.aurora}></Searchbar>
                     <NavRight>
-                        <Link icon="icon-bars" panelOpen="right"></Link>
+                        <Link href="/notification"><Icon f7="bell_fill" size="24px" color="gray"></Icon></Link>
+                        <Link href="/chatroom"><Icon f7="bubble_right_fill" size="24px" color="gray"></Icon></Link>
                     </NavRight>
                 </Navbar>
                 <Toolbar tabbar labels position='bottom'>
                     <Link tabLink="#tab-home" tabLinkActive text="Home" iconIos="f7:envelope_fill" iconAurora="f7:envelope_fill" iconMd="material:email"></Link>
                     <Link tabLink="#tab-appointment" text="Appointment" iconIos="f7:calendar_fill" iconAurora="f7:calendar_fill" iconMd="material:today"></Link>
                     <Link tabLink="#tab-start-sell" text="Start Selling" iconIos="f7:cloud_upload_fill" iconAurora="f7:cloud_upload_fill" iconMd="material:file_upload"></Link>
-                    <Link tabLink="#tab-wishlist" text="Wishlist" iconIos="f7:calendar_fill" iconAurora="f7:calendar_fill" iconMd="material:today"></Link>
-                    <Link tabLink="#tab-account" text="Account" iconIos="f7:cloud_upload_fill" iconAurora="f7:cloud_upload_fill" iconMd="material:file_upload"></Link>
+                    <Link tabLink="#tab-wishlist" text="Wishlist" iconIos="f7:heart_fill" iconAurora="f7:heart_fill" iconMd="material:today"></Link>
+                    <Link tabLink="#tab-account" text="Account" iconIos="f7:person_fill" iconAurora="f7:person_fill" iconMd="material:file_upload"></Link>
                 </Toolbar>
                 <div className="tabs">
                     <div id="tab-home" className="tab tab-active tab-home">

@@ -23,12 +23,13 @@ class Sidebar extends Component {
 
     logoutClick() {
         AuthService.logout();
+        window.location.reload(false);
     }
     
     render() {
         let loginElement, sidebarHeadline;
-        if(this.state.isLoggedIn) {
-            loginElement = <a href="/" className="item-link panel-close item-content"><div className="item-media"><i className="fas fa-sign-out-alt"></i></div><div className="item-inner"><div className="item-title">Logout</div></div></a>
+        if(this.state.isLoggedIn) { 
+            loginElement = <a href="/" onClick={() => { this.logoutClick() }} className="item-link panel-close item-content"><div className="item-media"><i className="fas fa-sign-out-alt"></i></div><div className="item-inner"><div className="item-title">Logout</div></div></a>
             sidebarHeadline = <h5>Hi, {this.state.firstname}</h5>;
         } else {
             loginElement = <a href="/login" className="item-link panel-close item-content"><div className="item-media"><i className="fas fa-sign-in-alt"></i></div><div className="item-inner"><div className="item-title">Login</div></div></a>

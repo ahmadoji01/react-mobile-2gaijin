@@ -11,13 +11,15 @@ class WishlistTab extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            data: []
+            data: [],
+            isLoggedIn: false
         };
     }
 
     componentWillMount() {
         var user = AuthService.getCurrentUser();
         if (user) {
+            this.setState({isLoggedIn: true});
             return axios
             .get("/search?q=refrigerator", {}, { 
                 headers: {
@@ -34,7 +36,7 @@ class WishlistTab extends Component {
     }
 
     render() {
-        if(typeof(this.state.data) !== "undefined") {
+        if(typeof(this.state.data) !== "undefined" && this.state.isLoggedIn) {
             var currLat = 0.0; var currLng = 0.0;
             if(this.props.isGeolocationEnabled) {
                 if(this.props.coords !== null) {

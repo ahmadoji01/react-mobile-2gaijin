@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import './ProductCardWithLove.scss';
-import { Link } from 'framework7-react';
+import { Icon, Link } from 'framework7-react';
 
 class ProductCardWithLove extends Component {
     
@@ -31,8 +31,8 @@ class ProductCardWithLove extends Component {
             return(
                 <Link href={`/product/${item["_id"]}`} >
                     <div className="content content-shadow-product">
-                        <div className="love-button">
-                            <i className="fas fa-heart"></i>
+                        <div className="love-button card-love">
+                            <Icon f7="heart_circle_fill" size="24px" color="gray"></Icon>
                         </div>
                         <img src="images/product1.jpg" alt="product" />
                         <div className="text">

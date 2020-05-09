@@ -3,6 +3,7 @@ import { BrowserRouter, Route, Switch } from 'react-router-dom';
 import Home from './components/pages/Home';
 import ChatRoom from './components/pages/ChatRoom';
 import ProductDetail from './components/pages/ProductDetail';
+import Notification from './components/pages/Notification';
 import "./App.css";
 
 import { App, Views, View, Page, Navbar, Toolbar, Link } from 'framework7-react';
@@ -35,6 +36,10 @@ const f7params = {
     {
         path: '/register',
         component: Register,
+    },
+    {
+        path: '/notification',
+        component: Notification,
     }
   ],
   // App Name

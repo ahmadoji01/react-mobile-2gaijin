@@ -9,6 +9,8 @@ import ProductContainerInfinite from "../../elements/ProductContainerInfinite";
 
 class HomeTab extends Component {
 
+    _isMounted = false;
+
     state = {
         data: [],
         windowWidth: window.innerWidth,
@@ -37,9 +39,6 @@ class HomeTab extends Component {
     componentDidMount() {
         this.updateDimensions();
         window.addEventListener('resize', this.updateDimensions);
-    }
-
-    componentWillMount() {
         fetch('https://go.2gaijin.com/')
         .then((response) => response.json())
         .then((responseJson) => {

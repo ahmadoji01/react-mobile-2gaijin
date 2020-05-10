@@ -90,7 +90,7 @@ class Login extends Component {
         }
     }
 
-    componentDidMount() {
+    componentDidUpdate() {
         document.getElementById("navbar-home").style.display = "none";
     }
     

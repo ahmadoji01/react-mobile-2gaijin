@@ -28,8 +28,7 @@ class WishlistTab extends Component {
                 }
             })
             .then(response => {
-                var fetchData = response.data.data;
-                console.log(response);
+                var fetchData = response.data.data.items;
                 this.setState({data: fetchData});
             });
         }

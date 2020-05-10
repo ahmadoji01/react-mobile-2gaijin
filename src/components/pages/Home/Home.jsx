@@ -30,10 +30,10 @@ class Home extends Component {
                     <Searchbar searchContainer=".search-list" placeholder="What are you looking for?" searchIn=".item-title" disableButton={!this.$theme.aurora}></Searchbar>
                     <NavRight>
                         <Link href="/notification"><Icon f7="bell_fill" size="24px" color="gray"></Icon></Link>
-                        <Link href="/chatroom"><Icon f7="bubble_right_fill" size="24px" color="gray"></Icon></Link>
+                        <Link href="/chatlobby"><Icon f7="bubble_right_fill" size="24px" color="gray"></Icon></Link>
                     </NavRight>
                 </Navbar>
-                <Toolbar tabbar labels position='bottom'>
+                <Toolbar id="toolbar-home" tabbar labels position='bottom'>
                     <Link tabLink="#tab-home" tabLinkActive text="Home" iconIos="f7:envelope_fill" iconAurora="f7:envelope_fill" iconMd="material:email"></Link>
                     <Link tabLink="#tab-appointment" text="Appointment" iconIos="f7:calendar_fill" iconAurora="f7:calendar_fill" iconMd="material:today"></Link>
                     <Link tabLink="#tab-start-sell" text="Start Selling" iconIos="f7:cloud_upload_fill" iconAurora="f7:cloud_upload_fill" iconMd="material:file_upload"></Link>

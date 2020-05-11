@@ -1,7 +1,12 @@
 import React, { Component } from "react";
+import Form from "react-validation/build/form";
 import Toolbar from "../../elements/Toolbar";
 import './ChatRoom.scss';
 import { Icon, Link, Navbar, NavLeft, Page, NavTitle } from "framework7-react";
+import axios from "axios";
+import AuthService from "../../../services/auth.service";
+import ChatBubbleSender from "../../elements/ChatBubbleSender";
+import ChatBubbleReceiver from "../../elements/ChatBubbleReceiver";
 
 class ChatRoom extends Component {
 
@@ -11,7 +16,10 @@ class ChatRoom extends Component {
             chatHistory: [],
             ws: null,
             msg: "",
+            data: "",
         }
+        this.handleKeyPress = this.handleKeyPress.bind(this);
+        this.onChangeMessage = this.onChangeMessage.bind(this);
     }
 
     send(event) {
@@ -23,22 +31,14 @@ class ChatRoom extends Component {
 
     timeout = 250; // Initial timeout duration as a class variable
 
-    sendMessage = () =>{
-        const {websocket} = this.props // websocket instance passed as props to the child component.
-
-        try {
-            websocket.send(this.state.msg) //send data to the server
-        } catch (error) {
-            console.log(error) // catch error
-        }
-    }
+    
 
     /**
      * @function connect
      * This function establishes the connect with the websocket and also ensures constant reconnection if connection closes
      */
     connect = () => {
-        var ws = new WebSocket("wss://go.2gaijin.com/ws?room=" + this.props.roomID);
+        var ws = new WebSocket("ws://localhost:8080/ws?room=" + this.props.roomID);
         let that = this; // cache the this
         var connectInterval;
 
@@ -66,6 +66,20 @@ class ChatRoom extends Component {
             connectInterval = setTimeout(this.check, Math.min(10000, that.timeout)); //call check function after timeout
         };
 
+        ws.onmessage = evt => {
+            // listen to data sent from the websocket server
+            var receivedData = JSON.parse(evt.data);
+
+            console.log(evt.data);
+
+            this.setState(prevState => ({
+                chatHistory: [...this.state.chatHistory, receivedData]
+            }))
+    
+            this.setState({data: evt.data});
+            //this.msglists.appendChild();
+        }
+
         // websocket onerror event listener
         ws.onerror = err => {
             console.error(
@@ -89,11 +103,67 @@ class ChatRoom extends Component {
     componentDidMount() {
         this.connect();
         document.getElementById("navbar-home").style.display = "none";
+        
+        let config = {
+            headers: {'Authorization': localStorage.getItem("access_token") },
+            params: {
+              room: this.props.roomID
+            }
+        }          
+
+        return axios
+        .get("/chat_messages", config)
+        .then(response => {
+            if(response.data.data.messages) {
+                this.setState({chatHistory: response.data.data.messages})
+            }
+        });
+    }
+
+    onChangeMessage(e) {
+        this.setState({
+            msg: e.target.value
+        });
+    }
+
+    handleKeyPress(e) {
+        if(e.key === 'Enter'){
+            var date = new Date();
+            var dataToSend = JSON.stringify({ user_id: localStorage.getItem("user_id"), created_at: date.toISOString(), message: this.state.msg });
+            this.setState({data: dataToSend}, () => {
+                this.sendMessage();
+            });
+            this.msginput.value = "";
+        }
+    }
+
+    sendMessage = () =>{
+        
+        const ws = this.state.ws;
+
+        try {
+            ws.send(this.state.data);
+        } catch (error) {
+            console.log(error);
+        }
     }
 
     render() {
+
+        let items;
+        if(typeof(this.state.chatHistory) !== 'undefined') {
+            items = this.state.chatHistory;
+            items = items.map(function(msg, i) {
+                if(msg.user_id == localStorage.getItem("user_id")){
+                    return <ChatBubbleSender msg={msg} key={i+1} />
+                } else {
+                    return <ChatBubbleReceiver msg={msg} key={i+1} />
+                }
+            });
+        }
+
         return (
-            <Page>
+            <div className="page page-chat-room">
                 <Navbar>
                     <NavLeft>
                         <Link href="#" className="link back"><Icon f7="arrow_left_circle_fill" size="24px" color="gray"></Icon></Link>
@@ -105,75 +175,21 @@ class ChatRoom extends Component {
                 <div className="toolbar messagebar">
                     <div className="toolbar-inner">
                         <div className="messagebar-area">
-                            <textarea className="resizable" placeholder="Message"></textarea>
+                            <Form className="list"
+                                onKeyPress={this.handleKeyPress}
+                                >
+                                <textarea id="message-input" ref={c => {this.msginput = c;}} onChange={this.onChangeMessage} className="resizable" placeholder="Message"></textarea>
+                            </Form>
                         </div><a className="link send-link" href="#">Send</a>
                     </div>
                 </div>
-                <div className="messages messages-init">
-                    <div className="messages-title"><b>Sunday, Feb 9,</b> 12:58</div>
-                    <div className="message message-sent">
-                        <div className="message-content">
-                            <div className="message-bubble">
-                                <div className="message-text">Hi, Kate</div>
-                                <div className="message-footer">2 Mei 17:35</div>
-                            </div>
-                        </div>
-                    </div>
-                    <div className="message message-sent">
-                        <div className="message-content">
-                            <div className="message-bubble">
-                                <div className="message-text">How are you?</div>
-                            </div>
-                            <div className="message-footer">2 Mei 17:38</div>
-                        </div>
-                    </div>
-                    <div className="message message-received">
-                        <div className="message-avatar" style={{backgroundImage: "https://cdn.framework7.io/placeholder/people-100x100-9.jpg" }}></div>
-                        <div className="message-content">
-                            <div className="message-name">Kate</div>
-                            <div className="message-bubble">
-                                <div className="message-text">Hi, I am good!</div>
-                            </div>
-                            <div className="message-footer">2 Mei 18:00</div>
-                        </div>
-                    </div>
-                    <div className="message message-sent">
-                        <div className="message-content">
-                            <div className="message-bubble">
-                                <div className="message-text">Hey, look, cutest kitten ever!</div>
-                            </div>
-                        </div>
-                    </div>
-                    <div className="message message-sent">
-                        <div className="message-content">
-                            <div className="message-bubble">
-                                <div className="message-image"><img src="https://cdn.framework7.io/placeholder/cats-200x260-4.jpg" style={{ width: 200, height: 260 }} /></div>
-                            </div>
-                            <div className="message-footer">2 Mei 18:03</div>
-                        </div>
-                    </div>
-                    <div className="message message-received">
-                        <div className="message-avatar" style={{backgroundImage: "https://cdn.framework7.io/placeholder/people-100x100-9.jpg" }}></div>
-                        <div className="message-content">
-                            <div className="message-name">Kate</div>
-                            <div className="message-bubble">
-                                <div className="message-text">Nice!</div>
-                            </div>
-                            <div className="message-footer">2 Mei 18:05</div>
-                        </div>
-                    </div>
-                    <div className="message message-received">
-                        <div className="message-avatar" style={{backgroundImage: "https://cdn.framework7.io/placeholder/people-100x100-9.jpg" }}></div>
-                        <div className="message-content">
-                            <div className="message-name">Kate</div>
-                            <div className="message-bubble">
-                                <div className="message-text">Like it very much!</div>
-                            </div>
-                            <div className="message-footer">2 Mei 18:08</div>
-                        </div>
+                <div className="page-content">
+                    <div className="messages messages-init" ref={c => {this.msglists = c;}}>
+                        <div className="messages-title"><b>Sunday, Feb 9,</b> 12:58</div>
+                        {items}
                     </div>
                 </div>
-            </Page>
+            </div>
         );
     }
 }

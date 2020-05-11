@@ -16,6 +16,7 @@ class AuthService {
         .then(response => {
             var data = response.data.data;
             if (data["authentication_token"]) {
+                localStorage.setItem("user_id", data._id);
                 localStorage.setItem("first_name", data.first_name);
                 localStorage.setItem("last_name", data.last_name);
                 localStorage.setItem("email", data.email);
@@ -26,6 +27,7 @@ class AuthService {
     }
 
     logout() {
+        localStorage.removeItem("user_id");
         localStorage.removeItem("first_name");
         localStorage.removeItem("last_name");
         localStorage.removeItem("email");

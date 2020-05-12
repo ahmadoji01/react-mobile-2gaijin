@@ -67,7 +67,7 @@ order history
 
 /*general*/
 body {
-	font-family: 'Roboto', sans-serif;
+	font-family: 'Poppins', sans-serif;
 	color: #888;
 	font-size: 12px;
 	font-weight: 400;
@@ -82,7 +82,7 @@ h5,
 h6 {
 	line-height: 110%;
 	margin: 0;
-	font-family: 'Roboto', sans-serif;
+	font-family: 'Poppins', sans-serif;
 	font-weight: 500;
 	color: #444;
 }
@@ -311,13 +311,14 @@ ul li {
 /*product info*/
 .title-product {
 	margin-bottom: 10px;
+	font-weight: 500;
 }
 
 .price {
 	margin-bottom: 8px;
 	font-size: 14px;
 	font-weight: 700;
-	color: #1948ff !important;
+	color: orange !important;
 }
 
 .location {

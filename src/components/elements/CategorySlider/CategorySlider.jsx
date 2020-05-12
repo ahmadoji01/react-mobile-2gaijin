@@ -1,5 +1,6 @@
 import React from "react";
 import "./CategorySlider.scss";
+import CategoryIcon from "../CategoryIcon/CategoryIcon";
 
 const CategorySlider = () => (
     <div className="categories segments no-pd-b">
@@ -21,10 +22,7 @@ const CategorySlider = () => (
                 <div className="col-20">
                     <div className="content">
                         <a href="/categories-details/">
-                            <div className="icon">
-                                <i className="fas fa-tshirt"></i>
-                            </div>
-                            <span>Apparel</span>
+                            <CategoryIcon />
                         </a>
                     </div>
                 </div>

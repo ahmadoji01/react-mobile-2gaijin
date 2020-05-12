@@ -29,7 +29,7 @@ class ProductCardWithLove extends Component {
         if(typeof(this.props.item) !== 'undefined') {
             const item = this.props.item;
             return(
-                <Link href={`/product/${item["_id"]}`} >
+                <Link href={`/product/${item["_id"]}`} className="product-card-love" >
                     <div className="content content-shadow-product">
                         <div className="love-button card-love">
                             <Icon f7="heart_circle_fill" size="24px" color="gray"></Icon>

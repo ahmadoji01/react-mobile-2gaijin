@@ -29,7 +29,7 @@ class ProductCard extends Component {
         if(typeof(this.props.item) !== 'undefined') {
             const item = this.props.item;
             return(
-                <Link href={`/product/${item["_id"]}`} >
+                <Link href={`/product/${item["_id"]}`} className="product-card" >
                     <div className="content content-shadow-product">
                         <img src="images/product1.jpg" alt="product" />
                         <div className="text">

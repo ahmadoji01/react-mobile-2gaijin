@@ -69,15 +69,17 @@ class ChatRoom extends Component {
         ws.onmessage = evt => {
             // listen to data sent from the websocket server
             var receivedData = JSON.parse(evt.data);
-
-            console.log(evt.data);
-
-            this.setState(prevState => ({
-                chatHistory: [...this.state.chatHistory, receivedData]
-            }))
-    
-            this.setState({data: evt.data});
-            //this.msglists.appendChild();
+            let config = { headers: {'Authorization': localStorage.getItem("access_token"), "Content-Type": "application/json" }}
+            axios
+            .post("/insert_message", receivedData, config)
+            .then(response => {
+                if(response.data.status == "Success") {
+                    this.setState(prevState => ({
+                        chatHistory: [...this.state.chatHistory, receivedData]
+                    }))
+                    this.msginput.value = "";
+                }
+            });
         }
 
         // websocket onerror event listener
@@ -129,11 +131,13 @@ class ChatRoom extends Component {
     handleKeyPress(e) {
         if(e.key === 'Enter'){
             var date = new Date();
-            var dataToSend = JSON.stringify({ user_id: localStorage.getItem("user_id"), created_at: date.toISOString(), message: this.state.msg });
+            var dataToSend = JSON.stringify({ user_id: localStorage.getItem("user_id"), room_id: this.props.roomID, message: this.state.msg });
             this.setState({data: dataToSend}, () => {
                 this.sendMessage();
             });
             this.msginput.value = "";
+            if(e.preventDefault) e.preventDefault();
+            return false;
         }
     }
 

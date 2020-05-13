@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import HomeBanners from "../../elements/HomeBanners";
-import ProductDisplayContainer from "../../elements/ProductDisplayContainer";
-import { App, Navbar, View, Views, Page } from "framework7-react";
+import ProductDisplaySlider from "../../elements/ProductDisplaySlider";
+import { App, Navbar, View, Views, Page, Swiper, SwiperSlide } from "framework7-react";
 import './ProductDetail.scss';
 import Framework7 from "framework7";
 
@@ -33,9 +33,17 @@ class ProductDetail extends Component {
     render() {
         return (
             <Page name="product" className="page page-product">
-                <Navbar title="My App" backLink="Back" large></Navbar>
-                <ProductDisplayContainer title="Related Items" items={this.state.data.relateditems} />
-                <ProductDisplayContainer title="Seller's Items" items={this.state.data.selleritems} />
+                <Navbar backLink="Back" large>
+                    <div slot="title-large" className="product-images-container">
+                        <Swiper pagination>
+                            <SwiperSlide>Slide 1</SwiperSlide>
+                            <SwiperSlide>Slide 2</SwiperSlide>
+                            <SwiperSlide>Slide 3</SwiperSlide>
+                        </Swiper>
+                    </div>
+                </Navbar>
+                <ProductDisplaySlider title="Related items you might like" items={this.state.data.relateditems} />
+                <ProductDisplaySlider title="Other items from this seller" items={this.state.data.selleritems} />
             </Page>
         );    
     }

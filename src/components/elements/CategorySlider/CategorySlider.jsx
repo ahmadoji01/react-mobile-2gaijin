@@ -4,55 +4,38 @@ import CategoryIcon from "../CategoryIcon/CategoryIcon";
 
 const CategorySlider = () => (
     <div className="categories segments no-pd-b">
-        <div className="header-container">
-            <h3>Explore Categories</h3>
-        </div>
         <div className="container">
+            <div className="section-title">
+                <h3>Category
+                    <a href="#" className="see-all-link">See All</a>
+                </h3>
+            </div>
             <div className="row">
                 <div className="col-20">
                     <div className="content">
-                        <a href="/all-categories/">
-                            <div className="icon">
-                                <i className="fas fa-th"></i>
-                            </div>
-                            <span>Show All</span>
+                        <a href="/categories-details/">
+                            <CategoryIcon iconname="Apparels" iconcolor="light-red"/>
                         </a>
                     </div>
                 </div>
                 <div className="col-20">
                     <div className="content">
                         <a href="/categories-details/">
-                            <CategoryIcon />
+                            <CategoryIcon iconname="Books" iconcolor="yellow"/>
                         </a>
                     </div>
                 </div>
                 <div className="col-20">
                     <div className="content">
                         <a href="/categories-details/">
-                            <div className="icon">
-                                <i className="fas fa-chair"></i>
-                            </div>
-                            <span>Furniture</span>
+                            <CategoryIcon iconname="Electronics" iconcolor="purple"/>
                         </a>
                     </div>
                 </div>
                 <div className="col-20">
                     <div className="content">
                         <a href="/categories-details/">
-                            <div className="icon">
-                                <i className="fas fa-camera"></i>
-                            </div>
-                            <span>Photo</span>
-                        </a>
-                    </div>
-                </div>
-                <div className="col-20">
-                    <div className="content">
-                        <a href="/categories-details/">
-                            <div className="icon">
-                                <i className="fas fa-headphones-alt"></i>
-                            </div>
-                            <span>Accessories</span>
+                            <CategoryIcon iconname="Footwear"/>
                         </a>
                     </div>
                 </div>
@@ -61,51 +44,55 @@ const CategorySlider = () => (
                 <div className="col-20">
                     <div className="content">
                         <a href="/categories-details/">
-                            <div className="icon">
-                                <i className="fas fa-mobile-alt"></i>
-                            </div>
-                            <span>Handphone</span>
+                            <CategoryIcon iconname="Furnitures" iconcolor="green"/>
                         </a>
                     </div>
                 </div>
                 <div className="col-20">
                     <div className="content">
                         <a href="/categories-details/">
-                            <div className="icon">
-                                <i className="fas fa-basketball-ball"></i>
-                            </div>
-                            <span>Sports</span>
+                            <CategoryIcon iconname="Kitchens" iconcolor="dark-purple"/>
                         </a>
                     </div>
                 </div>
                 <div className="col-20">
                     <div className="content">
                         <a href="/categories-details/">
-                            <div className="icon">
-                                <i className="fas fa-pizza-slice"></i>
-                            </div>
-                            <span>Food</span>
+                            <CategoryIcon iconname="Sports" iconcolor="dark-red"/>
                         </a>
                     </div>
                 </div>
                 <div className="col-20">
                     <div className="content">
                         <a href="/categories-details/">
-                            <div className="icon">
-                                <i className="fas fa-plug"></i>
-                            </div>
-                            <span>Electronic</span>
+                            <CategoryIcon iconname="Vehicles" iconcolor="grey"/>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div className="row">
+                <div className="col-20">
+                    <div className="content">
+                        <a href="/categories-details/">
+                            <CategoryIcon iconname="White Appliances" iconcolor="purple"/>
                         </a>
                     </div>
                 </div>
                 <div className="col-20">
                     <div className="content">
                         <a href="/categories-details/">
-                            <div className="icon">
-                                <i className="fas fa-car"></i>
-                            </div>
-                            <span>Automotive</span>
+                            <CategoryIcon iconname="Miscellaneous" iconcolor="dark-purple"/>
                         </a>
+                    </div>
+                </div>
+                <div className="col-20">
+                    <div className="content">
+                        
+                    </div>
+                </div>
+                <div className="col-20">
+                    <div className="content">
+                        
                     </div>
                 </div>
             </div>

@@ -4,6 +4,27 @@ import { Icon, Link } from 'framework7-react';
 
 class ProductCardWithLove extends Component {
     
+    constructor(props) {
+        super(props);
+        this.state = { cardWidth: (window.innerWidth/2) - 25, cardHeight: (window.innerHeight/2) - 25 };
+        this.updateWindowDimensions = this.updateWindowDimensions.bind(this);
+    }
+    
+    componentDidMount() {
+        this.updateWindowDimensions();
+        window.addEventListener('resize', this.updateWindowDimensions);
+    }
+    
+    componentWillUnmount() {
+        window.removeEventListener('resize', this.updateWindowDimensions);
+    }
+    
+    updateWindowDimensions() {
+        this.setState({ cardWidth: (window.innerWidth/2) - 25 });
+        this.setState({ cardHeight: (window.innerHeight/2) - 25 });
+        console.log(this.state.cardWidth);
+    }
+
     calcDistance(lat1, lng1, lat2, lng2) {
         var R = 6371; // Radius of the earth in km
         var dLat = (lat2-lat1) * (Math.PI/180);  // deg2rad below
@@ -29,17 +50,17 @@ class ProductCardWithLove extends Component {
         if(typeof(this.props.item) !== 'undefined') {
             const item = this.props.item;
             return(
-                <Link href={`/product/${item["_id"]}`} className="product-card-love" >
+                <Link href={`/product/${item["_id"]}`} className="product-card-love" style={{ height: `${this.state.height}px`, width: `${this.state.cardWidth}px`}} >
                     <div className="content content-shadow-product">
                         <div className="love-button card-love">
                             <Icon f7="heart_circle_fill" size="24px" color="gray"></Icon>
                         </div>
-                        <img src="images/product1.jpg" alt="product" />
+                        <div className="image-container" style={{backgroundImage: `url(${item["img_url"]})`, width: `${this.state.cardWidth}px`}}></div>
                         <div className="text">
-                            <p className="title-product">{item.name}</p>
+                            <p className="title-product-love">{item.name}</p>
                             <p className="location">by {item.seller_name}</p>
                             <p className="price">¥{item.price}</p>
-                            <p className="title-product">{this.calcDistance(parseFloat(item.location.latitude), parseFloat(item.location.longitude), parseFloat(this.props.lat),  parseFloat(this.props.lng))}</p>
+                            <p className="location">{this.calcDistance(parseFloat(item.location.latitude), parseFloat(item.location.longitude), parseFloat(this.props.lat),  parseFloat(this.props.lng))}</p>
                         </div>
                     </div>
                 </Link>

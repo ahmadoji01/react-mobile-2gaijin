@@ -59,7 +59,7 @@ class HomeTab extends Component {
                 <div className="panel-backdrop"></div>
                 <Sidebar />
                 <CategorySlider />
-                <ProductDisplaySlider title="Featured Items" items={this.state.data["featureditems"]} label="Featured" />
+                <ProductDisplaySlider title="Recommended for you" items={this.state.data["featureditems"]} label="Featured" />
                 <ProductDisplayContainer title="Recently Added Items" items={this.state.data["recentitems"]} />
                 <ProductDisplaySlider title="Free Items" items={this.state.data["freeitems"]} label="Free" />
                 <ProductContainerInfinite title="Recommended Items" items={this.state.data["recommendeditems"]} />

@@ -4,6 +4,7 @@ import { NavLink } from 'react-router-dom';
 import ProductCard from '../ProductCard';
 import { geolocated } from 'react-geolocated';
 import Masonry from 'react-masonry-css';
+import ProductCardWithLove from '../ProductCardWithLove';
 
 class ProductDisplayContainer extends Component {
 
@@ -19,7 +20,7 @@ class ProductDisplayContainer extends Component {
 
             var items = this.props.items;
             items = items.map(function(item, i) {
-                return <div key={i+1}><ProductCard item={item} lat={currLat} lng={currLng} /></div>
+                return <div key={i+1}><ProductCardWithLove item={item} lat={currLat} lng={currLng} /></div>
             });
 
             return(

@@ -1,4 +1,81 @@
-.product-images-container {
-    height: "800px";
+.product-gallery {
+    height: 50%;
+    border-radius: 0px;
+}
+
+.page-product .container{
+    padding-top: 10px;
+}
+
+.page-product h3 {
+    font-weight: 900;
+}
+
+.product-details {
     width: 100%;
+    font-family: 'Poppins', sans-serif;
+    font-size: 11px;
+    font-weight: 600;
+}
+
+.detail-label {
+    width: 30%;
+}
+
+.detail-info {
+    width: 70%;
+    color: black;
+}
+
+.product-description {
+    margin-top: 20px;
+}
+
+.product-description h6 {
+    font-weight: 900;
+}
+
+.desc-content {
+    font-family: 'Poppins', sans-serif;
+    margin-top: 4px;
+    font-size: 11px;
+    line-height: 1.6;
+}
+
+.detail-map {
+    width: 100%;
+    height: 200px;
+}
+
+#toolbar-product-detail {
+    background-color: #1B479E;
+    padding-left: 10px;
+    padding-right: 10px;
+    font-family: 'Poppins', sans-serif;
+    font-size: 20px;
+    font-weight: 900;
+    color: white;
+}
+
+.toolbar-price {
+    margin-left: 10px;
+}
+
+.toolbar-actions {
+    display: inherit;
+}
+
+.chat-button {
+    background-color: #779DEA;
+    font-family: 'Poppins', sans-serif;
+    font-weight: 700;
+    color: white;
+    margin-right: 5px;
+}
+
+.appointment-button {
+    background-color: #EF7132;
+    font-family: 'Poppins', sans-serif;
+    font-weight: 700;
+    color: white;
 }

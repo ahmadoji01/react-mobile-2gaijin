@@ -1,12 +1,11 @@
 import React, { Component } from 'react';
-import './ProductCardWithLove.scss';
-import { Icon, Link } from 'framework7-react';
+import './FullWidthCard.scss';
+import { Link } from 'framework7-react';
 
-class ProductCardWithLove extends Component {
-    
+class FullWidthCard extends Component {
     constructor(props) {
         super(props);
-        this.state = { cardWidth: (window.innerWidth/2) - 25, cardHeight: (window.innerHeight/2) - 25 };
+        this.state = { cardWidth: (window.innerWidth/1.25) - 25, cardHeight: (window.innerHeight/2) - 25 };
         this.updateWindowDimensions = this.updateWindowDimensions.bind(this);
     }
     
@@ -18,15 +17,15 @@ class ProductCardWithLove extends Component {
     componentWillUnmount() {
         window.removeEventListener('resize', this.updateWindowDimensions);
     }
-    
+
     updateWindowDimensions() {
-        this.setState({ cardWidth: (window.innerWidth/2) - 25 });
+        this.setState({ cardWidth: (window.innerWidth/1.25) - 25 });
         this.setState({ cardHeight: (window.innerHeight/2) - 25 });
     }
 
     calcDistance(lat1, lng1, lat2, lng2) {
-        var R = 6371; // Radius of the earth in km
-        var dLat = (lat2-lat1) * (Math.PI/180);  // deg2rad below
+        var R = 6371;
+        var dLat = (lat2-lat1) * (Math.PI/180);
         var dLon = (lng2-lng1) * (Math.PI/180); 
         var a = 
             Math.sin(dLat/2) * Math.sin(dLat/2) +
@@ -49,14 +48,11 @@ class ProductCardWithLove extends Component {
         if(typeof(this.props.item) !== 'undefined') {
             const item = this.props.item;
             return(
-                <Link href={`/product/${item["_id"]}`} className="product-card-love" style={{ height: `${this.state.height}px`, width: `${this.state.cardWidth}px`}} >
-                    <div className="content content-shadow-product">
-                        <div className="love-button card-love">
-                            <Icon f7="heart_circle_fill" size="24px" color="gray"></Icon>
-                        </div>
+                <Link href={`/product/${item["_id"]}`} className="product-card" style={{ height: `${this.state.height}px`, width: `${this.state.cardWidth}px`}} >
+                    <div className="content content-shadow-product content-full-width">
                         <div className="image-container" style={{backgroundImage: `url(${item["img_url"]})`, width: `${this.state.cardWidth}px`}}></div>
                         <div className="text">
-                            <p className="title-product-love">{item.name}</p>
+                            <p className="title-product">{item.name}</p>
                             <p className="location">by {item.seller_name}</p>
                             <p className="price">¥{item.price}</p>
                             <p className="location">{this.calcDistance(parseFloat(item.location.latitude), parseFloat(item.location.longitude), parseFloat(this.props.lat),  parseFloat(this.props.lng))}</p>
@@ -67,7 +63,7 @@ class ProductCardWithLove extends Component {
         } else {
             return '';
         }
-    } 
+    }
 }
 
-export default ProductCardWithLove;
+export default FullWidthCard;

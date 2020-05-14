@@ -3,6 +3,7 @@ import "./ProductContainerInfinite.scss";
 import { NavLink } from 'react-router-dom';
 import ProductCard from '../ProductCard';
 import Masonry from 'react-masonry-css';
+import { Toolbar, Link } from 'framework7-react';
 
 class ProductContainerInfinite extends Component {
 
@@ -27,12 +28,13 @@ class ProductContainerInfinite extends Component {
             items = items.map(function(item, i) {
                 return <div key={i+1}><ProductCard item={item} lat={currLat} lng={currLng} /></div>
             });
+            
             return(
                 <div className="recommended product segments-bottom">
+                    <div className="section-title">
+                        <h3>{this.props.title}</h3>
+                    </div>
                     <div className="container">
-                        <div className="section-title">
-                            <h3>{this.props.title}</h3>
-                        </div>
                         <Masonry
                             breakpointCols={2}
                             className="my-masonry-grid"

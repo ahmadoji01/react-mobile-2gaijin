@@ -22,12 +22,11 @@ class ProductCard extends Component {
     updateWindowDimensions() {
         this.setState({ cardWidth: (window.innerWidth/2) - 25 });
         this.setState({ cardHeight: (window.innerHeight/2) - 25 });
-        console.log(this.state.cardWidth);
     }
 
     calcDistance(lat1, lng1, lat2, lng2) {
-        var R = 6371; // Radius of the earth in km
-        var dLat = (lat2-lat1) * (Math.PI/180);  // deg2rad below
+        var R = 6371;
+        var dLat = (lat2-lat1) * (Math.PI/180);
         var dLon = (lng2-lng1) * (Math.PI/180); 
         var a = 
             Math.sin(dLat/2) * Math.sin(dLat/2) +

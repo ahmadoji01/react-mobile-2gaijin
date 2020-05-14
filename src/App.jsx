@@ -10,6 +10,7 @@ import "./App.css";
 import { App, Views, View, Page, Navbar, Toolbar, Link } from 'framework7-react';
 import Login from "./components/pages/Login/Login";
 import Register from "./components/pages/Register/Register";
+import Search from "./components/pages/Search/Search";
 
 const f7params = {
   // Array with app routes
@@ -18,6 +19,10 @@ const f7params = {
     {
         path: '/',
         component: Home,
+    },
+    {
+        path: '/search/:searchTerm',
+        component: Search,
     },
     {
       path: '/chatlobby',

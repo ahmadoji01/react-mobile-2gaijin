@@ -1,25 +1,40 @@
 import React, { Component } from 'react';
 import "./HomeBanners.scss";
 import { Swiper, SwiperSlide } from 'framework7-react';
+import FullWidthCard from '../FullWidthCard/FullWidthCard';
+import AutcompleteComponent from 'framework7/components/autocomplete/autocomplete';
 
 class HomeBanners extends Component {
+    constructor(props) {
+        super(props);
+        this.state = { width: (window.innerWidth/1.25) - 25, height: (window.innerHeight/2) - 25 };
+        this.updateWindowDimensions = this.updateWindowDimensions.bind(this);
+    }
+    
+    componentDidMount() {
+        this.updateWindowDimensions();
+        window.addEventListener('resize', this.updateWindowDimensions);
+    }
+    
+    componentWillUnmount() {
+        window.removeEventListener('resize', this.updateWindowDimensions);
+    }
+
+    updateWindowDimensions() {
+        this.setState({ width: (window.innerWidth/1.25) - 25 });
+        this.setState({ height: (window.innerHeight/2) - 25 });
+    }
+    
     render() {
-        if(typeof(this.props.banners) !== "undefined") {
+        if(typeof(this.props.items) !== "undefined") {
             return (
-                <div className="slider" style={{marginTop: 0}}>
-                    <div className="container">
-                        <Swiper pagination params={{speed:500, spaceBetween: 10}} >
-                            { this.props.banners.map(function (banner, i) {
-                                return (
-                                    <SwiperSlide key={i} style={{marginTop: 50}}>
-                                        <div className="content">
-                                            <div className="mask"></div>
-                                            <img src={banner.img_url}  alt=""/>
-                                        </div>
-                                    </SwiperSlide>
-                                );
-                            })}
-                        </Swiper>
+                <div className="slider">
+                    <div className="container" style={{display: 'flex', flexWrap: "nowrap", overflow: "auto", height: this.state.height}}>
+                        { this.props.items.map(function (item, i) {
+                            return (
+                                <FullWidthCard item={item} style={{flex: '0 0 auto'}} />
+                            );
+                        })}
                     </div>
                 </div>
             )

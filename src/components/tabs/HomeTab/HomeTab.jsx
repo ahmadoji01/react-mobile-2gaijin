@@ -6,6 +6,8 @@ import './HomeTab.scss';
 import ProductDisplaySlider from "../../elements/ProductDisplaySlider";
 import ProductDisplayContainer from "../../elements/ProductDisplayContainer";
 import ProductContainerInfinite from "../../elements/ProductContainerInfinite";
+import {Toolbar, Link} from 'framework7-react';
+import ProductContainerWithTab from "../../elements/ProductContainerWithTab/ProductContainerWithTab";
 
 class HomeTab extends Component {
 
@@ -54,15 +56,14 @@ class HomeTab extends Component {
         return (
             <React.Fragment>
                 <div className="background-absolute">
-                    <HomeBanners banners={this.state.data["banners"]}/>
+                    <HomeBanners items={this.state.data["featureditems"]}/>
                 </div>
                 <div className="panel-backdrop"></div>
                 <Sidebar />
                 <CategorySlider />
                 <ProductDisplaySlider title="Recommended for you" items={this.state.data["featureditems"]} label="Featured" />
-                <ProductDisplayContainer title="Recently Added Items" items={this.state.data["recentitems"]} />
+                <ProductContainerWithTab title="Recommended Items" items={this.state.data["recentitems"]} items2={this.state.data["freeitems"]} />
                 <ProductDisplaySlider title="Free Items" items={this.state.data["freeitems"]} label="Free" />
-                <ProductContainerInfinite title="Recommended Items" items={this.state.data["recommendeditems"]} />
             </React.Fragment>
         );
     }

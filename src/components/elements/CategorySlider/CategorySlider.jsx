@@ -13,7 +13,7 @@ const CategorySlider = () => (
             <div className="row">
                 <div className="col-20">
                     <div className="content">
-                        <a href="/categories-details/">
+                        <a href="/search/apparels">
                             <CategoryIcon iconname="Apparels" iconcolor="light-red"/>
                         </a>
                     </div>

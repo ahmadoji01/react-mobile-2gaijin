@@ -9,7 +9,14 @@ class ProductDisplaySlider extends Component {
     
     render() {
         if(typeof(this.props.items) !== "undefined") {
-            const labelName = this.props.label;
+            var currLat = 0.0; var currLng = 0.0;
+            if(this.props.isGeolocationEnabled) {
+                if(this.props.coords !== null) {
+                    currLat = this.props.coords.latitude;
+                    currLng = this.props.coords.longitude;
+                }
+            }
+
             return(
                 <div className="recommended product segments-bottom product-slider">
                     <div className="container">
@@ -21,7 +28,7 @@ class ProductDisplaySlider extends Component {
                                 { this.props.items.map(function (item, i) {
                                     return (
                                         <SwiperSlide className="product-swiper" key={i}>
-                                            <div key={i}><ProductCard item={item} label={labelName} /></div>
+                                            <div key={i}><ProductCard item={item} lat={currLat} lng={currLng} /></div>
                                         </SwiperSlide>
                                     );
                                 })}

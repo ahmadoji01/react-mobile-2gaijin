@@ -17,22 +17,15 @@ class Home extends Component {
     }
 
     componentDidUpdate() {
-        document.getElementById("navbar-home").style.display = "block";
+        if(document.getElementById("navbar-home")) {
+            document.getElementById("navbar-home").style.display = "block";
+        }
     }
 
     render() {
         return (
             <Page name="home" className="page page-home page-with-subnavbar">
-                <Navbar id="navbar-home" transparent>
-                    <a href="#" className="panel-open" data-panel="left">
-                        <i id="bar-icon" className="fas fa-bars"></i>
-                    </a>
-                    <Searchbar searchContainer=".search-list" placeholder="What are you looking for?" searchIn=".item-title" disableButton={!this.$theme.aurora}></Searchbar>
-                    <NavRight>
-                        <Link href="/notification"><Icon f7="bell_fill" size="24px" color="gray"></Icon></Link>
-                        <Link href="/chatlobby"><Icon f7="bubble_right_fill" size="24px" color="gray"></Icon></Link>
-                    </NavRight>
-                </Navbar>
+                <Navbar title="My App" backLink="Back" large titleLarge="Large Title"></Navbar>
                 <Toolbar id="toolbar-home" tabbar labels position='bottom'>
                     <Link tabLink="#tab-home" tabLinkActive text="Home" iconIos="f7:envelope_fill" iconAurora="f7:envelope_fill" iconMd="material:email"></Link>
                     <Link tabLink="#tab-appointment" text="Appointment" iconIos="f7:calendar_fill" iconAurora="f7:calendar_fill" iconMd="material:today"></Link>
@@ -40,7 +33,7 @@ class Home extends Component {
                     <Link tabLink="#tab-wishlist" text="Wishlist" iconIos="f7:heart_fill" iconAurora="f7:heart_fill" iconMd="material:today"></Link>
                     <Link tabLink="#tab-account" text="Account" iconIos="f7:person_fill" iconAurora="f7:person_fill" iconMd="material:file_upload"></Link>
                 </Toolbar>
-                <div className="tabs">
+                <div className="tabs" style={{marginTop: 100}}>
                     <div id="tab-home" className="tab tab-active tab-home">
                         <HomeTab />
                     </div>

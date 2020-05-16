@@ -54,10 +54,10 @@ class Search extends Component {
                     </Subnavbar>
                 </Navbar>
                 <Tabs>
-                    <Tab id="tab1" tabActive className="page-content">
+                    <Tab id="tab1" tabActive className="page-content" style={{paddingTop: 0}}>
                         <ProductContainerInfinite items={this.state.data} />
                     </Tab>
-                    <Tab id="tab2" className="page-content">
+                    <Tab id="tab2" className="page-content" style={{paddingTop: 0}}>
                         <ProductContainerInfinite items={this.state.data} />
                     </Tab>
                 </Tabs>

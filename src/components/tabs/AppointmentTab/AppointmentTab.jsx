@@ -16,27 +16,7 @@ class AppointmentTab extends Component {
         windowHeight: window.innerHeight,
     }
 
-    updateDimensions = () => {
-        this.setState({ windowWidth: window.innerWidth, windowHeight: window.innerHeight });
-        var aspectRatio = this.state.windowWidth / this.state.windowHeight;
-        this.changeBgHeight(aspectRatio);
-    }
-
-    changeBgHeight = (aspectRatio) => {
-        var bg = document.getElementsByClassName("background-absolute")[0];
-        if(aspectRatio >= 0.65) {
-            bg.style.height = "45%";
-        } else if(aspectRatio >= 0.56 && aspectRatio < 0.65 ) {
-            bg.style.height = "40%";
-        } else if(aspectRatio >= 0.45 && aspectRatio < 0.56 ) {
-            bg.style.height = "32%";
-        } else if(aspectRatio >= 0.45 && aspectRatio < 0.56 ) {
-            bg.style.height = "30%";
-        }
-    }
-
     componentDidMount() {
-        this.updateDimensions();
         window.addEventListener('resize', this.updateDimensions);
         var tab = document.getElementById('tab-appointment');
         var navbar = document.getElementById('custom-navbar');

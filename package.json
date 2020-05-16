@@ -4,6 +4,7 @@
   "private": true,
   "proxy": "http://localhost:8080",
   "dependencies": {
+    "@material-ui/core": "^4.9.14",
     "@testing-library/jest-dom": "^4.2.4",
     "@testing-library/react": "^9.3.2",
     "@testing-library/user-event": "^7.1.2",
@@ -20,12 +21,14 @@
     "react-dom": "^16.13.1",
     "react-geolocated": "^3.0.1",
     "react-google-maps": "^9.4.5",
+    "react-infinite-scroller": "^1.2.4",
     "react-masonry-component": "^6.2.1",
     "react-masonry-css": "^1.0.14",
     "react-moment": "^0.9.7",
     "react-router-dom": "^5.1.2",
     "react-scripts": "3.4.1",
     "react-svg": "^11.0.21",
+    "react-swipeable-views": "^0.13.9",
     "react-validation": "^3.0.7",
     "use-memory-storage": "0.0.1",
     "validator": "^13.0.0"

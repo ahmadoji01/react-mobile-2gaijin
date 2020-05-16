@@ -94,17 +94,13 @@ class ChatRoom extends Component {
         };
     };
 
-    /**
-     * utilited by the @function connect to check if the connection is close, if so attempts to reconnect
-     */
     check = () => {
         const { ws } = this.state;
         if (!ws || ws.readyState == WebSocket.CLOSED) this.connect(); //check if websocket instance is closed, if so call `connect` function.
     };
 
-    componentDidMount() {
+    componentWillMount() {
         this.connect();
-        document.getElementById("navbar-home").style.display = "none";
         
         let config = {
             headers: {'Authorization': localStorage.getItem("access_token") },
@@ -116,6 +112,7 @@ class ChatRoom extends Component {
         return axios
         .get("/chat_messages", config)
         .then(response => {
+            console.log(response);
             if(response.data.data.messages) {
                 this.setState({chatHistory: response.data.data.messages})
             }

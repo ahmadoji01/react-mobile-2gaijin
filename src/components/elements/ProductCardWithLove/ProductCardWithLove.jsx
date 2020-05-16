@@ -46,7 +46,7 @@ class ProductCardWithLove extends Component {
     }
 
     render() {
-        if(typeof(this.props.item) !== 'undefined') {
+        if(typeof(this.props.item) !== 'undefined' && typeof(this.props.item.location) !== 'undefined') {
             const item = this.props.item;
             return(
                 <Link href={`/product/${item["_id"]}`} className="product-card-love" style={{ height: `${this.state.height}px`, width: `${this.state.cardWidth}px`}} >

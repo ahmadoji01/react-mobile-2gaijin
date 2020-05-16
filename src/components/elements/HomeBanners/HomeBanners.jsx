@@ -3,11 +3,12 @@ import "./HomeBanners.scss";
 import { Swiper, SwiperSlide } from 'framework7-react';
 import FullWidthCard from '../FullWidthCard/FullWidthCard';
 import AutcompleteComponent from 'framework7/components/autocomplete/autocomplete';
+import { geolocated } from 'react-geolocated';
 
 class HomeBanners extends Component {
     constructor(props) {
         super(props);
-        this.state = { width: (window.innerWidth/1.25) - 25, height: (window.innerHeight/2) - 25 };
+        this.state = { width: (window.innerWidth/1.25) - 25, height: (window.innerHeight) - 25 };
         this.updateWindowDimensions = this.updateWindowDimensions.bind(this);
     }
     
@@ -22,17 +23,32 @@ class HomeBanners extends Component {
 
     updateWindowDimensions() {
         this.setState({ width: (window.innerWidth/1.25) - 25 });
-        this.setState({ height: (window.innerHeight/2) - 25 });
+        this.setState({ height: (window.innerHeight) - 25 });
     }
     
     render() {
         if(typeof(this.props.items) !== "undefined") {
+            var currLat = 0.0; var currLng = 0.0;
+            if(this.props.isGeolocationEnabled) {
+                if(this.props.coords !== null) {
+                    currLat = this.props.coords.latitude;
+                    currLng = this.props.coords.longitude;
+                }
+            }
+            
             return (
-                <div className="slider">
-                    <div className="container" style={{display: 'flex', flexWrap: "nowrap", overflow: "auto", height: this.state.height}}>
+                <div className="slider" style={{ marginTop: 100 }}>
+                    <div className="container">
+                        <div className="section-title">
+                            <h3>2Gaijin's Picks
+                                <a href="#" className="see-all-link">See All</a>
+                            </h3>
+                        </div>
+                    </div>
+                    <div className="container" style={{display: 'flex', flexWrap: "nowrap", overflow: "auto"}}>
                         { this.props.items.map(function (item, i) {
                             return (
-                                <FullWidthCard item={item} style={{flex: '0 0 auto'}} />
+                                <FullWidthCard item={item} lat={currLat} lng={currLng} style={{flex: '0 0 auto'}} />
                             );
                         })}
                     </div>
@@ -44,4 +60,9 @@ class HomeBanners extends Component {
     }
 }
 
-export default HomeBanners;
+export default geolocated({
+    positionOptions: {
+        enableHighAccuracy: true,
+    },
+    userDecisionTimeout: 5000,
+})(HomeBanners);

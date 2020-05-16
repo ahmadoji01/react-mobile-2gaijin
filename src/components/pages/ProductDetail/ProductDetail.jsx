@@ -1,11 +1,12 @@
 import React, { Component } from "react";
 import HomeBanners from "../../elements/HomeBanners";
 import ProductDisplaySlider from "../../elements/ProductDisplaySlider";
-import { App, Button, Navbar, View, Views, Page, Swiper, SwiperSlide, Icon, Toolbar, Link } from "framework7-react";
+import { App, Button, Navbar, Page, Swiper, SwiperSlide, Icon, Toolbar, Link, NavTitle } from "framework7-react";
 import './ProductDetail.scss';
 import Framework7 from "framework7";
 import parse from 'html-react-parser';
 import { Map, Marker, GoogleApiWrapper } from 'google-maps-react';
+import axios from "axios";
 
 class ProductDetail extends Component {
     
@@ -13,7 +14,8 @@ class ProductDetail extends Component {
         super(props);
         this.state = {
             data: []
-        }
+        };
+        this.handleChat = this.handleChat.bind(this);
     }
 
     componentWillMount() {
@@ -34,7 +36,23 @@ class ProductDetail extends Component {
         }
     }
 
-    
+    handleChat() {
+        var payload = {}
+
+        let config = {
+            headers: {'Authorization': localStorage.getItem("access_token") },
+            params: {
+              receiverid: this.state.data.item.user_id
+            }
+        }
+
+        return axios
+        .get("/initiate_chat", config)
+        .then(response => {
+            console.log(response.data.data._id);
+            this.$f7router.navigate("/chatroom/" + response.data.data._id);
+        });
+    }
 
     render() {
         const mapStyle = {
@@ -61,45 +79,50 @@ class ProductDetail extends Component {
         }
 
         return (
-            <Page name="product" className="page page-product">
-                <Swiper pagination className="product-gallery" params={{speed:500, slidesPerView: 1, spaceBetween: 0}}>
-                    {images}
-                </Swiper>
+            <div className="page page-product">
+                <Navbar backLink="Back" transparent>
+                    <NavTitle>{name}</NavTitle>
+                </Navbar>
                 <Toolbar id="toolbar-product-detail" tabbar labels position='bottom'>
                     <div className="toolbar-price">¥{price}</div>
                     <div className="toolbar-actions">
-                        <Button raised fill className="chat-button">Chat</Button>
+                        <Button raised fill className="chat-button" onClick={this.handleChat}>Chat</Button>
                         <Button raised fill className="appointment-button">Make Appointment</Button>
                     </div>
                 </Toolbar>
-                <div className="container">
-                    <h3>{name}</h3>
-                    <table className="product-details">
-                        <tr>
-                            <td className="detail-label"><Icon f7="tag_fill" size="12px" /> Brand</td>
-                            <td className="detail-info">IKEA</td>
-                        </tr>
-                        <tr>
-                            <td className="detail-label"><Icon f7="checkmark_shield_fill" size="12px" /> Condition</td>
-                            <td className="detail-info">99% normal usage. The text is a demo for how it looks like in 2 rows</td>
-                        </tr>
-                        <tr>
-                            <td className="detail-label"><Icon f7="clock_fill" size="12px" /> Years Owned</td>
-                            <td className="detail-info">1.5 Years</td>
-                        </tr>
-                        <tr>
-                            <td className="detail-label"><Icon f7="barcode" size="12px" /> Model Name</td>
-                            <td className="detail-info">Schuberth</td>
-                        </tr>
-                    </table>
-                    <div className="product-description">
-                        <h6>DESCRIPTION</h6>
-                        <p className="desc-content">{parse(desc)}</p> 
+                <div className="page-content" style={{padding: 0}}>
+                    <Swiper pagination className="product-gallery" params={{speed:500, slidesPerView: 1, spaceBetween: 0}}>
+                        {images}
+                    </Swiper>
+                    <div className="container">
+                        <h3>{name}</h3>
+                        <table className="product-details">
+                            <tr>
+                                <td className="detail-label"><Icon f7="tag_fill" size="12px" /> Brand</td>
+                                <td className="detail-info">IKEA</td>
+                            </tr>
+                            <tr>
+                                <td className="detail-label"><Icon f7="checkmark_shield_fill" size="12px" /> Condition</td>
+                                <td className="detail-info">99% normal usage. The text is a demo for how it looks like in 2 rows</td>
+                            </tr>
+                            <tr>
+                                <td className="detail-label"><Icon f7="clock_fill" size="12px" /> Years Owned</td>
+                                <td className="detail-info">1.5 Years</td>
+                            </tr>
+                            <tr>
+                                <td className="detail-label"><Icon f7="barcode" size="12px" /> Model Name</td>
+                                <td className="detail-info">Schuberth</td>
+                            </tr>
+                        </table>
+                        <div className="product-description">
+                            <h6>DESCRIPTION</h6>
+                            <p className="desc-content">{parse(desc)}</p> 
+                        </div>
                     </div>
+                    <ProductDisplaySlider title="Related items you might like" items={this.state.data.relateditems} />
+                    <ProductDisplaySlider title="Other items from this seller" items={this.state.data.selleritems} />
                 </div>
-                <ProductDisplaySlider title="Related items you might like" items={this.state.data.relateditems} />
-                <ProductDisplaySlider title="Other items from this seller" items={this.state.data.selleritems} />
-            </Page>
+            </div>
         );    
     }
 }

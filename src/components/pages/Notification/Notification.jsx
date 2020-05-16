@@ -4,10 +4,6 @@ import { Icon, Link, Page, Navbar, NavLeft, NavTitle } from 'framework7-react';
 
 class Notification extends Component {
 
-    componentDidMount() {
-        document.getElementById("navbar-home").style.display = "none";
-    }
-
     render() {
         return (
         <Page>

@@ -15,7 +15,7 @@ class ChatLobbyBar extends Component {
                         </div>
                         <div className="item-subtitle">
                             <div className="item-title-row">
-                                <div className="item-subtitle">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla sagittis tellus ut turpis condimentum, ut dignissim lacus tincidunt. Cras dolor metus, ultrices condimentum sodales sit amet, pharetra sodales eros. Phasellus vel felis tellus. Mauris rutrum ligula nec dapibus feugiat. In vel dui laoreet, commodo augue id, pulvinar lacus.</div>
+                                <div className="item-subtitle">{item.last_message}</div>
                                 <div className="item-after"><span className="badge color-orange">3</span></div>
                             </div>
                         </div>

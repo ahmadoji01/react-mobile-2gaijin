@@ -112,7 +112,6 @@ class ProductContainerWithTab extends Component {
       .then(response => {
           var fetchData = response.data.data.items;
           this.state.items2.push(fetchData);
-          console.log(fetchData);
       });
     }
 

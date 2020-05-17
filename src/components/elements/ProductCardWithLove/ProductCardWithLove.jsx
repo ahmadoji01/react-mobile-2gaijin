@@ -52,7 +52,9 @@ class ProductCardWithLove extends Component {
                 <Link href={`/product/${item["_id"]}`} className="product-card-love" style={{ height: `${this.state.height}px`, width: `${this.state.cardWidth}px`}} >
                     <div className="content content-shadow-product">
                         <div className="love-button card-love">
-                            <Icon f7="heart_circle_fill" size="24px" color="gray"></Icon>
+                            <span class="dot">
+                                <Icon f7="heart" size="14px" color="white"></Icon>
+                            </span>
                         </div>
                         <div className="image-container" style={{backgroundImage: `url(${item["img_url"]})`, width: `${this.state.cardWidth}px`}}></div>
                         <div className="text">

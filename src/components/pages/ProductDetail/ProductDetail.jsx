@@ -49,7 +49,6 @@ class ProductDetail extends Component {
         return axios
         .get("/initiate_chat", config)
         .then(response => {
-            console.log(response.data.data._id);
             this.$f7router.navigate("/chatroom/" + response.data.data._id);
         });
     }

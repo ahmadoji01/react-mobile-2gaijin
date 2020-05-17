@@ -1,7 +1,57 @@
 import React, { Component } from 'react';
+import AuthService from '../../../services/auth.service';
 
 class AccountTab extends Component {
+    
+    constructor(props) {
+        super(props);
+        this.state = {
+            isLoggedIn: true,
+        };
+        this.handleLogin = this.handleLogin.bind(this);
+    }
+
+    handleLogin() {
+        var user = AuthService.getCurrentUser();
+
+        if(user) {
+            AuthService.logout();
+            this.$f7.view.main.router.navigate("/");
+            this.setState({isLoggedIn: false});
+        } else {
+            this.$f7.view.main.router.navigate("/login");
+        }
+    }
+
+    componentWillMount() {
+        var user = AuthService.getCurrentUser();
+
+        if(user) {
+            this.setState({isLoggedIn: true});
+        } else {
+            this.setState({isLoggedIn: false});
+        }
+    }
+    
     render() {
+
+        let loginBtn;
+        if(this.state.isLoggedIn) {
+            loginBtn = <React.Fragment><div className="item-media">
+                <i className="fas fa-sign-out-alt"></i>
+            </div>
+            <div className="item-inner">
+                <div className="item-title">Logout</div>
+            </div></React.Fragment>
+        } else {
+            loginBtn = <React.Fragment><div className="item-media">
+                <i className="fas fa-sign-in-alt"></i>
+            </div>
+            <div className="item-inner">
+                <div className="item-title">Login</div>
+            </div></React.Fragment>
+        }
+
         return(
             <div className="account-buyer segments">
                 <div className="container">
@@ -99,13 +149,8 @@ class AccountTab extends Component {
                                 </a>
                             </li>
                             <li>
-                                <a href="#" className="item-link item-content">
-                                    <div className="item-media">
-                                        <i className="fas fa-power-off"></i>
-                                    </div>
-                                    <div className="item-inner">
-                                        <div className="item-title">Logout</div>
-                                    </div>
+                                <a href="#" onClick={this.handleLogin} className="item-link item-content">
+                                    {loginBtn}
                                 </a>
                             </li>
                         </ul>

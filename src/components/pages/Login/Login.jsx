@@ -89,10 +89,6 @@ class Login extends Component {
             });
         }
     }
-
-    componentDidUpdate() {
-        document.getElementById("navbar-home").style.display = "none";
-    }
     
     render() {
         return (

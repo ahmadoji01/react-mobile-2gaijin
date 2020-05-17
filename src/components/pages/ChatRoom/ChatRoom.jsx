@@ -38,7 +38,7 @@ class ChatRoom extends Component {
      * This function establishes the connect with the websocket and also ensures constant reconnection if connection closes
      */
     connect = () => {
-        var ws = new WebSocket("ws://localhost:8080/ws?room=" + this.props.roomID);
+        var ws = new WebSocket("wss://go.2gaijin.com/ws?room=" + this.props.roomID);
         let that = this; // cache the this
         var connectInterval;
 
@@ -112,7 +112,6 @@ class ChatRoom extends Component {
         return axios
         .get("/chat_messages", config)
         .then(response => {
-            console.log(response);
             if(response.data.data.messages) {
                 this.setState({chatHistory: response.data.data.messages})
             }

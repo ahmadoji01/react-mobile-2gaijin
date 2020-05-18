@@ -47,6 +47,18 @@ class FullWidthCard extends Component {
     render() {
         if(typeof(this.props.item) !== 'undefined') {
             const item = this.props.item;
+            var locText = this.calcDistance(parseFloat(item.location.latitude), 
+            parseFloat(item.location.longitude), 
+            parseFloat(this.props.lat),  
+            parseFloat(this.props.lng));
+
+            let locColumn;
+            if(locText != "") {
+                locColumn = <div className="column">
+                    <p className="location">{locText}</p>
+                </div>
+            }
+
             return(
                 <Link href={`/product/${item["_id"]}`} className="product-card" style={{ marginRight: 20}} >
                     <div className="content" style={{borderRadius: 20}}>
@@ -64,9 +76,7 @@ class FullWidthCard extends Component {
                                 <div className="column">
                                     <p className="location">by {item.seller_name}</p>
                                 </div>
-                                <div className="column">
-                                    <p className="location">{this.calcDistance(parseFloat(item.location.latitude), parseFloat(item.location.longitude), parseFloat(this.props.lat),  parseFloat(this.props.lng))}</p>
-                                </div>
+                                {locColumn}
                             </div>
                             <p className="price">¥{item.price}</p>
                         </div>

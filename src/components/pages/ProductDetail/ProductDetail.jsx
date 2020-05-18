@@ -30,9 +30,12 @@ class ProductDetail extends Component {
         });
     }
 
-    componentDidMount() {
+    componentDidUpdate() {
         if(document.getElementById("navbar-home")){
             document.getElementById("navbar-home").style.display = "none";
+        }
+        if(document.getElementById("navbar-search")) {
+            document.getElementById("navbar-search").style.display = "none";
         }
     }
 

@@ -48,6 +48,16 @@ class ProductCardWithLove extends Component {
     render() {
         if(typeof(this.props.item) !== 'undefined' && typeof(this.props.item.location) !== 'undefined') {
             const item = this.props.item;
+            var locText = this.calcDistance(parseFloat(item.location.latitude), 
+            parseFloat(item.location.longitude), 
+            parseFloat(this.props.lat),  
+            parseFloat(this.props.lng));
+
+            let locColumn;
+            if(locText != "") {
+                locColumn = <p className="location"><i className="fa fa-map-marker"></i>{locText}</p>
+            }
+
             return(
                 <Link href={`/product/${item["_id"]}`} className="product-card-love" style={{ height: `${this.state.height}px`, width: `${this.state.cardWidth}px`}} >
                     <div className="content content-shadow-product">
@@ -61,7 +71,7 @@ class ProductCardWithLove extends Component {
                             <p className="title-product-love">{item.name}</p>
                             <p className="location">by {item.seller_name}</p>
                             <p className="price">¥{item.price}</p>
-                            <p className="location">{this.calcDistance(parseFloat(item.location.latitude), parseFloat(item.location.longitude), parseFloat(this.props.lat),  parseFloat(this.props.lng))}</p>
+                            {locColumn}
                         </div>
                     </div>
                 </Link>

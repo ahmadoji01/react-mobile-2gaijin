@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import HomeBanners from "../../elements/HomeBanners";
 import ProductDisplaySlider from "../../elements/ProductDisplaySlider";
-import { App, Button, Navbar, Page, Swiper, SwiperSlide, Icon, Toolbar, Link, NavTitle } from "framework7-react";
+import { App, Button, Navbar, NavLeft, Page, Swiper, SwiperSlide, Icon, Toolbar, Link, NavTitle } from "framework7-react";
 import './ProductDetail.scss';
 import Framework7 from "framework7";
 import parse from 'html-react-parser';
@@ -30,7 +30,7 @@ class ProductDetail extends Component {
         });
     }
 
-    componentDidUpdate() {
+    componentDidMount() {
         if(document.getElementById("navbar-home")){
             document.getElementById("navbar-home").style.display = "none";
         }
@@ -79,7 +79,10 @@ class ProductDetail extends Component {
 
         return (
             <div className="page page-product">
-                <Navbar backLink="Back" transparent>
+                <Navbar transparent>
+                    <NavLeft>
+                        <Link href="#" className="link back"><Icon f7="arrow_left_circle_fill" size="24px" color="white"></Icon></Link>
+                    </NavLeft>
                     <NavTitle>{name}</NavTitle>
                 </Navbar>
                 <Toolbar id="toolbar-product-detail" tabbar labels position='bottom'>

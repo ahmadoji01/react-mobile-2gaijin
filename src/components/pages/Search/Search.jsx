@@ -45,6 +45,7 @@ class Search extends Component {
                     clearButton={true}
                     onChange={this.SearchBarChange}
                     onSubmit={this.SearchItems}
+                    ref={(input) => { this.searchInput = input; }}
                     ></Searchbar>
                     <Subnavbar>
                         <Segmented raised>

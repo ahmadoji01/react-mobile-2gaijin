@@ -14,32 +14,48 @@ class Home extends Component {
 
     constructor(props) {
         super(props);
+        this.searchClick = this.searchClick.bind(this);
     }
 
-    componentDidUpdate() {
+    componentWillUpdate() {
         if(document.getElementById("navbar-home")) {
             document.getElementById("navbar-home").style.display = "block";
         }
     }
 
+    searchClick() {
+        this.searchInput.disable();
+        this.$f7router.navigate('/search_history');
+    }
+
     render() {
+
+        let firstName;
+
+        if(localStorage.getItem("first_name")) {
+            var res = localStorage.getItem("first_name").split(" ");
+            firstName = res[0];
+        }
+
         return (
-            <Page name="home" className="page page-home page-with-subnavbar">
-                <Navbar className="home-nav-large" large>
-                    <NavTitle>
+            <Page name="home" className="page page-home page-with-subnavbar hide-navbar-on-scroll">
+                <Navbar id="navbar-home" className="home-nav-large">
+                    <Subnavbar>
                         <Searchbar
-                        disableButtonText=""
                         placeholder="try Fridge, Table"
                         clearButton={true}
+                        ref={(input) => { this.searchInput = input; }}
+                        onSearchbarEnable={this.searchClick}
                         ></Searchbar>
-                    </NavTitle>
+                    </Subnavbar>
+                    <NavLeft>
+                        <p className="nav-title-large">What stuff can we<br/> <b>help you find, {firstName}?</b></p>
+                    </NavLeft>
                     <NavRight>
                         <Link href="/notification"><Icon color="#8DA2CB" f7="bell_fill" size="24px"></Icon></Link>
                         <Link href="/chatlobby"><Icon color="#8DA2CB" f7="envelope_fill" size="24px"></Icon></Link>
                     </NavRight>
-                    <NavTitleLarge >
-                        <p className="nav-title-large">What's up, {localStorage.getItem("first_name")}</p>
-                    </NavTitleLarge>
+                    
                 </Navbar>
                 <Toolbar id="toolbar-home" tabbar labels position='bottom'>
                     <Link tabLink="#tab-home" tabLinkActive text="Home" iconIos="f7:envelope_fill" iconAurora="f7:envelope_fill" iconMd="material:email"></Link>

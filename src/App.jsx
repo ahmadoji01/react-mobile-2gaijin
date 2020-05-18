@@ -5,6 +5,7 @@ import ChatRoom from './components/pages/ChatRoom';
 import ChatLobby from './components/pages/ChatLobby';
 import ProductDetail from './components/pages/ProductDetail';
 import Notification from './components/pages/Notification';
+import SearchHistory from './components/pages/SearchHistory';
 import "./App.css";
 
 import { App, Views, View, Page, Navbar, Toolbar, Link } from 'framework7-react';
@@ -50,6 +51,10 @@ const f7params = {
     {
         path: '/notification',
         component: Notification,
+    },
+    {
+        path: '/search_history',
+        component: SearchHistory,
     }
   ],
   // App Name

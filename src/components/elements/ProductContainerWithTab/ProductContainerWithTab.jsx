@@ -129,13 +129,12 @@ class ProductContainerWithTab extends Component {
     componentDidMount() {
       this.firstTabLoader();
       this.secondTabLoader();
+      this.findCoordinates();
     }
 
     render() {
-        this.findCoordinates();
         var currLat = this.state.currLat; var currLng = this.state.currLng;
         
-
         var items1 = [];
         var items2 = [];
         
@@ -160,10 +159,9 @@ class ProductContainerWithTab extends Component {
                     textColor="primary"
                     variant="scrollable"
                     scrollButtons="auto"
-                    aria-label="scrollable auto tabs example"
-                    >
-                    <Tab label="Recently added items" {...a11yProps(0)} />
-                    <Tab label="Free items" {...a11yProps(1)} />
+                    aria-label="scrollable auto tabs example">
+                      <Tab label="Recently added items" {...a11yProps(0)} />
+                      <Tab label="Free items" {...a11yProps(1)} />
                     </Tabs>
                 </AppBar>
                 <div className="container" >

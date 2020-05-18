@@ -1,8 +1,6 @@
 import React, { Component } from 'react';
-import Moment from 'react-moment';
 
-class ChatLobbyBar extends Component {
-    
+class SearchHistoryBar extends Component {
     render() {
         if(typeof(this.props.item) !== 'undefined') {
             var item = this.props.item;
@@ -32,7 +30,6 @@ class ChatLobbyBar extends Component {
             return '';
         }
     }
-
 }
 
-export default ChatLobbyBar;
+export default SearchHistoryBar;

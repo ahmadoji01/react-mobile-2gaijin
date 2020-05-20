@@ -1,7 +1,10 @@
 import React, { Component } from 'react';
 import ProductContainerInfinite from '../../elements/ProductContainerInfinite';
-import { Page, Navbar, NavLeft, Link, Icon, Subnavbar, Tabs, Tab, Block, Segmented, Button, NavTitle, Searchbar } from 'framework7-react';
+import { Page, Navbar, NavLeft, Link, Icon, Subnavbar, Block, Segmented, Button, NavTitle, Searchbar } from 'framework7-react';
 import axios from "axios";
+import { Tabs } from 'antd';
+import 'antd/dist/antd.css';
+const { TabPane } = Tabs;
 
 class Search extends Component {
 
@@ -27,7 +30,7 @@ class Search extends Component {
 
     componentWillMount() {
         return axios
-        .get("/search?q=" + this.props.searchTerm, {}, {})
+        .get("/search?q=" + this.state.searchterm + "&start=1&limit=8", {}, {})
         .then(response => {
             var fetchData = response.data.data.items;
             this.setState({data: fetchData});
@@ -96,7 +99,7 @@ class Search extends Component {
         const loadingTextCSS = { display: this.state.loading ? "block" : "none" };
 
         return(
-            <Page name="search" className="page page-search page-with-subnavbar">
+            <Page name="search" className="page page-search">
                 <Navbar id="navbar-search">
                     <NavLeft>
                         <Link href="#" className="link back"><Icon f7="arrow_left_circle_fill" size="24px" color="gray"></Icon></Link>
@@ -110,27 +113,29 @@ class Search extends Component {
                     onSubmit={this.SearchItems}
                     ref={(input) => { this.searchInput = input; }}
                     ></Searchbar>
-                    <Subnavbar>
-                        <Segmented raised>
-                            <Button tabLink="#tab1" tabLinkActive>Relevancy</Button>
-                            <Button tabLink="#tab2">Nearby</Button>
-                        </Segmented>
-                    </Subnavbar>
                 </Navbar>
-                <Tabs>
-                    <Tab id="tab1" tabActive className="page-content" style={{paddingTop: 0, minHeight: 400}}>
-                        <ProductContainerInfinite items={this.state.data} />
-                        <div
-                        ref={loadingRef => (this.loadingRef = loadingRef)}
-                        style={loadingCSS}
-                        >
-                            <span style={loadingTextCSS}>Loading...</span>
-                        </div>
-                    </Tab>
-                    <Tab id="tab2" className="page-content" style={{paddingTop: 0}}>
-                        <ProductContainerInfinite items={this.state.data} />
-                    </Tab>
-                </Tabs>
+                <div className="container">
+                    <Tabs defaultActiveKey="1" onChange={this.callback}>
+                        <TabPane tab="Relevance" key="1">
+                            <ProductContainerInfinite items={this.state.data} />
+                            <div
+                            ref={loadingRef => (this.loadingRef = loadingRef)}
+                            style={loadingCSS}
+                            >
+                                <span style={loadingTextCSS}>Loading...</span>
+                            </div>
+                        </TabPane>
+                        <TabPane tab="Nearby" key="2">
+                            <ProductContainerInfinite items={this.state.data} />
+                            <div
+                            ref={loadingRef => (this.loadingRef = loadingRef)}
+                            style={loadingCSS}
+                            >
+                                <span style={loadingTextCSS}>Loading...</span>
+                            </div>
+                        </TabPane>
+                    </Tabs>
+                </div>
             </Page>
         );
     }

@@ -5,54 +5,16 @@ import ProductCardWithLove from '../ProductCardWithLove';
 import PropTypes from 'prop-types';
 import { makeStyles } from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
-import Tabs from '@material-ui/core/Tabs';
-import Tab from '@material-ui/core/Tab';
+//import Tabs from '@material-ui/core/Tabs';
+//import Tab from '@material-ui/core/Tab';
 import Typography from '@material-ui/core/Typography';
 import Box from '@material-ui/core/Box';
 import InfiniteScroll from 'react-infinite-scroller';
 import axios from 'axios';
 import { geolocated } from 'react-geolocated';
-
-function TabPanel(props) {
-  const { children, value, index, ...other } = props;
-
-  return (
-    <div
-      role="tabpanel"
-      hidden={value !== index}
-      id={`scrollable-auto-tabpanel-${index}`}
-      aria-labelledby={`scrollable-auto-tab-${index}`}
-      {...other}
-    >
-      {value === index && (
-        <Box p={2}>
-          <Typography>{children}</Typography>
-        </Box>
-      )}
-    </div>
-  );
-}
-
-TabPanel.propTypes = {
-  children: PropTypes.node,
-  index: PropTypes.any.isRequired,
-  value: PropTypes.any.isRequired,
-};
-
-function a11yProps(index) {
-  return {
-    id: `scrollable-auto-tab-${index}`,
-    'aria-controls': `scrollable-auto-tabpanel-${index}`,
-  };
-}
-
-const useStyles = makeStyles((theme) => ({
-  root: {
-    flexGrow: 1,
-    width: '100%',
-    backgroundColor: theme.palette.background.paper,
-  },
-}));
+import { Tabs } from 'antd';
+import 'antd/dist/antd.css';
+const { TabPane } = Tabs;
 
 class ProductContainerWithTab extends Component {
     
@@ -132,6 +94,10 @@ class ProductContainerWithTab extends Component {
       this.findCoordinates();
     }
 
+    callback(key) {
+      console.log(key);
+    }
+
     render() {
         var currLat = this.state.currLat; var currLng = this.state.currLng;
         
@@ -151,36 +117,25 @@ class ProductContainerWithTab extends Component {
         
         return(
             <div className="recommended product segments-bottom">
-                <AppBar position="static" color="default">
-                    <Tabs
-                    value={this.state.value}
-                    onChange={this.handleChange}
-                    indicatorColor="primary"
-                    textColor="primary"
-                    variant="scrollable"
-                    scrollButtons="auto"
-                    aria-label="scrollable auto tabs example">
-                      <Tab label="Recently added items" {...a11yProps(0)} />
-                      <Tab label="Free items" {...a11yProps(1)} />
-                    </Tabs>
-                </AppBar>
-                <div className="container" >
-                    <TabPanel value={this.state.value} index={0} style={{padding: 0}} ref={(ref) => this.scrollParentRef = ref}>
+                <div className="container">
+                  <Tabs defaultActiveKey="1" onChange={this.callback}>
+                    <TabPane tab="Recently Added Items" key="1">
                         <Masonry
                             breakpointCols={2}
                             className="my-masonry-grid-tab"
                             columnClassName="my-masonry-grid_column">
                             {items1}
                         </Masonry>
-                    </TabPanel>
-                    <TabPanel value={this.state.value} index={1}>
+                    </TabPane>
+                    <TabPane tab="Free Items" key="2">
                         <Masonry
                             breakpointCols={2}
                             className="my-masonry-grid-tab "
                             columnClassName="my-masonry-grid_column">
                             {items2}
                         </Masonry>
-                    </TabPanel>
+                    </TabPane>
+                  </Tabs>
                 </div>
             </div>
         );

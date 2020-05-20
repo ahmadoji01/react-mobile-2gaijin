@@ -48,14 +48,13 @@ class Home extends Component {
                         onSearchbarEnable={this.searchClick}
                         ></Searchbar>
                     </Subnavbar>
-                    <NavLeft>
+                    <NavLeft style={{marginTop: 15}}>
                         <p className="nav-title-large">What stuff can we<br/> <b>help you find, {firstName}?</b></p>
                     </NavLeft>
                     <NavRight>
                         <Link href="/notification"><Icon color="#8DA2CB" f7="bell_fill" size="24px"></Icon></Link>
                         <Link href="/chatlobby"><Icon color="#8DA2CB" f7="envelope_fill" size="24px"></Icon></Link>
                     </NavRight>
-                    
                 </Navbar>
                 <Toolbar id="toolbar-home" tabbar labels position='bottom'>
                     <Link tabLink="#tab-home" tabLinkActive text="Home" iconIos="f7:envelope_fill" iconAurora="f7:envelope_fill" iconMd="material:email"></Link>

@@ -1,11 +1,10 @@
 import React, { Component } from "react";
 import HomeBanners from "../../elements/HomeBanners";
 import ProductDisplaySlider from "../../elements/ProductDisplaySlider";
-import { App, Button, Navbar, NavLeft, Page, Swiper, SwiperSlide, Icon, Toolbar, Link, NavTitle } from "framework7-react";
+import { App, Button, Navbar, NavLeft, Page, Swiper, SwiperSlide, Icon, Toolbar, Link, List, ListItem, NavTitle, Popover } from "framework7-react";
 import './ProductDetail.scss';
 import Framework7 from "framework7";
 import parse from 'html-react-parser';
-import { Map, Marker, GoogleApiWrapper } from 'google-maps-react';
 import axios from "axios";
 
 class ProductDetail extends Component {
@@ -62,13 +61,15 @@ class ProductDetail extends Component {
             height: "200px",
         };
 
-        let images, name;
+        let id, images, name;
+        let appLink1, appLink2;
         var desc = "";
         var lat = 0.0;
         var lng = 0.0;
         var price = 0;
         if(typeof(this.state.data.item) !== "undefined") {
             var itemInfo = this.state.data.item;
+            id = itemInfo._id;
             name = itemInfo.name;
             desc = itemInfo.description;
             lat = itemInfo.location.latitude; 
@@ -78,8 +79,12 @@ class ProductDetail extends Component {
             images = images.map(function(image, i) {
                 return <SwiperSlide className="image-container" style={{background: `no-repeat center/cover url(${image["img_url"]})`, borderRadius: 0}}></SwiperSlide>
             });
+            appLink1 = "/appointment/" + id + "/false";
+            appLink2 = "/appointment/" + id + "/true";
         }
 
+        const mapSrc = "https://maps.google.com/maps?q=" + lat + "," + lng + "&t=&z=13&ie=UTF8&iwloc=&output=embed&hl=en";
+        
         return (
             <div className="page page-product">
                 <Navbar transparent>
@@ -92,7 +97,7 @@ class ProductDetail extends Component {
                     <div className="toolbar-price">¥{price}</div>
                     <div className="toolbar-actions">
                         <Button raised fill className="chat-button" onClick={this.handleChat}>Chat</Button>
-                        <Button raised fill className="appointment-button">Make Appointment</Button>
+                        <Button popoverOpen=".popover-appointment" raised fill className="appointment-button">Make Appointment</Button>
                     </div>
                 </Toolbar>
                 <div className="page-content" style={{padding: 0}}>
@@ -123,10 +128,30 @@ class ProductDetail extends Component {
                             <h6>DESCRIPTION</h6>
                             <p className="desc-content">{parse(desc)}</p> 
                         </div>
+                        <iframe style={{width: "100%", height: 200, borderRadius: 16}}
+                            frameborder="0" 
+                            scrolling="no" 
+                            src={mapSrc}
+                            >
+                        </iframe>
+                        <div className="profile-container">
+                            
+                        </div>
                     </div>
                     <ProductDisplaySlider title="Related items you might like" items={this.state.data.relateditems} />
                     <ProductDisplaySlider title="Other items from this seller" items={this.state.data.selleritems} />
                 </div>
+                <Popover className="popover-appointment">
+                    <List className="appointment-list">
+                        <ListItem title="Make Appointment" />
+                        <ListItem link={appLink1} popoverClose title="Create Appointments" footer="Set a schedule to meet with owner">
+                            <Icon slot="media" f7="bell_fill"></Icon>
+                        </ListItem>
+                        <ListItem link={appLink2} popoverClose title="Deliver to Me" footer="Send with our courier's partners to my place">
+                            <Icon slot="media" f7="bell_fill"></Icon>
+                        </ListItem>
+                    </List>
+                </Popover>
             </div>
         );    
     }

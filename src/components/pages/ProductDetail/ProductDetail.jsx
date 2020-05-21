@@ -81,6 +81,20 @@ class ProductDetail extends Component {
             });
             appLink1 = "/appointment/" + id + "/false";
             appLink2 = "/appointment/" + id + "/true";
+
+            
+        }
+
+        let sellerName, avatarURL, goldCoins, silverCoins;
+        if(typeof(this.state.data.seller) !== "undefined") {
+            var sellerInfo = this.state.data.seller;
+            sellerName = sellerInfo.first_name + " " + sellerInfo.last_name;
+            avatarURL = sellerInfo.avatar_url;
+            goldCoins = sellerInfo.gold_coin;
+            silverCoins = sellerInfo.silver_coin;
+            if(avatarURL == "") {
+                avatarURL = "images/avatar-placeholder.png";
+            }
         }
 
         const mapSrc = "https://maps.google.com/maps?q=" + lat + "," + lng + "&t=&z=13&ie=UTF8&iwloc=&output=embed&hl=en";
@@ -134,8 +148,19 @@ class ProductDetail extends Component {
                             src={mapSrc}
                             >
                         </iframe>
-                        <div className="profile-container">
-                            
+                        <div className="profile-container content-shadow">
+                            <div className="row" style={{marginTop: 10, padding: 10}}>
+                                <div className="col-30 seller-img-container" style={{backgroundImage: `url("${avatarURL}")`}}></div>
+                                <div className="col-70">
+                                    <div className="row" style={{marginBottom: 0}}>
+                                        <h5 className="seller-name">{sellerName}</h5>
+                                    </div>
+                                    <div className="row trust-coin-container">
+                                        <img src="images/gold-coin.png" />{goldCoins} Gold(s) 
+                                        <img src="images/silver-coin.png" />{silverCoins} Silver(s)
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                     <ProductDisplaySlider title="Related items you might like" items={this.state.data.relateditems} />

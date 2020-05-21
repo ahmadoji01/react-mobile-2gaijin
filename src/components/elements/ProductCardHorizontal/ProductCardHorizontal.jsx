@@ -48,27 +48,29 @@ class ProductCardHorizontal extends Component {
     render() {
         if(typeof(this.props.item) !== 'undefined') {
             const item = this.props.item;
-            var locText = this.calcDistance(parseFloat(item.location.latitude), 
-            parseFloat(item.location.longitude), 
+            var locText = this.calcDistance(parseFloat(item.latitude), 
+            parseFloat(item.longitude), 
             parseFloat(this.props.lat),  
             parseFloat(this.props.lng));
 
             let locColumn;
             if(locText != "") {
-                locColumn = <p className="location"><i className="fa fa-map-marker"></i>{locText}</p>
+                locColumn = <p className="location" style={{marginBottom: 0}}><i className="fa fa-map-marker"></i>{locText}</p>
             }
             return(
-                <Link href={`/product/${item["_id"]}`} className="product-card" style={{ height: `${this.state.height}px`, width: `${this.state.cardWidth}px`}} >
-                    <div className="content content-shadow-product">
-                        <div className="image-container" style={{backgroundImage: `url(${item["img_url"]})`, width: `${this.state.cardWidth}px`}}></div>
-                        <div className="text">
-                            <p className="title-product">{item.name}</p>
-                            <p className="location">by {item.seller_name}</p>
-                            <p className="price">¥{item.price}</p>
-                            {locColumn}
+                <div className="profile-container content-shadow">
+                    <div className="row" style={{paddingBottom: 0}}>
+                        <div className="col-30 product-img-container" style={{backgroundImage: `url("${item["img_url"]}")`}}></div>
+                        <div className="col-70">
+                            <div className="text" style={{padding: 0}}>
+                                <p className="title-product" style={{marginBottom: 0}}>{item.name}</p>
+                                <p className="location" style={{marginBottom: 0}}>by {item.seller_name}</p>
+                                <p className="price" style={{marginBottom: 0}}>¥{item.price}</p>
+                                {locColumn}
+                            </div>
                         </div>
                     </div>
-                </Link>
+                </div>
             );
         } else {
             return '';

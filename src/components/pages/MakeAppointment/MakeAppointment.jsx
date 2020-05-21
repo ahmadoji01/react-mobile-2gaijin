@@ -2,13 +2,55 @@ import React, { Component } from 'react';
 import './MakeAppointment.scss';
 import { Icon, Link, Page, Navbar, NavLeft, NavTitle } from 'framework7-react';
 import ProductCardHorizontal from '../../elements/ProductCardHorizontal/ProductCardHorizontal';
-
+import { geolocated } from 'react-geolocated';
 
 class MakeAppointment extends Component {
 
+    constructor(props) {
+        super(props);
+        this.state = {
+            data: []
+        };
+    }
 
+    componentWillMount() {
+        fetch('https://go.2gaijin.com/products/' + this.props.productID)
+        .then((response) => response.json())
+        .then((responseJson) => {
+            const jsonData = responseJson.data;
+            this.setState({ data: jsonData});
+        })
+        .catch((error) => {
+            console.error(error);
+        });
+    }
+
+    componentDidMount() {
+        var calendarDateTime = this.$f7.calendar.create({
+            inputEl: '#demo-calendar-date-time',
+            timePicker: true,
+            dateFormat: { month: 'numeric', day: 'numeric', year: 'numeric', hour: 'numeric', minute: 'numeric' },
+        });
+    }
 
     render() {
+        let itemInfo, sellerInfo;
+        if(typeof(this.state.data.item) !== "undefined") {
+            itemInfo = this.state.data.item;
+            itemInfo.img_url = this.state.data.item.images[0].img_url;
+        }
+        if(typeof(this.state.data.seller) !== "undefined") {
+            sellerInfo = this.state.data.seller;
+            itemInfo.seller_name = sellerInfo.first_name + " " + sellerInfo.last_name;
+        }
+        var currLat = 0.0; var currLng = 0.0;
+        if(this.props.isGeolocationEnabled) {
+            if(this.props.coords !== null) {
+                currLat = this.props.coords.latitude;
+                currLng = this.props.coords.longitude;
+            }
+        }
+
         return(
             <Page name="appointment" className="page page-appointment">
                 <Navbar>
@@ -19,68 +61,34 @@ class MakeAppointment extends Component {
                 </Navbar>
                 <div className="notifi segments">
                     <div className="container">
-                        <ProductCardHorizontal />
-                        <div className="title-time">
-                            <span>TODAY</span>
-                        </div>
-
-                        <div className="content">
-                            <img src="images/discount.png" alt="notification-image" />
-                            <div className="text">
-                                <h6>Discount up to 80% for all product</h6>
-                                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Sint cum voluptates iste!</p>
-                            </div>
-                        </div>
-
-                        <div className="divider-space-content"></div>
-
-                        <div className="content">
-                            <img src="images/user-seller1.png" alt="notification-image" />
-                            <div className="text">
-                                <h6>John Store <span>Following you</span></h6>
-                                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Sint cum voluptates iste!</p>
-                            </div>
-                        </div>
-
-                        <div className="divider-space-content"></div>
-
-                        <div className="content">
-                            <img src="images/promo.png" alt="notification-image" />
-                            <div className="text">
-                                <h6>Promo Code <a href="#"><span>P99DAY19</span></a></h6>
-                                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Sint cum voluptates iste!</p>
-                            </div>
-                        </div>
-
-                        <div className="divider-line-half"></div>
-
-                        <div className="title-time">
-                            <span>YESTERDAY</span>
-                        </div>
-
-                        <div className="content">
-                            <img src="images/50-off.png" alt="notification-image" />
-                            <div className="text">
-                                <h6>50% Off</h6>
-                                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Sint cum voluptates iste!</p>
-                            </div>
-                        </div>
-
-                        <div className="divider-space-content"></div>
-
-                        <div className="content">
-                            <img src="images/90-off.png" alt="notification-image" />
-                            <div className="text">
-                                <h6>Special for you <a href="#"><span>90% Off</span></a></h6>
-                                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Sint cum voluptates iste!</p>
-                            </div>
+                        <ProductCardHorizontal item={itemInfo} lat={currLat} lng={currLng}/>
+                        
+                        <div class="block-title">Date + Time</div>
+                        <div class="list no-hairlines-md">
+                            <ul>
+                                <li>
+                                <div class="item-content item-input">
+                                    <div class="item-inner">
+                                    <div class="item-input-wrap">
+                                        <input type="text" placeholder="Select date and time" readonly="readonly" id="demo-calendar-date-time"/>
+                                    </div>
+                                    </div>
+                                </div>
+                                </li>
+                            </ul>
                         </div>
                     </div>
                 </div>
+                
             </Page>
         );
     }
 
 }
 
-export default MakeAppointment;
+export default geolocated({
+    positionOptions: {
+        enableHighAccuracy: true,
+    },
+    userDecisionTimeout: 5000,
+})(MakeAppointment);

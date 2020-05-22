@@ -28,12 +28,18 @@ class AuthService {
     }
 
     logout() {
-        localStorage.removeItem("user_id");
-        localStorage.removeItem("first_name");
-        localStorage.removeItem("last_name");
-        localStorage.removeItem("email");
-        localStorage.removeItem("access_token");
-        localStorage.removeItem("refresh_token");
+        return axios.post("/sign_out", {}, {
+            headers: { 
+                "Authorization": localStorage.getItem("access_token")
+            }
+        }).then(response => {
+            localStorage.removeItem("user_id");
+            localStorage.removeItem("first_name");
+            localStorage.removeItem("last_name");
+            localStorage.removeItem("email");
+            localStorage.removeItem("access_token");
+            localStorage.removeItem("refresh_token");
+        });
     }
 
     register(email, firstname, lastname, password) {

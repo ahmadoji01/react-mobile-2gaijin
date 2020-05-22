@@ -62,7 +62,7 @@ class ProductCardWithLove extends Component {
                 <Link href={`/product/${item["_id"]}`} className="product-card-love" style={{ height: `${this.state.height}px`, width: `${this.state.cardWidth}px`}} >
                     <div className="content content-shadow-product">
                         <div className="love-button card-love">
-                            <span class="dot">
+                            <span className="dot">
                                 <Icon f7="heart" size="14px" color="white"></Icon>
                             </span>
                         </div>

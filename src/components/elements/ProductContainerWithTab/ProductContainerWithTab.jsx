@@ -2,14 +2,7 @@ import React, { Component } from 'react';
 import "./ProductContainerWithTab.scss";
 import Masonry from 'react-masonry-css';
 import ProductCardWithLove from '../ProductCardWithLove';
-import PropTypes from 'prop-types';
-import { makeStyles } from '@material-ui/core/styles';
-import AppBar from '@material-ui/core/AppBar';
-//import Tabs from '@material-ui/core/Tabs';
-//import Tab from '@material-ui/core/Tab';
-import Typography from '@material-ui/core/Typography';
-import Box from '@material-ui/core/Box';
-import InfiniteScroll from 'react-infinite-scroller';
+import ProductContainerInfinite from '../../elements/ProductContainerInfinite';
 import axios from 'axios';
 import { geolocated } from 'react-geolocated';
 import { Tabs } from 'antd';
@@ -32,34 +25,55 @@ class ProductContainerWithTab extends Component {
             items2: [],
             startitems2: 1,
             limititems2: 8,
-            hasMore1: true,
-            hasMore2: true,
-            isLoading1: false,
+            loading: false,
             isLoading2: false,
+            searchState: "",
         };
         this.handleChange = this.handleChange.bind(this);
+        this.callback = this.callback.bind(this);
+        this.firstTabLoader = this.firstTabLoader.bind(this);
+        this.secondTabLoader = this.secondTabLoader.bind(this);
     }
 
     firstTabLoader() {
-        
-        let config = {
-            headers: { },
-            params: {
-              start: this.state.startitems1,
-              limit: this.state.limititems1,
-              sortby: "newest"
-            }
-        }  
+      var options = {
+        root: null,
+        rootMargin: "0px",
+        threshold: 1.0
+      };
+    
+      this.observer = new IntersectionObserver(
+      this.handleObserver.bind(this),
+          options
+      );
+      this.observer.observe(this.loadingRef);
 
-        return axios
-        .get("/search", config)
-        .then(response => {
-            var fetchData = response.data.data.items;
-            this.state.items1.push(fetchData);
-        });
+      let config = {
+          headers: { },
+          params: {
+            start: this.state.startitems1,
+            limit: this.state.limititems1,
+            sortby: "newest"
+          }
+      }  
+
+      this.setState({ searchState: "recentitems" });
+
+      return axios
+      .get("/search", config)
+      .then(response => {
+          this.setState({ items1: response.data.data.items });
+      });
     }
 
     secondTabLoader() {
+
+      var options = {
+        root: null,
+        rootMargin: "0px",
+        threshold: 1.0
+      };
+
       let config = {
         headers: { },
         params: {
@@ -69,11 +83,12 @@ class ProductContainerWithTab extends Component {
         }
       }          
 
+      this.setState({ searchState: "freeitems" });
+
       return axios
       .get("/search", config)
       .then(response => {
-          var fetchData = response.data.data.items;
-          this.state.items2.push(fetchData);
+          this.setState({ items2: response.data.data.items });
       });
     }
 
@@ -90,50 +105,96 @@ class ProductContainerWithTab extends Component {
 
     componentDidMount() {
       this.firstTabLoader();
-      this.secondTabLoader();
       this.findCoordinates();
+      
     }
 
     callback(key) {
-      console.log(key);
+      if(key == 1) {
+        this.firstTabLoader();
+      } else if (key == 2) {
+        this.secondTabLoader();
+      }
+    }
+
+    getItems() {
+      this.setState({ loading: true });
+      if(this.state.searchState == "recentitems") {
+        const lastItems = this.state.items1.length;
+        let config = {
+          headers: { },
+          params: {
+            start: lastItems + 1,
+            limit: lastItems + 8,
+            sortby: "newest"
+          }
+        }
+        axios
+        .get("/search", config)
+        .then(res => {
+          this.setState({ items1: [...this.state.items1, ...res.data.data.items] });
+          this.setState({ loading: false });
+        });  
+      } else if(this.state.searchState == "freeitems") {
+        const lastItems = this.state.items2.length;
+        let config = {
+          headers: { },
+          params: {
+            start: lastItems + 1,
+            limit: lastItems + 8,
+            pricemax: 0
+          }
+        }
+        axios
+        .get("/search", config)
+        .then(res => {
+          this.setState({ items2: [...this.state.items2, ...res.data.data.items] });
+          this.setState({ loading: false });
+        });  
+      }
+
+      
+    }
+
+    handleObserver(entities, observer) {
+        const y = entities[0].boundingClientRect.y;
+        if (this.state.prevY > y) {
+            this.getItems();
+        }
+        this.setState({ prevY: y });
     }
 
     render() {
+        const loadingCSS = {
+          height: "70px",
+          margin: "30px"
+        };
+
+        const loadingTextCSS = { display: this.state.loading ? "block" : "none" };
+
         var currLat = this.state.currLat; var currLng = this.state.currLng;
-        
-        var items1 = [];
-        var items2 = [];
-        
-        this.state.items1.map((fetchedData, i) => {
-          fetchedData.map((item, j) => {
-            items1.push(<div><ProductCardWithLove item={item} lat={currLat} lng={currLng} /></div>);
-          })
-        });
-        this.state.items2.map((fetchedData, i) => {
-          fetchedData.map((item, j) => {
-            items2.push(<div><ProductCardWithLove item={item} lat={currLat} lng={currLng} /></div>);
-          })
-        });
         
         return(
             <div className="recommended product segments-bottom">
                 <div className="container">
                   <Tabs defaultActiveKey="1" onChange={this.callback}>
                     <TabPane tab="Recently Added Items" key="1">
-                        <Masonry
-                            breakpointCols={2}
-                            className="my-masonry-grid-tab"
-                            columnClassName="my-masonry-grid_column">
-                            {items1}
-                        </Masonry>
+                        <ProductContainerInfinite items={this.state.items1} />
+                        <div
+                        ref={loadingRef => (this.loadingRef = loadingRef)}
+                        style={loadingCSS}
+                        >
+                            <span style={loadingTextCSS}>Loading...</span>
+                        </div>
                     </TabPane>
                     <TabPane tab="Free Items" key="2">
-                        <Masonry
-                            breakpointCols={2}
-                            className="my-masonry-grid-tab "
-                            columnClassName="my-masonry-grid_column">
-                            {items2}
-                        </Masonry>
+                        <ProductContainerInfinite items={this.state.items2} />
+                        <div
+                        ref={loadingRef2 => (this.loadingRef2 = loadingRef2)}
+                        style={loadingCSS}
+                        >
+                            <span style={loadingTextCSS}>Loading...</span>
+                        </div>
                     </TabPane>
                   </Tabs>
                 </div>

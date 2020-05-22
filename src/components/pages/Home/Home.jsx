@@ -21,8 +21,8 @@ class Home extends Component {
 
     componentDidMount() {
         this.props.dispatch({ type: "SetRefresh" });
-        this.refreshingToken();
         if(!this.props.isRefreshing) {
+            this.refreshingToken();
             const refreshingToken = setInterval(this.refreshingToken, 720000);
         }
         this.setState({ refreshToken: true });
@@ -35,12 +35,6 @@ class Home extends Component {
         }
     }
 
-    componentWillUpdate() {
-        if(document.getElementById("navbar-home")) {
-            document.getElementById("navbar-home").style.display = "block";
-        }
-    }
-
     searchClick() {
         this.searchInput.disable();
         this.$f7router.navigate('/search_history');
@@ -48,17 +42,24 @@ class Home extends Component {
 
     render() {
 
-        let firstName;
+        var firstName = "";
 
         if(localStorage.getItem("first_name")) {
             var res = localStorage.getItem("first_name").split(" ");
             firstName = res[0];
         }
 
+        let title;
+        if(firstName != "") {
+            title = <p className="nav-title-large">What stuff can we<br/> <b>help you find, {firstName}?</b></p>
+        } else {
+            title = <p className="nav-title-large">What stuff can we<br/> <b>help you find?</b></p>
+        }
+
         return (
             <Page name="home" className="page page-home page-with-subnavbar hide-navbar-on-scroll">
                 <Navbar id="navbar-home" className="home-nav-large">
-                    <Subnavbar>
+                    <Subnavbar inner={false}>
                         <Searchbar
                         placeholder="try Fridge, Table"
                         clearButton={true}
@@ -67,7 +68,7 @@ class Home extends Component {
                         ></Searchbar>
                     </Subnavbar>
                     <NavLeft style={{marginTop: 15}}>
-                        <p className="nav-title-large">What stuff can we<br/> <b>help you find, {firstName}?</b></p>
+                        {title}
                     </NavLeft>
                     <NavRight>
                         <Link href="/notification"><Icon color="#8DA2CB" f7="bell_fill" size="24px"></Icon></Link>

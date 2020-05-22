@@ -19,10 +19,6 @@ class ChatLobby extends Component {
             return;
         }
 
-        if(document.getElementById("navbar-home")) {
-            document.getElementById("navbar-home").style.display = "none";
-        }
-
         var payload = {}
         return axios
         .post("/chat_lobby", payload, { 

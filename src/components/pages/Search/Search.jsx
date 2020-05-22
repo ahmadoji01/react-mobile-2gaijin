@@ -54,14 +54,14 @@ class Search extends Component {
     getItems(start, limit) {
         this.setState({ loading: true });
         axios
-          .get(
+            .get(
             "/search?q=" + this.state.searchterm + "&start=" + start + "&limit=" + limit
-          )
-          .then(res => {
+            )
+            .then(res => {
             this.setState({ data: [...this.state.data, ...res.data.data.items] });
             this.setState({ loading: false });
-          });
-      }
+            });
+    }
 
     handleObserver(entities, observer) {
         const y = entities[0].boundingClientRect.y;
@@ -77,18 +77,6 @@ class Search extends Component {
         this.setState({ searchterm: e.target.value });
     }
 
-    componentWillUnmount() {
-        if(document.getElementById("navbar-search")) {
-            document.getElementById("navbar-search").style.display = 'none';
-        }
-    }
-
-    componentDidUpdate() {
-        if(document.getElementById("navbar-search")) {
-            document.getElementById("navbar-search").style.display = 'block';
-        }
-    }
-
     render() {
 
         const loadingCSS = {
@@ -99,20 +87,25 @@ class Search extends Component {
         const loadingTextCSS = { display: this.state.loading ? "block" : "none" };
 
         return(
-            <Page name="search" className="page page-search">
+            <Page name="search" className="page page-search page-with-subnavbar hide-navbar-on-scroll">
                 <Navbar id="navbar-search">
                     <NavLeft>
                         <Link href="#" className="link back"><Icon f7="arrow_left_circle_fill" size="24px" color="gray"></Icon></Link>
                     </NavLeft>
-                    <Searchbar
-                    value={this.state.searchterm}
-                    disableButtonText="Cancel"
-                    placeholder="Search in items"
-                    clearButton={true}
-                    onChange={this.SearchBarChange}
-                    onSubmit={this.SearchItems}
-                    ref={(input) => { this.searchInput = input; }}
-                    ></Searchbar>
+                    <NavTitle>
+                        Search Results
+                    </NavTitle>
+                    <Subnavbar inner={false}>
+                        <Searchbar
+                        value={this.state.searchterm}
+                        disableButtonText="Cancel"
+                        placeholder="Search in items"
+                        clearButton={true}
+                        onChange={this.SearchBarChange}
+                        onSubmit={this.SearchItems}
+                        ref={(input) => { this.searchInput = input; }}
+                        ></Searchbar>
+                    </Subnavbar>
                 </Navbar>
                 <div className="container">
                     <Tabs defaultActiveKey="1" onChange={this.callback}>

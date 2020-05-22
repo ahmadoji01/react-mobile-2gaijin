@@ -1,16 +1,54 @@
 import React, { Component } from 'react';
+import { ReactSVG } from 'react-svg';
 import './MakeAppointment.scss';
-import { Icon, Link, Page, Navbar, NavLeft, NavTitle } from 'framework7-react';
+import { Icon, Link, Page, Navbar, NavLeft, NavTitle, Button, Popup } from 'framework7-react';
 import ProductCardHorizontal from '../../elements/ProductCardHorizontal/ProductCardHorizontal';
 import { geolocated } from 'react-geolocated';
+import axios from 'axios';
 
 class MakeAppointment extends Component {
 
     constructor(props) {
         super(props);
         this.state = {
-            data: []
+            data: [],
+            submitted: false,
+            itemID: "",
+            sellerID: "",
+            isDelivery: false,
         };
+        this.submitAppointment = this.submitAppointment.bind(this);
+    }
+
+    submitAppointment() {
+        var calendarPicker = document.getElementById("demo-calendar-date-time");
+        var meetingTime = new Date(calendarPicker.value).getTime();
+        var status = "pending";
+        
+        if(this.state.itemID != "") {
+            var payload = {
+                "status": status,
+                "meeting_time": meetingTime,
+                "product_id": this.state.itemID,
+                "seller_id": this.state.sellerID,
+                "is_delivery": this.state.isDelivery
+            }
+            console.log(payload);
+            
+            return axios
+            .post("/insert_appointment", payload, { 
+                headers: {
+                    'Authorization': localStorage.getItem("access_token"),
+                    'Content-Type': 'application/json'
+                }
+            })
+            .then(response => {
+                console.log(response);
+                if(response.data.status == "Success") {
+                    this.setState({submitted: true});
+                }
+            });
+        }
     }
 
     componentWillMount() {
@@ -19,6 +57,8 @@ class MakeAppointment extends Component {
         .then((responseJson) => {
             const jsonData = responseJson.data;
             this.setState({ data: jsonData});
+            this.setState({ itemID: jsonData.item._id });
+            this.setState({ sellerID: jsonData.seller._id });
         })
         .catch((error) => {
             console.error(error);
@@ -27,7 +67,6 @@ class MakeAppointment extends Component {
 
     componentDidMount() {
         var today = new Date();
-        var weekLater = new Date().setDate(today.getDate() + 7);
         var calendarDateTime = this.$f7.calendar.create({
             inputEl: '#demo-calendar-date-time',
             timePicker: true,
@@ -36,6 +75,12 @@ class MakeAppointment extends Component {
                 to: today
             }
         });
+        this.setState({ isDelivery: (this.props.withDelivery == "true") });
+        console.log(this.state.itemID);
+    }
+
+    backToHome() {
+        this.$f7router.navigate("/");
     }
 
     render() {
@@ -74,15 +119,33 @@ class MakeAppointment extends Component {
                                 <div class="item-content item-input">
                                     <div class="item-inner">
                                     <div class="item-input-wrap">
-                                        <input type="text" placeholder="Select date and time" readonly="readonly" id="demo-calendar-date-time"/>
+                                        <input  type="text" placeholder="Select date and time" readonly="readonly" id="demo-calendar-date-time"/>
                                     </div>
                                     </div>
                                 </div>
                                 </li>
                             </ul>
                         </div>
+                        <Button onClick={this.submitAppointment} raised fill round>Send Appointment Request</Button>
                     </div>
                 </div>
+
+                <Popup className="demo-popup-push" opened={this.state.submitted} onPopupClosed={() => this.setState({submitted : false})} push>
+                    <Page>
+                        <Navbar title="Popup Push">
+                            <NavLeft>
+                                <Link popupClose>Close</Link>
+                            </NavLeft>
+                        </Navbar>
+                        <div style={{height: '100%'}} className="display-flex justify-content-center align-items-center">
+                            <div className={`cat-icon-base base-${this.props.iconcolor}-color`}>
+                                <ReactSVG className="icon-svg" src={`${process.env.PUBLIC_URL}/icons/BooksIcon.svg`} />
+                                <span className="icon-name">{this.props.iconname}</span>
+                                <Button onClick={this.submitAppointment} raised fill round>Back to Home</Button>
+                            </div>
+                        </div>
+                    </Page>
+                </Popup>
                 
             </Page>
         );

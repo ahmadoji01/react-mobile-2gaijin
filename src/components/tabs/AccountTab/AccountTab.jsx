@@ -15,9 +15,11 @@ class AccountTab extends Component {
         var user = AuthService.getCurrentUser();
 
         if(user) {
-            AuthService.logout();
-            this.$f7.view.main.router.navigate("/");
-            this.setState({isLoggedIn: false});
+            AuthService.logout().then(
+            () => {
+                this.$f7.view.main.router.navigate("/");
+                this.setState({isLoggedIn: false});
+            });
         } else {
             this.$f7.view.main.router.navigate("/login");
         }

@@ -14,6 +14,9 @@ import Register from "./components/pages/Register/Register";
 import Search from "./components/pages/Search/Search";
 import MakeAppointment from "./components/pages/MakeAppointment/MakeAppointment";
 
+import { createStore } from 'redux';
+import { Provider } from 'react-redux';
+
 const f7params = {
   // Array with app routes
   theme: 'ios',
@@ -69,8 +72,28 @@ const f7params = {
   // ...
 };
 
+const initialState = {
+  isRefreshing: false
+}
+function reducer(state = initialState, action) {
+  switch(action.type) {
+    case "SetRefresh":
+      return {
+        isRefreshing: true
+      };
+    case "UnsetRefresh":
+      return {
+        isRefreshing: false
+      };
+    default:
+      return state;
+  }
+}
+const store = createStore(reducer);
 export default () => (
-  <App params={f7params}>
-    <View main url="/" />
-  </App>
+  <Provider store={store}>
+    <App params={f7params}>
+      <View main url="/" />
+    </App>
+  </Provider>
 )

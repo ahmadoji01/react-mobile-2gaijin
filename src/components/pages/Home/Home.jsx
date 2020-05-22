@@ -1,6 +1,5 @@
 import React, { Component } from "react";
-//import Navbar from '../../elements/Navbar';
-//import Toolbar from "../../elements/Toolbar";
+import { connect } from 'react-redux';
 import { Icon, Navbar, Toolbar, NavLeft, NavTitle, NavRight, Link, Page, PageContent, Searchbar, Subnavbar, Block, NavTitleLarge } from 'framework7-react';
 import './Home.scss';
 import HomeTab from "../../tabs/HomeTab";
@@ -8,7 +7,6 @@ import AppointmentTab from "../../tabs/AppointmentTab/AppointmentTab";
 import AccountTab from "../../tabs/AccountTab/AccountTab";
 import AuthService from "../../../services/auth.service";
 import WishlistTab from "../../tabs/WishlistTab/WishlistTab";
-import Cookies from 'js-cookie';
 
 class Home extends Component {
 
@@ -18,11 +16,15 @@ class Home extends Component {
             refreshToken: false,
         }
         this.searchClick = this.searchClick.bind(this);
+        this.refreshingToken = this.refreshingToken.bind(this);
     }
 
     componentDidMount() {
+        this.props.dispatch({ type: "SetRefresh" });
         this.refreshingToken();
-        const refreshingToken = setInterval(this.refreshingToken, 720000);
+        if(!this.props.isRefreshing) {
+            const refreshingToken = setInterval(this.refreshingToken, 720000);
+        }
         this.setState({ refreshToken: true });
     }
 
@@ -97,5 +99,9 @@ class Home extends Component {
         );    
     }
 }
- 
-export default Home;
+
+const mapStateToProps = state => ({
+    isRefreshing: state.isRefreshing
+});
+
+export default connect(mapStateToProps)(Home);

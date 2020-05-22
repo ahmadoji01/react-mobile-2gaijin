@@ -14,7 +14,23 @@ class Home extends Component {
 
     constructor(props) {
         super(props);
+        this.state = {
+            refreshToken: false,
+        }
         this.searchClick = this.searchClick.bind(this);
+    }
+
+    componentDidMount() {
+        this.refreshingToken();
+        const refreshingToken = setInterval(this.refreshingToken, 720000);
+        this.setState({ refreshToken: true });
+    }
+
+    refreshingToken() {
+        var user = AuthService.getCurrentUser();
+        if(user) {
+            AuthService.refreshToken();
+        }
     }
 
     componentWillUpdate() {
@@ -64,7 +80,7 @@ class Home extends Component {
                     <Link tabLink="#tab-account" text="Account" iconIos="f7:person_fill" iconAurora="f7:person_fill" iconMd="material:file_upload"></Link>
                 </Toolbar>
                 <div className="tabs" >
-                    <div id="tab-home" className="tab tab-active tab-home">
+                    <div id="tab-home" className="tab tab-active tab-home page-with-subnavbar">
                         <HomeTab />
                     </div>
                     <div id="tab-appointment" className="tab tab-appointment">

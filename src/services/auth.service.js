@@ -21,6 +21,7 @@ class AuthService {
                 localStorage.setItem("last_name", data.last_name);
                 localStorage.setItem("email", data.email);
                 localStorage.setItem("access_token", data.authentication_token);
+                localStorage.setItem("refresh_token", data.refresh_token);
             }
             return data;
         });
@@ -32,6 +33,7 @@ class AuthService {
         localStorage.removeItem("last_name");
         localStorage.removeItem("email");
         localStorage.removeItem("access_token");
+        localStorage.removeItem("refresh_token");
     }
 
     register(email, firstname, lastname, password) {
@@ -50,6 +52,18 @@ class AuthService {
                 localStorage.setItem("access_token", response.data["authentication_token"]);
             }
             return response.data;
+        });
+    }
+
+    refreshToken() {
+        return axios.post("/refresh_token", {}, {
+            headers: {
+                "Authorization": localStorage.getItem("refresh_token")
+            }
+        }).then(response => {
+            if(response.data["status"] == "Success") {
+                localStorage.setItem("access_token", response.data.data["auth_token"]); 
+            }
         });
     }
 

@@ -62,8 +62,8 @@ class ProductCardHorizontal extends Component {
                     <div className="row" style={{paddingBottom: 0}}>
                         <div className="col-30 product-img-container" style={{backgroundImage: `url("${item["img_url"]}")`}}></div>
                         <div className="col-70">
-                            <div className="text" style={{padding: 0}}>
-                                <p className="title-product" style={{marginBottom: 0}}>{item.name}</p>
+                            <div className="text" style={{padding: 0, fontFamily: "Poppins"}}>
+                                <p className="title-product" style={{lineHeight: "1em", height: "2em", marginTop: 10, marginBottom: 0, fontWeight: 600, color: "black"}}>{item.name}</p>
                                 <p className="location" style={{marginBottom: 0}}>by {item.seller_name}</p>
                                 <p className="price" style={{marginBottom: 0}}>¥{item.price}</p>
                                 {locColumn}

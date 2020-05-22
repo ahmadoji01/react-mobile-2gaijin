@@ -26,10 +26,15 @@ class MakeAppointment extends Component {
     }
 
     componentDidMount() {
+        var today = new Date();
+        var weekLater = new Date().setDate(today.getDate() + 7);
         var calendarDateTime = this.$f7.calendar.create({
             inputEl: '#demo-calendar-date-time',
             timePicker: true,
             dateFormat: { month: 'numeric', day: 'numeric', year: 'numeric', hour: 'numeric', minute: 'numeric' },
+            disabled: {
+                to: today
+            }
         });
     }
 
@@ -62,8 +67,7 @@ class MakeAppointment extends Component {
                 <div className="notifi segments">
                     <div className="container">
                         <ProductCardHorizontal item={itemInfo} lat={currLat} lng={currLng}/>
-                        
-                        <div class="block-title">Date + Time</div>
+                        <div class="block-title-appointment">When do you want to meet?</div>
                         <div class="list no-hairlines-md">
                             <ul>
                                 <li>

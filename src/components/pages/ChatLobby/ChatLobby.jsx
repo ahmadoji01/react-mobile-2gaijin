@@ -28,6 +28,7 @@ class ChatLobby extends Component {
             }
         })
         .then(response => {
+            console.log(response);
             this.setState({data: response.data.data.chat_lobby});
         });
     }

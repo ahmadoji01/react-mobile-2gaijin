@@ -2,7 +2,8 @@ import React, { Component } from 'react';
 import { Page, Navbar, NavLeft, List, ListItem, NavRight, Subnavbar, Link, Icon, Searchbar, NavTitle } from 'framework7-react';
 import axios from "axios";
 
-class SearchHistory extends Component {
+class CategorySelect extends Component {
+
     constructor(props) {
         super(props);
         this.state = {
@@ -14,7 +15,7 @@ class SearchHistory extends Component {
     }
 
     async SearchItems() {
-        this.$f7router.navigate("/search/" + this.state.searchterm);
+        this.$f7router.navigate("/add-product/" + this.state.searchterm);
     }
 
     componentWillMount() {
@@ -31,20 +32,20 @@ class SearchHistory extends Component {
     }
     
     onListClick(itemName) {
-        this.$f7router.navigate("/search/" + itemName);
+        this.$f7router.navigate("/add-product/" + itemName);
     }
     
     render() {
         return(
-            <Page name="search-history" className="page page-search-history">
+            <Page name="search-history" className="page page-category-select">
                 <Navbar>
                     <NavLeft>
                         <Link href="#" className="link back"><Icon f7="arrow_left_circle_fill" size="24px" color="gray"></Icon></Link>
                     </NavLeft>
-                    <NavTitle>Search Items</NavTitle>
+                    <NavTitle>What do you want to sell today?</NavTitle>
                     <Subnavbar inner={false}>
                         <Searchbar
-                        placeholder="try Fridge, Table"
+                        placeholder="Select category of your items"
                         clearButton={true}
                         onChange={this.SearchBarChange}
                         onSubmit={this.SearchItems}
@@ -58,16 +59,21 @@ class SearchHistory extends Component {
                     <ListItem title="Nothing found" />
                 </List>
                 <List className="search-list searchbar-found">
+                    <ListItem title="Apparels" onClick={() => this.onListClick("Apparels")} />
                     <ListItem title="Books" onClick={() => this.onListClick("Books")} />
-                    <ListItem title="Chair" onClick={() => this.onListClick("Chair")} />
-                    <ListItem title="Desk" onClick={() => this.onListClick("Desk")} />
-                    <ListItem title="Microwave" onClick={() => this.onListClick("Microwave")} />
-                    <ListItem title="Refrigerator" onClick={() => this.onListClick("Refrigerator")} />
-                    <ListItem title="Table" onClick={() => this.onListClick("Table")} />
+                    <ListItem title="Electronics" onClick={() => this.onListClick("Electronics")} />
+                    <ListItem title="Footwear" onClick={() => this.onListClick("Footwear")} />
+                    <ListItem title="Furnitures" onClick={() => this.onListClick("Furnitures")} />
+                    <ListItem title="Kitchens" onClick={() => this.onListClick("Kitchens")} />
+                    <ListItem title="Sports" onClick={() => this.onListClick("Sports")} />
+                    <ListItem title="Vehicles" onClick={() => this.onListClick("Vehicles")} />
+                    <ListItem title="White Appliances" onClick={() => this.onListClick("White Appliances")} />
+                    <ListItem title="Miscellaneous" onClick={() => this.onListClick("Miscellaneous")} />
                 </List>
             </Page>
         );
     }
+
 }
 
-export default SearchHistory;
+export default CategorySelect;

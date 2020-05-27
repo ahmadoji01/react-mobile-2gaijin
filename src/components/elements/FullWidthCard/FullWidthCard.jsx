@@ -44,6 +44,10 @@ class FullWidthCard extends Component {
         return text;
     }
 
+    redirectToProductDetail(productID) {
+        this.$f7.view.main.router.navigate("/product/" + productID);
+    }
+
     render() {
         if(typeof(this.props.item) !== 'undefined') {
             const item = this.props.item;

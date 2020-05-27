@@ -16,6 +16,8 @@ import MakeAppointment from "./components/pages/MakeAppointment/MakeAppointment"
 
 import { createStore } from 'redux';
 import { Provider } from 'react-redux';
+import CategorySelect from "./components/pages/CategorySelect/CategorySelect";
+import AddProduct from "./components/pages/AddProduct/AddProduct";
 
 const f7params = {
   // Array with app routes
@@ -63,6 +65,14 @@ const f7params = {
     {
         path: '/appointment/:productID/:withDelivery',
         component: MakeAppointment,
+    },
+    {
+        path: '/category-select',
+        component: CategorySelect,
+    },
+    {
+        path: '/add-product/:category',
+        component: AddProduct,
     }
   ],
   // App Name
@@ -73,7 +83,8 @@ const f7params = {
 };
 
 const initialState = {
-  isRefreshing: false
+  isRefreshing: false,
+  selectedCategory: "",
 }
 function reducer(state = initialState, action) {
   switch(action.type) {

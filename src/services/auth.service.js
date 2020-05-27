@@ -14,7 +14,7 @@ class AuthService {
             }
         })
         .then(response => {
-            var data = response.data.data;
+            var data = response.data.data.user;
             if (data["authentication_token"]) {
                 localStorage.setItem("user_id", data._id);
                 localStorage.setItem("first_name", data.first_name);
@@ -54,8 +54,14 @@ class AuthService {
                 "Content-Type": "application/json"
             }
         }).then(response => {
-            if (response.data["authentication_token"]) {
-                localStorage.setItem("access_token", response.data["authentication_token"]);
+            var data = response.data.data.user;
+            if (data["authentication_token"]) {
+                localStorage.setItem("user_id", data._id);
+                localStorage.setItem("first_name", data.first_name);
+                localStorage.setItem("last_name", data.last_name);
+                localStorage.setItem("email", data.email);
+                localStorage.setItem("access_token", data.authentication_token);
+                localStorage.setItem("refresh_token", data.refresh_token);
             }
             return response.data;
         });
@@ -68,7 +74,8 @@ class AuthService {
             }
         }).then(response => {
             if(response.data["status"] == "Success") {
-                localStorage.setItem("access_token", response.data.data["auth_token"]); 
+                var jsonData = response.data.data;
+                localStorage.setItem("access_token", jsonData.token["auth_token"]); 
             }
         });
     }

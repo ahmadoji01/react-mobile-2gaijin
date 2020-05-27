@@ -19,6 +19,7 @@ class ChatRoom extends Component {
             data: "",
         }
         this.handleKeyPress = this.handleKeyPress.bind(this);
+        this.submitMessage = this.submitMessage.bind(this);
         this.onChangeMessage = this.onChangeMessage.bind(this);
     }
 
@@ -76,8 +77,7 @@ class ChatRoom extends Component {
                 if(response.data.status == "Success") {
                     this.setState(prevState => ({
                         chatHistory: [...this.state.chatHistory, receivedData]
-                    }))
-                    this.msginput.value = "";
+                    }));
                 }
             });
         }
@@ -126,15 +126,30 @@ class ChatRoom extends Component {
 
     handleKeyPress(e) {
         if(e.key === 'Enter'){
+            if(this.msginput.value != "") {
+                var date = new Date();
+                var dataToSend = JSON.stringify({ user_id: localStorage.getItem("user_id"), room_id: this.props.roomID, message: this.state.msg });
+                this.setState({data: dataToSend}, () => {
+                    this.sendMessage();
+                });
+                this.msginput.value = "";
+                if(e.preventDefault) e.preventDefault();
+                return false;
+            }
+            this.msginput.value = "";
+        }
+    }
+
+    submitMessage() {
+        if(this.msginput.value != "") {
             var date = new Date();
             var dataToSend = JSON.stringify({ user_id: localStorage.getItem("user_id"), room_id: this.props.roomID, message: this.state.msg });
             this.setState({data: dataToSend}, () => {
                 this.sendMessage();
             });
-            this.msginput.value = "";
-            if(e.preventDefault) e.preventDefault();
-            return false;
+            this.msginput.value = "";    
         }
+        this.msginput.value = "";
     }
 
     sendMessage = () =>{
@@ -180,7 +195,7 @@ class ChatRoom extends Component {
                                 >
                                 <textarea id="message-input" ref={c => {this.msginput = c;}} onChange={this.onChangeMessage} className="resizable" placeholder="Message"></textarea>
                             </Form>
-                        </div><a className="link send-link" href="#">Send</a>
+                        </div><a className="link send-link" href="#" onClick={this.submitMessage}>Send</a>
                     </div>
                 </div>
                 <div className="page-content">

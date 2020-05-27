@@ -45,6 +45,10 @@ class ProductCardWithLove extends Component {
         return text;
     }
 
+    redirectToProductDetail(productID) {
+        this.$f7.view.main.router.navigate("/product/" + productID);
+    }
+
     render() {
         if(typeof(this.props.item) !== 'undefined' && typeof(this.props.item.location) !== 'undefined') {
             const item = this.props.item;

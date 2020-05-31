@@ -18,6 +18,7 @@ class MakeAppointment extends Component {
             isDelivery: false,
         };
         this.submitAppointment = this.submitAppointment.bind(this);
+        this.backToHome = this.backToHome.bind(this);
     }
 
     submitAppointment() {
@@ -80,7 +81,8 @@ class MakeAppointment extends Component {
     }
 
     backToHome() {
-        this.$f7router.navigate("/");
+        this.setState({submitted : false});
+        this.$f7.view.main.router.navigate("/");
     }
 
     render() {
@@ -141,12 +143,11 @@ class MakeAppointment extends Component {
                             <div className={`cat-icon-base base-${this.props.iconcolor}-color`}>
                                 <ReactSVG className="icon-svg" src={`${process.env.PUBLIC_URL}/icons/BooksIcon.svg`} />
                                 <span className="icon-name">{this.props.iconname}</span>
-                                <Button onClick={this.submitAppointment} raised fill round>Back to Home</Button>
+                                <Button onClick={this.backToHome} raised fill round>Back to Home</Button>
                             </div>
                         </div>
                     </Page>
                 </Popup>
-                
             </Page>
         );
     }

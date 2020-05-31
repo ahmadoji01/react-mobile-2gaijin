@@ -1,13 +1,19 @@
 import React, { Component } from 'react';
-import { Page, Navbar, NavLeft, List, ListInput, Tab, Tabs, Button, ListItem, Popup, Block, NavRight, Subnavbar, Link, Icon, Searchbar, NavTitle } from 'framework7-react';
-
+import { Page, Navbar, NavLeft, List, ListInput, Tab, Tabs, Button, ListItem, TextEditor, Popup, Block, NavRight, Subnavbar, Link, Icon, Searchbar, NavTitle } from 'framework7-react';
+import parse from 'html-react-parser';
 class AddProduct extends Component {
 
     constructor(props) {
         super(props);
         this.state = {
             popupOpened: false,
+            itemDescription: ""
         }
+        this.onEditorChange = this.onEditorChange.bind(this);
+    }
+
+    onEditorChange(e) {
+        this.setState({ itemDescription: e });
     }
 
     render() {
@@ -76,12 +82,13 @@ class AddProduct extends Component {
                             </ListInput>
                             <ListInput
                                 outline
+                                value={this.state.itemDescription}
                                 label="Item's Description"
                                 floatingLabel
                                 type="textarea"
                                 resizable
                                 placeholder="Fill your item's description"
-                                popupOpen=".item-desc-popup"
+                                onFocus={() => this.setState({ popupOpened : true })}
                                 clearButton
                             >
                                 <Icon icon="demo-list-icon" slot="media" />
@@ -97,9 +104,14 @@ class AddProduct extends Component {
                                 </NavRight>
                                 </Navbar>
                                 <Block>
-                                <p>Here comes popup. You can put here anything, even independent view with its own navigation. Also not, that by default popup looks a bit different on iPhone/iPod and iPad, on iPhone it is fullscreen.</p>
-                                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit...</p>
-                                <p>Duis ut mauris sollicitudin, venenatis nisi sed, luctus ligula...</p>
+                                    <TextEditor
+                                        onTextEditorChange={this.onEditorChange}
+                                        placeholder="Your item's description goes here"
+                                        buttons={[
+                                            ['bold', 'italic', 'underline', 'strikeThrough'],
+                                            ['orderedList', 'unorderedList']
+                                        ]}
+                                    />
                                 </Block>
                             </Page>
                         </Popup>
@@ -129,10 +141,10 @@ class AddProduct extends Component {
                         </List>
                     </Tab>
                     <Tab id="tab-3" className="page-content">
-                    <Block>
-                        <p>Tab 3 content</p>
-                        ...
-                    </Block>
+                        <Block>
+                            <p>Tab 3 content</p>
+                            ...
+                        </Block>
                     </Tab>
                 </Tabs>
                 

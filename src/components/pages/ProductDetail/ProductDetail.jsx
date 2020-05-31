@@ -58,6 +58,7 @@ class ProductDetail extends Component {
         var lat = 0.0;
         var lng = 0.0;
         var price = 0;
+        let brand, condition, yearsOwned, modelName;
         if(typeof(this.state.data.item) !== "undefined") {
             var itemInfo = this.state.data.item;
             id = itemInfo._id;
@@ -72,8 +73,32 @@ class ProductDetail extends Component {
             });
             appLink1 = "/appointment/" + id + "/false";
             appLink2 = "/appointment/" + id + "/true";
-
             
+            if(this.state.data.details.brand != "") {
+                console.log(this.state.data.item.brand);
+                brand = <tr>
+                    <td className="detail-label"><Icon f7="tag_fill" size="12px" /> Brand</td>
+                    <td className="detail-info">{this.state.data.details.brand}</td>
+                </tr> 
+            }
+            if(this.state.data.details.condition != "") {
+                condition = <tr>
+                    <td className="detail-label"><Icon f7="checkmark_shield_fill" size="12px" /> Condition</td>
+                    <td className="detail-info">{this.state.data.details.condition}</td>
+                </tr> 
+            }
+            if(this.state.data.details.years_owned != "") {
+                yearsOwned = <tr>
+                    <td className="detail-label"><Icon f7="clock_fill" size="12px" /> Years Owned</td>
+                    <td className="detail-info">{this.state.data.details.years_owned}</td>
+                </tr>
+            }
+            if(this.state.data.details.model_name != "") {
+                modelName = <tr>
+                    <td className="detail-label"><Icon f7="barcode" size="12px" /> Model Name</td>
+                    <td className="detail-info">{this.state.data.details.model_name}</td>
+                </tr>
+            }
         }
 
         let sellerName, avatarURL, goldCoins, silverCoins;
@@ -112,22 +137,10 @@ class ProductDetail extends Component {
                     <div className="container">
                         <h3>{name}</h3>
                         <table className="product-details">
-                            <tr>
-                                <td className="detail-label"><Icon f7="tag_fill" size="12px" /> Brand</td>
-                                <td className="detail-info">IKEA</td>
-                            </tr>
-                            <tr>
-                                <td className="detail-label"><Icon f7="checkmark_shield_fill" size="12px" /> Condition</td>
-                                <td className="detail-info">99% normal usage. The text is a demo for how it looks like in 2 rows</td>
-                            </tr>
-                            <tr>
-                                <td className="detail-label"><Icon f7="clock_fill" size="12px" /> Years Owned</td>
-                                <td className="detail-info">1.5 Years</td>
-                            </tr>
-                            <tr>
-                                <td className="detail-label"><Icon f7="barcode" size="12px" /> Model Name</td>
-                                <td className="detail-info">Schuberth</td>
-                            </tr>
+                            {brand}
+                            {condition}
+                            {yearsOwned}
+                            {modelName}
                         </table>
                         <div className="product-description">
                             <h6>DESCRIPTION</h6>

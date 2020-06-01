@@ -28,7 +28,9 @@ class Notification extends Component {
         return axios
         .get("/get_notifications", config)
         .then(response => {
-            this.setState({ notifications: response.data.data.notifications });
+            if(response.data.data){
+                this.setState({ notifications: response.data.data.notifications });
+            }
             this.setState({isLoading: false});
         });
     }

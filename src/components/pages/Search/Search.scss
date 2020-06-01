@@ -1,3 +1,13 @@
 .subnavbar .subnavbar-inner {
     padding: 0;
 }
+
+.ant-tabs-nav {
+    display: flex !important;
+    width: 100% !important;
+}
+
+.ant-tabs-tab {
+    flex: 1;
+    text-align: center;
+}

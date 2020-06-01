@@ -1,18 +1,21 @@
 import React, { Component } from 'react';
 import './ProductCardHorizontal.scss';
 import {Link} from 'framework7-react';
+import { geolocated } from 'react-geolocated';
 
 class ProductCardHorizontal extends Component {
     
     constructor(props) {
         super(props);
-        this.state = { cardWidth: (window.innerWidth/2) - 25, cardHeight: (window.innerHeight/2) - 25 };
+        this.state = { cardWidth: (window.innerWidth/2) - 25, cardHeight: (window.innerHeight/2) - 25, currLat: 0.0, currLng: 0.0 };
         this.updateWindowDimensions = this.updateWindowDimensions.bind(this);
+        this.findCoordinates = this.findCoordinates.bind(this);
     }
-    
+
     componentDidMount() {
         this.updateWindowDimensions();
         window.addEventListener('resize', this.updateWindowDimensions);
+        this.findCoordinates();
     }
     
     componentWillUnmount() {
@@ -22,6 +25,13 @@ class ProductCardHorizontal extends Component {
     updateWindowDimensions() {
         this.setState({ cardWidth: (window.innerWidth/2) - 25 });
         this.setState({ cardHeight: (window.innerHeight/2) - 25 });
+    }
+
+    findCoordinates = () => {
+        navigator.geolocation.getCurrentPosition(position => {
+            const location = JSON.stringify(position);
+            this.setState({ currLat: position.coords.latitude, currLng: position.coords.longitude });
+        });
     }
 
     calcDistance(lat1, lng1, lat2, lng2) {
@@ -48,10 +58,11 @@ class ProductCardHorizontal extends Component {
     render() {
         if(typeof(this.props.item) !== 'undefined') {
             const item = this.props.item;
-            var locText = this.calcDistance(parseFloat(item.latitude), 
-            parseFloat(item.longitude), 
-            parseFloat(this.props.lat),  
-            parseFloat(this.props.lng));
+            
+            var locText = this.calcDistance(parseFloat(item.location.latitude), 
+            parseFloat(item.location.longitude), 
+            parseFloat(this.state.currLat),  
+            parseFloat(this.state.currLng));
 
             let locColumn;
             if(locText != "") {
@@ -78,4 +89,9 @@ class ProductCardHorizontal extends Component {
     }
 }
 
-export default ProductCardHorizontal;
+export default geolocated({
+    positionOptions: {
+        enableHighAccuracy: true,
+    },
+    userDecisionTimeout: 5000,
+  })(ProductCardHorizontal);

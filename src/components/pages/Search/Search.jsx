@@ -108,26 +108,13 @@ class Search extends Component {
                     </Subnavbar>
                 </Navbar>
                 <div className="container">
-                    <Tabs defaultActiveKey="1" onChange={this.callback}>
-                        <TabPane tab="Relevance" key="1">
-                            <ProductContainerInfinite items={this.state.data} />
-                            <div
-                            ref={loadingRef => (this.loadingRef = loadingRef)}
-                            style={loadingCSS}
-                            >
-                                <span style={loadingTextCSS}>Loading...</span>
-                            </div>
-                        </TabPane>
-                        <TabPane tab="Nearby" key="2">
-                            <ProductContainerInfinite items={this.state.data} />
-                            <div
-                            ref={loadingRef => (this.loadingRef = loadingRef)}
-                            style={loadingCSS}
-                            >
-                                <span style={loadingTextCSS}>Loading...</span>
-                            </div>
-                        </TabPane>
-                    </Tabs>
+                    <ProductContainerInfinite items={this.state.data} />
+                    <div
+                    ref={loadingRef => (this.loadingRef = loadingRef)}
+                    style={loadingCSS}
+                    >
+                        <span style={loadingTextCSS}>Loading...</span>
+                    </div>
                 </div>
             </Page>
         );

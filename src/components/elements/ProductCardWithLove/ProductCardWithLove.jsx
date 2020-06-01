@@ -1,18 +1,28 @@
 import React, { Component } from 'react';
 import './ProductCardWithLove.scss';
 import { Icon, Link } from 'framework7-react';
+import { geolocated } from 'react-geolocated';
 
 class ProductCardWithLove extends Component {
     
     constructor(props) {
         super(props);
-        this.state = { cardWidth: (window.innerWidth/2) - 25, cardHeight: (window.innerHeight/2) - 25 };
+        this.state = { cardWidth: (window.innerWidth/2) - 25, cardHeight: (window.innerHeight/2) - 25, currLat: 0.0, currLng: 0.0 };
         this.updateWindowDimensions = this.updateWindowDimensions.bind(this);
+        this.findCoordinates = this.findCoordinates.bind(this);
     }
     
+    findCoordinates = () => {
+        navigator.geolocation.getCurrentPosition(position => {
+            const location = JSON.stringify(position);
+            this.setState({ currLat: position.coords.latitude, currLng: position.coords.longitude });
+        });
+    }
+
     componentDidMount() {
         this.updateWindowDimensions();
         window.addEventListener('resize', this.updateWindowDimensions);
+        this.findCoordinates();
     }
     
     componentWillUnmount() {
@@ -54,8 +64,8 @@ class ProductCardWithLove extends Component {
             const item = this.props.item;
             var locText = this.calcDistance(parseFloat(item.location.latitude), 
             parseFloat(item.location.longitude), 
-            parseFloat(this.props.lat),  
-            parseFloat(this.props.lng));
+            parseFloat(this.state.currLat),  
+            parseFloat(this.state.currLng));
 
             let locColumn;
             if(locText != "") {
@@ -86,4 +96,9 @@ class ProductCardWithLove extends Component {
     } 
 }
 
-export default ProductCardWithLove;
+export default geolocated({
+    positionOptions: {
+        enableHighAccuracy: true,
+    },
+    userDecisionTimeout: 5000,
+  })(ProductCardWithLove);

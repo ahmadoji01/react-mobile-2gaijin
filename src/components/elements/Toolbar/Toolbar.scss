@@ -1,0 +1,48 @@
+.custom-toolbar {
+    position: fixed;
+    height: 64px;
+    border-radius: 20px 20px 0px 0px;
+    box-shadow: 0;
+}
+
+.start-selling-btn {
+    background-color: #EF7132;
+    height: 64px;
+    width: 64px;
+    top: -24px;
+    left: auto;
+    position: fixed;
+    border-radius: 50%;
+}
+
+.start-selling-text {
+    color: #EF7132;
+    position: fixed;
+    top: 36px;
+    font-family: 'Poppins', sans-serif;
+}
+
+.active-indicator {
+    width: 21%;
+    height: 5px;
+    position: fixed;
+    top: 0px;
+    left: 27.5%;
+    border-radius: 0px 0px 20px 20px;
+    background-color: #1B479E;
+}
+
+.tabbar-icon-svg {
+    margin-top: 5px;
+    color: grey;
+}
+
+.tabbar-label {
+    font-family: 'Poppins', sans-serif;
+}
+
+.start-selling-icon {
+    position: relative;
+    top: 22%;
+    left: 22%;
+}

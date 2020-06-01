@@ -1,8 +1,26 @@
 import React, { Component } from 'react';
 import './AppointmentBar.scss';
+import { geolocated } from 'react-geolocated';
 
 class AppointmentBar extends Component {
+    
+    constructor(props) {
+        super(props);
+        this.state = { currLat: 0.0, currLng: 0.0 };
+        this.findCoordinates = this.findCoordinates.bind(this);
+    }
+
+    findCoordinates = () => {
+        navigator.geolocation.getCurrentPosition(position => {
+            const location = JSON.stringify(position);
+            this.setState({ currLat: position.coords.latitude, currLng: position.coords.longitude });
+        });
+    }
+    
     render() {
+        this.findCoordinates();
+        var currLat = this.state.currLat; var currLng = this.state.currLng;
+
         return (
             <React.Fragment>
                 <div className="row">
@@ -30,4 +48,9 @@ class AppointmentBar extends Component {
     }
 }
 
-export default AppointmentBar;
+export default geolocated({
+    positionOptions: {
+        enableHighAccuracy: true,
+    },
+    userDecisionTimeout: 5000,
+  })(AppointmentBar);

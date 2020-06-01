@@ -106,7 +106,6 @@ class ProductContainerWithTab extends Component {
     componentDidMount() {
       this.firstTabLoader();
       this.findCoordinates();
-      
     }
 
     callback(key) {

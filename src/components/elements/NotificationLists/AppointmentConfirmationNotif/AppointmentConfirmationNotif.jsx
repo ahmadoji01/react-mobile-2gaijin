@@ -3,14 +3,58 @@ import './AppointmentConfirmationNotif.scss';
 import Moment from 'react-moment';
 import ProductCardHorizontal from '../../ProductCardHorizontal';
 import { Button } from "framework7-react";
+import axios from 'axios';
 
 
 class AppointmentConfirmationNotif extends Component {
+
+    constructor(props) {
+        super(props);
+        this.acceptAppointment = this.acceptAppointment.bind(this);
+    }
+
+    acceptAppointment(appointmentID) {
+        var payload = {
+            "_id": appointmentID,
+            "status": "accepted",
+        }
+
+        return axios.post("/confirm_appointment", payload, {
+            headers: {
+                "Authorization": localStorage.getItem("access_token")
+            }
+        }).then(response => {
+            if(response.data["status"] == "Success") {
+                var jsonData = response.data.data;
+                console.log(jsonData);
+            }
+        });
+    }
+
+    rejectAppointment(appointmentID) {
+        var payload = {
+            "_id": appointmentID,
+            "status": "rejected",
+        }
+
+        return axios.post("/confirm_appointment", payload, {
+            headers: {
+                "Authorization": localStorage.getItem("access_token")
+            }
+        }).then(response => {
+            if(response.data["status"] == "Success") {
+                var jsonData = response.data.data;
+                console.log(jsonData);
+            }
+        });
+    }
 
     render() {
         if(typeof(this.props.item) !== "undefined"){
             var notifItem = this.props.item;
             var avatarURL = "image"
+
+            console.log(notifItem);
 
             avatarURL = notifItem.notification_user.avatar_url;
             if(avatarURL == "") {
@@ -21,10 +65,10 @@ class AppointmentConfirmationNotif extends Component {
             if(notifItem.status == "accepted") {
                 notifButton = <div className="row" style={{paddingBottom: 0, marginBottom: 0}}>
                     <div className="col-50">
-                        <Button raised fill round>Go To Appointment</Button>
+                        <Button href="/appointment" color="orange" raised fill round>Go To Appointment</Button>
                     </div>
                     <div className="col-50">
-                        <Button raised fill round>Accepted</Button>
+                        Accepted
                     </div>
                 </div>
             } else if(notifItem.status == "rejected") {
@@ -34,10 +78,10 @@ class AppointmentConfirmationNotif extends Component {
             } else if(notifItem.status == "pending") {
                 notifButton = <div className="row" style={{paddingBottom: 0, marginBottom: 0}}>
                     <div className="col-50">
-                        <Button raised fill round>Accept</Button>
+                        <Button onClick={() => this.acceptAppointment(notifItem.appointment_id)} color="orange" raised fill round>Accept</Button>
                     </div>
                     <div className="col-50">
-                        <Button raised fill round>Reject</Button>
+                        <Button onClick={() => this.rejectAppointment(notifItem.appointment_id)} color="orange" raised fill round>Reject</Button>
                     </div>
                 </div>
             }

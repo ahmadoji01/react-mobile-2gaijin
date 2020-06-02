@@ -3,6 +3,8 @@ import './Notification.scss';
 import { Icon, Link, Page, Navbar, NavLeft, NavTitle } from 'framework7-react';
 import axios from 'axios';
 import AppointmentConfirmationNotif from "../../elements/NotificationLists/AppointmentConfirmationNotif/AppointmentConfirmationNotif";
+import Moment from 'react-moment';
+import moment from 'moment';
 
 class Notification extends Component {
 
@@ -36,10 +38,28 @@ class Notification extends Component {
     }
 
     render() {
-        
+        const calendarStrings = {
+            lastDay : '[Yesterday]',
+            sameDay : '[Today]',
+            nextDay : '[Tomorrow]',
+            lastWeek : '[last] dddd',
+            nextWeek : 'dddd',
+            sameElse : 'L'
+        };
+
         let notifItems;
+        var comparedTime = moment();
         if(this.state.notifications.length >= 1) {
             notifItems = this.state.notifications.map(function(notifItem, i) {
+                if( i == 0 || !comparedTime.isSame(notifItem.created_at, 'day') ) {
+                    comparedTime = moment(notifItem.created_at);
+                    return <React.Fragment>
+                        <div className="title-time">
+                            <span><Moment calendar={calendarStrings}>{notifItem.created_at}</Moment></span>
+                        </div>
+                        <div key={i+1}><AppointmentConfirmationNotif item={notifItem} /></div>
+                    </React.Fragment>;
+                }
                 return <div key={i+1}><AppointmentConfirmationNotif item={notifItem} /></div>
             });
         }
@@ -54,9 +74,6 @@ class Notification extends Component {
                 </Navbar>
                 <div className="notifi segments">
                     <div className="container">
-                        <div className="title-time">
-                            <span>TODAY</span>
-                        </div>
                         {notifItems}
                     </div>
                 </div>

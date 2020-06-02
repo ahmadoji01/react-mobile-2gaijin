@@ -71,7 +71,7 @@ class Appointment extends Component {
         axios
         .get("/get_seller_appointments", config)
         .then(response => {
-            if(response.data.data.appointments) {
+            if(response.data.data) {
                 this.setState({data: response.data.data.appointments})
             }
         });
@@ -79,7 +79,7 @@ class Appointment extends Component {
         axios
         .get("/get_buyer_appointments", config)
         .then(response => {
-            if(response.data.data.appointments) {
+            if(response.data.data) {
                 this.setState({data2: response.data.data.appointments})
             }
         });
@@ -162,7 +162,7 @@ class Appointment extends Component {
                     <div style={Object.assign({}, styles.slide, styles.slide2)}>
                         <AppointmentContainer items={this.state.data2} />
                         <div
-                        ref={loadingRef => (this.loadingRef = loadingRef)}
+                        ref={loadingRef2 => (this.loadingRef2 = loadingRef2)}
                         style={loadingCSS}>
                             <span style={loadingTextCSS}>Loading...</span>
                         </div>

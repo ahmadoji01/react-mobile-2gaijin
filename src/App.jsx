@@ -19,6 +19,7 @@ import { Provider } from 'react-redux';
 import CategorySelect from "./components/pages/CategorySelect/CategorySelect";
 import AddProduct from "./components/pages/AddProduct/AddProduct";
 import Appointment from "./components/pages/Appointment/Appointment";
+import Account from "./components/pages/Account/Account";
 
 const f7params = {
   // Array with app routes
@@ -79,6 +80,10 @@ const f7params = {
         path: '/see-appointment',
         component: Appointment,
     },
+    {
+        path: '/account',
+        component: Account,
+    }
   ],
   // App Name
   name: '2Gaijin App',

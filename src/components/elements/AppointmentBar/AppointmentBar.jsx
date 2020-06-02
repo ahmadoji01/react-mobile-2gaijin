@@ -1,6 +1,9 @@
 import React, { Component } from 'react';
 import './AppointmentBar.scss';
 import { geolocated } from 'react-geolocated';
+import { Button } from "framework7-react";
+import ProductCardHorizontal from '../ProductCardHorizontal';
+import Moment from 'react-moment';
 
 class AppointmentBar extends Component {
     
@@ -18,33 +21,75 @@ class AppointmentBar extends Component {
     }
     
     render() {
-        this.findCoordinates();
-        var currLat = this.state.currLat; var currLng = this.state.currLng;
+        if(typeof(this.props.item) !== "undefined"){
+            if(this.props.item.status != "rejected") {
+                var item = this.props.item;
+                var avatarURL = "image"
 
-        return (
-            <React.Fragment>
-                <div className="row">
-                    <div className="col-20">
-                        <div className="content-image">
-                            <img src="images/product12.jpg" alt="" />
+                avatarURL = item.appointment_user.avatar_url;
+                if(avatarURL == "") {
+                    avatarURL = "images/avatar-placeholder.png";
+                }
+                
+                let notifButton;
+                if(item.status == "accepted") {
+                    notifButton = <div className="row" style={{paddingBottom: 0, marginBottom: 0}}>
+                        <div className="col-50">
+                            <Button raised fill round>Reschedule</Button>
+                        </div>
+                        <div className="col-50">
+                            Finish Transaction
                         </div>
                     </div>
-                    <div className="col-55">
-                        <div className="content-title-product">
-                            <a href="/product-details/"><p className="title-product">Loafers with genuine leather, guaranteed</p></a>
+                } else if(item.status == "rejected") {
+                    notifButton = <div className="row" style={{paddingBottom: 0, marginBottom: 0}}>
+                    You have rejected this appointment
+                    </div>
+                } else if(item.status == "pending") {
+                    notifButton = <div className="row" style={{paddingBottom: 0, marginBottom: 0}}>
+                        <div className="col-50">
+                            <Button raised fill round>Accept</Button>
+                        </div>
+                        <div className="col-50">
+                            <Button raised fill round>Reject</Button>
                         </div>
                     </div>
-                    <div className="col-25">
-                        <div className="content-info">
-                            <p className="price">$229.99</p>
-                            <p className="transaction-status"><i className="fas fa-undo"></i>RETURNED</p>
+                } else if(item.status == "finished") {
+                    notifButton = <div className="row" style={{paddingBottom: 0, marginBottom: 0}}>
+                        <div className="col-50">
+                            <Button raised fill round>Accept</Button>
+                        </div>
+                        <div className="col-50">
+                            <Button raised fill round>Reject</Button>
                         </div>
                     </div>
-                </div>
+                }
 
-                <div className="divider-line-half"></div>
-            </React.Fragment>
-        );
+                return(
+                    <React.Fragment>
+                        <div className="content">
+                            <div className="row" style={{paddingBottom: 0, marginBottom: 0}}>
+                                <div className="col-10 notif-img-container" style={{backgroundImage: `url("${avatarURL}")`}}></div>
+                                <div className="col-90">
+                                    <div className="text">
+                                        <h6>{item.appointment_user.first_name}</h6>
+                                    </div>
+                                </div>
+                            </div>
+                            <div className="row" style={{marginTop: 0, paddingBottom: 0, marginBottom: 0}}>
+                                <ProductCardHorizontal item={item.product_detail} />
+                            </div>
+                            {notifButton}
+                        </div>
+                        <div className="divider-space-content"></div>
+                    </React.Fragment>
+                );
+            } else {
+                return '';
+            }
+        } else {
+            return '';
+        }
     }
 }
 

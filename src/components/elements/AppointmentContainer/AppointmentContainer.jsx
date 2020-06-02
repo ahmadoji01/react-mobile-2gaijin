@@ -9,7 +9,7 @@ class AppointmentContainer extends Component {
             
             var items = this.props.items;
             items = items.map(function(item, i) {
-                return <div key={i+1}><AppointmentBar /></div>
+                return <div key={i+1}><AppointmentBar item={item} /></div>
             });
             
             return(

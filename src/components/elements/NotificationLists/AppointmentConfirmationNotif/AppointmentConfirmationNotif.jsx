@@ -42,8 +42,6 @@ class AppointmentConfirmationNotif extends Component {
                 </div>
             }
 
-            console.log(notifItem.status);
-
             return(
                 <React.Fragment>
                     <div className="content">

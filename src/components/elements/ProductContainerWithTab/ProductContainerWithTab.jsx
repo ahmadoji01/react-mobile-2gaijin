@@ -5,35 +5,64 @@ import ProductCardWithLove from '../ProductCardWithLove';
 import ProductContainerInfinite from '../../elements/ProductContainerInfinite';
 import axios from 'axios';
 import { geolocated } from 'react-geolocated';
-import { Tabs } from 'antd';
-import 'antd/dist/antd.css';
-const { TabPane } = Tabs;
+import SwipeableViews from 'react-swipeable-views';
+import Tabs from '@material-ui/core/Tabs';
+import Tab from '@material-ui/core/Tab';
+import { blue } from '@material-ui/core/colors';
+
+const styles = {
+  tabs: {
+    background: '#fff',
+    color: blue,
+  },
+  slide: {
+    padding: 15,
+    minHeight: 100,
+    color: '#fff',
+  },
+};
 
 class ProductContainerWithTab extends Component {
     
     loadLimit = 8;
 
     constructor(props) {
-        super(props);
-        this.state = {
-            currLat: 0.0,
-            currLng: 0.0,
-            value: 0,
-            items1: [],
-            startitems1: 1,
-            limititems1: 8,
-            items2: [],
-            startitems2: 1,
-            limititems2: 8,
-            loading: false,
-            isLoading2: false,
-            searchState: "",
-        };
-        this.handleChange = this.handleChange.bind(this);
-        this.callback = this.callback.bind(this);
-        this.firstTabLoader = this.firstTabLoader.bind(this);
-        this.secondTabLoader = this.secondTabLoader.bind(this);
+      super(props);
+      this.state = {
+          currLat: 0.0,
+          currLng: 0.0,
+          value: 0,
+          items1: [],
+          startitems1: 1,
+          limititems1: 8,
+          items2: [],
+          startitems2: 1,
+          limititems2: 8,
+          loading: false,
+          isLoading2: false,
+          searchState: "",
+          index: 0,
+      };
+      this.handleChange = this.handleChange.bind(this);
+      this.handleTabChange = this.handleTabChange.bind(this);
+      this.handleChangeIndex = this.handleChangeIndex.bind(this);
+      this.callback = this.callback.bind(this);
+      this.firstTabLoader = this.firstTabLoader.bind(this);
+      this.secondTabLoader = this.secondTabLoader.bind(this);
     }
+
+    handleTabChange = (event, value) => {
+      this.callback(value + 1);
+      this.setState({
+          index: value,
+      });
+    };
+
+    handleChangeIndex = index => {
+        this.setState({
+            index,
+        });
+    };
 
     firstTabLoader() {
       var options = {
@@ -81,7 +110,13 @@ class ProductContainerWithTab extends Component {
           limit: this.state.limititems2,
           pricemax: 0
         }
-      }          
+      }
+      
+      this.observer = new IntersectionObserver(
+        this.handleObserver.bind(this),
+            options
+        );
+        this.observer.observe(this.loadingRef2);
 
       this.setState({ searchState: "freeitems" });
 
@@ -151,8 +186,6 @@ class ProductContainerWithTab extends Component {
           this.setState({ loading: false });
         });  
       }
-
-      
     }
 
     handleObserver(entities, observer) {
@@ -173,30 +206,33 @@ class ProductContainerWithTab extends Component {
 
         var currLat = this.state.currLat; var currLng = this.state.currLng;
         
+
         return(
-            <div className="recommended product segments-bottom">
-                <div className="container">
-                  <Tabs defaultActiveKey="1" onChange={this.callback}>
-                    <TabPane tab="Recently Added Items" key="1">
-                        <ProductContainerInfinite items={this.state.items1} />
-                        <div
-                        ref={loadingRef => (this.loadingRef = loadingRef)}
-                        style={loadingCSS}
-                        >
-                            <span style={loadingTextCSS}>Loading...</span>
-                        </div>
-                    </TabPane>
-                    <TabPane tab="Free Items" key="2">
-                        <ProductContainerInfinite items={this.state.items2} />
-                        <div
-                        ref={loadingRef2 => (this.loadingRef2 = loadingRef2)}
-                        style={loadingCSS}
-                        >
-                            <span style={loadingTextCSS}>Loading...</span>
-                        </div>
-                    </TabPane>
-                  </Tabs>
-                </div>
+            <div>
+                <Tabs value={this.state.index} variant="fullWidth" onChange={this.handleTabChange} style={styles.tabs}>
+                    <Tab label="Recent Items" />
+                    <Tab label="Free Items" />
+                </Tabs>
+                <SwipeableViews index={this.state.index} onChangeIndex={this.handleChangeIndex}>
+                  <div style={Object.assign({}, styles.slide, styles.slide1)}>
+                      <ProductContainerInfinite items={this.state.items1} />
+                      <div
+                      ref={loadingRef => (this.loadingRef = loadingRef)}
+                      style={loadingCSS}
+                      >
+                          <span style={loadingTextCSS}>Loading...</span>
+                      </div>
+                  </div>
+                  <div style={Object.assign({}, styles.slide, styles.slide2)}>
+                      <ProductContainerInfinite items={this.state.items2} />
+                      <div
+                      ref={loadingRef2 => (this.loadingRef2 = loadingRef2)}
+                      style={loadingCSS}
+                      >
+                          <span style={loadingTextCSS}>Loading...</span>
+                      </div>
+                  </div>
+                </SwipeableViews>
             </div>
         );
     }

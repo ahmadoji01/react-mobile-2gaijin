@@ -10,27 +10,21 @@ import MenuItem from '@material-ui/core/MenuItem';
 import Select from '@material-ui/core/Select';
 import SwipeableViews from 'react-swipeable-views';
 import AppointmentContainer from '../../elements/AppointmentContainer/AppointmentContainer';
+import { blue } from '@material-ui/core/colors';
 
 const styles = {
   tabs: {
     background: '#fff',
+    color: blue,
   },
   slide: {
     padding: 15,
     minHeight: 100,
     color: '#fff',
   },
-  
-  slide2: {
-    backgroundColor: '#B3DC4A',
-  }
 };
 
 class Appointment extends Component {
-
-    state = {
-        index: 1,
-    };
 
     handleChange = (event, value) => {
         this.setState({
@@ -48,10 +42,12 @@ class Appointment extends Component {
         super(props);
         this.state = {
             data: [],
+            data2: [],
             searchterm: this.props.searchTerm,
             loading: false,
             start: 1,
-            limit: 8
+            limit: 8,
+            index: 0,
         };
         this.SearchBarChange = this.SearchBarChange.bind(this);
         this.SearchItems = this.SearchItems.bind(this);
@@ -72,11 +68,19 @@ class Appointment extends Component {
             }
         }          
 
-        return axios
+        axios
         .get("/get_seller_appointments", config)
         .then(response => {
             if(response.data.data.appointments) {
                 this.setState({data: response.data.data.appointments})
+            }
+        });
+
+        axios
+        .get("/get_buyer_appointments", config)
+        .then(response => {
+            if(response.data.data.appointments) {
+                this.setState({data2: response.data.data.appointments})
             }
         });
     }
@@ -142,11 +146,11 @@ class Appointment extends Component {
                     </NavTitle>
                 </Navbar>
                 <Toolbar activeTab={2} />
-                <Tabs value={index} variant="fullWidth" onChange={this.handleChange} style={styles.tabs}>
-                    <Tab label="tab n°1" />
-                    <Tab label="tab n°2" />
+                <Tabs value={this.state.index} variant="fullWidth" onChange={this.handleChange} style={styles.tabs}>
+                    <Tab label="Seller" />
+                    <Tab label="Buyer" />
                 </Tabs>
-                <SwipeableViews index={index} onChangeIndex={this.handleChangeIndex}>
+                <SwipeableViews index={this.state.index} onChangeIndex={this.handleChangeIndex}>
                     <div style={Object.assign({}, styles.slide, styles.slide1)}>
                         <AppointmentContainer items={this.state.data} />
                         <div
@@ -156,13 +160,12 @@ class Appointment extends Component {
                         </div>
                     </div>
                     <div style={Object.assign({}, styles.slide, styles.slide2)}>
-                        slide n°2
-                        <Select value={10} autoWidth={false}>
-                        <MenuItem value="">
-                            <em>None</em>
-                        </MenuItem>
-                        <MenuItem value={10}>Ten</MenuItem>
-                        </Select>
+                        <AppointmentContainer items={this.state.data2} />
+                        <div
+                        ref={loadingRef => (this.loadingRef = loadingRef)}
+                        style={loadingCSS}>
+                            <span style={loadingTextCSS}>Loading...</span>
+                        </div>
                     </div>
                 </SwipeableViews>
             </Page>

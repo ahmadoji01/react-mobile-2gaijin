@@ -20,7 +20,7 @@ class CategorySelect extends Component {
 
     componentWillMount() {
         return axios
-        .get("/search?q=" + this.props.searchTerm, {}, {})
+        .get(`${process.env.REACT_APP_BASE_URL}/search?q=` + this.props.searchTerm, {}, {})
         .then(response => {
             var fetchData = response.data.data.items;
             this.setState({data: fetchData});

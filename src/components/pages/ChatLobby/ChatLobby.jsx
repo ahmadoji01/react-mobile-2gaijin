@@ -21,7 +21,7 @@ class ChatLobby extends Component {
 
         var payload = {}
         return axios
-        .post("/chat_lobby", payload, { 
+        .post(`${process.env.REACT_APP_BASE_URL}/chat_lobby`, payload, { 
             headers: {
                 'Authorization': localStorage.getItem("access_token"),
                 'Content-Type': 'application/json'

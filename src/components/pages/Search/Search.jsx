@@ -23,14 +23,14 @@ class Search extends Component {
 
     async SearchItems() {
         const response = await axios
-        .get("/search?q=" + this.state.searchterm, {}, {});
+        .get(`${process.env.REACT_APP_BASE_URL}/search?q=` + this.state.searchterm, {}, {});
         var fetchData = response.data.data.items;
         this.setState({ data: fetchData });
     }
 
     componentWillMount() {
         return axios
-        .get("/search?q=" + this.state.searchterm + "&start=1&limit=8", {}, {})
+        .get(`${process.env.REACT_APP_BASE_URL}/search?q=` + this.state.searchterm + "&start=1&limit=8", {}, {})
         .then(response => {
             var fetchData = response.data.data.items;
             this.setState({data: fetchData});
@@ -55,7 +55,7 @@ class Search extends Component {
         this.setState({ loading: true });
         axios
             .get(
-            "/search?q=" + this.state.searchterm + "&start=" + start + "&limit=" + limit
+            `${process.env.REACT_APP_BASE_URL}/search?q=` + this.state.searchterm + "&start=" + start + "&limit=" + limit
             )
             .then(res => {
             this.setState({ data: [...this.state.data, ...res.data.data.items] });

@@ -19,7 +19,7 @@ class AppointmentConfirmationNotif extends Component {
             "status": "accepted",
         }
 
-        return axios.post("/confirm_appointment", payload, {
+        return axios.post(`${process.env.REACT_APP_BASE_URL}/confirm_appointment`, payload, {
             headers: {
                 "Authorization": localStorage.getItem("access_token")
             }
@@ -37,7 +37,7 @@ class AppointmentConfirmationNotif extends Component {
             "status": "rejected",
         }
 
-        return axios.post("/confirm_appointment", payload, {
+        return axios.post(`${process.env.REACT_APP_BASE_URL}/confirm_appointment`, payload, {
             headers: {
                 "Authorization": localStorage.getItem("access_token")
             }

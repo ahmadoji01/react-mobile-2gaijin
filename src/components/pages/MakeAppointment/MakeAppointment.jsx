@@ -37,7 +37,7 @@ class MakeAppointment extends Component {
             console.log(payload);
             
             return axios
-            .post("/insert_appointment", payload, { 
+            .post(`${process.env.REACT_APP_BASE_URL}/insert_appointment`, payload, { 
                 headers: {
                     'Authorization': localStorage.getItem("access_token"),
                     'Content-Type': 'application/json'

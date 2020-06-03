@@ -72,7 +72,7 @@ class ChatRoom extends Component {
             var receivedData = JSON.parse(evt.data);
             let config = { headers: {'Authorization': localStorage.getItem("access_token"), "Content-Type": "application/json" }}
             axios
-            .post("/insert_message", receivedData, config)
+            .post(`${process.env.REACT_APP_BASE_URL}/insert_message`, receivedData, config)
             .then(response => {
                 if(response.data.status == "Success") {
                     this.setState(prevState => ({
@@ -110,7 +110,7 @@ class ChatRoom extends Component {
         }          
 
         return axios
-        .get("/chat_messages", config)
+        .get(`${process.env.REACT_APP_BASE_URL}/chat_messages`, config)
         .then(response => {
             if(response.data.data.messages) {
                 this.setState({chatHistory: response.data.data.messages})

@@ -89,7 +89,7 @@ class ProductContainerWithTab extends Component {
       this.setState({ searchState: "recentitems" });
 
       return axios
-      .get("/search", config)
+      .get(`${process.env.REACT_APP_BASE_URL}/search`, config)
       .then(response => {
           this.setState({ items1: response.data.data.items });
       });
@@ -121,7 +121,7 @@ class ProductContainerWithTab extends Component {
       this.setState({ searchState: "freeitems" });
 
       return axios
-      .get("/search", config)
+      .get(`${process.env.REACT_APP_BASE_URL}/search`, config)
       .then(response => {
           this.setState({ items2: response.data.data.items });
       });
@@ -164,7 +164,7 @@ class ProductContainerWithTab extends Component {
           }
         }
         axios
-        .get("/search", config)
+        .get(`${process.env.REACT_APP_BASE_URL}/search`, config)
         .then(res => {
           this.setState({ items1: [...this.state.items1, ...res.data.data.items] });
           this.setState({ loading: false });
@@ -180,7 +180,7 @@ class ProductContainerWithTab extends Component {
           }
         }
         axios
-        .get("/search", config)
+        .get(`${process.env.REACT_APP_BASE_URL}/search`, config)
         .then(res => {
           this.setState({ items2: [...this.state.items2, ...res.data.data.items] });
           this.setState({ loading: false });

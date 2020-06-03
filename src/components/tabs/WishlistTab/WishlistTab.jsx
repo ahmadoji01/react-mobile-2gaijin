@@ -21,7 +21,7 @@ class WishlistTab extends Component {
         if (user) {
             this.setState({isLoggedIn: true});
             return axios
-            .get("/search?q=refrigerator", {}, { 
+            .get(`${process.env.REACT_APP_BASE_URL}/search?q=refrigerator`, {}, { 
                 headers: {
                     'Authorization': localStorage.getItem("access_token"),
                     'Content-Type': 'application/json'

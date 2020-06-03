@@ -55,7 +55,7 @@ class Appointment extends Component {
 
     async SearchItems() {
         const response = await axios
-        .get(`${process.env.REACT_APP_BASE_URL}/search?q=` + this.state.searchterm, {}, {});
+        .get(`https://go.2gaijin.com/search?q=` + this.state.searchterm, {}, {});
         var fetchData = response.data.data.items;
         this.setState({ data: fetchData });
     }
@@ -69,7 +69,7 @@ class Appointment extends Component {
         }          
 
         axios
-        .get(`${process.env.REACT_APP_BASE_URL}/get_seller_appointments`, config)
+        .get(`https://go.2gaijin.com/get_seller_appointments`, config)
         .then(response => {
             if(response.data.data) {
                 this.setState({data: response.data.data.appointments})
@@ -77,7 +77,7 @@ class Appointment extends Component {
         });
 
         axios
-        .get(`${process.env.REACT_APP_BASE_URL}/get_buyer_appointments`, config)
+        .get(`https://go.2gaijin.com/get_buyer_appointments`, config)
         .then(response => {
             if(response.data.data) {
                 this.setState({data2: response.data.data.appointments})
@@ -103,7 +103,7 @@ class Appointment extends Component {
         this.setState({ loading: true });
         axios
             .get(
-            `${process.env.REACT_APP_BASE_URL}/search?q=` + this.state.searchterm + "&start=" + start + "&limit=" + limit
+            `https://go.2gaijin.com/search?q=` + this.state.searchterm + "&start=" + start + "&limit=" + limit
             )
             .then(res => {
             this.setState({ data: [...this.state.data, ...res.data.data.items] });

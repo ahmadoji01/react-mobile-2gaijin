@@ -28,7 +28,7 @@ class Notification extends Component {
   
         this.setState({isLoading: true});
         return axios
-        .get(`${process.env.REACT_APP_BASE_URL}/get_notifications`, config)
+        .get(`https://go.2gaijin.com/get_notifications`, config)
         .then(response => {
             if(response.data.data){
                 this.setState({ notifications: response.data.data.notifications });

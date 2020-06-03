@@ -40,7 +40,7 @@ class ProductDetail extends Component {
         }
 
         return axios
-        .get(`${process.env.REACT_APP_BASE_URL}/initiate_chat`, config)
+        .get(`https://go.2gaijin.com/initiate_chat`, config)
         .then(response => {
             this.$f7router.navigate("/chatroom/" + response.data.data.room._id);
         });

@@ -9,7 +9,7 @@ class AuthService {
         }
         
         return axios
-        .post(`${process.env.REACT_APP_BASE_URL}/sign_in`, payload, { 
+        .post(`https://go.2gaijin.com/sign_in`, payload, { 
             headers: {
                 'Content-Type': 'application/json'
             }
@@ -30,7 +30,7 @@ class AuthService {
 
     logout() {
         
-        return axios.post(`${process.env.REACT_APP_BASE_URL}/sign_out`, {}, {
+        return axios.post(`https://go.2gaijin.com/sign_out`, {}, {
             headers: {
                 'Content-Type': 'application/json',
                 "Authorization": localStorage.getItem("access_token")
@@ -52,7 +52,7 @@ class AuthService {
             "first_name": firstname,
             "last_name": lastname
         }
-        return axios.post(`${process.env.REACT_APP_BASE_URL}/sign_up`, payload, {
+        return axios.post(`https://go.2gaijin.com/sign_up`, payload, {
             headers: { 
                 "Content-Type": "application/json"
             }
@@ -71,7 +71,7 @@ class AuthService {
     }
 
     refreshToken() {
-        return axios.post(`${process.env.REACT_APP_BASE_URL}/refresh_token`, {}, {
+        return axios.post(`https://go.2gaijin.com/refresh_token`, {}, {
             headers: {
                 "Authorization": localStorage.getItem("refresh_token")
             }

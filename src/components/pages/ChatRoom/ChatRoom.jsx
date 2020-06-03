@@ -72,7 +72,7 @@ class ChatRoom extends Component {
             var receivedData = JSON.parse(evt.data);
             let config = { headers: {'Authorization': localStorage.getItem("access_token"), "Content-Type": "application/json" }}
             axios
-            .post(`${process.env.REACT_APP_BASE_URL}/insert_message`, receivedData, config)
+            .post(`https://go.2gaijin.com/insert_message`, receivedData, config)
             .then(response => {
                 if(response.data.status == "Success") {
                     this.setState(prevState => ({
@@ -110,7 +110,7 @@ class ChatRoom extends Component {
         }          
 
         return axios
-        .get(`${process.env.REACT_APP_BASE_URL}/chat_messages`, config)
+        .get(`https://go.2gaijin.com/chat_messages`, config)
         .then(response => {
             if(response.data.data.messages) {
                 this.setState({chatHistory: response.data.data.messages})

@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
 import ProductContainerInfinite from '../../elements/ProductContainerInfinite';
-import { Page, Navbar, NavLeft, Link, Icon, Subnavbar, Block, Segmented, Button, NavTitle, Searchbar } from 'framework7-react';
+import { BlockTitle, Range, Page, Navbar, NavLeft, Link, List, ListItem, Icon, Subnavbar, Fab, Block, Popup, NavTitle, NavRight, Searchbar } from 'framework7-react';
 import axios from "axios";
-import { Tabs } from 'antd';
 import 'antd/dist/antd.css';
-const { TabPane } = Tabs;
+import "./Search.scss";
+import { ReactComponent as FilterIcon } from "../../icons/FilterIcon.svg";
 
 class Search extends Component {
 
@@ -15,10 +15,17 @@ class Search extends Component {
             searchterm: this.props.searchTerm,
             loading: false,
             start: 1,
-            limit: 8
+            limit: 8,
+            category: "",
+            sortby: "",
+            status: "",
+            priceMin: 0,
+            priceMax: 75000,
+            popupOpened: false,
         };
         this.SearchBarChange = this.SearchBarChange.bind(this);
         this.SearchItems = this.SearchItems.bind(this);
+        this.onPriceChange = this.onPriceChange.bind(this);
     }
 
     async SearchItems() {
@@ -73,8 +80,26 @@ class Search extends Component {
         this.setState({ prevY: y });
     }
 
+    onPriceChange(values) {
+        this.setState({
+            priceMin: values[0],
+            priceMax: values[1],
+        });
+    }
+
     SearchBarChange(e) {
         this.setState({ searchterm: e.target.value });
+    }
+
+    changeSearchFilter() {
+        axios
+        .get(
+        `https://go.2gaijin.com/search?q=` + this.state.searchterm + "&start=" + start + "&limit=" + limit
+        )
+        .then(res => {
+            this.setState({ data: [...this.state.data, ...res.data.data.items] });
+            this.setState({ loading: false });
+        });
     }
 
     render() {
@@ -116,6 +141,74 @@ class Search extends Component {
                         <span style={loadingTextCSS}>Loading...</span>
                     </div>
                 </div>
+                <Fab position="center-bottom" onClick={() => this.setState({popupOpened: true})} className="fab-filter" slot="fixed" text="Filter" color="orange">
+                    <FilterIcon style={{ marginLeft: 20 }}/>
+                </Fab>
+
+                <Popup className="demo-popup" opened={this.state.popupOpened} onPopupClosed={() => this.setState({popupOpened : false})}>
+                    <Page>
+                        <Navbar title="Filter Your Search">
+                        <NavRight>
+                            <Link popupClose>Close</Link>
+                        </NavRight>
+                        </Navbar>
+                        <Block>
+                            <BlockTitle className="display-flex block-title-text justify-content-space-between">Price Filter 
+                                <span>¥{this.state.priceMin} - ¥{this.state.priceMax}</span>
+                            </BlockTitle>
+                            <Range
+                                min={0}
+                                max={100000}
+                                step={100}
+                                value={[this.state.priceMin, this.state.priceMax]}
+                                label={true}
+                                dual={true}
+                                color="green"
+                                onRangeChange={this.onPriceChange.bind(this)}
+                            ></Range>
+                            <h4 style={{marginTop: 10}}>Sort By</h4>
+                            <List>
+                                <ListItem
+                                    title="Sort Mode"
+                                    smartSelect
+                                    smartSelectParams={{openIn: 'sheet'}}
+                                >
+                                    <select name="sort-mode" defaultValue="relevance">
+                                        <option value="relevance">Relevance</option>
+                                        <option value="highestprice">Price: Highest to Lowest</option>
+                                        <option value="lowestprice">Price: Lowest to Highest</option>
+                                        <option value="newest">Date Posted: Newest to Oldest</option>
+                                        <option value="oldest">Date Posted: Oldest to Newest</option>
+                                    </select>
+                                </ListItem>
+                            </List>
+                            <h4 style={{marginTop: 10}}>Category</h4>
+                            <List>
+                                <ListItem
+                                    title="Category"
+                                    smartSelect
+                                    smartSelectParams={{openIn: 'popup', searchbar: true, searchbarPlaceholder: 'Search category'}}
+                                >
+                                    <select name="category" defaultValue="">
+                                        <option value="Apparels">Apparels</option>
+                                        <option value="Books">Books</option>
+                                        <option value="Electronics">Electronics</option>
+                                        <option value="Footwear">Footwear</option>
+                                        <option value="Furnitures">Furnitures</option>
+                                        <option value="Kitchens">Kitchens</option>
+                                        <option value="Sports">Sports</option>
+                                        <option value="Vehicles">Vehicles</option>
+                                        <option value="White Appliances">White Appliances</option>
+                                        <option value="Miscellaneous">Miscellaneous</option>
+                                    </select>
+                                </ListItem>
+                            </List>
+                        </Block>
+                        <Fab position="center-bottom" onClick={() => this.changeSearchFilter} className="fab-filter" slot="fixed" text="Filter Now" color="orange">
+                            <FilterIcon style={{ marginLeft: 20 }}/>
+                        </Fab>
+                    </Page>
+                </Popup>
             </Page>
         );
     }

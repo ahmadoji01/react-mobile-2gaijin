@@ -1,6 +1,5 @@
 import React, { Component } from "react";
 import "./Toolbar.scss";
-import { ReactSVG } from 'react-svg';
 import { ReactComponent as PeaceOutline } from "../../../components/icons/PeaceOutline.svg";
 import { ReactComponent as StorefrontLogo } from "../../../components/icons/StoreFrontIcon.svg";
 import { ReactComponent as HandshakeLogo } from "../../../components/icons/HandshakeIcon.svg";

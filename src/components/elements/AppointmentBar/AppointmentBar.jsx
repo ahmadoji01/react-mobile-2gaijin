@@ -4,6 +4,7 @@ import { geolocated } from 'react-geolocated';
 import { Button } from "framework7-react";
 import ProductCardHorizontal from '../ProductCardHorizontal';
 import Moment from 'react-moment';
+import axios from 'axios';
 
 class AppointmentBar extends Component {
     
@@ -11,12 +12,30 @@ class AppointmentBar extends Component {
         super(props);
         this.state = { currLat: 0.0, currLng: 0.0 };
         this.findCoordinates = this.findCoordinates.bind(this);
+        this.finishAppointment = this.finishAppointment.bind(this);
     }
 
     findCoordinates = () => {
         navigator.geolocation.getCurrentPosition(position => {
             const location = JSON.stringify(position);
             this.setState({ currLat: position.coords.latitude, currLng: position.coords.longitude });
+        });
+    }
+
+    finishAppointment(id) {
+        var payload = {
+            "_id": id,
+        }
+
+        return axios.post(`https://go.2gaijin.com/finish_appointment`, payload, {
+            headers: {
+                "Authorization": localStorage.getItem("access_token")
+            }
+        }).then(response => {
+            if(response.data["status"] == "Success") {
+                var jsonData = response.data.data;
+                this.setState({ status: "rejected" });
+            }
         });
     }
     
@@ -38,7 +57,7 @@ class AppointmentBar extends Component {
                             <Button raised fill round>Reschedule</Button>
                         </div>
                         <div className="col-50">
-                            Finish Transaction
+                            <Button onClick={() => this.finishAppointment(item._id)} raised fill round>Finish Transaction</Button>
                         </div>
                     </div>
                 } else if(item.status == "rejected") {

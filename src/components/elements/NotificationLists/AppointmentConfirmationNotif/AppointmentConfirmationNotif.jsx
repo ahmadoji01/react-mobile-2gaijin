@@ -7,6 +7,10 @@ import axios from 'axios';
 
 
 class AppointmentConfirmationNotif extends Component {
+    
+    state = {
+        status: this.props.item.status,
+    }
 
     constructor(props) {
         super(props);
@@ -26,7 +30,7 @@ class AppointmentConfirmationNotif extends Component {
         }).then(response => {
             if(response.data["status"] == "Success") {
                 var jsonData = response.data.data;
-                console.log(jsonData);
+                this.setState({ status: "accepted" });
             }
         });
     }
@@ -44,7 +48,7 @@ class AppointmentConfirmationNotif extends Component {
         }).then(response => {
             if(response.data["status"] == "Success") {
                 var jsonData = response.data.data;
-                console.log(jsonData);
+                this.setState({ status: "rejected" });
             }
         });
     }
@@ -62,7 +66,7 @@ class AppointmentConfirmationNotif extends Component {
             }
             
             let notifButton;
-            if(notifItem.status == "accepted") {
+            if(this.state.status == "accepted") {
                 notifButton = <div className="row" style={{paddingBottom: 0, marginBottom: 0}}>
                     <div className="col-50">
                         <Button href="/appointment" color="orange" raised fill round>Go To Appointment</Button>
@@ -71,11 +75,11 @@ class AppointmentConfirmationNotif extends Component {
                         Accepted
                     </div>
                 </div>
-            } else if(notifItem.status == "rejected") {
+            } else if(this.state.status == "rejected") {
                 notifButton = <div className="row" style={{paddingBottom: 0, marginBottom: 0}}>
                    You have rejected this appointment
                 </div>
-            } else if(notifItem.status == "pending") {
+            } else if(this.state.status == "pending") {
                 notifButton = <div className="row" style={{paddingBottom: 0, marginBottom: 0}}>
                     <div className="col-50">
                         <Button onClick={() => this.acceptAppointment(notifItem.appointment_id)} color="orange" raised fill round>Accept</Button>

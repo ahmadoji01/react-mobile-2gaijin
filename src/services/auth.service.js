@@ -7,10 +7,10 @@ class AuthService {
             "email": email,
             "password": password,
         }
+        
         return axios
         .post(`${process.env.REACT_APP_BASE_URL}/sign_in`, payload, { 
             headers: {
-                'Access-Control-Allow-Origin': '*', 
                 'Content-Type': 'application/json'
             }
         })
@@ -29,11 +29,12 @@ class AuthService {
     }
 
     logout() {
+        
         return axios.post(`${process.env.REACT_APP_BASE_URL}/sign_out`, {}, {
             headers: {
-                'Access-Control-Allow-Origin': '*', 
+                'Content-Type': 'application/json',
                 "Authorization": localStorage.getItem("access_token")
-            }, crossdomain: true
+            }
         }).then(response => {
             localStorage.removeItem("user_id");
             localStorage.removeItem("first_name");

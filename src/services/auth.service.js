@@ -10,6 +10,7 @@ class AuthService {
         return axios
         .post(`${process.env.REACT_APP_BASE_URL}/sign_in`, payload, { 
             headers: {
+                'Access-Control-Allow-Origin': '*', 
                 'Content-Type': 'application/json'
             }
         })
@@ -29,7 +30,8 @@ class AuthService {
 
     logout() {
         return axios.post(`${process.env.REACT_APP_BASE_URL}/sign_out`, {}, {
-            headers: { 
+            headers: {
+                'Access-Control-Allow-Origin': '*', 
                 "Authorization": localStorage.getItem("access_token")
             }, crossdomain: true
         }).then(response => {

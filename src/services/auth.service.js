@@ -8,7 +8,7 @@ class AuthService {
             "password": password,
         }
         return axios
-        .post("/sign_in", payload, { 
+        .post(`${process.env.REACT_APP_BASE_URL}/sign_in`, payload, { 
             headers: {
                 'Content-Type': 'application/json'
             }
@@ -28,10 +28,10 @@ class AuthService {
     }
 
     logout() {
-        return axios.post("/sign_out", {}, {
+        return axios.post(`${process.env.REACT_APP_BASE_URL}/sign_out`, {}, {
             headers: { 
                 "Authorization": localStorage.getItem("access_token")
-            }
+            }, crossdomain: true
         }).then(response => {
             localStorage.removeItem("user_id");
             localStorage.removeItem("first_name");
@@ -49,7 +49,7 @@ class AuthService {
             "first_name": firstname,
             "last_name": lastname
         }
-        return axios.post("/sign_up", payload, {
+        return axios.post(`${process.env.REACT_APP_BASE_URL}/sign_up`, payload, {
             headers: { 
                 "Content-Type": "application/json"
             }
@@ -68,7 +68,7 @@ class AuthService {
     }
 
     refreshToken() {
-        return axios.post("/refresh_token", {}, {
+        return axios.post(`${process.env.REACT_APP_BASE_URL}/refresh_token`, {}, {
             headers: {
                 "Authorization": localStorage.getItem("refresh_token")
             }

@@ -18,7 +18,6 @@ const styles = {
     color: blue,
   },
   slide: {
-    padding: 15,
     minHeight: 100,
     color: '#fff',
   },

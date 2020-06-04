@@ -4,6 +4,7 @@ import './MakeAppointment.scss';
 import { Icon, Link, Page, Navbar, NavLeft, NavTitle, Button, Popup } from 'framework7-react';
 import ProductCardHorizontal from '../../elements/ProductCardHorizontal/ProductCardHorizontal';
 import { geolocated } from 'react-geolocated';
+import { ReactComponent as AppointmentIllustration } from "../../illustrations/AppointmentIllustration.svg";
 import axios from 'axios';
 
 class MakeAppointment extends Component {
@@ -25,7 +26,6 @@ class MakeAppointment extends Component {
         var calendarPicker = document.getElementById("demo-calendar-date-time");
         var meetingTime = new Date(calendarPicker.value).getTime();
         var status = "pending";
-        
         if(this.state.itemID != "") {
             var payload = {
                 "status": status,
@@ -34,7 +34,6 @@ class MakeAppointment extends Component {
                 "seller_id": this.state.sellerID,
                 "is_delivery": this.state.isDelivery
             }
-            console.log(payload);
             
             return axios
             .post(`https://go.2gaijin.com/insert_appointment`, payload, { 
@@ -44,7 +43,6 @@ class MakeAppointment extends Component {
                 }
             })
             .then(response => {
-                console.log(response);
                 if(response.data.status == "Success") {
                     this.setState({submitted: true});
                 }
@@ -128,23 +126,23 @@ class MakeAppointment extends Component {
                                 </li>
                             </ul>
                         </div>
-                        <Button onClick={this.submitAppointment} raised fill round>Send Appointment Request</Button>
+                        <Button className="general-btn" style={{color: "#fff", marginTop: 20}} onClick={this.submitAppointment} raised fill round>Confirm Appointment Request</Button>
                     </div>
                 </div>
 
                 <Popup className="demo-popup-push" opened={this.state.submitted} onPopupClosed={() => this.setState({submitted : false})} push>
                     <Page>
-                        <Navbar title="Popup Push">
-                            <NavLeft>
-                                <Link popupClose>Close</Link>
-                            </NavLeft>
-                        </Navbar>
-                        <div style={{height: '100%'}} className="display-flex justify-content-center align-items-center">
-                            <div className={`cat-icon-base base-${this.props.iconcolor}-color`}>
-                                <ReactSVG className="icon-svg" src={`${process.env.PUBLIC_URL}/icons/BooksIcon.svg`} />
-                                <span className="icon-name">{this.props.iconname}</span>
-                                <Button onClick={this.backToHome} raised fill round>Back to Home</Button>
+                        <div style={{height: '90%', width: '100%'}} className="display-flex justify-content-center align-items-center">
+                            <div>
+                                <div style={{display: 'table', margin: '0 auto'}}><AppointmentIllustration /></div>
+                                <div style={{fontWeight: 900, display: 'table', margin: '0 auto'}}><h3><b>Appointment Request Sent!</b></h3></div>
+                                <div className="appointment-sent-text">
+                                    The owner will respond to your request in a few hours. Check your notification page for update!
+                                </div>
                             </div>
+                        </div>
+                        <div style={{height: '10%', width: '100%', padding: 5}}>
+                            <Button className="general-btn" style={{color: '#fff'}} onClick={this.backToHome} raised fill round>Back to Home</Button>
                         </div>
                     </Page>
                 </Popup>

@@ -16,7 +16,6 @@ const styles = {
     color: blue,
   },
   slide: {
-    padding: 15,
     minHeight: 100,
     color: '#fff',
   },
@@ -52,7 +51,7 @@ class ProductContainerWithTab extends Component {
     }
 
     handleTabChange = (event, value) => {
-      this.callback(value + 1);
+      this.callback(value);
       this.setState({
           index: value,
       });
@@ -144,9 +143,9 @@ class ProductContainerWithTab extends Component {
     }
 
     callback(key) {
-      if(key == 1) {
+      if(key == 0) {
         this.firstTabLoader();
-      } else if (key == 2) {
+      } else if (key == 1) {
         this.secondTabLoader();
       }
     }

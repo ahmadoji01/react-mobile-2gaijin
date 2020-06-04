@@ -54,6 +54,16 @@ class AppointmentConfirmationNotif extends Component {
     }
 
     render() {
+
+        const calendarStrings = {
+            lastDay : '[Yesterday at ] LT',
+            sameDay : '[Today at ] LT',
+            nextDay : '[Tomorrow at ] LT',
+            lastWeek : '[last] dddd [at] LT',
+            nextWeek : 'dddd [at] LT',
+            sameElse : 'dddd, L [at] LT'
+        };
+
         if(typeof(this.props.item) !== "undefined"){
             var notifItem = this.props.item;
             var avatarURL = "image"
@@ -67,23 +77,23 @@ class AppointmentConfirmationNotif extends Component {
             if(this.state.status == "accepted") {
                 notifButton = <div className="row" style={{paddingBottom: 0, marginBottom: 0}}>
                     <div className="col-50">
-                        <Button href="/appointment" color="orange" raised fill round>Go To Appointment</Button>
+                        <Button className="general-btn" style={{color: "#fff", marginTop: 5}} href="/appointment" color="orange" raised fill round>Go To Appointment</Button>
                     </div>
                     <div className="col-50">
-                        Accepted
+                        <Button className="general-disabled-btn" style={{color: "#EF7132", marginTop: 5}} href="/appointment" color="orange" raised fill round>Accepted</Button>
                     </div>
                 </div>
             } else if(this.state.status == "rejected") {
                 notifButton = <div className="row" style={{paddingBottom: 0, marginBottom: 0}}>
-                   You have rejected this appointment
+                   <Button className="general-disabled-btn" style={{color: "#EF7132", marginTop: 5}} href="/appointment" color="orange" raised fill round>This Appointment is Rejected</Button>
                 </div>
             } else if(this.state.status == "pending") {
                 notifButton = <div className="row" style={{paddingBottom: 0, marginBottom: 0}}>
                     <div className="col-50">
-                        <Button onClick={() => this.acceptAppointment(notifItem.appointment_id)} color="orange" raised fill round>Accept</Button>
+                        <Button className="general-btn" style={{color: "#fff", marginTop: 5}} onClick={() => this.acceptAppointment(notifItem.appointment_id)} color="orange" raised fill round>Accept</Button>
                     </div>
                     <div className="col-50">
-                        <Button onClick={() => this.rejectAppointment(notifItem.appointment_id)} color="orange" raised fill round>Reject</Button>
+                        <Button className="general-reject-btn" style={{color: "#fff", marginTop: 5}} onClick={() => this.rejectAppointment(notifItem.appointment_id)} color="orange" raised fill round>Reject</Button>
                     </div>
                 </div>
             }
@@ -92,11 +102,11 @@ class AppointmentConfirmationNotif extends Component {
                 <React.Fragment>
                     <div className="content">
                         <div className="row" style={{paddingBottom: 0, marginBottom: 0}}>
-                            <div className="col-10 notif-img-container" style={{backgroundImage: `url("${avatarURL}")`}}></div>
+                            <div className="col-10 notif-img-container" style={{backgroundImage: `url("${avatarURL}")`, width: "10%"}}></div>
                             <div className="col-90">
                                 <div className="text">
                                     <h6>{notifItem.notification_user.first_name} sent you an appointment request</h6>
-                                    <p>on <Moment>{notifItem.appointment.meeting_time}</Moment> for this item:</p>
+                                    <p>on <Moment calendar={calendarStrings}>{notifItem.appointment.meeting_time}</Moment><br />Appointment can be rescheduled after accepted</p>
                                 </div>
                             </div>
                         </div>

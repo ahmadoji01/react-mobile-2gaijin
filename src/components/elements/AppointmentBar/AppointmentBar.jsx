@@ -40,6 +40,16 @@ class AppointmentBar extends Component {
     }
     
     render() {
+
+        const calendarStrings = {
+            lastDay : '[Yesterday at ] LT',
+            sameDay : '[Today at ] LT',
+            nextDay : '[Tomorrow at ] LT',
+            lastWeek : '[last] dddd [at] LT',
+            nextWeek : 'dddd [at] LT',
+            sameElse : 'dddd, L [at] LT'
+        };
+
         if(typeof(this.props.item) !== "undefined"){
             if(this.props.item.status != "rejected") {
                 var item = this.props.item;
@@ -54,10 +64,10 @@ class AppointmentBar extends Component {
                 if(item.status == "accepted") {
                     notifButton = <div className="row" style={{paddingBottom: 0, marginBottom: 0}}>
                         <div className="col-50">
-                            <Button raised fill round>Reschedule</Button>
+                            <Button className="general-btn" style={{color: "#fff", marginTop: 5}} raised fill round>Reschedule</Button>
                         </div>
                         <div className="col-50">
-                            <Button onClick={() => this.finishAppointment(item._id)} raised fill round>Finish Transaction</Button>
+                            <Button className="general-btn" style={{color: "#fff", marginTop: 5}} onClick={() => this.finishAppointment(item._id)} raised fill round>Finish Transaction</Button>
                         </div>
                     </div>
                 } else if(item.status == "rejected") {
@@ -67,31 +77,34 @@ class AppointmentBar extends Component {
                 } else if(item.status == "pending") {
                     notifButton = <div className="row" style={{paddingBottom: 0, marginBottom: 0}}>
                         <div className="col-50">
-                            <Button raised fill round>Accept</Button>
+                            <Button className="general-btn" style={{color: "#fff", marginTop: 5}} raised fill round>Accept</Button>
                         </div>
                         <div className="col-50">
-                            <Button raised fill round>Reject</Button>
+                            <Button className="general-btn" style={{color: "#fff", marginTop: 5}} raised fill round>Reject</Button>
                         </div>
                     </div>
                 } else if(item.status == "finished") {
                     notifButton = <div className="row" style={{paddingBottom: 0, marginBottom: 0}}>
                         <div className="col-50">
-                            <Button raised fill round>Accept</Button>
+                            <Button className="general-btn" style={{color: "#fff", marginTop: 5}} raised fill round>Accept</Button>
                         </div>
                         <div className="col-50">
-                            <Button raised fill round>Reject</Button>
+                            <Button className="general-btn" style={{color: "#fff", marginTop: 5}} raised fill round>Reject</Button>
                         </div>
                     </div>
                 }
 
+                console.log(item.meeting_time);
+
                 return(
                     <React.Fragment>
                         <div className="content">
-                            <div className="row" style={{paddingBottom: 0, marginBottom: 0}}>
-                                <div className="col-10 notif-img-container" style={{backgroundImage: `url("${avatarURL}")`}}></div>
+                            <div className="row" style={{paddingBottom: 0, marginBottom: 10}}>
+                                <div className="col-10 notif-img-container" style={{backgroundImage: `url("${avatarURL}")`, width: '10%'}}></div>
                                 <div className="col-90">
                                     <div className="text">
                                         <h6>{item.appointment_user.first_name}</h6>
+                                        <h7 style={{color: "black"}}><Moment calendar={calendarStrings}>{item.meeting_time}</Moment></h7>
                                     </div>
                                 </div>
                             </div>

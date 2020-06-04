@@ -17,7 +17,7 @@ class Search extends Component {
             start: 1,
             limit: 8,
             category: "",
-            sortby: "",
+            sortby: "relevance",
             status: "",
             priceMin: 0,
             priceMax: 75000,
@@ -26,6 +26,7 @@ class Search extends Component {
         this.SearchBarChange = this.SearchBarChange.bind(this);
         this.SearchItems = this.SearchItems.bind(this);
         this.onPriceChange = this.onPriceChange.bind(this);
+        this.changeSearchFilter = this.changeSearchFilter.bind(this);
     }
 
     async SearchItems() {
@@ -37,7 +38,9 @@ class Search extends Component {
 
     componentWillMount() {
         return axios
-        .get(`https://go.2gaijin.com/search?q=` + this.state.searchterm + "&start=1&limit=8", {}, {})
+        .get(`https://go.2gaijin.com/search?q=` + 
+        this.state.searchterm + 
+        "&start=1&limit=8", {}, {})
         .then(response => {
             var fetchData = response.data.data.items;
             this.setState({data: fetchData});
@@ -60,9 +63,21 @@ class Search extends Component {
 
     getItems(start, limit) {
         this.setState({ loading: true });
+        
+        var pricemax = 99999999999;
+        if(this.state.priceMax <= 75000) {
+            pricemax = this.state.priceMax;
+        }
         axios
             .get(
-            `https://go.2gaijin.com/search?q=` + this.state.searchterm + "&start=" + start + "&limit=" + limit
+            `https://go.2gaijin.com/search?q=` + this.state.searchterm 
+            + "&start=" + start 
+            + "&limit=" + limit
+            + "&status=" + this.state.status 
+            + "&sortby=" + this.state.sortby
+            + "&category=" + this.state.category
+            + "&pricemin=" + this.state.priceMin
+            + "&pricemax=" + pricemax
             )
             .then(res => {
             this.setState({ data: [...this.state.data, ...res.data.data.items] });
@@ -80,10 +95,24 @@ class Search extends Component {
         this.setState({ prevY: y });
     }
 
+    onCategoryChange(e) {
+        this.setState({ category: e.target.value });
+    }
+
+    onSortChange(e) {
+        this.setState({ sortby: e.target.value });
+    }
+
     onPriceChange(values) {
         this.setState({
             priceMin: values[0],
             priceMax: values[1],
+        });
+    }
+
+    onStatusChange(e) {
+        this.setState({
+            status: e.target.value
         });
     }
 
@@ -92,13 +121,25 @@ class Search extends Component {
     }
 
     changeSearchFilter() {
-        axios
-        .get(
-        `https://go.2gaijin.com/search?q=` + this.state.searchterm + "&start=" + start + "&limit=" + limit
-        )
-        .then(res => {
-            this.setState({ data: [...this.state.data, ...res.data.data.items] });
-            this.setState({ loading: false });
+        var pricemax = 99999999999;
+        if(this.state.priceMax <= 75000) {
+            pricemax = this.state.priceMax;
+        }
+        
+        return axios
+        .get(`https://go.2gaijin.com/search?q=` + 
+        this.state.searchterm + 
+        "&start=1&limit=8"
+        + "&status=" + this.state.status 
+        + "&sortby=" + this.state.sortby
+        + "&category=" + this.state.category
+        + "&pricemin=" + this.state.priceMin
+        + "&pricemax=" + pricemax, {}, {})
+        .then(response => {
+            var fetchData = response.data.data.items;
+            console.log(fetchData);
+            this.setState({data: fetchData});
+            this.setState({popupOpened: false});
         });
     }
 
@@ -173,7 +214,7 @@ class Search extends Component {
                                     smartSelect
                                     smartSelectParams={{openIn: 'sheet'}}
                                 >
-                                    <select name="sort-mode" defaultValue="relevance">
+                                    <select onChange={this.onSortChange.bind(this)} name="sort-mode" defaultValue="relevance">
                                         <option value="relevance">Relevance</option>
                                         <option value="highestprice">Price: Highest to Lowest</option>
                                         <option value="lowestprice">Price: Lowest to Highest</option>
@@ -189,7 +230,7 @@ class Search extends Component {
                                     smartSelect
                                     smartSelectParams={{openIn: 'popup', searchbar: true, searchbarPlaceholder: 'Search category'}}
                                 >
-                                    <select name="category" defaultValue="">
+                                    <select onChange={this.onCategoryChange.bind(this)} name="category" defaultValue="">
                                         <option value="Apparels">Apparels</option>
                                         <option value="Books">Books</option>
                                         <option value="Electronics">Electronics</option>
@@ -203,8 +244,22 @@ class Search extends Component {
                                     </select>
                                 </ListItem>
                             </List>
+                            <h4 style={{marginTop: 10}}>Item's Status</h4>
+                            <List>
+                                <ListItem
+                                    title="Status"
+                                    smartSelect
+                                    smartSelectParams={{openIn: 'sheet'}}
+                                >
+                                    <select onChange={this.onStatusChange.bind(this)} name="sort-mode" defaultValue="">
+                                        <option value="">Any</option>
+                                        <option value="available">Available</option>
+                                        <option value="sold">Sold Out</option>
+                                    </select>
+                                </ListItem>
+                            </List>
                         </Block>
-                        <Fab position="center-bottom" onClick={() => this.changeSearchFilter} className="fab-filter" slot="fixed" text="Filter Now" color="orange">
+                        <Fab position="center-bottom" onClick={this.changeSearchFilter} className="fab-filter" slot="fixed" text="Filter Now" color="orange">
                             <FilterIcon style={{ marginLeft: 20 }}/>
                         </Fab>
                     </Page>

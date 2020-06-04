@@ -22,6 +22,7 @@ class Search extends Component {
             priceMin: 0,
             priceMax: 75000,
             popupOpened: false,
+            totalItems: 0,
         };
         this.SearchBarChange = this.SearchBarChange.bind(this);
         this.SearchItems = this.SearchItems.bind(this);
@@ -44,6 +45,7 @@ class Search extends Component {
         .then(response => {
             var fetchData = response.data.data.items;
             this.setState({data: fetchData});
+            this.setState({totalItems: response.data.data.total_items});
         });
     }
 
@@ -65,7 +67,7 @@ class Search extends Component {
         this.setState({ loading: true });
         
         var pricemax = 99999999999;
-        if(this.state.priceMax <= 75000) {
+        if(this.state.priceMax < 50000) {
             pricemax = this.state.priceMax;
         }
         axios
@@ -122,7 +124,7 @@ class Search extends Component {
 
     changeSearchFilter() {
         var pricemax = 99999999999;
-        if(this.state.priceMax <= 75000) {
+        if(this.state.priceMax < 50000) {
             pricemax = this.state.priceMax;
         }
         
@@ -140,6 +142,7 @@ class Search extends Component {
             console.log(fetchData);
             this.setState({data: fetchData});
             this.setState({popupOpened: false});
+            this.setState({totalItems: response.data.data.total_items});
         });
     }
 
@@ -151,6 +154,11 @@ class Search extends Component {
         };
     
         const loadingTextCSS = { display: this.state.loading ? "block" : "none" };
+
+        let stringPriceMax = "¥" + this.state.priceMax;
+        if(this.state.priceMax >= 50000) {
+            stringPriceMax = "No Limit";
+        }
 
         return(
             <Page name="search" className="page page-search page-with-subnavbar hide-navbar-on-scroll">
@@ -174,6 +182,7 @@ class Search extends Component {
                     </Subnavbar>
                 </Navbar>
                 <div className="container">
+                    <h4 style={{marginTop: 10, marginBottom: 0}}>Showing results of <b>"{this.state.searchterm}"</b> - <b>{this.state.totalItems} item(s)</b></h4>
                     <ProductContainerInfinite items={this.state.data} />
                     <div
                     ref={loadingRef => (this.loadingRef = loadingRef)}
@@ -195,11 +204,11 @@ class Search extends Component {
                         </Navbar>
                         <Block>
                             <BlockTitle className="display-flex block-title-text justify-content-space-between">Price Filter 
-                                <span>¥{this.state.priceMin} - ¥{this.state.priceMax}</span>
+                                <span>¥{this.state.priceMin} - {stringPriceMax}</span>
                             </BlockTitle>
                             <Range
                                 min={0}
-                                max={100000}
+                                max={50000}
                                 step={100}
                                 value={[this.state.priceMin, this.state.priceMax]}
                                 label={true}
@@ -210,7 +219,7 @@ class Search extends Component {
                             <h4 style={{marginTop: 10}}>Sort By</h4>
                             <List>
                                 <ListItem
-                                    title="Sort Mode"
+                                    title="Selected Sort Mode"
                                     smartSelect
                                     smartSelectParams={{openIn: 'sheet'}}
                                 >
@@ -226,11 +235,12 @@ class Search extends Component {
                             <h4 style={{marginTop: 10}}>Category</h4>
                             <List>
                                 <ListItem
-                                    title="Category"
+                                    title="Selected Category"
                                     smartSelect
                                     smartSelectParams={{openIn: 'popup', searchbar: true, searchbarPlaceholder: 'Search category'}}
                                 >
                                     <select onChange={this.onCategoryChange.bind(this)} name="category" defaultValue="">
+                                        <option value="">Any</option>
                                         <option value="Apparels">Apparels</option>
                                         <option value="Books">Books</option>
                                         <option value="Electronics">Electronics</option>
@@ -247,7 +257,7 @@ class Search extends Component {
                             <h4 style={{marginTop: 10}}>Item's Status</h4>
                             <List>
                                 <ListItem
-                                    title="Status"
+                                    title="Selected Status"
                                     smartSelect
                                     smartSelectParams={{openIn: 'sheet'}}
                                 >

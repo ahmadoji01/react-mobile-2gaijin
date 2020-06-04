@@ -58,8 +58,6 @@ class AppointmentConfirmationNotif extends Component {
             var notifItem = this.props.item;
             var avatarURL = "image"
 
-            console.log(notifItem);
-
             avatarURL = notifItem.notification_user.avatar_url;
             if(avatarURL == "") {
                 avatarURL = "images/avatar-placeholder.png";

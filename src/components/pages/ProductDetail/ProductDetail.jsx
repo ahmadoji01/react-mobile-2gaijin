@@ -130,7 +130,7 @@ class ProductDetail extends Component {
                         <Button popoverOpen=".popover-appointment" raised fill className="appointment-button">Make Appointment</Button>
                     </div>
                 </Toolbar>
-                <div className="page-content" style={{padding: 0}}>
+                <div className="page-content" style={{paddingTop: 0, paddingLeft: 0, paddingRight: 0, paddingBottom: 30}}>
                     <Swiper pagination className="product-gallery" params={{speed:500, slidesPerView: 1, spaceBetween: 0}}>
                         {images}
                     </Swiper>

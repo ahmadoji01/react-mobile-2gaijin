@@ -70,12 +70,7 @@ class Login extends Component {
                 this.$f7router.navigate("/");
             },
             error => {
-                const resMessage =
-                (error.response &&
-                    error.response.data &&
-                    error.response.data.message) ||
-                error.message ||
-                error.toString();
+                const resMessage = "Something went wrong. Try again";
 
                 this.setState({
                 loading: false,

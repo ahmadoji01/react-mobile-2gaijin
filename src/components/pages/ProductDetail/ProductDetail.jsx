@@ -6,6 +6,7 @@ import './ProductDetail.scss';
 import Framework7 from "framework7";
 import parse from 'html-react-parser';
 import axios from "axios";
+import { ReactComponent as NotificationIcon } from "../../icons/NotificationIcon.svg";
 
 class ProductDetail extends Component {
     
@@ -101,7 +102,7 @@ class ProductDetail extends Component {
             }
         }
 
-        let sellerName, avatarURL, goldCoins, silverCoins;
+        let sellerName, avatarURL, goldCoins, silverCoins, appointmentBtn;
         if(typeof(this.state.data.seller) !== "undefined") {
             var sellerInfo = this.state.data.seller;
             sellerName = sellerInfo.first_name + " " + sellerInfo.last_name;
@@ -110,6 +111,13 @@ class ProductDetail extends Component {
             silverCoins = sellerInfo.silver_coin;
             if(avatarURL == "") {
                 avatarURL = "images/avatar-placeholder.png";
+            }
+
+            var currentUser = localStorage.getItem("user_id");
+            if(currentUser != sellerInfo._id) {
+                appointmentBtn = <Button popoverOpen=".popover-appointment" raised fill className="appointment-button">Make Appointment</Button>;
+            } else {
+                appointmentBtn = <Button raised fill className="appointment-button">Mark As Sold</Button>
             }
         }
 
@@ -127,7 +135,7 @@ class ProductDetail extends Component {
                     <div className="toolbar-price">¥{price}</div>
                     <div className="toolbar-actions">
                         <Button raised fill className="chat-button" onClick={this.handleChat}>Chat</Button>
-                        <Button popoverOpen=".popover-appointment" raised fill className="appointment-button">Make Appointment</Button>
+                        {appointmentBtn}
                     </div>
                 </Toolbar>
                 <div className="page-content" style={{paddingTop: 0, paddingLeft: 0, paddingRight: 0, paddingBottom: 30}}>
@@ -172,12 +180,12 @@ class ProductDetail extends Component {
                 </div>
                 <Popover className="popover-appointment">
                     <List className="appointment-list">
-                        <ListItem title="Make Appointment" />
+                        <ListItem title="Appointment Menu" />
                         <ListItem link={appLink1} popoverClose title="Create Appointments" footer="Set a schedule to meet with owner">
-                            <Icon slot="media" f7="bell_fill"></Icon>
+                            
                         </ListItem>
                         <ListItem link={appLink2} popoverClose title="Deliver to Me" footer="Send with our courier's partners to my place">
-                            <Icon slot="media" f7="bell_fill"></Icon>
+                            
                         </ListItem>
                     </List>
                 </Popover>

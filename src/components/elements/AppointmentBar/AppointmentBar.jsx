@@ -8,9 +8,10 @@ import axios from 'axios';
 
 class AppointmentBar extends Component {
     
+
     constructor(props) {
         super(props);
-        this.state = { currLat: 0.0, currLng: 0.0 };
+        this.state = { currLat: 0.0, currLng: 0.0, status: this.props.item.status };
         this.findCoordinates = this.findCoordinates.bind(this);
         this.finishAppointment = this.finishAppointment.bind(this);
     }
@@ -19,6 +20,42 @@ class AppointmentBar extends Component {
         navigator.geolocation.getCurrentPosition(position => {
             const location = JSON.stringify(position);
             this.setState({ currLat: position.coords.latitude, currLng: position.coords.longitude });
+        });
+    }
+
+    acceptAppointment(appointmentID) {
+        var payload = {
+            "_id": appointmentID,
+            "status": "accepted",
+        }
+
+        return axios.post(`https://go.2gaijin.com/confirm_appointment`, payload, {
+            headers: {
+                "Authorization": localStorage.getItem("access_token")
+            }
+        }).then(response => {
+            if(response.data["status"] == "Success") {
+                var jsonData = response.data.data;
+                this.setState({ status: "accepted" });
+            }
+        });
+    }
+
+    rejectAppointment(appointmentID) {
+        var payload = {
+            "_id": appointmentID,
+            "status": "rejected",
+        }
+
+        return axios.post(`https://go.2gaijin.com/confirm_appointment`, payload, {
+            headers: {
+                "Authorization": localStorage.getItem("access_token")
+            }
+        }).then(response => {
+            if(response.data["status"] == "Success") {
+                var jsonData = response.data.data;
+                this.setState({ status: "rejected" });
+            }
         });
     }
 
@@ -34,7 +71,7 @@ class AppointmentBar extends Component {
         }).then(response => {
             if(response.data["status"] == "Success") {
                 var jsonData = response.data.data;
-                this.setState({ status: "rejected" });
+                this.setState({ status: "finished" });
             }
         });
     }
@@ -61,40 +98,60 @@ class AppointmentBar extends Component {
                 }
                 
                 let notifButton;
-                if(item.status == "accepted") {
-                    notifButton = <div className="row" style={{paddingBottom: 0, marginBottom: 0}}>
-                        <div className="col-50">
-                            <Button className="general-btn" style={{color: "#fff", marginTop: 5}} raised fill round>Reschedule</Button>
+                if(this.props.type == "seller") {
+                    if(this.state.status == "accepted") {
+                        notifButton = <div className="row" style={{paddingBottom: 0, marginBottom: 0}}>
+                            <div className="col-50">
+                                <Button className="general-washout-btn" style={{color: "#000", marginTop: 5}} raised fill round>Reschedule</Button>
+                            </div>
+                            <div className="col-50">
+                                <Button className="general-btn" style={{color: "#fff", marginTop: 5}} onClick={() => this.finishAppointment(item._id)} raised fill round>Finish Transaction</Button>
+                            </div>
                         </div>
-                        <div className="col-50">
-                            <Button className="general-btn" style={{color: "#fff", marginTop: 5}} onClick={() => this.finishAppointment(item._id)} raised fill round>Finish Transaction</Button>
+                    } else if(this.state.status == "rejected") {
+                        notifButton = <div className="row" style={{paddingBottom: 0, marginBottom: 0}}>
+                            <Button className="general-disabled-btn" style={{color: "#EF7132", marginTop: 5}} color="orange" raised fill round>This Appointment is Rejected</Button>
                         </div>
-                    </div>
-                } else if(item.status == "rejected") {
-                    notifButton = <div className="row" style={{paddingBottom: 0, marginBottom: 0}}>
-                    You have rejected this appointment
-                    </div>
-                } else if(item.status == "pending") {
-                    notifButton = <div className="row" style={{paddingBottom: 0, marginBottom: 0}}>
-                        <div className="col-50">
-                            <Button className="general-btn" style={{color: "#fff", marginTop: 5}} raised fill round>Accept</Button>
+                    } else if(this.state.status == "pending") {
+                        notifButton = <div className="row" style={{paddingBottom: 0, marginBottom: 0}}>
+                            <div className="col-50">
+                                <Button className="general-btn" style={{color: "#fff", marginTop: 5}} onClick={() => this.acceptAppointment(item._id)} color="orange" raised fill round>Accept</Button>
+                            </div>
+                            <div className="col-50">
+                                <Button className="general-reject-btn" style={{color: "#fff", marginTop: 5}} onClick={() => this.rejectAppointment(item._id)} color="orange" raised fill round>Reject</Button>
+                            </div>
                         </div>
-                        <div className="col-50">
-                            <Button className="general-btn" style={{color: "#fff", marginTop: 5}} raised fill round>Reject</Button>
+                    } else if(this.state.status == "finished") {
+                        notifButton = <div className="row" style={{paddingBottom: 0, marginBottom: 0}}>
+                            <Button className="general-disabled-btn" style={{color: "#EF7132", marginTop: 5}} raised fill round>Appointment has finished</Button>
                         </div>
-                    </div>
-                } else if(item.status == "finished") {
-                    notifButton = <div className="row" style={{paddingBottom: 0, marginBottom: 0}}>
-                        <div className="col-50">
-                            <Button className="general-btn" style={{color: "#fff", marginTop: 5}} raised fill round>Accept</Button>
+                    }
+                } else if(this.props.type == "buyer") {
+                    if(this.state.status == "accepted") {
+                        notifButton = <div className="row" style={{paddingBottom: 0, marginBottom: 0}}>
+                            <div className="col-50">
+                                <Button className="general-washout-btn" style={{color: "#000", marginTop: 5}} raised fill round>Chat with Seller</Button>
+                            </div>
                         </div>
-                        <div className="col-50">
-                            <Button className="general-btn" style={{color: "#fff", marginTop: 5}} raised fill round>Reject</Button>
+                    } else if(this.state.status == "rejected") {
+                        notifButton = <div className="row" style={{paddingBottom: 0, marginBottom: 0}}>
+                            <Button className="general-disabled-btn" style={{color: "#EF7132", marginTop: 5}} color="orange" raised fill round>This Appointment is Rejected</Button>
                         </div>
-                    </div>
+                    } else if(this.state.status == "pending") {
+                        notifButton = <div className="row" style={{paddingBottom: 0, marginBottom: 0}}>
+                            <div className="col-50">
+                                <Button className="general-washout-btn" style={{color: "#000", marginTop: 5}} raised fill round>Chat with Seller</Button>
+                            </div>
+                            <div className="col-50">
+                                <Button className="general-disabled-btn" style={{color: "#EF7132", marginTop: 5}} raised fill round>In Review...</Button>
+                            </div>
+                        </div>
+                    } else if(this.state.status == "finished") {
+                        notifButton = <div className="row" style={{paddingBottom: 0, marginBottom: 0}}>
+                            <Button className="general-disabled-btn" style={{color: "#EF7132", marginTop: 5}} raised fill round>Appointment has finished</Button>
+                        </div>
+                    }
                 }
-
-                console.log(item.meeting_time);
 
                 return(
                     <React.Fragment>

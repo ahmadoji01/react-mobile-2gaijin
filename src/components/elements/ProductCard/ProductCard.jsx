@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import "./ProductCard.scss";
 import { Link } from 'framework7-react';
 import { geolocated } from 'react-geolocated';
+import { ReactComponent as SoldOutIcon } from "../../icons/SoldOutIcon.svg";
 
 class ProductCard extends Component {
     
@@ -72,9 +73,17 @@ class ProductCard extends Component {
                 locColumn = <p className="location"><i className="fa fa-map-marker"></i>{locText}</p>
             }
 
+            let soldOut;
+            if(item.status != "available") {
+                soldOut = <div className="love-button card-sold">
+                    <SoldOutIcon height="28px" />
+                </div>;
+            }
+
             return(
                 <Link href={`/product/${item["_id"]}`} className="product-card" style={{ height: `${this.state.height}px`, width: `${this.state.cardWidth}px`}} >
                     <div className="content content-shadow-product">
+                        {soldOut}
                         <div className="image-container" style={{backgroundImage: `url(${item["img_url"]})`, width: `${this.state.cardWidth}px`}}></div>
                         <div className="text">
                             <p className="title-product">{item.name}</p>

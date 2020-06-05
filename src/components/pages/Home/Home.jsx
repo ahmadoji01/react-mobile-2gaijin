@@ -1,13 +1,13 @@
 import React, { Component } from "react";
 import { connect } from 'react-redux';
-import { Icon, Navbar, NavLeft, NavTitle, NavRight, Link, Page, PageContent, Searchbar, Subnavbar, Block, NavTitleLarge } from 'framework7-react';
+import { Navbar, NavLeft, NavTitle, NavRight, Link, Page, PageContent, Searchbar, Subnavbar, Block, NavTitleLarge } from 'framework7-react';
+import { Badge } from 'antd';
 import './Home.scss';
 import HomeTab from "../../tabs/HomeTab";
-import AppointmentTab from "../../tabs/AppointmentTab/AppointmentTab";
-import AccountTab from "../../tabs/AccountTab/AccountTab";
 import AuthService from "../../../services/auth.service";
-import WishlistTab from "../../tabs/WishlistTab/WishlistTab";
 import Toolbar from "../../elements/Toolbar";
+import { ReactComponent as MessageIcon } from "../../icons/MessageIcon.svg";
+import { ReactComponent as NotifIcon } from "../../icons/NotificationIcon.svg";
 
 import { Tabs } from 'antd';
 
@@ -76,8 +76,8 @@ class Home extends Component {
                         {title}
                     </NavLeft>
                     <NavRight>
-                        <Link href="/notification"><Icon color="#8DA2CB" f7="bell_fill" size="24px"></Icon></Link>
-                        <Link href="/chatlobby"><Icon color="#8DA2CB" f7="envelope_fill" size="24px"></Icon></Link>
+                        <Link href="/notification"><Badge dot><NotifIcon size="24px" /></Badge></Link>
+                        <Link href="/chatlobby"><MessageIcon size="24px" /></Link>
                     </NavRight>
                 </Navbar>
                 <Toolbar activeTab={1} />

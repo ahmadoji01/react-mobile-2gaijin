@@ -77,15 +77,15 @@ class AppointmentConfirmationNotif extends Component {
             if(this.state.status == "accepted") {
                 notifButton = <div className="row" style={{paddingBottom: 0, marginBottom: 0}}>
                     <div className="col-50">
-                        <Button className="general-btn" style={{color: "#fff", marginTop: 5}} href="/appointment" color="orange" raised fill round>Go To Appointment</Button>
+                        <Button className="general-btn" style={{color: "#fff", marginTop: 5}} href="/see-appointment" color="orange" raised fill round>Go To Appointment</Button>
                     </div>
                     <div className="col-50">
-                        <Button className="general-disabled-btn" style={{color: "#EF7132", marginTop: 5}} href="/appointment" color="orange" raised fill round>Accepted</Button>
+                        <Button className="general-disabled-btn" style={{color: "#EF7132", marginTop: 5}} color="orange" raised fill round>Accepted</Button>
                     </div>
                 </div>
             } else if(this.state.status == "rejected") {
                 notifButton = <div className="row" style={{paddingBottom: 0, marginBottom: 0}}>
-                   <Button className="general-disabled-btn" style={{color: "#EF7132", marginTop: 5}} href="/appointment" color="orange" raised fill round>This Appointment is Rejected</Button>
+                   <Button className="general-disabled-btn" style={{color: "#EF7132", marginTop: 5}} color="orange" raised fill round>This Appointment is Rejected</Button>
                 </div>
             } else if(this.state.status == "pending") {
                 notifButton = <div className="row" style={{paddingBottom: 0, marginBottom: 0}}>

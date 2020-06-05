@@ -23,6 +23,7 @@ class Search extends Component {
             priceMax: 75000,
             popupOpened: false,
             totalItems: 0,
+            searchTitle: this.props.searchTerm,
         };
         this.SearchBarChange = this.SearchBarChange.bind(this);
         this.SearchItems = this.SearchItems.bind(this);
@@ -35,6 +36,8 @@ class Search extends Component {
         .get(`https://go.2gaijin.com/search?q=` + this.state.searchterm, {}, {});
         var fetchData = response.data.data.items;
         this.setState({ data: fetchData });
+        this.setState({totalItems: response.data.data.total_items});
+        this.setState({searchTitle: this.state.searchterm});
     }
 
     componentWillMount() {
@@ -82,8 +85,10 @@ class Search extends Component {
             + "&pricemax=" + pricemax
             )
             .then(res => {
-            this.setState({ data: [...this.state.data, ...res.data.data.items] });
-            this.setState({ loading: false });
+                this.setState({ data: [...this.state.data, ...res.data.data.items] });
+                this.setState({ loading: false });
+                this.setState({totalItems: res.data.data.total_items});
+                console.log(res.data.data.total_items);
             });
     }
 
@@ -139,7 +144,6 @@ class Search extends Component {
         + "&pricemax=" + pricemax, {}, {})
         .then(response => {
             var fetchData = response.data.data.items;
-            console.log(fetchData);
             this.setState({data: fetchData});
             this.setState({popupOpened: false});
             this.setState({totalItems: response.data.data.total_items});
@@ -182,7 +186,7 @@ class Search extends Component {
                     </Subnavbar>
                 </Navbar>
                 <div className="container">
-                    <h4 style={{marginTop: 10, marginBottom: 0}}>Showing results of <b>"{this.state.searchterm}"</b> - <b>{this.state.totalItems} item(s)</b></h4>
+                    <h4 style={{marginTop: 10, marginBottom: 0}}>Showing results of <b>"{this.state.searchTitle}"</b> - <b>{this.state.totalItems} item(s)</b></h4>
                     <ProductContainerInfinite items={this.state.data} />
                     <div
                     ref={loadingRef => (this.loadingRef = loadingRef)}

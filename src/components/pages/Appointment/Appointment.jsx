@@ -151,7 +151,7 @@ class Appointment extends Component {
                 </Tabs>
                 <SwipeableViews index={this.state.index} onChangeIndex={this.handleChangeIndex}>
                     <div style={Object.assign({}, styles.slide, styles.slide1)}>
-                        <AppointmentContainer items={this.state.data} />
+                        <AppointmentContainer items={this.state.data} type="seller" />
                         <div
                         ref={loadingRef => (this.loadingRef = loadingRef)}
                         style={loadingCSS}>
@@ -159,7 +159,7 @@ class Appointment extends Component {
                         </div>
                     </div>
                     <div style={Object.assign({}, styles.slide, styles.slide2)}>
-                        <AppointmentContainer items={this.state.data2} />
+                        <AppointmentContainer items={this.state.data2} type="buyer" />
                         <div
                         ref={loadingRef2 => (this.loadingRef2 = loadingRef2)}
                         style={loadingCSS}>

@@ -3,6 +3,7 @@ import './Notification.scss';
 import { Icon, Link, Page, Navbar, NavLeft, NavTitle } from 'framework7-react';
 import axios from 'axios';
 import AppointmentConfirmationNotif from "../../elements/NotificationLists/AppointmentConfirmationNotif/AppointmentConfirmationNotif";
+import TrustCoinNotif from "../../elements/NotificationLists/TrustCoinNotif/TrustCoinNotif";
 import Moment from 'react-moment';
 import moment from 'moment';
 
@@ -51,16 +52,23 @@ class Notification extends Component {
         var comparedTime = moment();
         if(this.state.notifications.length >= 1) {
             notifItems = this.state.notifications.map(function(notifItem, i) {
+                let notifType;
+                if(notifItem.type == "order_incoming" || notifItem.type == "appointment_confirmation") {
+                    notifType = <div key={i+1}><AppointmentConfirmationNotif item={notifItem} /></div>;
+                } else if(notifItem.type == "give_trust_coin") {
+                    notifType = <div key={i+1}><TrustCoinNotif item={notifItem} /></div>
+                }
+                
                 if( i == 0 || !comparedTime.isSame(notifItem.created_at, 'day') ) {
                     comparedTime = moment(notifItem.created_at);
                     return <React.Fragment>
                         <div className="title-time">
                             <span><Moment calendar={calendarStrings}>{notifItem.created_at}</Moment></span>
                         </div>
-                        <div key={i+1}><AppointmentConfirmationNotif item={notifItem} /></div>
+                        {notifType}
                     </React.Fragment>;
                 }
-                return <div key={i+1}><AppointmentConfirmationNotif item={notifItem} /></div>
+                return(notifType);
             });
         }
 

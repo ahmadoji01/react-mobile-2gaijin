@@ -42,6 +42,15 @@
   line-height: 40px;
 }
 
+.general-washout-btn {
+	background-color: #CDCDCD;
+	font-family: 'Poppins', sans-serif;
+  font-weight: 700;
+  height: 40px;
+  text-align: center;
+  line-height: 40px;
+}
+
 .general-disabled-btn {
 	background-color: #FFD4BE;
 	font-family: 'Poppins', sans-serif;

@@ -2,8 +2,9 @@ import React, { Component } from 'react';
 import './TrustCoinNotif.scss';
 import Moment from 'react-moment';
 import ProductCardHorizontal from '../../ProductCardHorizontal';
-import { Button, Sheet, PageContent, Block, BlockTitle } from "framework7-react";
+import { Button, Sheet, PageContent, Block, BlockTitle, Icon } from "framework7-react";
 import axios from 'axios';
+import { ReactComponent as CheckButton } from "../../../icons/CheckButtonIcon.svg";
 
 class TrustCoinNotif extends Component {
 
@@ -19,10 +20,35 @@ class TrustCoinNotif extends Component {
 
     selectCoin(coin) {
         this.setState({ selectedCoin: coin });
+        if(coin == "gold") {
+            this.goldCoinCard.className = "coin-card active-gold";
+            this.silverCoinCard.className = "coin-card";
+        } else if(coin == "silver") {
+            this.goldCoinCard.className = "coin-card";
+            this.silverCoinCard.className = "coin-card active-silver";
+        }
     }
 
-    giveTrustCoin() {
+    giveTrustCoin(appointmentID, receiverID) {
+        var payload = {
+            "type": this.state.selectedCoin,
+            "appointment_id": appointmentID,
+            "receiver_id": receiverID,
+        }
 
+        console.log(appointmentID, receiverID);
+
+        /*
+        return axios.post(`https://go.2gaijin.com/insert_trust_coin`, payload, {
+            headers: {
+                "Authorization": localStorage.getItem("access_token")
+            }
+        }).then(response => {
+            if(response.data["status"] == "Success") {
+                var jsonData = response.data.data;
+                this.setState({ status: "rejected" });
+            }
+        });*/
     }
 
     render() {
@@ -57,28 +83,13 @@ class TrustCoinNotif extends Component {
                 </div>
             }
 
-            let selectedCoinDiv;
+            let goldSelected, silverSelected, checkValid;
             if(this.state.selectedCoin == "gold") {
-                selectedCoinDiv = <><div className="col-50">
-                    <div className="coin-card active-gold" onClick={() => this.selectCoin("gold")} />
-                </div>
-                <div className="col-50">
-                    <div className="coin-card" onClick={() => this.selectCoin("silver")} />
-                </div></>;
+                goldSelected = <div className="ok-indicator"><CheckButton /></div>;
             } else if(this.state.selectedCoin == "silver") {
-                selectedCoinDiv = <><div className="col-50">
-                    <div className="coin-card" onClick={() => this.selectCoin("gold")} />
-                </div>
-                <div className="col-50">
-                    <div className="coin-card active-silver" onClick={() => this.selectCoin("silver")} />
-                </div></>;
+                silverSelected = <div className="ok-indicator"><CheckButton /></div>;
             } else {
-                selectedCoinDiv = <><div className="col-50">
-                    <div className="coin-card" onClick={() => this.selectCoin("gold")} />
-                </div>
-                <div className="col-50">
-                    <div className="coin-card" onClick={() => this.selectCoin("silver")} />
-                </div></>;
+                checkValid = <p className="coin-valid-text">Choose one of the trust coin</p>
             }
 
             return (
@@ -103,14 +114,28 @@ class TrustCoinNotif extends Component {
                         >
                         <PageContent>
                             <Block>
-                                <p style={{textAlign: "center"}}><h4>How is transaction experience with {notifItem.notification_user.first_name}?</h4></p>
+                                <p style={{textAlign: "center"}}><h4>How was the transaction experience with {notifItem.notification_user.first_name}?</h4></p>
                                 <div style={{width: "100%"}}>
                                     <div style={{height: 300}}>
                                         <div className="row">
-                                            {selectedCoinDiv}
+                                            <div className="col-50">
+                                                <div className="coin-card" ref={ goldCoinCard => this.goldCoinCard = goldCoinCard } onClick={() => this.selectCoin("gold")}>
+                                                    {goldSelected}
+                                                    <img src={process.env.PUBLIC_URL + "/images/GoldCoin.png"} className="coin-image" />
+                                                    <p className="coin-text">It was GREAT!</p>
+                                                </div>
+                                            </div>
+                                            <div className="col-50">
+                                                <div className="coin-card" ref={ silverCoinCard => this.silverCoinCard = silverCoinCard } onClick={() => this.selectCoin("silver")}>
+                                                    {silverSelected}
+                                                    <img src={process.env.PUBLIC_URL + "/images/SilverCoin.png"} className="coin-image" />
+                                                    <p className="coin-text">It was OK!</p>
+                                                </div>
+                                            </div>
                                         </div>
                                         <div className="row">
-                                            <Button sheetOpen=".demo-sheet-swipe-to-close" className="general-btn" style={{color: "#fff", marginTop: 5, width: "100%"}} raised fill round>Send Trust Coin</Button>
+                                            {checkValid}
+                                            <Button sheetOpen=".demo-sheet-swipe-to-close" onClick={() => this.giveTrustCoin(notifItem.appointment_id, notifItem.notifier_id)} className="general-btn" style={{color: "#fff", marginTop: 5, width: "100%"}} raised fill round>Send Trust Coin</Button>
                                         </div>
                                     </div>
                                 </div>

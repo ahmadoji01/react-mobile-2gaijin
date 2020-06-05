@@ -53,8 +53,10 @@ class Notification extends Component {
         if(this.state.notifications.length >= 1) {
             notifItems = this.state.notifications.map(function(notifItem, i) {
                 let notifType;
-                if(notifItem.type == "order_incoming" || notifItem.type == "appointment_confirmation") {
-                    notifType = <div key={i+1}><AppointmentConfirmationNotif item={notifItem} /></div>;
+                if(notifItem.type == "order_incoming") {
+                    notifType = <div key={i+1}><AppointmentConfirmationNotif item={notifItem} confirmation={false} /></div>;
+                } else if(notifItem.type == "appointment_confirmation") {
+                    notifType = <div key={i+1}><AppointmentConfirmationNotif item={notifItem} confirmation={true} /></div>;
                 } else if(notifItem.type == "give_trust_coin") {
                     notifType = <div key={i+1}><TrustCoinNotif item={notifItem} /></div>
                 }

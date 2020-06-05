@@ -98,6 +98,19 @@ class AppointmentConfirmationNotif extends Component {
                 </div>
             }
 
+            let notifTitle;
+            if(this.props.confirmation) {
+                if(notifItem.status == "rejected") {
+                    notifTitle = <h7><b>{notifItem.notification_user.first_name}</b> rejected your <b>Appointment Request</b> on <b><Moment calendar={calendarStrings}>{notifItem.appointment.meeting_time}</Moment></b> for this item:</h7>;
+                } else if(notifItem.status == "accepted") {
+                    notifTitle = <h7><b>{notifItem.notification_user.first_name}</b> accepted your <b>Appointment Request</b> on <b><Moment calendar={calendarStrings}>{notifItem.appointment.meeting_time}</Moment></b> for this item:</h7>;
+                }
+            } else {
+                notifTitle = <React.Fragment><h7>{notifItem.notification_user.first_name} sent you an appointment request</h7>
+                <p>on <Moment calendar={calendarStrings}>{notifItem.appointment.meeting_time}</Moment><br />Appointment can be rescheduled after accepted</p>;
+                </React.Fragment>
+            }
+
             return(
                 <React.Fragment>
                     <div className="content">
@@ -105,8 +118,7 @@ class AppointmentConfirmationNotif extends Component {
                             <div className="col-10 notif-img-container" style={{backgroundImage: `url("${avatarURL}")`, width: "10%"}}></div>
                             <div className="col-90">
                                 <div className="text">
-                                    <h6>{notifItem.notification_user.first_name} sent you an appointment request</h6>
-                                    <p>on <Moment calendar={calendarStrings}>{notifItem.appointment.meeting_time}</Moment><br />Appointment can be rescheduled after accepted</p>
+                                    {notifTitle}
                                 </div>
                             </div>
                         </div>

@@ -9,6 +9,16 @@ class TrustCoinNotif extends Component {
 
     state = {
         status: this.props.item.status,
+        selectedCoin: "",
+    }
+
+    constructor(props) {
+        super(props);
+        this.selectCoin = this.selectCoin.bind(this);
+    }
+
+    selectCoin(coin) {
+        this.setState({ selectedCoin: coin });
     }
 
     giveTrustCoin() {
@@ -46,6 +56,31 @@ class TrustCoinNotif extends Component {
                     </div>
                 </div>
             }
+
+            let selectedCoinDiv;
+            if(this.state.selectedCoin == "gold") {
+                selectedCoinDiv = <><div className="col-50">
+                    <div className="coin-card active-gold" onClick={() => this.selectCoin("gold")} />
+                </div>
+                <div className="col-50">
+                    <div className="coin-card" onClick={() => this.selectCoin("silver")} />
+                </div></>;
+            } else if(this.state.selectedCoin == "silver") {
+                selectedCoinDiv = <><div className="col-50">
+                    <div className="coin-card" onClick={() => this.selectCoin("gold")} />
+                </div>
+                <div className="col-50">
+                    <div className="coin-card active-silver" onClick={() => this.selectCoin("silver")} />
+                </div></>;
+            } else {
+                selectedCoinDiv = <><div className="col-50">
+                    <div className="coin-card" onClick={() => this.selectCoin("gold")} />
+                </div>
+                <div className="col-50">
+                    <div className="coin-card" onClick={() => this.selectCoin("silver")} />
+                </div></>;
+            }
+
             return (
                 <React.Fragment>
                     <div className="content">
@@ -70,10 +105,12 @@ class TrustCoinNotif extends Component {
                             <Block>
                                 <p style={{textAlign: "center"}}><h4>How is transaction experience with {notifItem.notification_user.first_name}?</h4></p>
                                 <div style={{width: "100%"}}>
-                                    <div className="row" style={{height: 300}}>
-                                        <div className="col-50">
+                                    <div style={{height: 300}}>
+                                        <div className="row">
+                                            {selectedCoinDiv}
                                         </div>
-                                        <div className="col-50">
+                                        <div className="row">
+                                            <Button sheetOpen=".demo-sheet-swipe-to-close" className="general-btn" style={{color: "#fff", marginTop: 5, width: "100%"}} raised fill round>Send Trust Coin</Button>
                                         </div>
                                     </div>
                                 </div>

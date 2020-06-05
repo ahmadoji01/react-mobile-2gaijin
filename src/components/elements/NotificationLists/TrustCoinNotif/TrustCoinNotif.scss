@@ -1,0 +1,17 @@
+.coin-card {
+    margin: 0 auto; 
+    width: 150px;
+    height: 150px; 
+    background-color: lightgray;
+    border-radius: 10px
+}
+
+.active-gold {
+    border: 5px solid rgb(95, 95, 255);
+    background-color: lightyellow;
+}
+
+.active-silver {
+    border: 5px solid rgb(95, 95, 255);
+    background-color: silver;
+}

@@ -17,6 +17,7 @@ class MakeAppointment extends Component {
             itemID: "",
             sellerID: "",
             isDelivery: false,
+            validateInput: 0,
         };
         this.submitAppointment = this.submitAppointment.bind(this);
         this.backToHome = this.backToHome.bind(this);
@@ -25,6 +26,10 @@ class MakeAppointment extends Component {
     submitAppointment() {
         var calendarPicker = document.getElementById("demo-calendar-date-time");
         var meetingTime = new Date(calendarPicker.value).getTime();
+        if(calendarPicker.value == "") {
+            this.setState({ validateInput: 1 });
+            return;
+        }
         var status = "pending";
         if(this.state.itemID != "") {
             var payload = {
@@ -45,6 +50,7 @@ class MakeAppointment extends Component {
             .then(response => {
                 if(response.data.status == "Success") {
                     this.setState({submitted: true});
+                    this.setState({ validateInput: 0 });
                 }
             });
         }
@@ -75,7 +81,6 @@ class MakeAppointment extends Component {
             }
         });
         this.setState({ isDelivery: (this.props.withDelivery == "true") });
-        console.log(this.state.itemID);
     }
 
     backToHome() {
@@ -101,6 +106,13 @@ class MakeAppointment extends Component {
             }
         }
 
+        let validMsg;
+        if(this.state.validateInput == 1) {
+            validMsg = <p>You must input date and time</p>;
+        } else {
+            validMsg = <p></p>;
+        }
+
         return(
             <Page name="appointment" className="page page-appointment">
                 <Navbar>
@@ -112,20 +124,21 @@ class MakeAppointment extends Component {
                 <div className="notifi segments">
                     <div className="container">
                         <ProductCardHorizontal item={itemInfo} lat={currLat} lng={currLng}/>
-                        <div class="block-title-appointment">When do you want to meet?</div>
-                        <div class="list no-hairlines-md">
+                        <div className="block-title-appointment">When do you want to meet?</div>
+                        <div className="list no-hairlines-md">
                             <ul>
                                 <li>
-                                <div class="item-content item-input">
-                                    <div class="item-inner">
-                                    <div class="item-input-wrap">
-                                        <input  type="text" placeholder="Select date and time" readonly="readonly" id="demo-calendar-date-time"/>
-                                    </div>
+                                <div className="item-content item-input item-input-outline">
+                                    <div className="item-inner">
+                                        <div className="item-input-wrap">
+                                            <input type="text" placeholder="Select date and time" readOnly id="demo-calendar-date-time"/>
+                                        </div>
                                     </div>
                                 </div>
                                 </li>
                             </ul>
                         </div>
+                        {validMsg}
                         <Button className="general-btn" style={{color: "#fff", marginTop: 20}} onClick={this.submitAppointment} raised fill round>Confirm Appointment Request</Button>
                     </div>
                 </div>

@@ -107,7 +107,7 @@ class AppointmentConfirmationNotif extends Component {
                 }
             } else {
                 notifTitle = <React.Fragment><h7>{notifItem.notification_user.first_name} sent you an appointment request</h7>
-                <p>on <Moment calendar={calendarStrings}>{notifItem.appointment.meeting_time}</Moment><br />Appointment can be rescheduled after accepted</p>;
+                <p>on <Moment calendar={calendarStrings}>{notifItem.appointment.meeting_time}</Moment><br />Appointment can be rescheduled after accepted</p>
                 </React.Fragment>
             }
 

@@ -9,9 +9,7 @@ import Toolbar from "../../elements/Toolbar";
 import { ReactComponent as MessageIcon } from "../../icons/MessageIcon.svg";
 import { ReactComponent as NotifIcon } from "../../icons/NotificationIcon.svg";
 
-import { Tabs } from 'antd';
-
-const { TabPane } = Tabs;
+import axios from "axios";
 
 class Home extends Component {
 
@@ -19,6 +17,8 @@ class Home extends Component {
         super(props);
         this.state = {
             refreshToken: false,
+            notifRead: true,
+            messageRead: true,
         }
         this.searchClick = this.searchClick.bind(this);
         this.refreshingToken = this.refreshingToken.bind(this);
@@ -31,6 +31,20 @@ class Home extends Component {
             const refreshingToken = setInterval(this.refreshingToken, 720000);
         }
         this.setState({ refreshToken: true });
+
+        var user = AuthService.getCurrentUser();
+        if(user) {
+            let config = {
+                headers: {'Authorization': localStorage.getItem("access_token") },
+            };
+    
+            axios
+            .get(`https://go.2gaijin.com/check_notif_read`, config)
+            .then(res => {
+                this.setState({ notifRead: res.data.data.notif_read });
+                this.setState({ messageRead: res.data.data.message_read });
+            });  
+        }
     }
 
     refreshingToken() {
@@ -61,6 +75,19 @@ class Home extends Component {
             title = <p className="nav-title-large">What stuff can we<br/> <b>help you find?</b></p>
         }
 
+        let notifIcon, messageIcon;
+        if(this.state.notifRead) {
+            notifIcon = <NotifIcon size="24px" />;
+        } else {
+            notifIcon = <Badge dot><NotifIcon size="24px" /></Badge>;
+        }
+
+        if(this.state.messageRead) {
+            messageIcon = <MessageIcon size="24px" />;
+        } else {
+            messageIcon = <Badge dot><MessageIcon size="24px" /></Badge>;
+        }
+
         return (
             <Page name="home" className="page page-home page-with-subnavbar hide-navbar-on-scroll">
                 <Navbar id="navbar-home" className="home-nav-large">
@@ -76,8 +103,8 @@ class Home extends Component {
                         {title}
                     </NavLeft>
                     <NavRight>
-                        <Link href="/notification"><Badge dot><NotifIcon size="24px" /></Badge></Link>
-                        <Link href="/chatlobby"><MessageIcon size="24px" /></Link>
+                        <Link href="/notification">{notifIcon}</Link>
+                        <Link href="/chatlobby">{messageIcon}</Link>
                     </NavRight>
                 </Navbar>
                 <Toolbar activeTab={1} />

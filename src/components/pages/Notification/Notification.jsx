@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import './Notification.scss';
-import { Icon, Link, Page, Navbar, NavLeft, NavTitle } from 'framework7-react';
+import { Icon, Link, Page, Popup, NavRight, Navbar, NavLeft, NavTitle } from 'framework7-react';
 import axios from 'axios';
 import AppointmentConfirmationNotif from "../../elements/NotificationLists/AppointmentConfirmationNotif/AppointmentConfirmationNotif";
 import TrustCoinNotif from "../../elements/NotificationLists/TrustCoinNotif/TrustCoinNotif";
@@ -58,7 +58,7 @@ class Notification extends Component {
                 } else if(notifItem.type == "appointment_confirmation") {
                     notifType = <div key={i+1}><AppointmentConfirmationNotif item={notifItem} confirmation={true} /></div>;
                 } else if(notifItem.type == "give_trust_coin") {
-                    notifType = <div key={i+1}><TrustCoinNotif item={notifItem} /></div>
+                    notifType = <div key={i+1}><TrustCoinNotif notifNum={i+1} item={notifItem} /></div>
                 }
                 
                 if( i == 0 || !comparedTime.isSame(notifItem.created_at, 'day') ) {
@@ -87,6 +87,24 @@ class Notification extends Component {
                         {notifItems}
                     </div>
                 </div>
+
+                <Popup className="demo-popup-trust-coin" swipeToClose swipeHandler=".swipe-handler">
+                    <Page>
+                        <Navbar title="Successfully Sent!">
+                            <NavRight>
+                                <Link popupClose>Close</Link>
+                            </NavRight>
+                        </Navbar>
+                        <div style={{height: '90%', width: '100%'}} className="display-flex justify-content-center align-items-center">
+                            <div>
+                                <div style={{fontWeight: 900, display: 'table', margin: '0 auto'}}><h3><b>Trust Coin Sent!</b></h3></div>
+                                <div className="appointment-sent-text">
+                                    You have successfully contributed to creating a trusted community!
+                                </div>
+                            </div>
+                        </div>
+                    </Page>
+                </Popup>
             </Page>
         );
     }

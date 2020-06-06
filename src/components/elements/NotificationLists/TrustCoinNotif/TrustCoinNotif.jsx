@@ -70,7 +70,8 @@ class TrustCoinNotif extends Component {
                 avatarURL = "images/avatar-placeholder.png";
             }
             
-            let trustCoinButton;
+            var sheetClassName = "demo-sheet-swipe-to-close-" + this.props.notifNum;
+             let trustCoinButton;
             if(this.state.status == "finished") {
                 trustCoinButton = <div className="row" style={{paddingBottom: 0, marginBottom: 0}}>
                     <Button className="general-disabled-btn" style={{color: "#EF7132", marginTop: 5}} raised fill round>Tip has been sent. Fancy!</Button>
@@ -78,11 +79,11 @@ class TrustCoinNotif extends Component {
             } else if(this.state.status == "pending") {
                 trustCoinButton = <div className="row" style={{paddingBottom: 0, marginBottom: 0}}>
                     <div className="col-50">
-                        <Button sheetOpen=".demo-sheet-swipe-to-close" className="general-btn" style={{color: "#fff", marginTop: 5}} raised fill round>Send Tip</Button>
+                        <Button sheetOpen={"." + sheetClassName} className="general-btn" style={{color: "#fff", marginTop: 5}} raised fill round>Send Tip</Button>
                     </div>
                 </div>
             }
-
+            
             let goldSelected, silverSelected, checkValid;
             if(this.state.selectedCoin == "gold") {
                 goldSelected = <div className="ok-indicator"><CheckButton /></div>;
@@ -107,7 +108,7 @@ class TrustCoinNotif extends Component {
                     </div>
                     <div className="divider-space-content"></div>
                     <Sheet
-                        className="demo-sheet-swipe-to-close"
+                        className={sheetClassName}
                         style={{height: 'auto', '--f7-sheet-bg-color': '#fff'}}
                         swipeToClose
                         backdrop
@@ -135,7 +136,7 @@ class TrustCoinNotif extends Component {
                                         </div>
                                         <div className="row">
                                             {checkValid}
-                                            <Button sheetOpen=".demo-sheet-swipe-to-close" onClick={() => this.giveTrustCoin(notifItem.appointment_id, notifItem.notifier_id)} className="general-btn" style={{color: "#fff", marginTop: 5, width: "100%"}} raised fill round>Send Trust Coin</Button>
+                                            <Button sheetClose={"." + sheetClassName} popupOpen=".demo-popup-trust-coin" onClick={() => this.giveTrustCoin(notifItem.appointment_id, notifItem.notifier_id)} className="general-btn" style={{color: "#fff", marginTop: 15, width: "100%"}} raised fill round>Send Trust Coin</Button>
                                         </div>
                                     </div>
                                 </div>

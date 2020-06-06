@@ -74,7 +74,7 @@ class ProductCard extends Component {
             }
 
             let soldOut;
-            if(item.status != "available") {
+            if(item.availability != "available") {
                 soldOut = <div className="love-button card-sold">
                     <SoldOutIcon height="28px" />
                 </div>;

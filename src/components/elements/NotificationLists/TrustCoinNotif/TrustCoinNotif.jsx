@@ -36,9 +36,6 @@ class TrustCoinNotif extends Component {
             "receiver_id": receiverID,
         }
 
-        console.log(appointmentID, receiverID);
-
-        /*
         return axios.post(`https://go.2gaijin.com/insert_trust_coin`, payload, {
             headers: {
                 "Authorization": localStorage.getItem("access_token")
@@ -46,9 +43,10 @@ class TrustCoinNotif extends Component {
         }).then(response => {
             if(response.data["status"] == "Success") {
                 var jsonData = response.data.data;
-                this.setState({ status: "rejected" });
+                console.log(jsonData);
+                this.setState({ status: "finished" });
             }
-        });*/
+        });
     }
 
     render() {

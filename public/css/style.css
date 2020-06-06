@@ -300,6 +300,7 @@ ul li {
 .divider-space-content {
 	margin: 10px 0;
 	display: flex;
+	border: 0.5 solid #CDCDCDFF;
 }
 
 /*divider space for text*/

@@ -59,7 +59,7 @@ class TrustCoinNotif extends Component {
             sameElse : 'dddd, L [at] LT'
         };
 
-        if(typeof(this.props.item) !== "undefined"){
+        if(typeof(this.props.item) !== "undefined") {
             var notifItem = this.props.item;
             var avatarURL = "image"
 
@@ -72,7 +72,7 @@ class TrustCoinNotif extends Component {
              let trustCoinButton;
             if(this.state.status == "finished") {
                 trustCoinButton = <div className="row" style={{paddingBottom: 0, marginBottom: 0}}>
-                    <Button className="general-disabled-btn" style={{color: "#EF7132", marginTop: 5}} raised fill round>Tip has been sent. Fancy!</Button>
+                    <Button className="general-disabled-btn" style={{color: "#EF7132", marginTop: 5}} raised fill round>Tip has been sent</Button>
                 </div>
             } else if(this.state.status == "pending") {
                 trustCoinButton = <div className="row" style={{paddingBottom: 0, marginBottom: 0}}>

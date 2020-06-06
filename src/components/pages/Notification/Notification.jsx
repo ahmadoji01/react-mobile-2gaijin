@@ -4,6 +4,7 @@ import { Icon, Link, Page, Popup, NavRight, Navbar, NavLeft, NavTitle } from 'fr
 import axios from 'axios';
 import AppointmentConfirmationNotif from "../../elements/NotificationLists/AppointmentConfirmationNotif/AppointmentConfirmationNotif";
 import TrustCoinNotif from "../../elements/NotificationLists/TrustCoinNotif/TrustCoinNotif";
+import TrustCoinSentNotif from '../../elements/NotificationLists/TrustCoinSentNotif/TrustCoinSentNotif';
 import Moment from 'react-moment';
 import moment from 'moment';
 
@@ -59,6 +60,8 @@ class Notification extends Component {
                     notifType = <div key={i+1}><AppointmentConfirmationNotif item={notifItem} confirmation={true} /></div>;
                 } else if(notifItem.type == "give_trust_coin") {
                     notifType = <div key={i+1}><TrustCoinNotif notifNum={i+1} item={notifItem} /></div>
+                } else if(notifItem.type == "trust_coin_sent") {
+                    notifType = <div key={i+1}><TrustCoinSentNotif notifNum={i+1} item={notifItem} /></div>
                 }
                 
                 if( i == 0 || !comparedTime.isSame(notifItem.created_at, 'day') ) {

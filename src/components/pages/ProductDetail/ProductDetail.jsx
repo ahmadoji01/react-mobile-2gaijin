@@ -7,6 +7,7 @@ import Framework7 from "framework7";
 import parse from 'html-react-parser';
 import axios from "axios";
 import { ReactComponent as NotificationIcon } from "../../icons/NotificationIcon.svg";
+import { ReactComponent as SoldOutIcon } from "../../icons/SoldOutIcon.svg";
 
 class ProductDetail extends Component {
     
@@ -59,7 +60,7 @@ class ProductDetail extends Component {
         var lat = 0.0;
         var lng = 0.0;
         var price = 0;
-        let brand, condition, yearsOwned, modelName;
+        let brand, condition, yearsOwned, modelName, availability;
         if(typeof(this.state.data.item) !== "undefined") {
             var itemInfo = this.state.data.item;
             id = itemInfo._id;
@@ -69,6 +70,7 @@ class ProductDetail extends Component {
             lng = itemInfo.location.longitude;
             images = itemInfo.images;
             price = itemInfo.price;
+            availability = itemInfo.availability;
             images = images.map(function(image, i) {
                 return <SwiperSlide className="image-container" style={{background: `no-repeat center/cover url(${image["img_url"]})`, borderRadius: 0}}></SwiperSlide>
             });
@@ -115,10 +117,23 @@ class ProductDetail extends Component {
 
             var currentUser = localStorage.getItem("user_id");
             if(currentUser != sellerInfo._id) {
-                appointmentBtn = <Button popoverOpen=".popover-appointment" raised fill className="appointment-button">Make Appointment</Button>;
+                if(availability == "available") {
+                    appointmentBtn = <Button popoverOpen=".popover-appointment" raised fill className="appointment-button">Make Appointment</Button>;
+                } else {
+                    appointmentBtn = <Button raised fill className="sold-out-button" style={{color: "#565656"}}>Item Sold Out</Button>;
+                }
             } else {
                 appointmentBtn = <Button raised fill className="appointment-button">Mark As Sold</Button>
             }
+        }
+
+        let soldOutContainer;
+        if(availability != "available") {
+            soldOutContainer = <div className="sold-out-container">
+                <div className="sold-icon-container">
+                    <SoldOutIcon height="64px" />
+                </div>
+            </div>;
         }
 
         const mapSrc = "https://maps.google.com/maps?q=" + lat + "," + lng + "&t=&z=13&ie=UTF8&iwloc=&output=embed&hl=en";
@@ -142,6 +157,7 @@ class ProductDetail extends Component {
                     <Swiper pagination className="product-gallery" params={{speed:500, slidesPerView: 1, spaceBetween: 0}}>
                         {images}
                     </Swiper>
+                    {soldOutContainer}
                     <div className="container">
                         <h3>{name}</h3>
                         <table className="product-details">

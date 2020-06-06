@@ -1,6 +1,24 @@
 .product-gallery {
-    height: 50%;
+    height: 45%;
     border-radius: 0px;
+}
+
+.sold-out-container {
+    width: 100%;
+    height: 43.5%;
+    background-color: #000000AB;
+    position: absolute;
+    top: 0;
+    right: 0;
+    z-index: 9999999;
+}
+
+.sold-icon-container {
+    position: absolute;
+    right: 50%;
+    top: 50%;
+    -ms-transform: translate(50%, -50%);
+    transform: translate(50%, -50%);
 }
 
 .page-product .container{
@@ -78,6 +96,12 @@
     font-family: 'Poppins', sans-serif;
     font-weight: 700;
     color: white;
+}
+
+.sold-out-button {
+    background-color: #DFDFDF;
+    font-family: 'Poppins', sans-serif;
+    font-weight: 700;
 }
 
 .appointment-list {

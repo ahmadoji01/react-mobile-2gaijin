@@ -20,7 +20,6 @@ class HomeTab extends Component {
     }
 
     componentDidMount() {
-        window.addEventListener('resize', this.updateDimensions);
         fetch('https://go.2gaijin.com/')
         .then((response) => response.json())
         .then((responseJson) => {

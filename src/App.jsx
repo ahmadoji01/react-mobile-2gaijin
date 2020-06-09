@@ -20,6 +20,7 @@ import CategorySelect from "./components/pages/CategorySelect/CategorySelect";
 import AddProduct from "./components/pages/AddProduct/AddProduct";
 import Appointment from "./components/pages/Appointment/Appointment";
 import Account from "./components/pages/Account/Account";
+import ChattingRoom from './components/pages/ChattingRoom/ChattingRoom';
 
 const f7params = {
   // Array with app routes
@@ -39,7 +40,7 @@ const f7params = {
     },
     {
         path: '/chatroom/:roomID',
-        component: ChatRoom,
+        component: ChattingRoom,
     },
     {
         path: '/product/:productID',

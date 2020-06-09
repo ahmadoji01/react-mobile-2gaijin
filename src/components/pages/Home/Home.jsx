@@ -31,26 +31,24 @@ class Home extends Component {
             const refreshingToken = setInterval(this.refreshingToken, 720000);
         }
         this.setState({ refreshToken: true });
-
-        var user = AuthService.getCurrentUser();
-        if(user) {
-            let config = {
-                headers: {'Authorization': localStorage.getItem("access_token") },
-            };
-    
-            axios
-            .get(`https://go.2gaijin.com/check_notif_read`, config)
-            .then(res => {
-                this.setState({ notifRead: res.data.data.notif_read });
-                this.setState({ messageRead: res.data.data.message_read });
-            });  
-        }
     }
 
     refreshingToken() {
         var user = AuthService.getCurrentUser();
         if(user) {
-            AuthService.refreshToken();
+            AuthService.refreshToken().then(
+            () => {
+                let config = {
+                    headers: {'Authorization': localStorage.getItem("access_token") },
+                };
+        
+                axios
+                .get(`https://go.2gaijin.com/check_notif_read`, config)
+                .then(res => {
+                    this.setState({ notifRead: res.data.data.notif_read });
+                    this.setState({ messageRead: res.data.data.message_read });
+                });  
+            });
         }
     }
 
@@ -79,13 +77,13 @@ class Home extends Component {
         if(this.state.notifRead) {
             notifIcon = <NotifIcon size="24px" />;
         } else {
-            notifIcon = <Badge dot><NotifIcon size="24px" /></Badge>;
+            notifIcon = <Badge dot><NotifIcon onClick={ () => this.setState({notifRead: true}) }  size="24px" /></Badge>;
         }
 
         if(this.state.messageRead) {
             messageIcon = <MessageIcon size="24px" />;
         } else {
-            messageIcon = <Badge dot><MessageIcon size="24px" /></Badge>;
+            messageIcon = <Badge dot><MessageIcon onClick={ () => this.setState({messageRead: true}) }  size="24px" /></Badge>;
         }
 
         return (

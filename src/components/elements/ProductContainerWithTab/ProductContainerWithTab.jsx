@@ -205,7 +205,6 @@ class ProductContainerWithTab extends Component {
 
         var currLat = this.state.currLat; var currLng = this.state.currLng;
         
-        console.log(this.state.items1);
         return(
             <div>
                 <Tabs value={this.state.index} variant="fullWidth" onChange={this.handleTabChange} style={styles.tabs}>

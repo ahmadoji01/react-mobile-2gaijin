@@ -1,3 +1,6 @@
+import "./assets/css/font-awesome.min.css";
+import "./assets/css/framework7-icons.css";
+import "./assets/css/style.css";
 import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';

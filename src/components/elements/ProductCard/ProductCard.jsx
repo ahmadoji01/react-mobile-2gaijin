@@ -7,12 +7,14 @@ class ProductCard extends Component {
     
     constructor(props) {
         super(props);
-        this.state = { cardWidth: (window.innerWidth/2) - 25, cardHeight: (window.innerHeight/2) - 25 };
+        this.state = { cardWidth: (window.innerWidth/2) - 25, cardHeight: (window.innerHeight/2) - 25, locText: "" };
         this.updateWindowDimensions = this.updateWindowDimensions.bind(this);
+        this.calcDistance = this.calcDistance.bind(this);
     }
     
     componentDidMount() {
         this.updateWindowDimensions();
+        this.calcDistance();
         window.addEventListener('resize', this.updateWindowDimensions);
     }
     
@@ -25,25 +27,31 @@ class ProductCard extends Component {
         this.setState({ cardHeight: (window.innerHeight/2) - 25 });
     }
 
-    calcDistance(lat1, lng1, lat2, lng2) {
-        var R = 6371;
-        var dLat = (lat2-lat1) * (Math.PI/180);
-        var dLon = (lng2-lng1) * (Math.PI/180); 
-        var a = 
-            Math.sin(dLat/2) * Math.sin(dLat/2) +
-            Math.cos(lat1 * (Math.PI/180)) * Math.cos(lat2 * (Math.PI/180)) * 
-            Math.sin(dLon/2) * Math.sin(dLon/2)
-            ; 
-        var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a)); 
-        var d = R * c;
+    calcDistance() {
+        if(typeof(this.props.item) !== 'undefined') {
+            var item = this.props.item;
+            var lat1 = parseFloat(item.location.latitude);
+            var lng1 = parseFloat(item.location.longitude);
+            var lat2 = parseFloat(this.props.lat);
+            var lng2 = parseFloat(this.props.lng);
 
-        var text = d.toFixed(1) + " km away";
+            var R = 6371;
+            var dLat = (lat2-lat1) * (Math.PI/180);
+            var dLon = (lng2-lng1) * (Math.PI/180); 
+            var a = 
+                Math.sin(dLat/2) * Math.sin(dLat/2) +
+                Math.cos(lat1 * (Math.PI/180)) * Math.cos(lat2 * (Math.PI/180)) * 
+                Math.sin(dLon/2) * Math.sin(dLon/2)
+                ; 
+            var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a)); 
+            var d = R * c;
 
-        if (lat1 === 0.0 || lat2 === 0.0) {
-            text = "";
+            this.setState({ locText: d.toFixed(1) + " km away" });
+
+            if (lat1 === 0.0 || lat2 === 0.0) {
+                this.setState({ locText: "" });
+            }
         }
-
-        return text;
     }
 
     redirectToProductDetail(productID) {
@@ -53,14 +61,9 @@ class ProductCard extends Component {
     render() {
         if(typeof(this.props.item) !== 'undefined') {
             const item = this.props.item;
-            var locText = this.calcDistance(parseFloat(item.location.latitude), 
-            parseFloat(item.location.longitude), 
-            parseFloat(this.props.lat),  
-            parseFloat(this.props.lng));
-
             let locColumn;
-            if(locText != "") {
-                locColumn = <p className="location"><i className="fa fa-map-marker"></i>{locText}</p>
+            if(this.state.locText != "") {
+                locColumn = <p className="location"><i className="fa fa-map-marker"></i>{this.state.locText}</p>
             }
 
             let soldOut;

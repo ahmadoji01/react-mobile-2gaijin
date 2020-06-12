@@ -4,6 +4,7 @@ import { NavLink } from 'react-router-dom';
 import ProductCard from '../ProductCard';
 import Masonry from 'react-masonry-css';
 import { Toolbar, Link } from 'framework7-react';
+import { geolocated } from 'react-geolocated';
 
 class ProductContainerInfinite extends Component {
 
@@ -50,5 +51,10 @@ class ProductContainerInfinite extends Component {
     }
 }
 
-export default ProductContainerInfinite;
+export default geolocated({
+    positionOptions: {
+        enableHighAccuracy: true,
+    },
+    userDecisionTimeout: 5000,
+  })(ProductContainerInfinite);
 

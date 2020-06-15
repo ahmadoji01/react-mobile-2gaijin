@@ -17,7 +17,11 @@ import MakeAppointment from "./components/pages/MakeAppointment/MakeAppointment"
 import { createStore } from 'redux';
 import { Provider } from 'react-redux';
 import CategorySelect from "./components/pages/CategorySelect/CategorySelect";
-import AddProduct from "./components/pages/AddProduct/AddProduct";
+import CategoryListSelect from "./components/pages/CategoryListSelect/CategoryListSelect";
+import AddProductPage1 from "./components/pages/AddProduct/AddProductPage1";
+import AddProductPage2 from "./components/pages/AddProduct/AddProductPage2";
+import AddProductPage3 from "./components/pages/AddProduct/AddProductPage3";
+import ReviewProduct from "./components/pages/AddProduct/ReviewProduct";
 import Appointment from "./components/pages/Appointment/Appointment";
 import Account from "./components/pages/Account/Account";
 import ChattingRoom from './components/pages/ChattingRoom/ChattingRoom';
@@ -74,8 +78,24 @@ const f7params = {
         component: CategorySelect,
     },
     {
-        path: '/add-product/:category',
-        component: AddProduct,
+      path: '/category-list-select/:category',
+      component: CategoryListSelect,
+    },
+    {
+        path: '/add-product-1',
+        component: AddProductPage1,
+    },
+    {
+      path: '/add-product-2',
+      component: AddProductPage2,
+    },
+    {
+      path: '/add-product-3',
+      component: AddProductPage3,
+    },
+    {
+      path: '/review-product',
+      component: ReviewProduct,
     },
     {
         path: '/see-appointment',
@@ -94,9 +114,9 @@ const f7params = {
 };
 
 const initialState = {
-  isRefreshing: false,
-  selectedCategory: "",
+  isRefreshing: false
 }
+
 function reducer(state = initialState, action) {
   switch(action.type) {
     case "SetRefresh":

@@ -1,6 +1,16 @@
 import React, { Component } from 'react';
-import { Page, Navbar, NavLeft, List, ListItem, NavRight, Subnavbar, Link, Icon, Searchbar, NavTitle } from 'framework7-react';
+import { Page, PageContent, Navbar, NavLeft, List, ListItem, NavRight, Subnavbar, Link, Icon, Searchbar, NavTitle } from 'framework7-react';
 import axios from "axios";
+import { ReactComponent as ApparelsIllustration } from "../../illustrations/ApparelsIllustration.svg";
+import { ReactComponent as BooksIllustration } from "../../illustrations/BooksIllustration.svg";
+import { ReactComponent as ElectronicsIllustration } from "../../illustrations/ElectronicsIllustration.svg";
+import { ReactComponent as FootwearIllustration } from "../../illustrations/FootwearIllustration.svg";
+import { ReactComponent as FurnituresIllustration } from "../../illustrations/FurnituresIllustration.svg";
+import { ReactComponent as KitchensIllustration } from "../../illustrations/KitchensIllustration.svg";
+import { ReactComponent as MiscellaneousIllustration } from "../../illustrations/MiscellaneousIllustration.svg";
+import { ReactComponent as SportsIllustration } from "../../illustrations/SportsIllustration.svg";
+import { ReactComponent as VehiclesIllustration } from "../../illustrations/VehiclesIllustration.svg";
+import { ReactComponent as WhiteAppliancesIllustration } from "../../illustrations/WhiteAppliancesIllustration.svg";
 
 class CategorySelect extends Component {
 
@@ -12,6 +22,7 @@ class CategorySelect extends Component {
         };
         this.SearchBarChange = this.SearchBarChange.bind(this);
         this.SearchItems = this.SearchItems.bind(this);
+        this.onListClick = this.onListClick.bind(this);
     }
 
     async SearchItems() {
@@ -32,44 +43,61 @@ class CategorySelect extends Component {
     }
     
     onListClick(itemName) {
-        this.$f7router.navigate("/add-product/" + itemName);
+        this.$f7router.navigate("/category-list-select/" + itemName);
     }
     
     render() {
         return(
-            <Page name="search-history" className="page page-category-select">
+            <Page name="category-select" className="page page-category-select">
                 <Navbar>
                     <NavLeft>
                         <Link href="#" className="link back"><Icon f7="arrow_left_circle_fill" size="24px" color="gray"></Icon></Link>
                     </NavLeft>
                     <NavTitle>What do you want to sell today?</NavTitle>
-                    <Subnavbar inner={false}>
-                        <Searchbar
-                        placeholder="Select category of your items"
-                        clearButton={true}
-                        onChange={this.SearchBarChange}
-                        onSubmit={this.SearchItems}
-                        ref={(input) => { this.searchInput = input; }}
-                        searchContainer=".search-list"
-                        searchIn=".item-title"
-                        ></Searchbar>
-                    </Subnavbar>
                 </Navbar>
-                <List className="searchbar-not-found">
-                    <ListItem title="Nothing found" />
-                </List>
-                <List className="search-list searchbar-found">
-                    <ListItem title="Apparels" onClick={() => this.onListClick("Apparels")} />
-                    <ListItem title="Books" onClick={() => this.onListClick("Books")} />
-                    <ListItem title="Electronics" onClick={() => this.onListClick("Electronics")} />
-                    <ListItem title="Footwear" onClick={() => this.onListClick("Footwear")} />
-                    <ListItem title="Furnitures" onClick={() => this.onListClick("Furnitures")} />
-                    <ListItem title="Kitchens" onClick={() => this.onListClick("Kitchens")} />
-                    <ListItem title="Sports" onClick={() => this.onListClick("Sports")} />
-                    <ListItem title="Vehicles" onClick={() => this.onListClick("Vehicles")} />
-                    <ListItem title="White Appliances" onClick={() => this.onListClick("White Appliances")} />
-                    <ListItem title="Miscellaneous" onClick={() => this.onListClick("Miscellaneous")} />
-                </List>
+                <div className="container" style={{ marginTop: 10 }}>
+                    <h4>Categories for you</h4>
+                    <div className="row" style={{ marginBottom: 0, paddingBottom: 0 }}>
+                        <div className="col-50">
+                            <ApparelsIllustration onClick={ () => this.onListClick("Apparels") } />
+                        </div>
+                        <div className="col-50">
+                            <BooksIllustration onClick={ () => this.onListClick("Books") } />
+                        </div>
+                    </div>
+                    <div className="row" style={{ marginBottom: 0, paddingBottom: 0 }}>
+                        <div className="col-50">
+                            <ElectronicsIllustration onClick={ () => this.onListClick("Electronics") } />
+                        </div>
+                        <div className="col-50">
+                            <FootwearIllustration onClick={ () => this.onListClick("Footwear") } />
+                        </div>
+                    </div>
+                    <div className="row" style={{ marginBottom: 0, paddingBottom: 0 }}>
+                        <div className="col-50">
+                            <FurnituresIllustration onClick={ () => this.onListClick("Furnitures") } />
+                        </div>
+                        <div className="col-50">
+                            <KitchensIllustration onClick={ () => this.onListClick("Kitchens") } />
+                        </div>
+                    </div>
+                    <div className="row" style={{ marginBottom: 0, paddingBottom: 0 }}>
+                        <div className="col-50">
+                            <SportsIllustration onClick={ () => this.onListClick("Sports") } />
+                        </div>
+                        <div className="col-50">
+                            <VehiclesIllustration onClick={ () => this.onListClick("Vehicles") } />
+                        </div>
+                    </div>
+                    <div className="row" style={{ marginBottom: 0, paddingBottom: 0 }}>
+                        <div className="col-50">
+                            <WhiteAppliancesIllustration onClick={ () => this.onListClick("White Appliances") } />
+                        </div>
+                        <div className="col-50">
+                            <MiscellaneousIllustration onClick={ () => this.onListClick("Miscellaneous") } />
+                        </div>
+                    </div>
+                </div>
             </Page>
         );
     }

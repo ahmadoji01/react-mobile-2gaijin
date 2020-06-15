@@ -1,0 +1,33 @@
+@import "~@brainhubeu/react-file-input/dist/react-file-input.css";
+
+.container {
+    .brainhub-file-input__wrapper {
+      width: 100%;
+    }
+    .brainhub-file-info__metadata {
+      display: none;
+    }
+}
+
+.img-input-container {
+  position: relative;
+}
+
+.img-input {
+  opacity: 0.0; 
+  position: absolute; 
+  top: 0; 
+  width: 150px; 
+  height: 150px;
+}
+
+.img-input-text {
+  font-family: "Poppins"; 
+  position: relative; 
+  top: -50%;
+  z-index: -1;
+}
+
+.img-input-display {
+  z-index: 2130918;
+}

@@ -24,11 +24,15 @@ class CategoryListSelect extends Component {
     }
     
     componentWillMount() {
+        if(localStorage.getItem("selected_category")) {
+            this.setState({ selectedItem: localStorage.getItem("selected_category") })
+        }
+        
         axios
         .get(`https://go.2gaijin.com/get_categories`, {})
         .then(res => {
             this.setState({ categories: res.data.data.categories });
-        });  
+        });
     }
 
     populateCatTreeView(category) {

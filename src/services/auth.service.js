@@ -15,16 +15,19 @@ class AuthService {
             }
         })
         .then(response => {
-            var data = response.data.data.user;
-            if (data["authentication_token"]) {
+            var resData = response.data.data;
+            if(resData) {
+                var data = response.data.data.user;
                 localStorage.setItem("user_id", data._id);
                 localStorage.setItem("first_name", data.first_name);
                 localStorage.setItem("last_name", data.last_name);
                 localStorage.setItem("email", data.email);
                 localStorage.setItem("access_token", data.authentication_token);
                 localStorage.setItem("refresh_token", data.refresh_token);
+                return data;
+            } else {
+                return response.data;
             }
-            return data;
         });
     }
 
@@ -57,14 +60,17 @@ class AuthService {
                 "Content-Type": "application/json"
             }
         }).then(response => {
-            var data = response.data.data.user;
-            if (data["authentication_token"]) {
-                localStorage.setItem("user_id", data._id);
-                localStorage.setItem("first_name", data.first_name);
-                localStorage.setItem("last_name", data.last_name);
-                localStorage.setItem("email", data.email);
-                localStorage.setItem("access_token", data.authentication_token);
-                localStorage.setItem("refresh_token", data.refresh_token);
+            var resData = response.data.data;
+            if(resData) {
+                var data = response.data.data.user;
+                if (data["authentication_token"]) {
+                    localStorage.setItem("user_id", data._id);
+                    localStorage.setItem("first_name", data.first_name);
+                    localStorage.setItem("last_name", data.last_name);
+                    localStorage.setItem("email", data.email);
+                    localStorage.setItem("access_token", data.authentication_token);
+                    localStorage.setItem("refresh_token", data.refresh_token);
+                }
             }
             return response.data;
         });

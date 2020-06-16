@@ -93,7 +93,6 @@ class ProductDetail extends Component {
             appLink2 = "/appointment/" + id + "/true";
             
             if(this.state.data.details.brand != "") {
-                console.log(this.state.data.item.brand);
                 brand = <tr>
                     <td className="detail-label"><Icon f7="tag_fill" size="12px" /> Brand</td>
                     <td className="detail-info">{this.state.data.details.brand}</td>

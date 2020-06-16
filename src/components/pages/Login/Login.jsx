@@ -66,18 +66,16 @@ class Login extends Component {
 
         if (this.checkBtn.context._errors.length === 0) {
             AuthService.login(this.state.email, this.state.password).then(
-            () => {
-                this.$f7router.navigate("/");
-            },
-            error => {
-                const resMessage = "Something went wrong. Try again";
-
-                this.setState({
-                loading: false,
-                message: resMessage
-                });
-            }
-            );
+            response => {
+                if(!localStorage.getItem("access_token")) {
+                    this.setState({
+                        loading: false,
+                        message: response.message
+                    });
+                } else {
+                    this.$f7router.navigate("/");
+                }
+            });
         } else {
             this.setState({
             loading: false
@@ -140,11 +138,7 @@ class Login extends Component {
                                     <ul>
                                         <li>
                                             <label className="item-checkbox item-content">
-                                                <input type="checkbox" />
-                                                <i className="icon icon-checkbox"></i>
-                                                <div className="item-inner">
-                                                    <div className="item-title">Remember me</div>
-                                                </div>
+                                                
                                             </label>
                                         </li>
                                         <li><a href="#">Forgot Password</a></li>
@@ -182,21 +176,14 @@ class Login extends Component {
                                 </div>
                                 <div className="wrap-media-sign-in">
                                     <div className="row">
-                                        <div className="col-33">
+                                        <div className="col-50">
                                             <a href="#">
                                                 <div className="content bg-facebook">
                                                     <i className="fab fa-facebook-f"></i>
                                                 </div>
                                             </a>
                                         </div>
-                                        <div className="col-33">
-                                            <a href="#">
-                                                <div className="content bg-twitter">
-                                                    <i className="fab fa-twitter"></i>
-                                                </div>
-                                            </a>
-                                        </div>
-                                        <div className="col-33">
+                                        <div className="col-50">
                                             <a href="#">
                                                 <div className="content bg-google">
                                                     <i className="fab fa-google"></i>

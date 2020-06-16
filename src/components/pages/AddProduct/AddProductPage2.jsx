@@ -27,7 +27,6 @@ class AddProductPage2 extends Component {
         let price;
         if(e.target.value != "") {
             price = parseInt(e.target.value);
-            console.log(e.target.value);
         } else {
             price = 0;
         }

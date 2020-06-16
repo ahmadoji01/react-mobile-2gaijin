@@ -27,6 +27,7 @@ class ReviewProduct extends Component {
             thumbImgsToUpload: new Array(imagesLimit),
             totalImages: 0,
             isPublishing: false,
+            isError: false,
             inputWidth: 150,
         }
         this.onButtonClick = this.onButtonClick.bind(this);
@@ -41,6 +42,7 @@ class ReviewProduct extends Component {
         this.setState({ modelName: localStorage.getItem("model_name") });
         this.setState({ itemDescription: localStorage.getItem("item_description") });
         this.setState({ selectedCategory: localStorage.getItem("selected_category") });
+        this.setState({ itemPrice: parseInt(localStorage.getItem("price")) });
         
         var lat = parseFloat(localStorage.getItem("latitude"));
         var lng = parseFloat(localStorage.getItem("longitude"));
@@ -86,6 +88,7 @@ class ReviewProduct extends Component {
         localStorage.removeItem("model_name");
         localStorage.removeItem("item_description");
         localStorage.removeItem("selected_category");
+        localStorage.removeItem("price");
         
         localStorage.removeItem("latitude");
         localStorage.removeItem("longitude");
@@ -124,7 +127,6 @@ class ReviewProduct extends Component {
             },
             "product_images": imagesArray
         }
-        console.log(payload);
         this.setState({ isPublishing: true });
         
         return axios.post(`https://go.2gaijin.com/add_product`, payload, {
@@ -137,6 +139,9 @@ class ReviewProduct extends Component {
                 this.removeAllProductInfo();
                 this.setState({ isPublishing: false });
                 this.$f7router.navigate("/");
+            } else {
+                this.setState({ isPublishing: false });
+                this.setState({ isError: true });
             }
         });
     }
@@ -186,6 +191,25 @@ class ReviewProduct extends Component {
                                 <div style={{fontWeight: 900, display: 'table', margin: '0 auto'}}><h3><b>Publishing Item...</b></h3></div>
                                 <div className="appointment-sent-text">
                                     You will be redirected to home once the publishing is done
+                                </div>
+                            </div>
+                        </div>
+                    </Page>
+                </Popup>
+                <Popup className="demo-popup-push" opened={this.state.isError} push>
+                    <Navbar>
+                        <NavLeft>
+                            <Link onClick={ () => this.setState({ isError: false }) }>Close</Link>
+                        </NavLeft>
+                        <NavTitle>Oops...</NavTitle>
+                    </Navbar>
+                    <Page>
+                        <div style={{height: '90%', width: '100%'}} className="display-flex justify-content-center align-items-center">
+                            <div>
+                                <div style={{display: 'table', margin: '0 auto'}}><AppointmentIllustration /></div>
+                                <div style={{fontWeight: 900, display: 'table', margin: '0 auto'}}><h3><b>Something went wrong...</b></h3></div>
+                                <div className="appointment-sent-text">
+                                    Please try again
                                 </div>
                             </div>
                         </div>

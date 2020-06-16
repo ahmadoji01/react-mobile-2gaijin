@@ -112,27 +112,21 @@ class Register extends Component {
                     this.state.password
                 ).then(
                     response => {
-                        this.setState({
-                            message: response.data.message,
-                            successful: true,
-                            loading: false
-                        });
-                    },
-                    error => {
-                        const resMessage =
-                            (error.response &&
-                            error.response.data &&
-                            error.response.data.message) ||
-                            error.message ||
-                            error.toString();
-                
-                        this.setState({
-                            successful: false,
-                            message: resMessage,
-                            loading: false
-                        });
-                    }
-                );
+                        if(localStorage.getItem("access_token")) {
+                            this.setState({
+                                message: response.data.message,
+                                successful: true,
+                                loading: false
+                            });
+                            this.$f7router.navigate("/");
+                        } else {
+                            this.setState({
+                                successful: false,
+                                message: response.message,
+                                loading: false
+                            });
+                        }
+                    });
             }
         }
     }
@@ -229,20 +223,6 @@ class Register extends Component {
                                             </div>
                                         </li>
                                     </ul>
-                                    <div className="wrap-link-action">
-                                        <ul>
-                                            <li>
-                                                <label className="item-checkbox item-content">
-                                                    <input type="checkbox" />
-                                                    <i className="icon icon-checkbox"></i>
-                                                    <div className="item-inner">
-                                                        <div className="item-title">Remember me</div>
-                                                    </div>
-                                                </label>
-                                            </li>
-                                            <li><a href="#">Forgot Password</a></li>
-                                        </ul>
-                                    </div>
                                     <div className="content-button">
                                         <button
                                             className="button primary-button"
@@ -275,21 +255,14 @@ class Register extends Component {
                                     </div>
                                     <div class="wrap-media-sign-up">
                                         <div class="row">
-                                            <div class="col-33">
+                                            <div class="col-50">
                                                 <a href="#">
                                                     <div class="content bg-facebook">
                                                         <i class="fab fa-facebook-f"></i>
                                                     </div>
                                                 </a>
                                             </div>
-                                            <div class="col-33">
-                                                <a href="#">
-                                                    <div class="content bg-twitter">
-                                                        <i class="fab fa-twitter"></i>
-                                                    </div>
-                                                </a>
-                                            </div>
-                                            <div class="col-33">
+                                            <div class="col-50">
                                                 <a href="#">
                                                     <div class="content bg-google">
                                                         <i class="fab fa-google"></i>

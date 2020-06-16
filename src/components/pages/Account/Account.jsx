@@ -2,6 +2,9 @@ import React, { Component } from 'react';
 import { Page } from 'framework7-react';
 import Toolbar from "../../elements/Toolbar";
 import AuthService from '../../../services/auth.service';
+import GoldCoin from "../../illustrations/GoldCoin.svg";
+import SilverCoin from "../../illustrations/SilverCoin.svg";
+import axios from "axios";
 
 class Account extends Component {
 
@@ -9,6 +12,7 @@ class Account extends Component {
         super(props);
         this.state = {
             isLoggedIn: true,
+            data: []
         };
         this.handleLogin = this.handleLogin.bind(this);
     }
@@ -32,8 +36,20 @@ class Account extends Component {
 
         if(user) {
             this.setState({isLoggedIn: true});
+            axios.post(`https://go.2gaijin.com/profile`, {}, {
+            headers: {
+                "Authorization": localStorage.getItem("access_token")
+            }
+            }).then(response => {
+                if(response.data["status"] == "Success") {
+                    var jsonData = response.data.data;
+                    console.log(jsonData);
+                    this.setState({ data: jsonData });
+                }
+            });
         } else {
             this.setState({isLoggedIn: false});
+            this.$f7router.navigate("/login");
         }
     }
     
@@ -56,18 +72,35 @@ class Account extends Component {
             </div></React.Fragment>
         }
 
+        let profileName, avatarURL, goldCoins, silverCoins, profileBanner;
+        if(this.state.data.profile) {
+            avatarURL = this.state.data.profile.avatar_url;
+            goldCoins = this.state.data.profile.gold_coin;
+            silverCoins = this.state.data.profile.silver_coin;
+            profileName = localStorage.getItem("first_name") + " " + localStorage.getItem("last_name");
+
+            profileBanner = <div className="profile-container content-shadow">
+                <div className="row" style={{marginTop: 10, padding: 10}}>
+                    <div className="col-30 seller-img-container" style={{backgroundImage: `url("${avatarURL}")`}}></div>
+                    <div className="col-70">
+                        <div className="row" style={{marginBottom: 0}}>
+                            <h5 className="seller-name">{profileName}</h5>
+                        </div>
+                        <div className="row trust-coin-container">
+                            <img src={GoldCoin} />{goldCoins} Gold(s) 
+                            <img src={SilverCoin} />{silverCoins} Silver(s)
+                        </div>
+                    </div>
+                </div>
+            </div>;
+        }
+
         return(
             <Page name="account" className="page page-account page-without-navbar" >
                 <Toolbar activeTab={3} />
                 <div className="account-buyer segments" style={{marginBottom: 100}}>
                     <div className="container">
-                        <div className="header-account content-shadow">
-                            <img src="images/user-buyer6.png" alt="" />
-                            <div className="title-name">
-                                <h5>Airy Fashion</h5>
-                                <p><i className="fas fa-map-marker-alt"></i>Washington</p>
-                            </div>
-                        </div>
+                        {profileBanner}
                     </div>
                     <div className="container segments">
                         <div className="info-balance content-shadow">

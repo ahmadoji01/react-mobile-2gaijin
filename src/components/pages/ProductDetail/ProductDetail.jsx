@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import HomeBanners from "../../elements/HomeBanners";
 import ProductDisplaySlider from "../../elements/ProductDisplaySlider";
-import { App, Button, Navbar, NavLeft, Page, Swiper, SwiperSlide, Icon, Toolbar, Link, List, ListItem, NavTitle, Popover } from "framework7-react";
+import { App, Button, Navbar, NavLeft, Page, PhotoBrowser, Swiper, SwiperSlide, Icon, Toolbar, Link, List, ListItem, NavTitle, Popover } from "framework7-react";
 import './ProductDetail.scss';
 import Framework7 from "framework7";
 import parse from 'html-react-parser';
@@ -14,7 +14,8 @@ class ProductDetail extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            data: []
+            data: [],
+            photos: [],
         };
         this.handleChat = this.handleChat.bind(this);
     }
@@ -104,6 +105,13 @@ class ProductDetail extends Component {
             }
         }
 
+        let imgGallery;
+        if(images) {
+            imgGallery = <Swiper pagination className="product-gallery" params={{speed:500, slidesPerView: 1, spaceBetween: 0}}>
+                {images}
+            </Swiper>;
+        }
+
         let sellerName, avatarURL, goldCoins, silverCoins, appointmentBtn;
         if(typeof(this.state.data.seller) !== "undefined") {
             var sellerInfo = this.state.data.seller;
@@ -128,7 +136,7 @@ class ProductDetail extends Component {
         }
 
         let soldOutContainer;
-        if(availability != "available") {
+        if(availability == "sold") {
             soldOutContainer = <div className="sold-out-container">
                 <div className="sold-icon-container">
                     <SoldOutIcon height="64px" />
@@ -154,9 +162,11 @@ class ProductDetail extends Component {
                     </div>
                 </Toolbar>
                 <div className="page-content" style={{paddingTop: 0, paddingLeft: 0, paddingRight: 0, paddingBottom: 30}}>
-                    <Swiper pagination className="product-gallery" params={{speed:500, slidesPerView: 1, spaceBetween: 0}}>
-                        {images}
-                    </Swiper>
+                    <PhotoBrowser
+                        photos={this.state.photos}
+                        ref={(el) => {this.standalone = el}}
+                    />
+                    {imgGallery}
                     {soldOutContainer}
                     <div className="container">
                         <h3>{name}</h3>

@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import "./ProductCard.scss";
 import { Link } from 'framework7-react';
-import { ReactComponent as SoldOutIcon } from "../../icons/SoldOutIcon.svg";
+import SoldOutIcon from "../../icons/SoldOutIcon.svg";
 
 class ProductCard extends Component {
     
@@ -69,7 +69,7 @@ class ProductCard extends Component {
             let soldOut;
             if(item.availability != "available") {
                 soldOut = <div className="love-button card-sold">
-                    <SoldOutIcon height="28px" />
+                    <img src={SoldOutIcon} style={{ maxWidth: 100 }} />
                 </div>;
             }
 

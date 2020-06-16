@@ -1,16 +1,16 @@
 import React, { Component } from 'react';
 import { Page, PageContent, Navbar, NavLeft, List, ListItem, NavRight, Subnavbar, Link, Icon, Searchbar, NavTitle } from 'framework7-react';
 import axios from "axios";
-import { ReactComponent as ApparelsIllustration } from "../../illustrations/ApparelsIllustration.svg";
-import { ReactComponent as BooksIllustration } from "../../illustrations/BooksIllustration.svg";
-import { ReactComponent as ElectronicsIllustration } from "../../illustrations/ElectronicsIllustration.svg";
-import { ReactComponent as FootwearIllustration } from "../../illustrations/FootwearIllustration.svg";
-import { ReactComponent as FurnituresIllustration } from "../../illustrations/FurnituresIllustration.svg";
-import { ReactComponent as KitchensIllustration } from "../../illustrations/KitchensIllustration.svg";
-import { ReactComponent as MiscellaneousIllustration } from "../../illustrations/MiscellaneousIllustration.svg";
-import { ReactComponent as SportsIllustration } from "../../illustrations/SportsIllustration.svg";
-import { ReactComponent as VehiclesIllustration } from "../../illustrations/VehiclesIllustration.svg";
-import { ReactComponent as WhiteAppliancesIllustration } from "../../illustrations/WhiteAppliancesIllustration.svg";
+import apparels from "../../illustrations/Apparels.png";
+import books from "../../illustrations/Books.png";
+import electronics from "../../illustrations/Electronics.png";
+import footwear from "../../illustrations/Footwear.png";
+import furnitures from "../../illustrations/Furnitures.png";
+import kitchens from "../../illustrations/Kitchens.png";
+import sports from "../../illustrations/Sports.png";
+import vehicles from "../../illustrations/Vehicles.png";
+import whiteapp from "../../illustrations/WhiteApp.png";
+import misc from "../../illustrations/Misc.png";
 
 class CategorySelect extends Component {
 
@@ -57,44 +57,44 @@ class CategorySelect extends Component {
                 </Navbar>
                 <div className="container" style={{ marginTop: 10 }}>
                     <h4>Categories for you</h4>
-                    <div className="row" style={{ marginBottom: 0, paddingBottom: 0 }}>
+                    <div className="row" style={{ marginBottom: 5, paddingBottom: 0 }}>
                         <div className="col-50">
-                            <ApparelsIllustration onClick={ () => this.onListClick("Apparels") } />
+                            <img src={apparels} onClick={ () => this.onListClick("Apparels") } />
                         </div>
                         <div className="col-50">
-                            <BooksIllustration onClick={ () => this.onListClick("Books") } />
-                        </div>
-                    </div>
-                    <div className="row" style={{ marginBottom: 0, paddingBottom: 0 }}>
-                        <div className="col-50">
-                            <ElectronicsIllustration onClick={ () => this.onListClick("Electronics") } />
-                        </div>
-                        <div className="col-50">
-                            <FootwearIllustration onClick={ () => this.onListClick("Footwear") } />
+                            <img src={books} onClick={ () => this.onListClick("Books") } />
                         </div>
                     </div>
-                    <div className="row" style={{ marginBottom: 0, paddingBottom: 0 }}>
+                    <div className="row" style={{ marginBottom: 5, paddingBottom: 0 }}>
                         <div className="col-50">
-                            <FurnituresIllustration onClick={ () => this.onListClick("Furnitures") } />
+                            <img src={electronics} onClick={ () => this.onListClick("Electronics") } />
                         </div>
                         <div className="col-50">
-                            <KitchensIllustration onClick={ () => this.onListClick("Kitchens") } />
-                        </div>
-                    </div>
-                    <div className="row" style={{ marginBottom: 0, paddingBottom: 0 }}>
-                        <div className="col-50">
-                            <SportsIllustration onClick={ () => this.onListClick("Sports") } />
-                        </div>
-                        <div className="col-50">
-                            <VehiclesIllustration onClick={ () => this.onListClick("Vehicles") } />
+                            <img src={footwear} onClick={ () => this.onListClick("Footwear") } />
                         </div>
                     </div>
-                    <div className="row" style={{ marginBottom: 0, paddingBottom: 0 }}>
+                    <div className="row" style={{ marginBottom: 5, paddingBottom: 0 }}>
                         <div className="col-50">
-                            <WhiteAppliancesIllustration onClick={ () => this.onListClick("White Appliances") } />
+                            <img src={furnitures} onClick={ () => this.onListClick("Furnitures") } />
                         </div>
                         <div className="col-50">
-                            <MiscellaneousIllustration onClick={ () => this.onListClick("Miscellaneous") } />
+                            <img src={kitchens} onClick={ () => this.onListClick("Kitchens") } />
+                        </div>
+                    </div>
+                    <div className="row" style={{ marginBottom: 5, paddingBottom: 0 }}>
+                        <div className="col-50">
+                            <img src={sports} onClick={ () => this.onListClick("Sports") } />
+                        </div>
+                        <div className="col-50">
+                            <img src={vehicles} onClick={ () => this.onListClick("Vehicles") } />
+                        </div>
+                    </div>
+                    <div className="row" style={{ marginBottom: 5, paddingBottom: 0 }}>
+                        <div className="col-50">
+                            <img src={whiteapp} onClick={ () => this.onListClick("White Appliances") } />
+                        </div>
+                        <div className="col-50">
+                            <img src={misc} onClick={ () => this.onListClick("Miscellaneous") } />
                         </div>
                     </div>
                 </div>

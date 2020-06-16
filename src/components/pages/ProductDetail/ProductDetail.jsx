@@ -18,6 +18,16 @@ class ProductDetail extends Component {
             photos: [],
         };
         this.handleChat = this.handleChat.bind(this);
+        this.populatePhotos = this.populatePhotos.bind(this);
+    }
+
+    populatePhotos(images) {
+        var photos = new Array();
+        images = images.map(function(image, i) { 
+            var photo = { url: image["img_url"], caption: "" };
+            photos.push(photo);
+        });
+        this.setState({ photos: photos });
     }
 
     componentWillMount() {
@@ -25,6 +35,7 @@ class ProductDetail extends Component {
         .then((response) => response.json())
         .then((responseJson) => {
             const jsonData = responseJson.data;
+            this.populatePhotos(jsonData.item.images);
             this.setState({ data: jsonData});
         })
         .catch((error) => {
@@ -56,6 +67,7 @@ class ProductDetail extends Component {
         };
 
         let id, images, name;
+        let photos = new Array();
         let appLink1, appLink2;
         var desc = "";
         var lat = 0.0;
@@ -73,8 +85,10 @@ class ProductDetail extends Component {
             price = itemInfo.price;
             availability = itemInfo.availability;
             images = images.map(function(image, i) {
+                var photo = { url: image["img_url"], caption: "" };
                 return <SwiperSlide className="image-container" style={{background: `no-repeat center/cover url(${image["img_url"]})`, borderRadius: 0}}></SwiperSlide>
             });
+
             appLink1 = "/appointment/" + id + "/false";
             appLink2 = "/appointment/" + id + "/true";
             
@@ -107,12 +121,12 @@ class ProductDetail extends Component {
 
         let imgGallery;
         if(images) {
-            imgGallery = <Swiper pagination className="product-gallery" params={{speed:500, slidesPerView: 1, spaceBetween: 0}}>
+            imgGallery = <div onClick={() => this.photoBrowser.open()} ><Swiper pagination className="product-gallery" params={{speed:500, slidesPerView: 1, spaceBetween: 0}}>
                 {images}
-            </Swiper>;
+            </Swiper></div>;
         }
 
-        let sellerName, avatarURL, goldCoins, silverCoins, appointmentBtn;
+        let sellerName, avatarURL, goldCoins, silverCoins, appointmentBtn, chatBtn;
         if(typeof(this.state.data.seller) !== "undefined") {
             var sellerInfo = this.state.data.seller;
             sellerName = sellerInfo.first_name + " " + sellerInfo.last_name;
@@ -125,6 +139,7 @@ class ProductDetail extends Component {
 
             var currentUser = localStorage.getItem("user_id");
             if(currentUser != sellerInfo._id) {
+                chatBtn = <Button raised fill className="chat-button" onClick={this.handleChat}>Chat</Button>;
                 if(availability == "available") {
                     appointmentBtn = <Button popoverOpen=".popover-appointment" raised fill className="appointment-button">Make Appointment</Button>;
                 } else {
@@ -157,14 +172,14 @@ class ProductDetail extends Component {
                 <Toolbar id="toolbar-product-detail" tabbar labels position='bottom'>
                     <div className="toolbar-price">¥{price}</div>
                     <div className="toolbar-actions">
-                        <Button raised fill className="chat-button" onClick={this.handleChat}>Chat</Button>
+                        {chatBtn}
                         {appointmentBtn}
                     </div>
                 </Toolbar>
                 <div className="page-content" style={{paddingTop: 0, paddingLeft: 0, paddingRight: 0, paddingBottom: 30}}>
                     <PhotoBrowser
                         photos={this.state.photos}
-                        ref={(el) => {this.standalone = el}}
+                        ref={(el) => {this.photoBrowser = el}}
                     />
                     {imgGallery}
                     {soldOutContainer}

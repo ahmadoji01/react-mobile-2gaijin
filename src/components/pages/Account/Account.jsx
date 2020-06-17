@@ -1,10 +1,14 @@
-import React, { Component } from 'react';
+import React, { Fragment, Component } from 'react';
 import { Page } from 'framework7-react';
 import Toolbar from "../../elements/Toolbar";
 import AuthService from '../../../services/auth.service';
 import GoldCoin from "../../illustrations/GoldCoin.svg";
 import SilverCoin from "../../illustrations/SilverCoin.svg";
+import { Popup, Navbar, NavLeft, NavRight, Link, NavTitle } from "framework7-react";
 import axios from "axios";
+
+import { getCroppedImg, resizeImg } from '../../../services/imageprocessing';
+import Cropper from 'react-easy-crop';
 
 class Account extends Component {
 
@@ -12,9 +16,20 @@ class Account extends Component {
         super(props);
         this.state = {
             isLoggedIn: true,
-            data: []
+            data: [],
+            popupOpened: false,
+            avatarURL: "", 
+            imageSrc: null,
+            crop: { x: 0, y: 0 },
+            zoom: 1,
+            aspect: 1,
+            croppedAreaPixels: null,
+            croppedImage: null,
+            isCropping: false,
         };
         this.handleLogin = this.handleLogin.bind(this);
+        this.onFileChange = this.onFileChange.bind(this);
+        this.showResult = this.showResult.bind(this);
     }
 
     handleLogin() {
@@ -31,6 +46,66 @@ class Account extends Component {
         }
     }
 
+    onFileChange = async e => {
+        if (e.target.files && e.target.files.length > 0) {
+            const file = e.target.files[0]
+            await readFile(file).then(
+            res => {
+                this.setState({
+                    imageSrc: res,
+                    crop: { x: 0, y: 0 },
+                    zoom: 1,
+                    isCropping: true,
+                    popupOpened: true,
+                })
+            });
+        }
+    }
+
+    onEditorChange(e) {
+        this.setState({ itemDescription: e });
+    }
+
+    onCropChange = crop => {
+        this.setState({ crop })
+    }
+
+    onCropComplete = (croppedArea, croppedAreaPixels) => {
+        this.setState({ croppedAreaPixels: croppedAreaPixels });
+    }
+
+    onZoomChange = zoom => {
+        this.setState({ zoom })
+    }
+
+    showResult = async () => {
+        const croppedImage = await getCroppedImg(
+            this.state.imageSrc,
+            this.state.croppedAreaPixels
+        )
+
+        this.setState({
+            croppedImage,
+            isCropping: false,
+        });
+
+        var img = await resizeImg(croppedImage, 800, 800);
+        let parts = img.split(';');
+        let imageData = parts[1].split(',')[1];
+
+        axios.post(`https://go.2gaijin.com/upload_avatar`, {"avatar": imageData}, {
+        headers: {
+            "Authorization": localStorage.getItem("access_token")
+        }
+        }).then(response => {
+            this.setState({ popupOpened: false });
+            if(response.data["status"] == "Success") {
+                var jsonData = response.data.data;
+                this.setState({ avatarURL: jsonData.avatar_url });
+            }
+        });
+    }
+
     componentWillMount() {
         var user = AuthService.getCurrentUser();
 
@@ -45,6 +120,7 @@ class Account extends Component {
                     var jsonData = response.data.data;
                     console.log(jsonData);
                     this.setState({ data: jsonData });
+                    this.setState({ avatarURL: jsonData.profile.avatar_url });
                 }
             });
         } else {
@@ -81,8 +157,8 @@ class Account extends Component {
 
             profileBanner = <div className="profile-container content-shadow">
                 <div className="row" style={{marginTop: 10, padding: 10}}>
-                    <div className="col-30 seller-img-container" style={{backgroundImage: `url("${avatarURL}")`}}>
-                        <input type="file" className="img-input" />
+                    <div className="col-30 seller-img-container" style={{backgroundImage: `url("${this.state.avatarURL}")`}}>
+                        <input type="file" className="img-input" onChange={this.onFileChange} />
                     </div>
                     <div className="col-70">
                         <div className="row" style={{marginBottom: 0}}>
@@ -100,6 +176,32 @@ class Account extends Component {
         return(
             <Page name="account" className="page page-account page-without-navbar" >
                 <Toolbar activeTab={3} />
+                <Popup className="item-desc-popup" opened={this.state.popupOpened}>
+                    <Page>
+                        <Navbar>
+                            <NavLeft>
+                                <Link onClick={() => this.setState({ popupOpened: false })}>Cancel</Link>
+                            </NavLeft>
+                            <NavTitle>Crop Your Avatar</NavTitle>
+                            <NavRight>
+                                <Link onClick={this.showResult}>Confirm</Link>
+                            </NavRight>
+                        </Navbar>
+                        <Fragment>
+                            <div className="crop-container">
+                                <Cropper
+                                    image={this.state.imageSrc}
+                                    crop={this.state.crop}
+                                    zoom={this.state.zoom}
+                                    aspect={this.state.aspect}
+                                    onCropChange={this.onCropChange}
+                                    onCropComplete={this.onCropComplete}
+                                    onZoomChange={this.onZoomChange}
+                                />
+                            </div>
+                        </Fragment>
+                    </Page>
+                </Popup>
                 <div className="account-buyer segments" style={{marginBottom: 100}}>
                     <div className="container">
                         {profileBanner}
@@ -201,7 +303,14 @@ class Account extends Component {
             </Page>
         );
     }
+}
 
+function readFile(file) {
+    return new Promise(resolve => {
+      const reader = new FileReader()
+      reader.addEventListener('load', () => resolve(reader.result), false)
+      reader.readAsDataURL(file)
+    })
 }
 
 export default Account;

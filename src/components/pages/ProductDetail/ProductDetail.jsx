@@ -16,9 +16,15 @@ class ProductDetail extends Component {
         this.state = {
             data: [],
             photos: [],
+            windowWidth: 350,
         };
         this.handleChat = this.handleChat.bind(this);
         this.populatePhotos = this.populatePhotos.bind(this);
+    }
+
+    updateWindowDimensions() {
+        this.updateWindowDimensions();
+        this.setState({ windowWidth: window.innerWidth });
     }
 
     populatePhotos(images) {
@@ -120,7 +126,7 @@ class ProductDetail extends Component {
 
         let imgGallery;
         if(images) {
-            imgGallery = <div onClick={() => this.photoBrowser.open()} ><Swiper pagination className="product-gallery" params={{speed:500, slidesPerView: 1, spaceBetween: 0}}>
+            imgGallery = <div onClick={() => this.photoBrowser.open()} ><Swiper pagination className="product-gallery" style={{ height: this.state.windowWidth }} params={{speed:500, slidesPerView: 1, spaceBetween: 0}}>
                 {images}
             </Swiper></div>;
         }
@@ -151,7 +157,7 @@ class ProductDetail extends Component {
 
         let soldOutContainer;
         if(availability == "sold") {
-            soldOutContainer = <div className="sold-out-container">
+            soldOutContainer = <div className="sold-out-container" style={{ height: this.state.windowWidth }}>
                 <div className="sold-icon-container">
                     <SoldOutIcon height="64px" />
                 </div>

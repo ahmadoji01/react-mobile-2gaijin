@@ -81,7 +81,9 @@ class Account extends Component {
 
             profileBanner = <div className="profile-container content-shadow">
                 <div className="row" style={{marginTop: 10, padding: 10}}>
-                    <div className="col-30 seller-img-container" style={{backgroundImage: `url("${avatarURL}")`}}></div>
+                    <div className="col-30 seller-img-container" style={{backgroundImage: `url("${avatarURL}")`}}>
+                        <input type="file" className="img-input" />
+                    </div>
                     <div className="col-70">
                         <div className="row" style={{marginBottom: 0}}>
                             <h5 className="seller-name">{profileName}</h5>

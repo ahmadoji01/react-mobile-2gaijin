@@ -4,11 +4,14 @@ import Toolbar from "../../elements/Toolbar";
 import AuthService from '../../../services/auth.service';
 import GoldCoin from "../../illustrations/GoldCoin.svg";
 import SilverCoin from "../../illustrations/SilverCoin.svg";
-import { Popup, Navbar, NavLeft, NavRight, Link, NavTitle } from "framework7-react";
+import { Button, Popup, Navbar, NavLeft, NavRight, Link, NavTitle, List, ListInput, ListItem, BlockTitle } from "framework7-react";
 import axios from "axios";
 
 import { getCroppedImg, resizeImg } from '../../../services/imageprocessing';
 import Cropper from 'react-easy-crop';
+
+import CollectionIcon from "../../icons/CollectionIcon.svg";
+import HelpCenterIcon from "../../icons/HelpCenterIcon.svg";
 
 class Account extends Component {
 
@@ -26,10 +29,15 @@ class Account extends Component {
             croppedAreaPixels: null,
             croppedImage: null,
             isCropping: false,
+            firstName: "",
+            lastName: "",
+            phoneNumber: "",
         };
         this.handleLogin = this.handleLogin.bind(this);
         this.onFileChange = this.onFileChange.bind(this);
         this.showResult = this.showResult.bind(this);
+        this.onButtonClick = this.onButtonClick.bind(this);
+        this.onSignOutButtonClick = this.onSignOutButtonClick.bind(this);
     }
 
     handleLogin() {
@@ -78,6 +86,26 @@ class Account extends Component {
         this.setState({ zoom })
     }
 
+    onFirstNameChange(e) {
+        this.setState({ firstName: e.target.value });
+    }
+
+    onLastNameChange(e) {
+        this.setState({ lastName: e.target.value });
+    }
+
+    onEmailChange(e) {
+        this.setState({ email: e.target.value });
+    }
+
+    onPhoneNumberChange(e) {
+        this.setState({ phoneNumber: e.target.value });
+    }
+
+    onBirthdayChange(e) {
+        this.setState({ birthday: e.target.value });
+    }
+
     showResult = async () => {
         const croppedImage = await getCroppedImg(
             this.state.imageSrc,
@@ -121,6 +149,11 @@ class Account extends Component {
                     console.log(jsonData);
                     this.setState({ data: jsonData });
                     this.setState({ avatarURL: jsonData.profile.avatar_url });
+                    this.setState({ firstName: jsonData.profile.first_name });
+                    this.setState({ lastName: jsonData.profile.last_name });
+                    this.setState({ email: jsonData.profile.email });
+                    this.setState({ phoneNumber: jsonData.profile.phone });
+                    this.setState({ birthday: "" });
                 }
             });
         } else {
@@ -128,7 +161,25 @@ class Account extends Component {
             this.$f7router.navigate("/login");
         }
     }
+
+    componentDidMount() {
+        var calendarDateTime = this.$f7.calendar.create({
+            inputEl: '.date-time-input',
+            timePicker: false,
+            dateFormat: { month: 'numeric', day: 'numeric', year: 'numeric', hour: 'numeric', minute: 'numeric' },
+        });
+    }
     
+    onButtonClick() {
+        this.$f7router.navigate("/category-select");
+    }
+
+    onSignOutButtonClick() {
+        AuthService.logout().then(() => {
+            this.$f7router.navigate("/");
+        });
+    }
+
     render() {
 
         let loginBtn;
@@ -205,98 +256,70 @@ class Account extends Component {
                 <div className="account-buyer segments" style={{marginBottom: 100}}>
                     <div className="container">
                         {profileBanner}
-                    </div>
-                    <div className="container segments">
-                        <div className="info-balance content-shadow">
-                            <div className="row">
-                                <div className="col-50">
-                                    <div className="content-text">
-                                        <p>Your Balance</p>
-                                        <h5>$310.00</h5>
-                                    </div>
-                                </div>
-                                <div className="col-50">
-                                    <div className="content-button">
-                                        <a href="#" className="button primary-button"><i className="fas fa-wallet"></i>Top Up</a>
-                                    </div>
-                                </div>
+                        <BlockTitle>Collections</BlockTitle>
+                        <List>
+                            <div style={{ padding: 10 }}>
+                                <Button className="general-btn" style={{color: '#fff'}} onClick={this.onButtonClick} raised fill round>+ Add New Product</Button>
                             </div>
-                        </div>
-                    </div>
-                    <div className="account-menu">
-                        <div className="list media-list">
-                            <ul>
-                                <li>
-                                    <a href="/wishlist/" className="item-link item-content">
-                                        <div className="item-media">
-                                            <i className="fas fa-heart"></i>
-                                        </div>
-                                        <div className="item-inner">
-                                            <div className="item-title-row">
-                                                <div className="item-title">Wishlist</div>
-                                            </div>
-                                            <div className="item-subtitle">All products that you have saved</div>
-                                        </div>
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="/transaction/" className="item-link item-content">
-                                        <div className="item-media">
-                                            <i className="fas fa-exchange-alt"></i>
-                                        </div>
-                                        <div className="item-inner">
-                                            <div className="item-title-row">
-                                                <div className="item-title">Transaction</div>
-                                            </div>
-                                            <div className="item-subtitle">All your transactions are here</div>
-                                        </div>
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="/notification/" className="item-link item-content">
-                                        <div className="item-media">
-                                            <i className="fas fa-bell"></i>
-                                        </div>
-                                        <div className="item-inner">
-                                            <div className="item-title-row">
-                                                <div className="item-title">Notification</div>
-                                            </div>
-                                            <div className="item-subtitle">Transaction, Purchase, Notification update</div>
-                                        </div>
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="/faq/" className="item-link item-content">
-                                        <div className="item-media">
-                                            <i className="fas fa-question"></i>
-                                        </div>
-                                        <div className="item-inner">
-                                            <div className="item-title-row">
-                                                <div className="item-title">Help</div>
-                                            </div>
-                                            <div className="item-subtitle">Need Help, Frequently Asked Questions</div>
-                                        </div>
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="/contact-seller/" className="item-link item-content">
-                                        <div className="item-media">
-                                            <i className="fas fa-envelope"></i>
-                                        </div>
-                                        <div className="item-inner">
-                                            <div className="item-title-row">
-                                                <div className="item-title">Contact Seller</div>
-                                            </div>
-                                            <div className="item-subtitle">Other questions can contact me</div>
-                                        </div>
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="#" onClick={this.handleLogin} className="item-link item-content">
-                                        {loginBtn}
-                                    </a>
-                                </li>
-                            </ul>
+                            <ListItem title="Your Collections" footer="View and manage all collections">
+                                <img src={CollectionIcon} slot="media" />
+                            </ListItem>
+                            <ListItem title="Help Center" footer="Don't know where to start? We can help">
+                                <img src={HelpCenterIcon} slot="media" />
+                            </ListItem>
+                        </List>
+                        <BlockTitle>Profile Settings</BlockTitle>
+                        <List>
+                            <ListInput
+                                outline
+                                onChange={this.onFirstNameChange}
+                                value={this.state.firstName}
+                                ref={formName => (this.formName = formName)}
+                                label="First Name"
+                                type="text"
+                                required
+                                validate
+                                onInputClear={() => this.setState({ firstName: "" })}
+                                clearButton
+                            />
+                            <ListInput
+                                outline
+                                onChange={this.onLastNameChange}
+                                value={this.state.lastName}
+                                label="Last Name"
+                                type="text"
+                                onInputClear={() => this.setState({ lastName: "" })}
+                                clearButton
+                            />
+                            <ListInput
+                                outline
+                                onChange={this.onEmailChange}
+                                value={this.state.email}
+                                label="Email Address"
+                                type="email"
+                                onInputClear={() => this.setState({ email: "" })}
+                                clearButton
+                            />
+                            <ListInput
+                                outline
+                                onChange={this.onPhoneNumberChange}
+                                value={this.state.phoneNumber}
+                                label="Phone Number"
+                                type="text"
+                                onInputClear={() => this.setState({ phoneNumber: "" })}
+                                clearButton
+                            />
+                            <ListInput
+                                outline
+                                onChange={this.onBirthdayChange}
+                                value={this.state.birthday}
+                                label="Birthday"
+                                type="text"
+                                className="date-time-input"
+                            /> 
+                        </List>
+                        <div style={{ padding: 10 }}>
+                            <Button className="general-reject-btn" style={{color: '#fff'}} onClick={this.onSignOutButtonClick} raised fill round>Sign Out</Button>
                         </div>
                     </div>
                 </div>

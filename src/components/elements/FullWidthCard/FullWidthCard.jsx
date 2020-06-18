@@ -6,15 +6,18 @@ import { geolocated } from 'react-geolocated';
 class FullWidthCard extends Component {
     constructor(props) {
         super(props);
-        this.state = { cardWidth: (window.innerWidth/1.5) - 25, cardHeight: (window.innerHeight/4) - 25, currLat: 0.0, currLng: 0.0 };
+        this.state = { cardWidth: (window.innerWidth/1.5) - 25, locText: "", cardHeight: (window.innerHeight/4) - 25, currLat: 0.0, currLng: 0.0 };
         this.updateWindowDimensions = this.updateWindowDimensions.bind(this);
         this.findCoordinates = this.findCoordinates.bind(this);
+        this.calcDistance = this.calcDistance.bind(this);
     }
     
     findCoordinates = () => {
         navigator.geolocation.getCurrentPosition(position => {
             const location = JSON.stringify(position);
-            this.setState({ currLat: position.coords.latitude, currLng: position.coords.longitude });
+            this.setState({ currLat: position.coords.latitude, currLng: position.coords.longitude }, () => {
+                this.calcDistance();
+            });
         });
     }
     
@@ -33,37 +36,44 @@ class FullWidthCard extends Component {
         this.setState({ cardHeight: (window.innerHeight/4) - 25 });
     }
 
-    calcDistance(lat1, lng1, lat2, lng2) {
+    calcDistance() {
+        if(typeof(this.props.item) !== 'undefined') {
+            var item = this.props.item;
+            var lat1 = parseFloat(item.location.latitude);
+            var lng1 = parseFloat(item.location.longitude);
+            var lat2 = parseFloat(this.state.currLat);
+            var lng2 = parseFloat(this.state.currLng);
         
-        if(this.state.locText != "") {
-            return;
-        }
-        
-        if (lat1 === 0.0 || lat2 === 0.0) {
             if(this.state.locText != "") {
-                this.setState({ locText: "" });
+                return;
             }
-            return;
+            
+            if (lat1 === 0.0 || lat2 === 0.0) {
+                if(this.state.locText != "") {
+                    this.setState({ locText: "" });
+                }
+                return;
+            }
+
+            var R = 6371;
+            var dLat = (lat2-lat1) * (Math.PI/180);
+            var dLon = (lng2-lng1) * (Math.PI/180); 
+            var a = 
+                Math.sin(dLat/2) * Math.sin(dLat/2) +
+                Math.cos(lat1 * (Math.PI/180)) * Math.cos(lat2 * (Math.PI/180)) * 
+                Math.sin(dLon/2) * Math.sin(dLon/2)
+                ; 
+            var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a)); 
+            var d = R * c;
+
+            var text = d.toFixed(1) + " km away";
+
+            if (lat1 === 0.0 || lat2 === 0.0) {
+                text = "";
+            }
+
+            return text;
         }
-
-        var R = 6371;
-        var dLat = (lat2-lat1) * (Math.PI/180);
-        var dLon = (lng2-lng1) * (Math.PI/180); 
-        var a = 
-            Math.sin(dLat/2) * Math.sin(dLat/2) +
-            Math.cos(lat1 * (Math.PI/180)) * Math.cos(lat2 * (Math.PI/180)) * 
-            Math.sin(dLon/2) * Math.sin(dLon/2)
-            ; 
-        var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a)); 
-        var d = R * c;
-
-        var text = d.toFixed(1) + " km away";
-
-        if (lat1 === 0.0 || lat2 === 0.0) {
-            text = "";
-        }
-
-        return text;
     }
 
     redirectToProductDetail(productID) {
@@ -73,15 +83,11 @@ class FullWidthCard extends Component {
     render() {
         if(typeof(this.props.item) !== 'undefined') {
             const item = this.props.item;
-            var locText = this.calcDistance(parseFloat(item.location.latitude), 
-            parseFloat(item.location.longitude), 
-            parseFloat(this.state.currLat),  
-            parseFloat(this.state.currLng));
 
             let locColumn;
-            if(locText != "") {
+            if(this.state.locText != "") {
                 locColumn = <div className="column">
-                    <p className="location">{locText}</p>
+                    <p className="location">{this.state.locText}</p>
                 </div>
             }
 

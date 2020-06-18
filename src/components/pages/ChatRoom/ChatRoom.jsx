@@ -178,7 +178,7 @@ class ChatRoom extends Component {
         }
 
         return (
-            <div className="page page-chat-room">
+            <Page name="chat-room" className="page-chat-room">
                 <Navbar>
                     <NavLeft>
                         <Link href="#" className="link back"><Icon f7="arrow_left_circle_fill" size="24px" color="gray"></Icon></Link>
@@ -204,7 +204,7 @@ class ChatRoom extends Component {
                         {items}
                     </div>
                 </div>
-            </div>
+            </Page>
         );
     }
 }

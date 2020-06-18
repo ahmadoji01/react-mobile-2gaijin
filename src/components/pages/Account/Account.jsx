@@ -39,6 +39,11 @@ class Account extends Component {
         };
         this.handleLogin = this.handleLogin.bind(this);
         this.onFileChange = this.onFileChange.bind(this);
+        this.onFirstNameChange = this.onFirstNameChange.bind(this);
+        this.onLastNameChange = this.onLastNameChange.bind(this);
+        this.onEmailChange = this.onEmailChange.bind(this);
+        this.onPhoneNumberChange = this.onPhoneNumberChange.bind(this);
+        this.onBirthdayChange = this.onBirthdayChange.bind(this);
         this.showResult = this.showResult.bind(this);
         this.onEditorChange = this.onEditorChange.bind(this);
         this.onButtonClick = this.onButtonClick.bind(this);
@@ -109,7 +114,6 @@ class Account extends Component {
     }
 
     onBirthdayChange(e) {
-        console.log(e.target.value);
         this.setState({ birthday: e.target.value });
     }
 
@@ -153,7 +157,6 @@ class Account extends Component {
             }).then(response => {
                 if(response.data["status"] == "Success") {
                     var jsonData = response.data.data;
-                    console.log(jsonData);
                     var dob = new Date(jsonData.profile.date_of_birth);
                     
                     var date = (dob.getMonth() + 1) + "/" + dob.getDate() + "/" + dob.getFullYear();
@@ -205,8 +208,12 @@ class Account extends Component {
             }
         }).then(response => {
             if(response.data["status"] == "Success") {
+                var dob = new Date(response.data.data.date_of_birth);
+                    
+                var date = (dob.getMonth() + 1) + "/" + dob.getDate() + "/" + dob.getFullYear();
                 this.setState({ isLoading: false });
                 this.setState({ isProfileUpdated: true });
+                this.setState({ birthday: date })
             } else {
                 this.setState({ isLoading: false });
                 this.setState({ isProfileUpdated: false });
@@ -296,7 +303,7 @@ class Account extends Component {
                             <div style={{ padding: 10 }}>
                                 <Button className="general-btn" style={{color: '#fff'}} onClick={this.onButtonClick} raised fill round>+ Add New Product</Button>
                             </div>
-                            <ListItem title="Your Collections" footer="View and manage all collections">
+                            <ListItem href="/collections" title="Your Collections" footer="View and manage all collections">
                                 <img src={CollectionIcon} slot="media" />
                             </ListItem>
                             <ListItem title="Help Center" footer="Don't know where to start? We can help">

@@ -24,6 +24,7 @@ import AddProductPage3 from "./components/pages/AddProduct/AddProductPage3";
 import ReviewProduct from "./components/pages/AddProduct/ReviewProduct";
 import Appointment from "./components/pages/Appointment/Appointment";
 import Account from "./components/pages/Account/Account";
+import Collections from "./components/pages/Account/Collections";
 import ChattingRoom from './components/pages/ChattingRoom/ChattingRoom';
 
 const f7params = {
@@ -104,6 +105,10 @@ const f7params = {
     {
         path: '/account',
         component: Account,
+    },
+    {
+        path: '/collections',
+        component: Collections,
     }
   ],
   // App Name

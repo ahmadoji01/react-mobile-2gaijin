@@ -34,6 +34,17 @@ class ProductCard extends Component {
             var lng1 = parseFloat(item.location.longitude);
             var lat2 = parseFloat(this.props.lat);
             var lng2 = parseFloat(this.props.lng);
+            
+            if(this.state.locText != "") {
+                return;
+            }
+            
+            if (lat1 === 0.0 || lat2 === 0.0) {
+                if(this.state.locText != "") {
+                    this.setState({ locText: "" });
+                }
+                return;
+            }
 
             var R = 6371;
             var dLat = (lat2-lat1) * (Math.PI/180);
@@ -48,9 +59,7 @@ class ProductCard extends Component {
 
             this.setState({ locText: d.toFixed(1) + " km away" });
 
-            if (lat1 === 0.0 || lat2 === 0.0) {
-                this.setState({ locText: "" });
-            }
+            
         }
     }
 

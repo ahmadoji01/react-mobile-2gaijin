@@ -316,8 +316,12 @@ class Account extends Component {
                                 label="Birthday"
                                 type="text"
                                 className="date-time-input"
-                            /> 
+                            />
+                            <div style={{ padding: 10 }}>
+                                <Button className="general-btn" style={{color: '#fff'}} onClick={this.onSignOutButtonClick} raised fill round>Update Profile Info</Button>
+                            </div> 
                         </List>
+                        <BlockTitle>Profile Action</BlockTitle>
                         <div style={{ padding: 10 }}>
                             <Button className="general-reject-btn" style={{color: '#fff'}} onClick={this.onSignOutButtonClick} raised fill round>Sign Out</Button>
                         </div>

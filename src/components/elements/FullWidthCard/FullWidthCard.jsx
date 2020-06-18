@@ -34,6 +34,18 @@ class FullWidthCard extends Component {
     }
 
     calcDistance(lat1, lng1, lat2, lng2) {
+        
+        if(this.state.locText != "") {
+            return;
+        }
+        
+        if (lat1 === 0.0 || lat2 === 0.0) {
+            if(this.state.locText != "") {
+                this.setState({ locText: "" });
+            }
+            return;
+        }
+
         var R = 6371;
         var dLat = (lat2-lat1) * (Math.PI/180);
         var dLon = (lng2-lng1) * (Math.PI/180); 

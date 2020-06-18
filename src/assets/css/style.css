@@ -1,6 +1,5 @@
 /*general*/
 body {
-	font-family: 'Poppins', sans-serif;
 	color: #888;
 	font-size: 12px;
 	font-weight: 400;
@@ -15,7 +14,6 @@ h5,
 h6 {
 	line-height: 110%;
 	margin: 0;
-	font-family: 'Poppins', sans-serif;
 	font-weight: 500;
 	color: #444;
 }
@@ -1118,7 +1116,6 @@ ul li {
 .list .item-content .item-inner .item-title {
 	font-size: 14px;
 	color: #333;
-	font-family: 'Poppins';
 }
 
 .list .item-content .item-inner .item-subtitle {
@@ -1790,7 +1787,6 @@ form.list ul::after {
 }
 
 .ios .searchbar .searchbar-input-wrap input {
-	font-family: 'Poppins', sans-serif;
 	font-size: 13px;
 	background: #F2F7FF;
 }

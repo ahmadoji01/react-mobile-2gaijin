@@ -137,9 +137,6 @@ class Appointment extends Component {
         return(
             <Page name="appointment" className="page page-appointment hide-navbar-on-scroll">
                 <Navbar id="navbar-search">
-                    <NavLeft>
-                        <Link href="#" className="link back" animate={false}><Icon f7="arrow_left_circle_fill" size="24px" color="gray"></Icon></Link>
-                    </NavLeft>
                     <NavTitle>
                         Appointments
                     </NavTitle>

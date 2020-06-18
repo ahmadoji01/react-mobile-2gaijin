@@ -4,7 +4,7 @@ import Toolbar from "../../elements/Toolbar";
 import AuthService from '../../../services/auth.service';
 import GoldCoin from "../../illustrations/GoldCoin.svg";
 import SilverCoin from "../../illustrations/SilverCoin.svg";
-import { Button, Popup, Navbar, NavLeft, NavRight, Link, NavTitle, List, ListInput, ListItem, BlockTitle } from "framework7-react";
+import { Button, Popup, Navbar, NavLeft, NavRight, Link, NavTitle, List, ListInput, ListItem, BlockTitle, Col, Preloader, Block, TextEditor } from "framework7-react";
 import axios from "axios";
 
 import { getCroppedImg, resizeImg } from '../../../services/imageprocessing';
@@ -21,7 +21,9 @@ class Account extends Component {
             isLoggedIn: true,
             data: [],
             popupOpened: false,
-            avatarURL: "", 
+            bioPopupOpened: false,
+            avatarURL: "",
+            shortBio: "", 
             imageSrc: null,
             crop: { x: 0, y: 0 },
             zoom: 1,
@@ -32,12 +34,16 @@ class Account extends Component {
             firstName: "",
             lastName: "",
             phoneNumber: "",
+            isProfileUpdated: false,
+            isLoading: false,
         };
         this.handleLogin = this.handleLogin.bind(this);
         this.onFileChange = this.onFileChange.bind(this);
         this.showResult = this.showResult.bind(this);
+        this.onEditorChange = this.onEditorChange.bind(this);
         this.onButtonClick = this.onButtonClick.bind(this);
         this.onSignOutButtonClick = this.onSignOutButtonClick.bind(this);
+        this.onUpdateProfileButtonClick = this.onUpdateProfileButtonClick.bind(this);
     }
 
     handleLogin() {
@@ -71,7 +77,7 @@ class Account extends Component {
     }
 
     onEditorChange(e) {
-        this.setState({ itemDescription: e });
+        this.setState({ shortBio: e });
     }
 
     onCropChange = crop => {
@@ -103,6 +109,7 @@ class Account extends Component {
     }
 
     onBirthdayChange(e) {
+        console.log(e.target.value);
         this.setState({ birthday: e.target.value });
     }
 
@@ -147,13 +154,17 @@ class Account extends Component {
                 if(response.data["status"] == "Success") {
                     var jsonData = response.data.data;
                     console.log(jsonData);
+                    var dob = new Date(jsonData.profile.date_of_birth);
+                    
+                    var date = (dob.getMonth() + 1) + "/" + dob.getDate() + "/" + dob.getFullYear();
                     this.setState({ data: jsonData });
                     this.setState({ avatarURL: jsonData.profile.avatar_url });
                     this.setState({ firstName: jsonData.profile.first_name });
                     this.setState({ lastName: jsonData.profile.last_name });
                     this.setState({ email: jsonData.profile.email });
                     this.setState({ phoneNumber: jsonData.profile.phone });
-                    this.setState({ birthday: "" });
+                    this.setState({ birthday: date });
+                    this.setState({ shortBio: jsonData.profile.short_bio });
                 }
             });
         } else {
@@ -164,14 +175,43 @@ class Account extends Component {
 
     componentDidMount() {
         var calendarDateTime = this.$f7.calendar.create({
-            inputEl: '.date-time-input',
-            timePicker: false,
-            dateFormat: { month: 'numeric', day: 'numeric', year: 'numeric', hour: 'numeric', minute: 'numeric' },
+            inputEl: '#date-time-input',
+            timePicker: false
         });
     }
     
     onButtonClick() {
         this.$f7router.navigate("/category-select");
+    }
+
+    onUpdateProfileButtonClick() {
+        var calendarPicker = document.getElementById("date-time-input");
+        var meetingTime = new Date(calendarPicker.value).getTime();
+
+        var payload = {
+            "first_name": this.state.firstName,
+            "last_name": this.state.lastName,
+            "phone": this.state.phoneNumber,
+            "email": this.state.email,
+            "short_bio": this.state.shortBio,
+            "date_of_birth": meetingTime
+        }
+        this.setState({ isLoading: true });
+        
+        return axios.post(`https://go.2gaijin.com/update_profile`, payload, {
+            headers: {
+                "Authorization": localStorage.getItem("access_token"),
+                "Content-Type": "application/json"
+            }
+        }).then(response => {
+            if(response.data["status"] == "Success") {
+                this.setState({ isLoading: false });
+                this.setState({ isProfileUpdated: true });
+            } else {
+                this.setState({ isLoading: false });
+                this.setState({ isProfileUpdated: false });
+            }
+        });
     }
 
     onSignOutButtonClick() {
@@ -182,21 +222,16 @@ class Account extends Component {
 
     render() {
 
-        let loginBtn;
-        if(this.state.isLoggedIn) {
-            loginBtn = <React.Fragment><div className="item-media">
-                <i className="fas fa-sign-out-alt"></i>
-            </div>
-            <div className="item-inner">
-                <div className="item-title">Logout</div>
-            </div></React.Fragment>
-        } else {
-            loginBtn = <React.Fragment><div className="item-media">
-                <i className="fas fa-sign-in-alt"></i>
-            </div>
-            <div className="item-inner">
-                <div className="item-title">Login</div>
-            </div></React.Fragment>
+        let updateValidation; 
+        if(this.state.isProfileUpdated) {
+            updateValidation = <p>Profile has been updated</p>;
+        }
+
+        let loading;
+        if(this.state.isLoading) {
+            loading = <Col style={{ width: "100%" }}>
+                <Preloader color="orange"></Preloader>
+            </Col>;
         }
 
         let profileName, avatarURL, goldCoins, silverCoins, profileBanner;
@@ -280,7 +315,6 @@ class Account extends Component {
                                 required
                                 validate
                                 onInputClear={() => this.setState({ firstName: "" })}
-                                clearButton
                             />
                             <ListInput
                                 outline
@@ -289,7 +323,6 @@ class Account extends Component {
                                 label="Last Name"
                                 type="text"
                                 onInputClear={() => this.setState({ lastName: "" })}
-                                clearButton
                             />
                             <ListInput
                                 outline
@@ -298,7 +331,6 @@ class Account extends Component {
                                 label="Email Address"
                                 type="email"
                                 onInputClear={() => this.setState({ email: "" })}
-                                clearButton
                             />
                             <ListInput
                                 outline
@@ -307,18 +339,29 @@ class Account extends Component {
                                 label="Phone Number"
                                 type="text"
                                 onInputClear={() => this.setState({ phoneNumber: "" })}
-                                clearButton
                             />
+                            <li>
+                                <div className="item-content item-input item-input-outline">
+                                    <div className="item-inner">
+                                        <div class="item-title item-label">Birthday</div>
+                                        <div className="item-input-wrap">
+                                            <input type="text" value={this.state.birthday} placeholder="Select date and time" readOnly id="date-time-input"/>
+                                        </div>
+                                    </div>
+                                </div>
+                            </li>
                             <ListInput
                                 outline
-                                onChange={this.onBirthdayChange}
-                                value={this.state.birthday}
-                                label="Birthday"
-                                type="text"
-                                className="date-time-input"
+                                value={this.state.shortBio}
+                                label="Short Bio"
+                                type="textarea"
+                                resizable
+                                onFocus={() => this.setState({ bioPopupOpened : true })}
                             />
                             <div style={{ padding: 10 }}>
-                                <Button className="general-btn" style={{color: '#fff'}} onClick={this.onSignOutButtonClick} raised fill round>Update Profile Info</Button>
+                                {updateValidation}
+                                {loading}
+                                <Button className="general-btn" style={{color: '#fff'}} disabled={this.state.isLoading} onClick={this.onUpdateProfileButtonClick} raised fill round>Update Profile Info</Button>
                             </div> 
                         </List>
                         <BlockTitle>Profile Action</BlockTitle>
@@ -326,6 +369,26 @@ class Account extends Component {
                             <Button className="general-reject-btn" style={{color: '#fff'}} onClick={this.onSignOutButtonClick} raised fill round>Sign Out</Button>
                         </div>
                     </div>
+                    <Popup className="item-desc-popup" opened={this.state.bioPopupOpened} onPopupClosed={() => this.setState({bioPopupOpened : false})}>
+                        <Page>
+                            <Navbar title="Item's Description">
+                            <NavRight>
+                                <Link popupClose>Close</Link>
+                            </NavRight>
+                            </Navbar>
+                            <Block>
+                                <TextEditor
+                                    value={this.state.shortBio}
+                                    onTextEditorChange={this.onEditorChange}
+                                    placeholder="Describe yourself here"
+                                    buttons={[
+                                        ['bold', 'italic', 'underline', 'strikeThrough'],
+                                        ['orderedList', 'unorderedList']
+                                    ]}
+                                />
+                            </Block>
+                        </Page>
+                    </Popup>
                 </div>
             </Page>
         );

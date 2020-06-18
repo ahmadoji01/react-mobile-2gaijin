@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import "./ProductCard.scss";
 import { Link } from 'framework7-react';
 import SoldOutIcon from "../../icons/SoldOutIcon.svg";
+import PinIcon from "../../icons/PinIcon.svg";
 
 class ProductCard extends Component {
     
@@ -72,7 +73,7 @@ class ProductCard extends Component {
             const item = this.props.item;
             let locColumn;
             if(this.state.locText != "") {
-                locColumn = <p className="location"><i className="fa fa-map-marker"></i>{this.state.locText}</p>
+                locColumn = <p className="location" style={{ display: "inline" }}><img src={PinIcon} style={{ width: 20, height: 20, float: "left" }} />{this.state.locText}</p>
             }
 
             let soldOut;

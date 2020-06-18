@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import './ProductCardHorizontal.scss';
 import {Link} from 'framework7-react';
 import { geolocated } from 'react-geolocated';
+import PinIcon from "../../icons/PinIcon.svg";
 
 class ProductCardHorizontal extends Component {
     
@@ -79,7 +80,7 @@ class ProductCardHorizontal extends Component {
 
             let locColumn;
             if(this.state.locText != "") {
-                locColumn = <p className="location" style={{marginBottom: 0}}><i className="fa fa-map-marker"></i>{this.state.locText}</p>
+                locColumn = <p className="location" style={{ display: "inline" }}><img src={PinIcon} style={{ width: 20, height: 20, float: "left" }} />{this.state.locText}</p>
             }
             return(
                 <div className="profile-container content-shadow">

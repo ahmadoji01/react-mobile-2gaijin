@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import './ProductCardWithLove.scss';
 import { Icon, Link } from 'framework7-react';
 import { geolocated } from 'react-geolocated';
+import PinIcon from "../../icons/PinIcon.svg";
 
 class ProductCardWithLove extends Component {
     
@@ -81,7 +82,7 @@ class ProductCardWithLove extends Component {
 
             let locColumn;
             if(locText != "") {
-                locColumn = <p className="location"><i className="fa fa-map-marker"></i>{locText}</p>
+                locColumn = <p className="location"><img src={PinIcon} />{locText}</p>
             }
 
             return(

@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import './FullWidthCard.scss';
 import { Icon, Link } from 'framework7-react';
 import { geolocated } from 'react-geolocated';
+import PinIcon from "../../icons/PinIcon.svg";
 
 class FullWidthCard extends Component {
     constructor(props) {
@@ -87,7 +88,7 @@ class FullWidthCard extends Component {
             let locColumn;
             if(this.state.locText != "") {
                 locColumn = <div className="column">
-                    <p className="location">{this.state.locText}</p>
+                    <p className="location" style={{ display: "inline" }}><img src={PinIcon} style={{ width: 20, height: 20, float: "left" }} />{this.state.locText}</p>
                 </div>
             }
 

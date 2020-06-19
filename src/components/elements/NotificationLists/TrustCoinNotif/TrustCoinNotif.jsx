@@ -69,7 +69,7 @@ class TrustCoinNotif extends Component {
             }
             
             var sheetClassName = "demo-sheet-swipe-to-close-" + this.props.notifNum;
-             let trustCoinButton;
+            let trustCoinButton;
             if(this.state.status == "finished") {
                 trustCoinButton = <div className="row" style={{paddingBottom: 0, marginBottom: 0}}>
                     <Button className="general-disabled-btn" style={{color: "#EF7132", marginTop: 5}} raised fill round>Tip has been sent</Button>

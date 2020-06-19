@@ -22,6 +22,13 @@ import AddProductPage1 from "./components/pages/AddProduct/AddProductPage1";
 import AddProductPage2 from "./components/pages/AddProduct/AddProductPage2";
 import AddProductPage3 from "./components/pages/AddProduct/AddProductPage3";
 import ReviewProduct from "./components/pages/AddProduct/ReviewProduct";
+
+import EditCategorySelect from "./components/pages/EditProduct/EditCategorySelect";
+import EditCategoryListSelect from "./components/pages/EditProduct/EditCategoryListSelect";
+import EditProductPage1 from "./components/pages/EditProduct/EditProductPage1";
+import EditProductPage2 from "./components/pages/EditProduct/EditProductPage2";
+import ReviewEditProduct from "./components/pages/EditProduct/ReviewEditProduct";
+
 import Appointment from "./components/pages/Appointment/Appointment";
 import Account from "./components/pages/Account/Account";
 import Collections from "./components/pages/Account/Collections";
@@ -32,59 +39,59 @@ const f7params = {
   theme: 'ios',
   routes: [
     {
-        path: '/',
-        component: Home,
+      path: '/',
+      component: Home,
     },
     {
-        path: '/search/:searchTerm',
-        component: Search,
+      path: '/search/:searchTerm',
+      component: Search,
     },
     {
       path: '/chatlobby',
       component: ChatLobby,
     },
     {
-        path: '/chatroom/:roomID',
-        component: ChattingRoom,
+      path: '/chatroom/:roomID',
+      component: ChattingRoom,
     },
     {
-        path: '/product/:productID',
-        component: ProductDetail,
-        options: {
-          transition: 'f7-circle',
-        },
+      path: '/product/:productID',
+      component: ProductDetail,
+      options: {
+        transition: 'f7-circle',
+      },
     },
     {
-        path: '/login',
-        component: Login,
+      path: '/login',
+      component: Login,
     },
     {
-        path: '/register',
-        component: Register,
+      path: '/register',
+      component: Register,
     },
     {
-        path: '/notification',
-        component: Notification,
+      path: '/notification',
+      component: Notification,
     },
     {
-        path: '/search_history',
-        component: SearchHistory,
+      path: '/search_history',
+      component: SearchHistory,
     },
     {
-        path: '/appointment/:productID/:withDelivery',
-        component: MakeAppointment,
+      path: '/appointment/:productID/:withDelivery',
+      component: MakeAppointment,
     },
     {
-        path: '/category-select',
-        component: CategorySelect,
+      path: '/category-select',
+      component: CategorySelect,
     },
     {
       path: '/category-list-select/:category',
       component: CategoryListSelect,
     },
     {
-        path: '/add-product-1',
-        component: AddProductPage1,
+      path: '/add-product-1',
+      component: AddProductPage1,
     },
     {
       path: '/add-product-2',
@@ -99,16 +106,40 @@ const f7params = {
       component: ReviewProduct,
     },
     {
-        path: '/see-appointment',
-        component: Appointment,
+      path: '/edit-category-select',
+      component: EditCategorySelect,
     },
     {
-        path: '/account',
-        component: Account,
+      path: '/edit-category-list-select/:category',
+      component: EditCategoryListSelect,
     },
     {
-        path: '/collections',
-        component: Collections,
+      path: '/edit-product-1',
+      component: EditProductPage1,
+    },
+    {
+      path: '/edit-product-2',
+      component: EditProductPage2,
+    },
+    {
+      path: '/review-edit-product',
+      component: ReviewEditProduct,
+    },
+    {
+      path: '/see-appointment',
+      component: Appointment,
+    },
+    {
+      path: '/account',
+      component: Account,
+    },
+    {
+      path: '/profile/:userID',
+      component: Account,
+    },
+    {
+      path: '/collections',
+      component: Collections,
     }
   ],
   // App Name

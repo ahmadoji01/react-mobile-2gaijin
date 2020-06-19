@@ -12,38 +12,32 @@ import vehicles from "../../illustrations/Vehicles.png";
 import whiteapp from "../../illustrations/WhiteApp.png";
 import misc from "../../illustrations/Misc.png";
 
-class CategorySelect extends Component {
+class EditCategorySelect extends Component {
 
     constructor(props) {
         super(props);
         this.state = {
             searchterm: ""
         };
-        this.SearchBarChange = this.SearchBarChange.bind(this);
-        this.SearchItems = this.SearchItems.bind(this);
         this.onListClick = this.onListClick.bind(this);
     }
 
     async SearchItems() {
         this.$f7router.navigate("/add-product/" + this.state.searchterm);
     }
-
-    SearchBarChange(e) {
-        this.setState({ searchterm: e.target.value });
-    }
     
     onListClick(itemName) {
-        this.$f7router.navigate("/category-list-select/" + itemName);
+        this.$f7router.navigate("/edit-category-list-select/" + itemName);
     }
     
     render() {
         return(
-            <Page name="category-select" className="page page-category-select">
+            <Page name="edit-category-select" className="page page-edit-category-select">
                 <Navbar>
                     <NavLeft>
                         <Link href="#" className="link back"><Icon f7="arrow_left_circle_fill" size="24px" color="gray"></Icon></Link>
                     </NavLeft>
-                    <NavTitle>What do you want to sell today?</NavTitle>
+                    <NavTitle>Choose your new category for the item</NavTitle>
                 </Navbar>
                 <div className="container" style={{ marginTop: 10 }}>
                     <h4>Categories for you</h4>
@@ -94,4 +88,4 @@ class CategorySelect extends Component {
 
 }
 
-export default CategorySelect;
+export default EditCategorySelect;

@@ -150,7 +150,7 @@ class Account extends Component {
 
         if(user) {
             this.setState({isLoggedIn: true});
-            axios.post(`https://go.2gaijin.com/profile`, {}, {
+            axios.post(`https://go.2gaijin.com/get_profile_info`, {}, {
             headers: {
                 "Authorization": localStorage.getItem("access_token")
             }

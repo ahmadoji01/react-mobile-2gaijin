@@ -35,6 +35,12 @@ class EditCategoryListSelect extends Component {
         });
     }
 
+    componentDidMount() {
+        if(!localStorage.getItem("edit_product_id")) {
+            this.$f7.view.main.router.navigate("/");
+        }
+    }
+
     populateCatTreeView(category) {
         return category.map(item => {
             if (item.children.length == 0) {

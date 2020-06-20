@@ -81,8 +81,8 @@ class Collections extends Component {
     }
 
     onEditProductClick() {
-        this.$f7router.navigate("/edit-category-select");
         localStorage.setItem("edit_product_id", this.state.selectedId);
+        this.$f7router.navigate("/edit-category-select");
     }
 
     render() {

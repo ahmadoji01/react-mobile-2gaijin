@@ -59,6 +59,12 @@ class EditProductPage2 extends Component {
             var price = parseInt(localStorage.getItem("edit_price"));
             this.setState({ position: { lat: lat, lng: lng } });
             this.setState({ price: price });
+        } 
+    }
+
+    componentDidMount() {
+        if(!localStorage.getItem("edit_latitude")) {
+            this.$f7.view.main.router.navigate("/");
         }
     }
 

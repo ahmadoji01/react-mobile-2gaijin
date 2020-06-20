@@ -52,35 +52,45 @@ class EditProductPage1 extends Component {
     }
 
     componentWillMount() {
-        var payload = {
-            "_id": localStorage.getItem("edit_product_id")
-        }
-
-        axios.post(`https://go.2gaijin.com/get_product_info_edit`, payload, {
-        headers: {
-            "Authorization": localStorage.getItem("access_token")
-        }
-        }).then(response => {
-            if(response.data["status"] == "Success") {
-                var jsonData = response.data;
-                localStorage.setItem("edit_item_name", jsonData.data.product.name);
-                localStorage.setItem("edit_item_brand", jsonData.data.product_detail.brand);
-                localStorage.setItem("edit_item_condition", jsonData.data.product_detail.condition);
-                localStorage.setItem("edit_years_owned", jsonData.data.product_detail.years_owned);
-                localStorage.setItem("edit_model_name", jsonData.data.product_detail.model_name);
-                localStorage.setItem("edit_item_description", jsonData.data.product.description);
-                localStorage.setItem("edit_price", jsonData.data.product.price);
-                localStorage.setItem("edit_latitude", jsonData.data.product.latitude);
-                localStorage.setItem("edit_longitude", jsonData.data.product.longitude);
+        if(localStorage.getItem("edit_product_id")) {
+            var payload = {
+                "_id": localStorage.getItem("edit_product_id")
             }
-        }).then(() => {
-            this.setState({ itemName: localStorage.getItem("edit_item_name") });
-            this.setState({ itemBrand: localStorage.getItem("edit_item_brand") });
-            this.setState({ itemCondition: localStorage.getItem("edit_item_condition") });
-            this.setState({ yearsOwned: localStorage.getItem("edit_years_owned") });
-            this.setState({ modelName: localStorage.getItem("edit_model_name") });
-            this.setState({ itemDescription: localStorage.getItem("edit_item_description") });
-        });
+
+            axios.post(`https://go.2gaijin.com/get_product_info_edit`, payload, {
+            headers: {
+                "Authorization": localStorage.getItem("access_token")
+            }
+            }).then(response => {
+                if(response.data["status"] == "Success") {
+                    var jsonData = response.data;
+                    localStorage.setItem("edit_item_name", jsonData.data.product.name);
+                    localStorage.setItem("edit_item_brand", jsonData.data.product_detail.brand);
+                    localStorage.setItem("edit_item_condition", jsonData.data.product_detail.condition);
+                    localStorage.setItem("edit_years_owned", jsonData.data.product_detail.years_owned);
+                    localStorage.setItem("edit_model_name", jsonData.data.product_detail.model_name);
+                    localStorage.setItem("edit_item_description", jsonData.data.product.description);
+                    localStorage.setItem("edit_price", jsonData.data.product.price);
+                    localStorage.setItem("edit_latitude", jsonData.data.product.latitude);
+                    localStorage.setItem("edit_longitude", jsonData.data.product.longitude);
+                }
+            }).then(() => {
+                this.setState({ itemName: localStorage.getItem("edit_item_name") });
+                this.setState({ itemBrand: localStorage.getItem("edit_item_brand") });
+                this.setState({ itemCondition: localStorage.getItem("edit_item_condition") });
+                this.setState({ yearsOwned: localStorage.getItem("edit_years_owned") });
+                this.setState({ modelName: localStorage.getItem("edit_model_name") });
+                this.setState({ itemDescription: localStorage.getItem("edit_item_description") });
+            });
+        } else {
+            this.$f7router.navigate("/");
+        }
+    }
+
+    componentDidMount() {
+        if(!localStorage.getItem("edit_product_id")) {
+            this.$f7.view.main.router.navigate("/");
+        }
     }
 
     onButtonClick() {

@@ -21,13 +21,15 @@ class EditCategorySelect extends Component {
         };
         this.onListClick = this.onListClick.bind(this);
     }
-
-    async SearchItems() {
-        this.$f7router.navigate("/add-product/" + this.state.searchterm);
-    }
     
     onListClick(itemName) {
         this.$f7router.navigate("/edit-category-list-select/" + itemName);
+    }
+
+    componentDidMount() {
+        if(!localStorage.getItem("edit_product_id")) {
+            this.$f7.view.main.router.navigate("/");
+        }
     }
     
     render() {

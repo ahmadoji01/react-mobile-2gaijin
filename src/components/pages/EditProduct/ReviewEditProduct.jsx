@@ -35,18 +35,22 @@ class ReviewEditProduct extends Component {
     }
 
     componentWillMount() {
-        this.setState({ itemName: localStorage.getItem("edit_item_name") });
-        this.setState({ itemBrand: localStorage.getItem("edit_item_brand") });
-        this.setState({ itemCondition: localStorage.getItem("edit_item_condition") });
-        this.setState({ yearsOwned: localStorage.getItem("edit_years_owned") });
-        this.setState({ modelName: localStorage.getItem("edit_model_name") });
-        this.setState({ itemDescription: localStorage.getItem("edit_item_description") });
-        this.setState({ selectedCategory: localStorage.getItem("edit_selected_category") });
-        this.setState({ itemPrice: parseInt(localStorage.getItem("edit_price")) });
-        
-        var lat = parseFloat(localStorage.getItem("edit_latitude"));
-        var lng = parseFloat(localStorage.getItem("edit_longitude"));
-        this.setState({ position: { lat: lat, lng: lng } });
+        if(localStorage.getItem("edit_product_id")) {
+            console.log("");
+            this.setState({ itemName: localStorage.getItem("edit_item_name") });
+            this.setState({ itemBrand: localStorage.getItem("edit_item_brand") });
+            this.setState({ itemCondition: localStorage.getItem("edit_item_condition") });
+            this.setState({ yearsOwned: localStorage.getItem("edit_years_owned") });
+            this.setState({ modelName: localStorage.getItem("edit_model_name") });
+            this.setState({ itemDescription: localStorage.getItem("edit_item_description") });
+            this.setState({ selectedCategory: localStorage.getItem("edit_selected_category") });
+            this.setState({ itemPrice: parseInt(localStorage.getItem("edit_price")) });
+                
+            
+            var lat = parseFloat(localStorage.getItem("edit_latitude"));
+            var lng = parseFloat(localStorage.getItem("edit_longitude"));
+            this.setState({ position: { lat: lat, lng: lng } }); 
+        }
     }
 
     updateWindowDimensions() {
@@ -54,7 +58,11 @@ class ReviewEditProduct extends Component {
     }
 
     componentDidMount() {
-        this.updateWindowDimensions();
+        if(localStorage.getItem("edit_product_id")) {
+            this.updateWindowDimensions();
+        } else {
+            this.$f7.view.main.router.navigate("/");
+        }
     }
 
     removeAllProductInfo() {

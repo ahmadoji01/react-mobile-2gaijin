@@ -457,7 +457,8 @@ class ChattingRoom extends Component {
                 var dataToSend = receivedData;
                 delete dataToSend.created_at;
                 
-                if(receivedData.image == "") {
+                console.log(receivedData.image);
+                if(typeof(receivedData.image) === "undefined" || receivedData.image == "") {
                     let config = { headers: {'Authorization': localStorage.getItem("access_token"), "Content-Type": "application/json" }}
                     axios
                     .post(`https://go.2gaijin.com/insert_message`, dataToSend, config)

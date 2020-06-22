@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import "./Collections.scss";
 import AuthService from "../../../services/auth.service.js";
 import { Col, Preloader, Sheet, PageContent, ListInput, Block, Button, Page, Navbar, NavLeft, NavRight, NavTitle, Subnavbar, Searchbar, Link, Icon, List, ListItem, Popover } from "framework7-react";
 import axios from "axios";
@@ -94,7 +95,7 @@ class Collections extends Component {
                 href="#"
                 onClick={() => this.onListItemClick(i, item._id, item.name, item.price)}
                 title={item.name}
-                subtitle={item.price}
+                subtitle={"¥" + item.price}
                 popoverOpen=".popover-menu"
                 >
                     <img slot="media" src={item.img_url} width="100" />
@@ -128,7 +129,7 @@ class Collections extends Component {
                     </NavLeft>
                     <NavTitle>Item Lists</NavTitle>
                 </Navbar>
-                <List mediaList className="search-list searchbar-found">
+                <List mediaList className="search-list item-collections searchbar-found">
                     {items}
                 </List>
                 <Popover className="popover-menu">

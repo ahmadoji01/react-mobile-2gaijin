@@ -41,10 +41,16 @@ const f7params = {
     {
       path: '/',
       component: Home,
+      options: {
+        reload: true,
+      },
     },
     {
       path: '/search/:searchTerm',
       component: Search,
+      options: {
+        reload: true,
+      },
     },
     {
       path: '/chatlobby',
@@ -59,6 +65,7 @@ const f7params = {
       component: ProductDetail,
       options: {
         transition: 'f7-circle',
+        reload: true
       },
     },
     {
@@ -76,6 +83,9 @@ const f7params = {
     {
       path: '/search_history',
       component: SearchHistory,
+      options: {
+        reload: true,
+      },
     },
     {
       path: '/appointment/:productID/:withDelivery',
@@ -84,6 +94,9 @@ const f7params = {
     {
       path: '/category-select',
       component: CategorySelect,
+      options: {
+        reload: true,
+      },
     },
     {
       path: '/category-list-select/:category',
@@ -108,6 +121,9 @@ const f7params = {
     {
       path: '/edit-category-select',
       component: EditCategorySelect,
+      options: {
+        reload: true,
+      },
     },
     {
       path: '/edit-category-list-select/:category',
@@ -128,10 +144,16 @@ const f7params = {
     {
       path: '/see-appointment',
       component: Appointment,
+      options: {
+        reload: true,
+      },
     },
     {
       path: '/account',
       component: Account,
+      options: {
+        reload: true,
+      },
     },
     {
       path: '/profile/:userID',
@@ -140,6 +162,9 @@ const f7params = {
     {
       path: '/collections',
       component: Collections,
+      options: {
+        reload: true,
+      },
     }
   ],
   // App Name

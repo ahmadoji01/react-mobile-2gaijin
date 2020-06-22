@@ -176,13 +176,11 @@ class ChattingRoom extends Component {
                     }
                 }
 
+                self.setState({ isLoading: true });
                 var picToUpload = await resizeImg(img.src, imgWidth * resizer, imgHeight * resizer);
                 let parts = picToUpload.split(';');
                 let imageData = parts[1].split(',')[1];
-
                 var dataToSend = { "user_id": userID, "room_id": roomID, "img_data": imageData };
-                self.setState({ isLoading: true });
-                
                 let config = { headers: {'Authorization': localStorage.getItem("access_token"), "Content-Type": "application/json" }}
                 axios
                 .post(`https://go.2gaijin.com/insert_picture_message`, dataToSend, config)
@@ -459,14 +457,16 @@ class ChattingRoom extends Component {
                 var dataToSend = receivedData;
                 delete dataToSend.created_at;
                 
-                let config = { headers: {'Authorization': localStorage.getItem("access_token"), "Content-Type": "application/json" }}
-                axios
-                .post(`https://go.2gaijin.com/insert_message`, dataToSend, config)
-                .then(response => {
-                    if(response.data.status == "Success") {
-                        
-                    }
-                });
+                if(receivedData.image == "") {
+                    let config = { headers: {'Authorization': localStorage.getItem("access_token"), "Content-Type": "application/json" }}
+                    axios
+                    .post(`https://go.2gaijin.com/insert_message`, dataToSend, config)
+                    .then(response => {
+                        if(response.data.status == "Success") {
+                            
+                        }
+                    });
+                }
             } else {
                 receivedData.type = "received";
             }

@@ -1,19 +1,22 @@
 import React, { Component } from 'react';
 import axios from 'axios';
 import AuthService from "../../../services/auth.service";
-import { Page, Messages, Messagebar, MessagebarAttachments, MessagebarSheet, Message, Navbar, Link, MessagebarAttachment, MessagebarSheetImage, MessagesTitle } from 'framework7-react';
-
+import "./ChattingRoom.scss";
+import { Col, Preloader, Page, Messages, Messagebar, MessagebarAttachments, MessagebarSheet, Message, Navbar, Link, MessagebarAttachment, MessagebarSheetImage, MessagesTitle } from 'framework7-react';
+import { getCroppedImg, resizeImg } from '../../../services/imageprocessing';
 class ChattingRoom extends Component {
-    
+
     constructor(props) {
         super(props);
-    
+        this.maxWidth = 800;
+        this.maxHeight = 600;
         this.state = {
             attachments: [],
             sheetVisible: false,
             typingMessage: null,
             messagesData: [],
             ws: null,
+            isLoading: false,
             images: [
                 'https://cdn.framework7.io/placeholder/cats-300x300-1.jpg',
                 'https://cdn.framework7.io/placeholder/cats-200x300-2.jpg',
@@ -26,13 +29,29 @@ class ChattingRoom extends Component {
                 'https://cdn.framework7.io/placeholder/cats-400x300-9.jpg',
                 'https://cdn.framework7.io/placeholder/cats-300x150-10.jpg',
             ],
+            chatPic: null,
+            chatPicWidth: 0, chatPicHeight: 0,
+            maxWidth: 600, maxHeight: 400,
             people: [],
             current_person: {},
             responseInProgress: false,
         }
+        this.picInput = React.createRef();
+
         this.sendMsgWs = this.sendMsgWs.bind(this);
+        this.onFileChange = this.onFileChange.bind(this);
+        this.onFileRetrieved = this.onFileRetrieved.bind(this);
     }
+
     render() {
+
+        let loading;
+        if(this.state.isLoading) {
+            loading = <Col style={{ width: "100%" }}>
+                <Preloader color="orange"></Preloader>
+            </Col>;
+        }
+
         return (
             <Page>
                 <Navbar title="Messages"></Navbar>
@@ -43,13 +62,14 @@ class ChattingRoom extends Component {
                 attachmentsVisible={this.attachmentsVisible}
                 sheetVisible={this.state.sheetVisible}
                 >
+                <input type="file" ref={ this.picInput } className="chat-img-input" onChange={this.onFileChange()} />
                 <Link
                     iconIos="f7:camera_fill"
                     iconAurora="f7:camera_fill"
                     iconMd="material:camera_alt"
                     slot="inner-start"
-                    onClick={() => {this.setState({sheetVisible: !this.state.sheetVisible})}}
-                ></Link>
+                >
+                </Link>
                 <Link
                     iconIos="f7:arrow_up_circle_fill"
                     iconAurora="f7:arrow_up_circle_fill"
@@ -109,8 +129,77 @@ class ChattingRoom extends Component {
                     ></Message>
                 )}
                 </Messages>
+                {loading}
             </Page>
         );
+    }
+
+    onFileChange = () => async e => {
+        if (e.target.files && e.target.files.length > 0) {
+            const file = e.target.files[0]
+            await readFile(file).then(
+            res => {
+                this.setState({
+                    chatPic: res
+                });
+                this.onFileRetrieved();
+            });
+        }
+    }
+
+    onFileRetrieved = async () => {
+        if(this.state.chatPic) {
+            const img = new Image();
+
+            img.src = this.state.chatPic;
+
+            var imgWidth;
+            var imgHeight;
+            var resizer = 1.0;
+            var maxWidth = this.state.maxWidth;
+            var maxHeight = this.state.maxHeight;
+            var ws = this.state.ws;
+
+            var roomID = this.props.roomID;
+            var userID = localStorage.getItem("user_id");
+
+            var self = this;
+            img.onload = async function() {
+                imgWidth = img.naturalWidth;
+                imgHeight = img.naturalHeight;
+
+                if(imgWidth > maxWidth || imgHeight > maxHeight) {
+                    if(imgWidth > imgHeight) {
+                        resizer = maxWidth / imgWidth;
+                    } else {
+                        resizer = maxHeight / imgHeight;
+                    }
+                }
+
+                var picToUpload = await resizeImg(img.src, imgWidth * resizer, imgHeight * resizer);
+                let parts = picToUpload.split(';');
+                let imageData = parts[1].split(',')[1];
+
+                var dataToSend = { "user_id": userID, "room_id": roomID, "img_data": imageData };
+                self.setState({ isLoading: true });
+                
+                let config = { headers: {'Authorization': localStorage.getItem("access_token"), "Content-Type": "application/json" }}
+                axios
+                .post(`https://go.2gaijin.com/insert_picture_message`, dataToSend, config)
+                .then(response => {
+                    if(response.data.status == "Success") {
+                        var roomMsg = response.data.data.room_message;
+                        var sendToWs = { "user_id": roomMsg.user_id, "room_id": roomMsg.room_id, "image": roomMsg.image };
+                        self.setState({ isLoading: false });
+                        try {
+                            ws.send(JSON.stringify(sendToWs));
+                        } catch (error) {
+                            console.log(error);
+                        }
+                    }
+                });
+            };
+        }
     }
     
     get attachmentsVisible() {
@@ -374,7 +463,6 @@ class ChattingRoom extends Component {
                 axios
                 .post(`https://go.2gaijin.com/insert_message`, dataToSend, config)
                 .then(response => {
-                    console.log(response);
                     if(response.data.status == "Success") {
                         
                     }
@@ -403,6 +491,14 @@ class ChattingRoom extends Component {
         const { ws } = this.state;
         if (!ws || ws.readyState == WebSocket.CLOSED) this.connect(); //check if websocket instance is closed, if so call `connect` function.
     };
+}
+
+function readFile(file) {
+    return new Promise(resolve => {
+      const reader = new FileReader()
+      reader.addEventListener('load', () => resolve(reader.result), false)
+      reader.readAsDataURL(file)
+    })
 }
 
 export default ChattingRoom;

@@ -2,8 +2,9 @@ import React, { Component } from 'react';
 import axios from 'axios';
 import AuthService from "../../../services/auth.service";
 import "./ChattingRoom.scss";
-import { Col, Preloader, Page, Messages, Messagebar, MessagebarAttachments, MessagebarSheet, Message, Navbar, Link, MessagebarAttachment, MessagebarSheetImage, MessagesTitle } from 'framework7-react';
+import { Col, Preloader, Icon, Page, Messages, Messagebar, MessagebarAttachments, MessagebarSheet, Message, Navbar, Link, MessagebarAttachment, MessagebarSheetImage, MessagesTitle, NavTitle, NavLeft } from 'framework7-react';
 import { getCroppedImg, resizeImg } from '../../../services/imageprocessing';
+import Moment from 'react-moment';
 class ChattingRoom extends Component {
 
     constructor(props) {
@@ -14,9 +15,11 @@ class ChattingRoom extends Component {
             attachments: [],
             sheetVisible: false,
             typingMessage: null,
+            totalMessages: 0,
             messagesData: [],
             ws: null,
             isLoading: false,
+            chatLoading: false,
             images: [
                 'https://cdn.framework7.io/placeholder/cats-300x300-1.jpg',
                 'https://cdn.framework7.io/placeholder/cats-200x300-2.jpg',
@@ -52,9 +55,45 @@ class ChattingRoom extends Component {
             </Col>;
         }
 
+        let chatloading;
+        if(this.state.chatLoading) {
+            loading = <Col style={{ width: "100%" }}>
+                <Preloader color="orange"></Preloader>
+            </Col>;
+        }
+
+        const loadingCSS = {
+            height: "70px",
+            margin: "200px"
+        };
+
+        const loadingTextCSS = { display: this.state.chatLoading ? "block" : "none" }; 
+        
+        var avatarURL = "images/avatar-placeholder.png";
+
+        let personInfo;
+        if(typeof(this.state.people[0]) !== "undefined") {
+            personInfo = <div className="row" style={{marginTop: 10, padding: 10}}>
+                <div className="col-30 seller-img-container" style={{backgroundImage: `url("${avatarURL}")`}}>
+                </div>
+                <div className="col-70">
+                    <div className="row" style={{marginBottom: 0}}>
+                        <h5 className="seller-name">{this.state.people[0].name}</h5>
+                    </div>
+                </div>
+            </div>;
+        }
+
         return (
             <Page>
-                <Navbar title="Messages"></Navbar>
+                <Navbar>
+                    <NavLeft>
+                        <Link href="#" className="link back"><Icon f7="arrow_left_circle_fill" size="24px" color="gray"></Icon></Link>
+                    </NavLeft>
+                    <NavTitle>
+                        {personInfo}
+                    </NavTitle>
+                </Navbar>
         
                 <Messagebar
                 placeholder={this.placeholder}
@@ -97,41 +136,69 @@ class ChattingRoom extends Component {
                     ))}
                 </MessagebarSheet>
                 </Messagebar>
-        
-                <Messages ref={(el) => {this.messagesComponent = el}}>
-                <MessagesTitle><b>Sunday, Feb 9,</b> 12:58</MessagesTitle>
-        
-                {this.state.messagesData.map((message, index) => (
-                    <Message
-                    key={index}
-                    type={message.type}
-                    image={message.image}
-                    name={message.name}
-                    avatar={message.avatar_url}
-                    first={this.isFirstMessage(message, index)}
-                    last={this.isLastMessage(message, index)}
-                    tail={this.isTailMessage(message, index)}
-                    >
-                    {message.message && (
-                        <span slot="text" dangerouslySetInnerHTML={{__html: message.message}} />
+                
+                <Messages scrollMessagesOnEdge ref={(el) => {this.messagesComponent = el}}>
+                    {chatloading}
+                    {this.state.messagesData.map((message, index) => (
+                        <React.Fragment>
+                            {this.isTimeShown(message, index)}
+                            <Message
+                            key={index}
+                            type={message.type}
+                            image={message.image}
+                            name={message.name}
+                            avatar={message.avatar_url}
+                            first={this.isFirstMessage(message, index)}
+                            last={this.isLastMessage(message, index)}
+                            tail={this.isTailMessage(message, index)}
+                            >
+                            {message.message && (
+                                <span slot="text" dangerouslySetInnerHTML={{__html: message.message}} />
+                            )}
+                            </Message>
+                        </React.Fragment>
+                    ))}
+                    {this.state.typingMessage && (
+                        <Message
+                        type="received"
+                        typing={true}
+                        first={true}
+                        last={true}
+                        tail={true}
+                        header={`${this.state.typingMessage.name} is typing`}
+                        avatar={this.state.typingMessage.avatar_url}
+                        ></Message>
                     )}
-                    </Message>
-                ))}
-                {this.state.typingMessage && (
-                    <Message
-                    type="received"
-                    typing={true}
-                    first={true}
-                    last={true}
-                    tail={true}
-                    header={`${this.state.typingMessage.name} is typing`}
-                    avatar={this.state.typingMessage.avatar_url}
-                    ></Message>
-                )}
                 </Messages>
+                
                 {loading}
             </Page>
         );
+    }
+
+    getItems() {
+        this.setState({ chatLoading: true });
+        const msgsLength = this.state.messagesData.length;
+        const totalMsgs = this.state.totalMessages;
+        const lastItems = totalMsgs - msgsLength;
+        let config = {
+                headers: { 'Authorization': localStorage.getItem("access_token"), "Content-Type": "application/json" },
+                params: {
+                    room: this.props.roomID,
+                    start: lastItems - 8,
+                    limit: lastItems,
+                }
+        }
+        axios
+        .get(`https://go.2gaijin.com/chat_messages`, config)
+        .then(res => {
+            this.setState({ chatLoading: false });
+            console.log(res);
+            if(res.data.status == "Success") {
+                this.setState({ messagesData: [...res.data.data.messages, ...this.state.messagesData] });
+                this.messagesTop.scrollIntoView({ behavior: "smooth" });
+            }
+        });  
     }
 
     onFileChange = () => async e => {
@@ -255,14 +322,15 @@ class ChattingRoom extends Component {
                                         }
                                         if(message.user_id != currUserID){
                                             message.type = "received";
-                                            message.name = person.first_name + " " + person.last_name;
-                                            message.avatar_url = person.avatar_url;
+                                            //message.name = person.first_name + " " + person.last_name;
+                                            //message.avatar_url = person.avatar_url;
                                         } else {
                                             message.type = "sent";
                                         }
                                         msgsTmp.push(message);
                                     });
                                     this.setState({ messagesData: msgsTmp });
+                                    this.setState({ totalMessages: response.data.data.total_messages });
                                 }
                             })
                         });
@@ -282,6 +350,28 @@ class ChattingRoom extends Component {
             self.messagebar = self.messagebarComponent.f7Messagebar;
             self.messages = self.messagesComponent.f7Messages;
         }); 
+    }
+
+    isTimeShown(message, index) {
+        const self = this;
+        const previousMessage = self.state.messagesData[index - 1];
+
+        const calendarStrings = {
+            lastDay : '[Yesterday at ] LT',
+            sameDay : 'LT',
+            nextDay : '[Tomorrow at ] LT',
+            lastWeek : '[last] dddd [at] LT',
+            nextWeek : 'dddd [at] LT',
+            sameElse : 'dddd, L [at] LT'
+        };
+        if(!previousMessage) return <MessagesTitle><Moment calendar={calendarStrings}>{message.created_at}</Moment></MessagesTitle>;
+        
+        var d1 = new Date(message.created_at); var d2 = new Date(previousMessage.created_at);
+        var diff = d1-d2;
+        if (diff > 60e3 * 5) {
+            return <MessagesTitle><Moment calendar={calendarStrings}>{message.created_at}</Moment></MessagesTitle>;
+        }
+        return "";
     }
 
     isFirstMessage(message, index) {
@@ -457,23 +547,28 @@ class ChattingRoom extends Component {
                 var dataToSend = receivedData;
                 delete dataToSend.created_at;
                 
-                console.log(receivedData.image);
                 if(typeof(receivedData.image) === "undefined" || receivedData.image == "") {
                     let config = { headers: {'Authorization': localStorage.getItem("access_token"), "Content-Type": "application/json" }}
                     axios
                     .post(`https://go.2gaijin.com/insert_message`, dataToSend, config)
                     .then(response => {
                         if(response.data.status == "Success") {
-                            
+                            this.setState(prevState => ({
+                                messagesData: [...this.state.messagesData, receivedData]
+                            }));
                         }
                     });
+                } else {
+                    this.setState(prevState => ({
+                        messagesData: [...this.state.messagesData, receivedData]
+                    }));
                 }
             } else {
                 receivedData.type = "received";
+                this.setState(prevState => ({
+                    messagesData: [...this.state.messagesData, receivedData]
+                }));
             }
-            this.setState(prevState => ({
-                messagesData: [...this.state.messagesData, receivedData]
-            }));
         }
 
         // websocket onerror event listener

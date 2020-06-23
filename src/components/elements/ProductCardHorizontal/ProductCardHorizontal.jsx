@@ -2,7 +2,8 @@ import React, { Component } from 'react';
 import './ProductCardHorizontal.scss';
 import {Link} from 'framework7-react';
 import { geolocated } from 'react-geolocated';
-import PinIcon from "../../icons/PinIcon.svg";
+import CalendarIcon from "../../icons/CalendarIcon.svg";
+import Moment from 'react-moment';
 
 class ProductCardHorizontal extends Component {
     
@@ -57,8 +58,6 @@ class ProductCardHorizontal extends Component {
                 return;
             }
 
-            console.log(this.props.lat);
-
             var R = 6371;
             var dLat = (lat2-lat1) * (Math.PI/180);
             var dLon = (lng2-lng1) * (Math.PI/180); 
@@ -75,12 +74,21 @@ class ProductCardHorizontal extends Component {
     }
     
     render() {
+        const calendarStrings = {
+            lastDay : '[Yesterday at ] LT',
+            sameDay : '[Today at ] LT',
+            nextDay : '[Tomorrow at ] LT',
+            lastWeek : '[last] dddd [at] LT',
+            nextWeek : 'dddd [at] LT',
+            sameElse : 'dddd, L [at] LT'
+        };
         if(typeof(this.props.item) !== 'undefined') {
             const item = this.props.item;
+            const meetingTime = this.props.meeting_time;      
 
             let locColumn;
             if(this.state.locText != "") {
-                locColumn = <p className="location" style={{ display: "inline" }}><img src={PinIcon} style={{ width: 20, height: 20, float: "left" }} />{this.state.locText}</p>
+                locColumn = <p className="appointment-time-text" style={{ display: "inline" }}><img src={CalendarIcon} style={{ width: 20, height: 20, float: "left" }} /><b> <Moment calendar={calendarStrings}>{meetingTime}</Moment></b></p>
             }
             return(
                 <div className="profile-container content-shadow">

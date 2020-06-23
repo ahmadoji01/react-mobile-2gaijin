@@ -101,9 +101,6 @@ class FullWidthCard extends Component {
                                 <div className="column" style={{width: "90%"}}>
                                     <p className="title-product">{item.name}</p>
                                 </div>
-                                <div className="column" style={{width: "10%"}}>
-                                    <Icon f7="heart_circle_fill" size="24px" color="gray"></Icon>
-                                </div>
                             </div>
                             <div className="row" style={{marginBottom: 0, paddingBottom: 0}}>
                                 <div className="column">

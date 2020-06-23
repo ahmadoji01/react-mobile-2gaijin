@@ -66,6 +66,7 @@ class AppointmentConfirmationNotif extends Component {
 
         if(typeof(this.props.item) !== "undefined"){
             var notifItem = this.props.item;
+            var meetingTime = notifItem.appointment.meeting_time;
             var avatarURL = "image"
 
             avatarURL = notifItem.notification_user.avatar_url;
@@ -107,7 +108,7 @@ class AppointmentConfirmationNotif extends Component {
                 }
             } else {
                 notifTitle = <React.Fragment><h7>{notifItem.notification_user.first_name} sent you an appointment request</h7>
-                <p>on <Moment calendar={calendarStrings}>{notifItem.appointment.meeting_time}</Moment><br />Appointment can be rescheduled after accepted</p>
+                <p className="notif-appointment-note">Appointment can be rescheduled after accepted</p>
                 </React.Fragment>
             }
 
@@ -123,7 +124,7 @@ class AppointmentConfirmationNotif extends Component {
                             </div>
                         </div>
                         <div className="row" style={{paddingBottom: 0, marginBottom: 10}}>
-                            <ProductCardHorizontal item={notifItem.product} />
+                            <ProductCardHorizontal item={notifItem.product} meeting_time={meetingTime} />
                         </div>
                         {notifButton}
                     </div>

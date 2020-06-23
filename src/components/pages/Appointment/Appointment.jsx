@@ -11,6 +11,7 @@ import Select from '@material-ui/core/Select';
 import SwipeableViews from 'react-swipeable-views';
 import AppointmentContainer from '../../elements/AppointmentContainer/AppointmentContainer';
 import { blue } from '@material-ui/core/colors';
+import "./Appointment.scss";
 
 const styles = {
   tabs: {
@@ -42,6 +43,12 @@ class Appointment extends Component {
         this.state = {
             data: [],
             data2: [],
+            pending: [],
+            pending2: [],
+            finished: [],
+            finished2: [],
+            accepted: [],
+            accepted2: [],
             searchterm: this.props.searchTerm,
             loading: false,
             start: 1,
@@ -71,7 +78,14 @@ class Appointment extends Component {
         .get(`https://go.2gaijin.com/get_seller_appointments`, config)
         .then(response => {
             if(response.data.data) {
-                this.setState({data: response.data.data.appointments})
+                var appointmentData = response.data.data.appointments;
+                var pending = appointmentData.filter(appointment => appointment.status === "pending");
+                var finished = appointmentData.filter(appointment => appointment.status === "finished");
+                var accepted = appointmentData.filter(appointment => appointment.status === "accepted");
+                this.setState({data: response.data.data.appointments});
+                this.setState({ pending: pending });
+                this.setState({ finished: finished });
+                this.setState({ accepted: accepted });
             }
         });
 
@@ -79,7 +93,14 @@ class Appointment extends Component {
         .get(`https://go.2gaijin.com/get_buyer_appointments`, config)
         .then(response => {
             if(response.data.data) {
-                this.setState({data2: response.data.data.appointments})
+                var appointmentData = response.data.data.appointments;
+                var pending = appointmentData.filter(appointment => appointment.status === "pending");
+                var finished = appointmentData.filter(appointment => appointment.status === "finished");
+                var accepted = appointmentData.filter(appointment => appointment.status === "accepted");
+                this.setState({data2: response.data.data.appointments});
+                this.setState({ pending2: pending });
+                this.setState({ finished2: finished });
+                this.setState({ accepted2: accepted });
             }
         });
     }
@@ -134,6 +155,33 @@ class Appointment extends Component {
     
         const loadingTextCSS = { display: this.state.loading ? "block" : "none" };
 
+        let sellerContainer, sellerContainer2, sellerContainer3, buyerContainer, buyerContainer2, buyerContainer3;
+        if(this.state.pending.length > 0) {
+            sellerContainer = <React.Fragment><h6 className="appointment-title">Pending Your Approval</h6>
+            <AppointmentContainer items={this.state.pending} type="seller" /></React.Fragment>;
+        }
+        if(this.state.accepted.length > 0) {
+            sellerContainer2 = <React.Fragment><h6 className="appointment-title">Accepted Appointments</h6>
+            <AppointmentContainer items={this.state.accepted} type="seller" /></React.Fragment>;
+        } 
+        if(this.state.finished.length > 0) {
+            sellerContainer3 = <React.Fragment><h6 className="appointment-title">Completed Appointments</h6>
+            <AppointmentContainer items={this.state.finished} type="seller" /></React.Fragment>;
+        }
+        
+        if(this.state.accepted2.length > 0) {
+            buyerContainer = <React.Fragment><h6 className="appointment-title">Accepted Appointments</h6>
+            <AppointmentContainer items={this.state.accepted2} type="buyer" /></React.Fragment>;
+        } 
+        if(this.state.pending2.length > 0) {
+            buyerContainer2 = <React.Fragment><h6 className="appointment-title">Pending Seller's Approval</h6>
+            <AppointmentContainer items={this.state.pending2} type="buyer" /></React.Fragment>;
+        }
+        if(this.state.finished2.length > 0) {
+            buyerContainer3 = <React.Fragment><h6 className="appointment-title">Completed Appointments</h6>
+            <AppointmentContainer items={this.state.finished2} type="buyer" /></React.Fragment>;
+        }
+
         return(
             <Page name="appointment" className="page page-appointment hide-navbar-on-scroll">
                 <Navbar id="navbar-search">
@@ -148,7 +196,9 @@ class Appointment extends Component {
                 </Tabs>
                 <SwipeableViews index={this.state.index} onChangeIndex={this.handleChangeIndex}>
                     <div style={Object.assign({}, styles.slide, styles.slide1)}>
-                        <AppointmentContainer items={this.state.data} type="seller" />
+                        {sellerContainer}
+                        {sellerContainer2}
+                        {sellerContainer3}
                         <div
                         ref={loadingRef => (this.loadingRef = loadingRef)}
                         style={loadingCSS}>
@@ -156,7 +206,9 @@ class Appointment extends Component {
                         </div>
                     </div>
                     <div style={Object.assign({}, styles.slide, styles.slide2)}>
-                        <AppointmentContainer items={this.state.data2} type="buyer" />
+                        {buyerContainer}
+                        {buyerContainer2}
+                        {buyerContainer3}
                         <div
                         ref={loadingRef2 => (this.loadingRef2 = loadingRef2)}
                         style={loadingCSS}>

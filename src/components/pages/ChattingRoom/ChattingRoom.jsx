@@ -5,6 +5,8 @@ import "./ChattingRoom.scss";
 import { Col, Preloader, Icon, Page, Messages, Messagebar, MessagebarAttachments, MessagebarSheet, Message, Navbar, Link, MessagebarAttachment, MessagebarSheetImage, MessagesTitle, NavTitle, NavLeft } from 'framework7-react';
 import { getCroppedImg, resizeImg } from '../../../services/imageprocessing';
 import Moment from 'react-moment';
+import ChatRoomNavbar from "../../elements/ChatRoomNavbar";
+
 class ChattingRoom extends Component {
 
     constructor(props) {

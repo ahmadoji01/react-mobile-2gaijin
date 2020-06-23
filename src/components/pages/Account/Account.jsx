@@ -208,12 +208,16 @@ class Account extends Component {
             }
         }).then(response => {
             if(response.data["status"] == "Success") {
+                var jsonData = response.data.data;
                 var dob = new Date(response.data.data.date_of_birth);
                     
                 var date = (dob.getMonth() + 1) + "/" + dob.getDate() + "/" + dob.getFullYear();
+                localStorage.setItem("first_name", jsonData.first_name);
+                localStorage.setItem("last_name", jsonData.last_name);
+                localStorage.setItem("email", jsonData.email);
                 this.setState({ isLoading: false });
                 this.setState({ isProfileUpdated: true });
-                this.setState({ birthday: date })
+                this.setState({ birthday: date });
             } else {
                 this.setState({ isLoading: false });
                 this.setState({ isProfileUpdated: false });

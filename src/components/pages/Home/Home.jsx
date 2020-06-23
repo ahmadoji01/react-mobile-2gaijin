@@ -97,7 +97,7 @@ class Home extends Component {
                         onSearchbarEnable={this.searchClick}
                         ></Searchbar>
                     </Subnavbar>
-                    <NavLeft style={{marginTop: 15}}>
+                    <NavLeft>
                         {title}
                     </NavLeft>
                     <NavRight>

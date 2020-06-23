@@ -38,14 +38,6 @@ class CategorySelect extends Component {
     }
 
     componentWillUpdate() {
-        var user = AuthService.getCurrentUser();
-
-        if(!user) {
-            this.$f7router.navigate("/login/category-select");
-            return;
-        }
-            
-        this.setState({isLoggedIn: true});
         axios.post(`https://go.2gaijin.com/profile`, {}, {
         headers: {
             "Authorization": localStorage.getItem("access_token")
@@ -61,6 +53,11 @@ class CategorySelect extends Component {
     }
     
     render() {
+
+        if(!AuthService.getCurrentUser()) {
+            return "";
+        }
+
         return(
             <Page name="category-select" className="page page-category-select">
                 <Navbar>

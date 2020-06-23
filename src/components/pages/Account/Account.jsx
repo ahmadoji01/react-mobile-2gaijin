@@ -222,7 +222,7 @@ class Account extends Component {
 
     onSignOutButtonClick() {
         AuthService.logout().then(() => {
-            this.$f7router.navigate("/");
+            this.$router.navigate("/");
         });
     }
 

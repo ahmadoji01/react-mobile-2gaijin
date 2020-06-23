@@ -39,7 +39,7 @@ class SearchHistory extends Component {
             <Page name="search-history" className="page page-search-history">
                 <Navbar>
                     <NavLeft>
-                        <Link href="#" className="link back"><Icon f7="arrow_left_circle_fill" size="24px" color="gray"></Icon></Link>
+                        <Link href="/"><Icon f7="arrow_left_circle_fill" size="24px" color="gray"></Icon></Link>
                     </NavLeft>
                     <NavTitle>Search Items</NavTitle>
                     <Subnavbar inner={false}>

@@ -43,6 +43,7 @@ const f7params = {
       component: Home,
       options: {
         reload: true,
+        reloadCurrent: true,
       },
     },
     {
@@ -65,7 +66,7 @@ const f7params = {
       component: ProductDetail,
       options: {
         transition: 'f7-circle',
-        reload: true
+        reload: true,
       },
     },
     {
@@ -85,6 +86,7 @@ const f7params = {
       component: SearchHistory,
       options: {
         reload: true,
+        reloadCurrent: true,
       },
     },
     {
@@ -96,6 +98,7 @@ const f7params = {
       component: CategorySelect,
       options: {
         reload: true,
+        reloadCurrent: true,
       },
     },
     {
@@ -123,6 +126,7 @@ const f7params = {
       component: EditCategorySelect,
       options: {
         reload: true,
+        reloadCurrent: true,
       },
     },
     {
@@ -146,6 +150,7 @@ const f7params = {
       component: Appointment,
       options: {
         reload: true,
+        reloadAll: true,
       },
     },
     {
@@ -153,6 +158,7 @@ const f7params = {
       component: Account,
       options: {
         reload: true,
+        reloadAll: true,
       },
     },
     {

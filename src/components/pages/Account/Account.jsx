@@ -146,37 +146,32 @@ class Account extends Component {
     }
 
     componentWillMount() {
-        var user = AuthService.getCurrentUser();
 
-        if(user) {
-            this.setState({isLoggedIn: true});
-            axios.post(`https://go.2gaijin.com/get_profile_info`, {}, {
-            headers: {
-                "Authorization": localStorage.getItem("access_token")
-            }
-            }).then(response => {
-                if(response.data["status"] == "Success") {
-                    var jsonData = response.data.data;
-                    var dob = new Date(jsonData.profile.date_of_birth);
-                    
-                    var date = (dob.getMonth() + 1) + "/" + dob.getDate() + "/" + dob.getFullYear();
-                    this.setState({ data: jsonData });
-                    this.setState({ avatarURL: jsonData.profile.avatar_url });
-                    this.setState({ firstName: jsonData.profile.first_name });
-                    this.setState({ lastName: jsonData.profile.last_name });
-                    this.setState({ email: jsonData.profile.email });
-                    this.setState({ phoneNumber: jsonData.profile.phone });
-                    this.setState({ birthday: date });
-                    this.setState({ shortBio: jsonData.profile.short_bio });
-                }
-            });
-        } else {
-            this.setState({isLoggedIn: false});
-            this.$f7router.navigate("/login");
+        this.setState({isLoggedIn: true});
+        axios.post(`https://go.2gaijin.com/get_profile_info`, {}, {
+        headers: {
+            "Authorization": localStorage.getItem("access_token")
         }
+        }).then(response => {
+            if(response.data["status"] == "Success") {
+                var jsonData = response.data.data;
+                var dob = new Date(jsonData.profile.date_of_birth);
+                
+                var date = (dob.getMonth() + 1) + "/" + dob.getDate() + "/" + dob.getFullYear();
+                this.setState({ data: jsonData });
+                this.setState({ avatarURL: jsonData.profile.avatar_url });
+                this.setState({ firstName: jsonData.profile.first_name });
+                this.setState({ lastName: jsonData.profile.last_name });
+                this.setState({ email: jsonData.profile.email });
+                this.setState({ phoneNumber: jsonData.profile.phone });
+                this.setState({ birthday: date });
+                this.setState({ shortBio: jsonData.profile.short_bio });
+            }
+        });
     }
 
     componentDidMount() {
+
         var calendarDateTime = this.$f7.calendar.create({
             inputEl: '#date-time-input',
             timePicker: false
@@ -232,7 +227,11 @@ class Account extends Component {
     }
 
     render() {
-
+        
+        if(!AuthService.getCurrentUser()) {
+            return "";
+        }
+        
         let updateValidation; 
         if(this.state.isProfileUpdated) {
             updateValidation = <p>Profile has been updated</p>;

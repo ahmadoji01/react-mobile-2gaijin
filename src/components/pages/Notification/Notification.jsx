@@ -7,6 +7,7 @@ import TrustCoinNotif from "../../elements/NotificationLists/TrustCoinNotif/Trus
 import TrustCoinSentNotif from '../../elements/NotificationLists/TrustCoinSentNotif/TrustCoinSentNotif';
 import Moment from 'react-moment';
 import moment from 'moment';
+import AuthService from '../../../services/auth.service';
 
 class Notification extends Component {
 
@@ -19,6 +20,13 @@ class Notification extends Component {
     }
 
     componentWillMount() {
+        var user = AuthService.getCurrentUser();
+
+        if(!user) {
+            this.$f7router.navigate("/login/notification");
+            return;
+        }
+        
         let config = {
             headers: { 
                 "Authorization": localStorage.getItem("access_token")
@@ -40,6 +48,10 @@ class Notification extends Component {
     }
 
     render() {
+        if(!AuthService.getCurrentUser()) {
+            return "";
+        }
+
         const calendarStrings = {
             lastDay : '[Yesterday]',
             sameDay : '[Today]',
@@ -81,7 +93,7 @@ class Notification extends Component {
             <Page>
                 <Navbar>
                     <NavLeft>
-                        <Link href="/" className="link back"><Icon f7="arrow_left_circle_fill" size="24px" color="gray"></Icon></Link>
+                        <Link href="/"><Icon f7="arrow_left_circle_fill" size="24px" color="gray"></Icon></Link>
                     </NavLeft>
                     <NavTitle>Notification</NavTitle>
                 </Navbar>

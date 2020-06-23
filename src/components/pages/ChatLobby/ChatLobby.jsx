@@ -12,13 +12,6 @@ class ChatLobby extends Component {
     }
 
     componentDidMount() {
-        var user = AuthService.getCurrentUser();
-        
-        if(!user) {
-            this.$f7router.navigate("/login");
-            return;
-        }
-
         var payload = {}
         return axios
         .post(`https://go.2gaijin.com/chat_lobby`, payload, { 
@@ -35,6 +28,10 @@ class ChatLobby extends Component {
     }
 
     render() {
+        if(!AuthService.getCurrentUser()) {
+            return;
+        }
+
         var items = [];
 
         if(typeof(this.state.data) !== 'undefined') {
@@ -48,7 +45,7 @@ class ChatLobby extends Component {
             <Page name="chat-lobby" className="page-chat-lobby">
                 <Navbar>
                     <NavLeft>
-                        <Link href="#" className="link back"><Icon f7="arrow_left_circle_fill" size="24px" color="gray"></Icon></Link>
+                        <Link href="/"><Icon f7="arrow_left_circle_fill" size="24px" color="gray"></Icon></Link>
                     </NavLeft>
                     <NavTitle>
                         Messages

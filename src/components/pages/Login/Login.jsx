@@ -3,7 +3,7 @@ import Form from "react-validation/build/form";
 import Input from "react-validation/build/input";
 import CheckButton from "react-validation/build/button";
 import AuthService from "../../../services/auth.service";
-import { Navbar, View } from 'framework7-react';
+import { Navbar, View, NavLeft, Link, Icon, NavTitle } from 'framework7-react';
 
 import { isEmail } from "validator";
 
@@ -38,8 +38,15 @@ class Login extends Component {
             email: "",
             password: "",
             loading: false,
-            message: ""
+            message: "",
+            redirectTo: "/",
         };
+    }
+
+    componentWillMount() {
+        if(typeof(this.props.redirectTo) !== "undefined") {
+            this.setState({ redirectTo: "/" + this.props.redirectTo });
+        }
     }
 
     onChangeEmail(e) {
@@ -73,7 +80,7 @@ class Login extends Component {
                         message: response.message
                     });
                 } else {
-                    this.$f7router.navigate("/");
+                    this.$f7router.navigate(this.state.redirectTo);
                 }
             });
         } else {
@@ -86,19 +93,12 @@ class Login extends Component {
     render() {
         return (
             <div className="page">
-                <div className="navbar navbar-page">
-                    <div className="navbar-inner sliding">
-                        <div className="left">
-                            <a href="/" className="link back">
-                                <i className="fas fa-arrow-left"></i>
-                            </a>
-                        </div>
-                        <div className="title">
-                            Sign In
-                        </div>
-                        <div className="right"></div>
-                    </div>
-                </div>
+                <Navbar>
+                    <NavLeft>
+                        <Link href="/"><Icon f7="arrow_left_circle_fill" size="24px" color="gray"></Icon></Link>
+                    </NavLeft>
+                    <NavTitle>Sign In</NavTitle>
+                </Navbar>
                 <div className="page-content">
                     <div className="sign-in segments">
                         <div className="container">

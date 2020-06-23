@@ -59,6 +59,15 @@ class Home extends Component {
 
     render() {
 
+        let notifLink, chatLink;
+        if(!AuthService.getCurrentUser()) {
+            notifLink = "/sign-in/notification";
+            chatLink = "/sign-in/chatlobby";
+        } else {
+            notifLink = "/notification";
+            chatLink = "/chatlobby";
+        }
+
         var firstName = "";
 
         if(localStorage.getItem("first_name")) {
@@ -101,8 +110,8 @@ class Home extends Component {
                         {title}
                     </NavLeft>
                     <NavRight>
-                        <Link href="/notification">{notifIcon}</Link>
-                        <Link href="/chatlobby">{messageIcon}</Link>
+                        <Link href={notifLink}>{notifIcon}</Link>
+                        <Link href={chatLink}>{messageIcon}</Link>
                     </NavRight>
                 </Navbar>
                 <Toolbar activeTab={1} />

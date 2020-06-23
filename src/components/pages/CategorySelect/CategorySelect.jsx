@@ -11,6 +11,7 @@ import sports from "../../illustrations/Sports.png";
 import vehicles from "../../illustrations/Vehicles.png";
 import whiteapp from "../../illustrations/WhiteApp.png";
 import misc from "../../illustrations/Misc.png";
+import AuthService from "../../../services/auth.service.js";
 
 class CategorySelect extends Component {
 
@@ -35,13 +36,36 @@ class CategorySelect extends Component {
     onListClick(itemName) {
         this.$f7router.navigate("/category-list-select/" + itemName);
     }
+
+    componentWillUpdate() {
+        var user = AuthService.getCurrentUser();
+
+        if(!user) {
+            this.$f7router.navigate("/login/category-select");
+            return;
+        }
+            
+        this.setState({isLoggedIn: true});
+        axios.post(`https://go.2gaijin.com/profile`, {}, {
+        headers: {
+            "Authorization": localStorage.getItem("access_token")
+        }
+        }).then(response => {
+            if(response.data["status"] == "Success") {
+                var jsonData = response.data.data;
+                var items = jsonData.posted_items;
+                this.setState({ data: items });
+            }
+        });
+    
+    }
     
     render() {
         return(
             <Page name="category-select" className="page page-category-select">
                 <Navbar>
                     <NavLeft>
-                        <Link href="#" className="link back"><Icon f7="arrow_left_circle_fill" size="24px" color="gray"></Icon></Link>
+                        <Link href="/"><Icon f7="arrow_left_circle_fill" size="24px" color="gray"></Icon></Link>
                     </NavLeft>
                     <NavTitle>What do you want to sell today?</NavTitle>
                 </Navbar>

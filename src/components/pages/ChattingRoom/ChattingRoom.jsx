@@ -49,6 +49,9 @@ class ChattingRoom extends Component {
     }
 
     render() {
+        if(!AuthService.getCurrentUser()) {
+            return;
+        }
 
         let loading;
         if(this.state.isLoading) {
@@ -90,7 +93,7 @@ class ChattingRoom extends Component {
             <Page>
                 <Navbar>
                     <NavLeft>
-                        <Link href="#" className="link back"><Icon f7="arrow_left_circle_fill" size="24px" color="gray"></Icon></Link>
+                        <Link href="/chatlobby"><Icon f7="arrow_left_circle_fill" size="24px" color="gray"></Icon></Link>
                     </NavLeft>
                     <NavTitle>
                         {personInfo}

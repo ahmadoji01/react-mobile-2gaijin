@@ -12,6 +12,7 @@ import SwipeableViews from 'react-swipeable-views';
 import AppointmentContainer from '../../elements/AppointmentContainer/AppointmentContainer';
 import { blue } from '@material-ui/core/colors';
 import "./Appointment.scss";
+import AuthService from '../../../services/auth.service';
 
 const styles = {
   tabs: {
@@ -67,6 +68,13 @@ class Appointment extends Component {
     }
 
     componentWillMount() {
+        var user = AuthService.getCurrentUser();
+
+        if(!user) {
+            this.$f7router.navigate("/login/appointment");
+            return;
+        }
+
         let config = {
             headers: {'Authorization': localStorage.getItem("access_token") },
             params: {
@@ -106,6 +114,10 @@ class Appointment extends Component {
     }
 
     componentDidMount() {
+        if(!AuthService.getCurrentUser()) {
+            return "";
+        }
+        
         var options = {
             root: null,
             rootMargin: "0px",
@@ -146,7 +158,10 @@ class Appointment extends Component {
     }
 
     render() {
-
+        if(!AuthService.getCurrentUser()) {
+            return "";
+        }
+        
         const { index } = this.state;
         const loadingCSS = {
             height: "70px",

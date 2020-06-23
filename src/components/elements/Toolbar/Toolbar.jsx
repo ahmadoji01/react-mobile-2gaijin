@@ -7,14 +7,40 @@ import { ReactComponent as AccountLogo } from "../../../components/icons/Account
 import { ReactComponent as InactiveStorefrontLogo } from "../../../components/icons/InactiveStoreFrontIcon.svg";
 import { ReactComponent as InactiveHandshakeLogo } from "../../../components/icons/InactiveHandshakeIcon.svg";
 import { ReactComponent as InactiveAccountLogo } from "../../../components/icons/InactiveAccountIcon.svg";
+import AuthService from "../../../services/auth.service.js";
 
 class Toolbar extends Component { 
+
+    constructor(props) {
+        super(props);
+        this.state = {
+            isLoggedIn: false,
+        };
+    }
+
+    componentWillMount() {
+        var user = AuthService.getCurrentUser();
+        if(user) {
+            this.setState({ isLoggedIn: true });
+        }
+    }
     
     render() {
         if(typeof(this.props.activeTab) !== 'undefined') {
 
             let firstIcon, secondIcon, thirdIcon;
             var activeTab = this.props.activeTab;
+
+            let addProductLink, appointmentLink, accountLink;
+            if(!this.state.isLoggedIn) {
+                addProductLink = "/sign-in/category-select";
+                appointmentLink = "/sign-in/see-appointment";
+                accountLink = "/sign-in/account"; 
+            } else {
+                addProductLink = "/category-select";
+                appointmentLink = "/see-appointment";
+                accountLink = "/account"; 
+            }
             
             if(activeTab == 1) {
                 firstIcon = <React.Fragment><span className="active-indicator"></span><StorefrontLogo className="tabbar-icon-svg" /></React.Fragment>;
@@ -33,7 +59,7 @@ class Toolbar extends Component {
             return(
                 <div className="toolbar tabbar tabbar-labels toolbar-bottom custom-toolbar">
                     <div className="toolbar-inner">
-                        <a href="/category-select" className="tab-link">
+                        <a href={addProductLink} className="tab-link">
                             <div className="start-selling-btn">
                                 <PeaceOutline className="start-selling-icon" />
                             </div>
@@ -43,11 +69,11 @@ class Toolbar extends Component {
                             {firstIcon}
                             <span className="tabbar-label label-active">Storefront</span>
                         </a>
-                        <a href="/see-appointment" className="tab-link" data-animate="false">
+                        <a href={appointmentLink} className="tab-link" data-animate="false">
                             {secondIcon}
                             <span className="tabbar-label label-active" >Appointment</span>
                         </a>
-                        <a href="/account" className="tab-link" data-animate="false">
+                        <a href={accountLink} className="tab-link" data-animate="false">
                             {thirdIcon}
                             <span className="tabbar-label label-active" >My Profile</span>
                         </a>

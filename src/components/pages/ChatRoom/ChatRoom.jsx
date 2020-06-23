@@ -181,7 +181,7 @@ class ChatRoom extends Component {
             <Page name="chat-room" className="page-chat-room">
                 <Navbar>
                     <NavLeft>
-                        <Link href="#" className="link back"><Icon f7="arrow_left_circle_fill" size="24px" color="gray"></Icon></Link>
+                        <Link href="/chat-lobby"><Icon f7="arrow_left_circle_fill" size="24px" color="gray"></Icon></Link>
                     </NavLeft>
                     <NavTitle>
                         Messages

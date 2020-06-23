@@ -10,6 +10,7 @@ import "./App.css";
 
 import { App, Views, View, Page, Navbar, Toolbar, Link } from 'framework7-react';
 import Login from "./components/pages/Login/Login";
+import SignIn from "./components/pages/SignIn/SignIn";
 import Register from "./components/pages/Register/Register";
 import Search from "./components/pages/Search/Search";
 import MakeAppointment from "./components/pages/MakeAppointment/MakeAppointment";
@@ -57,10 +58,18 @@ const f7params = {
     {
       path: '/chatlobby',
       component: ChatLobby,
+      options: {
+        reload: true,
+        reloadCurrent: true,
+      },
     },
     {
       path: '/chatroom/:roomID',
       component: ChattingRoom,
+      options: {
+        reload: true,
+        reloadCurrent: true,
+      },
     },
     {
       path: '/product/:productID',
@@ -71,8 +80,20 @@ const f7params = {
       },
     },
     {
-      path: '/login',
+      path: '/login/:redirectTo?',
       component: Login,
+      options: {
+        reload: true,
+        reloadCurrent: true,
+      },
+    },
+    {
+      path: '/sign-in/:redirectTo?',
+      component: SignIn,
+      options: {
+        reload: true,
+        reloadCurrent: true,
+      },
     },
     {
       path: '/register',
@@ -81,6 +102,10 @@ const f7params = {
     {
       path: '/notification',
       component: Notification,
+      options: {
+        reload: true,
+        reloadCurrent: true,
+      },
     },
     {
       path: '/search_history',
@@ -171,6 +196,7 @@ const f7params = {
       component: Collections,
       options: {
         reload: true,
+        reloadAll: true,
       },
     }
   ],

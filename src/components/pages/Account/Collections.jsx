@@ -40,8 +40,7 @@ class Collections extends Component {
                 }
             });
         } else {
-            this.setState({isLoggedIn: false});
-            this.$f7router.navigate("/login");
+            this.$f7router.navigate("/login/collections");
         }
     }
 
@@ -116,7 +115,7 @@ class Collections extends Component {
 
         return (
             <Page name="collections" className="page page-collections page-with-subnavbar hide-navbar-on-scroll">
-                <Navbar id="navbar-home" className="home-nav-large">
+                <Navbar id="navbar-collections" className="home-nav-large">
                     <Subnavbar inner={false}>
                         <Searchbar
                             searchContainer=".search-list"
@@ -125,7 +124,7 @@ class Collections extends Component {
                         ></Searchbar>
                     </Subnavbar>
                     <NavLeft>
-                        <Link href="#" className="link back"><Icon f7="arrow_left_circle_fill" size="24px" color="gray"></Icon></Link>
+                        <Link href="/account"><Icon f7="arrow_left_circle_fill" size="24px" color="gray"></Icon></Link>
                     </NavLeft>
                     <NavTitle>Item Lists</NavTitle>
                 </Navbar>

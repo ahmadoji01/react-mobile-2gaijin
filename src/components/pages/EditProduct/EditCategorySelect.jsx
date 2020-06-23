@@ -37,7 +37,7 @@ class EditCategorySelect extends Component {
             <Page name="edit-category-select" className="page page-edit-category-select">
                 <Navbar>
                     <NavLeft>
-                        <Link href="#" className="link back"><Icon f7="arrow_left_circle_fill" size="24px" color="gray"></Icon></Link>
+                        <Link href="/collections" ><Icon f7="arrow_left_circle_fill" size="24px" color="gray"></Icon></Link>
                     </NavLeft>
                     <NavTitle>Choose your new category for the item</NavTitle>
                 </Navbar>

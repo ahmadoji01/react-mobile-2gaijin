@@ -187,7 +187,7 @@ class Search extends Component {
             <Page name="search" className="page page-search page-with-subnavbar hide-navbar-on-scroll">
                 <Navbar id="navbar-search">
                     <NavLeft>
-                        <Link href="#" className="link back"><Icon f7="arrow_left_circle_fill" size="24px" color="gray"></Icon></Link>
+                        <Link href="/"><Icon f7="arrow_left_circle_fill" size="24px" color="gray"></Icon></Link>
                     </NavLeft>
                     <NavTitle>
                         Search Results

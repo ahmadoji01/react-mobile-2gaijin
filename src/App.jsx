@@ -51,6 +51,7 @@ const f7params = {
       component: Search,
       options: {
         reload: true,
+        reloadCurrent: true,
       },
     },
     {

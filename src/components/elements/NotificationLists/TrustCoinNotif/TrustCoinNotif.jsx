@@ -5,6 +5,8 @@ import ProductCardHorizontal from '../../ProductCardHorizontal';
 import { Button, Sheet, PageContent, Block, BlockTitle, Icon } from "framework7-react";
 import axios from 'axios';
 import { ReactComponent as CheckButton } from "../../../icons/CheckButtonIcon.svg";
+import GoldCoin from "../../../illustrations/GoldCoin.svg";
+import SilverCoin from "../../../illustrations/SilverCoin.svg";
 
 class TrustCoinNotif extends Component {
 
@@ -120,14 +122,14 @@ class TrustCoinNotif extends Component {
                                             <div className="col-50">
                                                 <div className="coin-card" ref={ goldCoinCard => this.goldCoinCard = goldCoinCard } onClick={() => this.selectCoin("gold")}>
                                                     {goldSelected}
-                                                    <img src={process.env.PUBLIC_URL + "/images/GoldCoin.png"} className="coin-image" />
+                                                    <img src={GoldCoin} className="coin-image" />
                                                     <p className="coin-text">It was GREAT!</p>
                                                 </div>
                                             </div>
                                             <div className="col-50">
                                                 <div className="coin-card" ref={ silverCoinCard => this.silverCoinCard = silverCoinCard } onClick={() => this.selectCoin("silver")}>
                                                     {silverSelected}
-                                                    <img src={process.env.PUBLIC_URL + "/images/SilverCoin.png"} className="coin-image" />
+                                                    <img src={SilverCoin} className="coin-image" />
                                                     <p className="coin-text">It was OK!</p>
                                                 </div>
                                             </div>

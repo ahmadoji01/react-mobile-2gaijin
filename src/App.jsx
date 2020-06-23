@@ -46,7 +46,7 @@ const f7params = {
       },
     },
     {
-      path: '/search/:searchTerm',
+      path: '/search/:searchTerm/:category?',
       component: Search,
       options: {
         reload: true,

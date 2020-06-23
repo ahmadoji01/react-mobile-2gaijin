@@ -48,28 +48,28 @@ class CategorySlider extends Component {
                     <div className="row">
                         <div className="col-20">
                             <div className="content">
-                                <a href="/search/apparels">
+                                <a href="/search/ /Apparels">
                                     <CategoryIcon iconname="Apparels" iconcolor="light-red"/>
                                 </a>
                             </div>
                         </div>
                         <div className="col-20">
                             <div className="content">
-                                <a href="/categories-details/">
+                                <a href="/search/ /Books">
                                     <CategoryIcon iconname="Books" iconcolor="yellow"/>
                                 </a>
                             </div>
                         </div>
                         <div className="col-20">
                             <div className="content">
-                                <a href="/categories-details/">
+                                <a href="/search/ /Electronics">
                                     <CategoryIcon iconname="Electronics" iconcolor="purple"/>
                                 </a>
                             </div>
                         </div>
                         <div className="col-20">
                             <div className="content">
-                                <a href="/categories-details/">
+                                <a href="/search/ /Footwear">
                                     <CategoryIcon iconname="Footwear"/>
                                 </a>
                             </div>
@@ -78,28 +78,28 @@ class CategorySlider extends Component {
                     <div className="row" style={{display: 'none'}}>
                         <div className="col-20">
                             <div className="content">
-                                <a href="/categories-details/">
+                                <a href="/search/ /Furnitures">
                                     <CategoryIcon iconname="Furnitures" iconcolor="green"/>
                                 </a>
                             </div>
                         </div>
                         <div className="col-20">
                             <div className="content">
-                                <a href="/categories-details/">
+                                <a href="/search/ /Kitchens">
                                     <CategoryIcon iconname="Kitchens" iconcolor="dark-purple"/>
                                 </a>
                             </div>
                         </div>
                         <div className="col-20">
                             <div className="content">
-                                <a href="/categories-details/">
+                                <a href="/search/ /Sports">
                                     <CategoryIcon iconname="Sports" iconcolor="dark-red"/>
                                 </a>
                             </div>
                         </div>
                         <div className="col-20">
                             <div className="content">
-                                <a href="/categories-details/">
+                                <a href="/search/ /Vehicles">
                                     <CategoryIcon iconname="Vehicles" iconcolor="grey"/>
                                 </a>
                             </div>
@@ -108,14 +108,14 @@ class CategorySlider extends Component {
                     <div className="row" style={{display: 'none'}}>
                         <div className="col-20">
                             <div className="content">
-                                <a href="/categories-details/">
+                                <a href="/search/ /White Appliances">
                                     <CategoryIcon iconname="White Appliances" iconcolor="purple"/>
                                 </a>
                             </div>
                         </div>
                         <div className="col-20">
                             <div className="content">
-                                <a href="/categories-details/">
+                                <a href="/search/ /Miscellaneous">
                                     <CategoryIcon iconname="Miscellaneous" iconcolor="dark-purple"/>
                                 </a>
                             </div>

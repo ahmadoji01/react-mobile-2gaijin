@@ -41,9 +41,29 @@ class Search extends Component {
     }
 
     componentWillMount() {
+        var searchTerm = this.state.searchterm;
+        if(searchTerm == " ") {
+            searchTerm = "";
+        }
+        this.setState({ searchterm: searchTerm });
+
+        var categorySearch = "";
+        if(typeof(this.props.category) !== "undefined") {
+            categorySearch = this.props.category;
+        }
+        this.setState({ category: categorySearch });
+
+        var status = "";
+        if(typeof(this.props.category) !== "undefined") {
+            status = "available";
+        }
+        this.setState({ status: status });
+
         return axios
         .get(`https://go.2gaijin.com/search?q=` + 
-        this.state.searchterm + 
+        searchTerm +
+        "&category=" + categorySearch +
+        "&status=" + status + 
         "&start=1&limit=8", {}, {})
         .then(response => {
             var fetchData = response.data.data.items;
@@ -88,7 +108,6 @@ class Search extends Component {
                 this.setState({ data: [...this.state.data, ...res.data.data.items] });
                 this.setState({ loading: false });
                 this.setState({totalItems: res.data.data.total_items});
-                console.log(res.data.data.total_items);
             });
     }
 
@@ -203,7 +222,7 @@ class Search extends Component {
                     <Page>
                         <Navbar title="Filter Your Search">
                         <NavRight>
-                            <Link popupClose>Close</Link>
+                            <Link popupClose>Cancel</Link>
                         </NavRight>
                         </Navbar>
                         <Block>
@@ -243,7 +262,7 @@ class Search extends Component {
                                     smartSelect
                                     smartSelectParams={{openIn: 'popup', searchbar: true, searchbarPlaceholder: 'Search category'}}
                                 >
-                                    <select onChange={this.onCategoryChange.bind(this)} name="category" defaultValue="">
+                                    <select onChange={this.onCategoryChange.bind(this)} name="category" defaultValue={this.state.category}>
                                         <option value="">Any</option>
                                         <option value="Apparels">Apparels</option>
                                         <option value="Books">Books</option>
@@ -265,7 +284,7 @@ class Search extends Component {
                                     smartSelect
                                     smartSelectParams={{openIn: 'sheet'}}
                                 >
-                                    <select onChange={this.onStatusChange.bind(this)} name="sort-mode" defaultValue="">
+                                    <select onChange={this.onStatusChange.bind(this)} name="sort-mode" defaultValue={this.state.status}>
                                         <option value="">Any</option>
                                         <option value="available">Available</option>
                                         <option value="sold">Sold Out</option>

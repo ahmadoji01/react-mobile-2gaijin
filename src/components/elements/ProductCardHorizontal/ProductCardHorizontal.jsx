@@ -18,7 +18,7 @@ class ProductCardHorizontal extends Component {
     componentDidMount() {
         this.updateWindowDimensions();
         window.addEventListener('resize', this.updateWindowDimensions);
-        this.findCoordinates();
+        //this.findCoordinates();
     }
     
     componentWillUnmount() {
@@ -86,10 +86,6 @@ class ProductCardHorizontal extends Component {
             const item = this.props.item;
             const meetingTime = this.props.meeting_time;      
 
-            let locColumn;
-            if(this.state.locText != "") {
-                locColumn = <p className="appointment-time-text" style={{ display: "inline" }}><img src={CalendarIcon} style={{ width: 20, height: 20, float: "left" }} /><b> <Moment calendar={calendarStrings}>{meetingTime}</Moment></b></p>
-            }
             return(
                 <div className="profile-container content-shadow">
                     <div className="row" style={{paddingBottom: 0}}>
@@ -99,7 +95,7 @@ class ProductCardHorizontal extends Component {
                                 <p className="title-product" style={{lineHeight: "1em", height: "2em", marginTop: 10, marginBottom: 0, fontWeight: 600, color: "black"}}>{item.name}</p>
                                 <p className="location" style={{marginBottom: 0}}>by {item.seller_name}</p>
                                 <p className="price" style={{marginBottom: 0}}>¥{item.price}</p>
-                                {locColumn}
+                                <p className="appointment-time-text" style={{ display: "inline" }}><img src={CalendarIcon} style={{ width: 20, height: 20, float: "left" }} /><b> <Moment calendar={calendarStrings}>{meetingTime}</Moment></b></p>
                             </div>
                         </div>
                     </div>

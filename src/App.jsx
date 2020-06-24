@@ -229,7 +229,7 @@ const store = createStore(reducer);
 export default () => (
   <Provider store={store}>
     <App params={f7params}>
-      <View main url="/" iosDynamicNavbar={false} pushState={true} />
+      <View main url="/" iosDynamicNavbar={false} pushState={true} pushStateSeparator='#' pushStateOnLoad={false} />
     </App>
   </Provider>
 )

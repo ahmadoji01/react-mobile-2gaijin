@@ -20,17 +20,7 @@ class CategorySelect extends Component {
         this.state = {
             searchterm: ""
         };
-        this.SearchBarChange = this.SearchBarChange.bind(this);
-        this.SearchItems = this.SearchItems.bind(this);
         this.onListClick = this.onListClick.bind(this);
-    }
-
-    async SearchItems() {
-        this.$f7router.navigate("/add-product/" + this.state.searchterm);
-    }
-
-    SearchBarChange(e) {
-        this.setState({ searchterm: e.target.value });
     }
     
     onListClick(itemName) {

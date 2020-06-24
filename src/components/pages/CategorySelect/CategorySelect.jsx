@@ -36,21 +36,6 @@ class CategorySelect extends Component {
     onListClick(itemName) {
         this.$f7router.navigate("/category-list-select/" + itemName);
     }
-
-    componentWillUpdate() {
-        axios.post(`https://go.2gaijin.com/profile`, {}, {
-        headers: {
-            "Authorization": localStorage.getItem("access_token")
-        }
-        }).then(response => {
-            if(response.data["status"] == "Success") {
-                var jsonData = response.data.data;
-                var items = jsonData.posted_items;
-                this.setState({ data: items });
-            }
-        });
-    
-    }
     
     render() {
 

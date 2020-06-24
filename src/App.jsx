@@ -43,7 +43,6 @@ const f7params = {
       path: '/',
       component: Home,
       options: {
-        reload: true,
         reloadCurrent: true,
       },
     },
@@ -51,7 +50,6 @@ const f7params = {
       path: '/search/:searchTerm/:category?',
       component: Search,
       options: {
-        reload: true,
         reloadCurrent: true,
       },
     },
@@ -59,7 +57,6 @@ const f7params = {
       path: '/chatlobby',
       component: ChatLobby,
       options: {
-        reload: true,
         reloadCurrent: true,
       },
     },
@@ -67,7 +64,6 @@ const f7params = {
       path: '/chatroom/:roomID',
       component: ChattingRoom,
       options: {
-        reload: true,
         reloadCurrent: true,
       },
     },
@@ -83,7 +79,6 @@ const f7params = {
       path: '/login/:redirectTo?',
       component: Login,
       options: {
-        reload: true,
         reloadCurrent: true,
       },
     },
@@ -91,7 +86,6 @@ const f7params = {
       path: '/sign-in/:redirectTo?',
       component: SignIn,
       options: {
-        reload: true,
         reloadCurrent: true,
       },
     },
@@ -103,16 +97,14 @@ const f7params = {
       path: '/notification',
       component: Notification,
       options: {
-        reload: true,
-        reloadCurrent: true,
+        reloadAll: true,
       },
     },
     {
       path: '/search_history',
       component: SearchHistory,
       options: {
-        reload: true,
-        reloadCurrent: true,
+        reloadAll: true,
       },
     },
     {
@@ -123,8 +115,7 @@ const f7params = {
       path: '/category-select',
       component: CategorySelect,
       options: {
-        reload: true,
-        reloadCurrent: true,
+        reloadAll: true,
       },
     },
     {
@@ -150,10 +141,6 @@ const f7params = {
     {
       path: '/edit-category-select',
       component: EditCategorySelect,
-      options: {
-        reload: true,
-        reloadCurrent: true,
-      },
     },
     {
       path: '/edit-category-list-select/:category',
@@ -175,7 +162,6 @@ const f7params = {
       path: '/see-appointment',
       component: Appointment,
       options: {
-        reload: true,
         reloadAll: true,
       },
     },
@@ -183,7 +169,6 @@ const f7params = {
       path: '/account',
       component: Account,
       options: {
-        reload: true,
         reloadAll: true,
       },
     },
@@ -194,10 +179,6 @@ const f7params = {
     {
       path: '/collections',
       component: Collections,
-      options: {
-        reload: true,
-        reloadAll: true,
-      },
     }
   ],
   // App Name

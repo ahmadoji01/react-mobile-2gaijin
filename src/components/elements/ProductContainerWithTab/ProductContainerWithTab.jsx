@@ -1,19 +1,18 @@
 import React, { Component } from 'react';
+import { Block, Preloader } from "framework7-react";
 import "./ProductContainerWithTab.scss";
-import Masonry from 'react-masonry-css';
-import ProductCardWithLove from '../ProductCardWithLove';
 import ProductContainerInfinite from '../../elements/ProductContainerInfinite';
 import axios from 'axios';
 import { geolocated } from 'react-geolocated';
 import SwipeableViews from 'react-swipeable-views';
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
-import { blue } from '@material-ui/core/colors';
+import { orange } from '@material-ui/core/colors';
 
 const styles = {
   tabs: {
     background: '#fff',
-    color: blue,
+    color: orange,
   },
   slide: {
     minHeight: 100,
@@ -38,7 +37,7 @@ class ProductContainerWithTab extends Component {
           startitems2: 1,
           limititems2: 8,
           loading: false,
-          isLoading2: false,
+          isLoading: false,
           searchState: "",
           index: 0,
       };
@@ -57,10 +56,11 @@ class ProductContainerWithTab extends Component {
       });
     };
 
-    handleChangeIndex = index => {
-        this.setState({
-            index,
-        });
+    handleChangeIndex = index => {  
+      var self = this;
+      this.setState({
+          index,
+      }, () => self.callback(self.state.index));
     };
 
     firstTabLoader() {
@@ -86,11 +86,14 @@ class ProductContainerWithTab extends Component {
       }  
 
       this.setState({ searchState: "recentitems" });
+      this.setState({ isLoading: true });
 
       return axios
       .get(`https://go.2gaijin.com/search`, config)
       .then(response => {
           this.setState({ items1: response.data.data.items });
+          this.setState({ items2: [] });
+          this.setState({ isLoading: false });
       });
     }
 
@@ -123,6 +126,7 @@ class ProductContainerWithTab extends Component {
       .get(`https://go.2gaijin.com/search`, config)
       .then(response => {
           this.setState({ items2: response.data.data.items });
+          this.setState({ items1: [] });
       });
     }
 
@@ -204,6 +208,13 @@ class ProductContainerWithTab extends Component {
         const loadingTextCSS = { display: this.state.loading ? "block" : "none" };
 
         var currLat = this.state.currLat; var currLng = this.state.currLng;
+
+        let loading;
+        if(this.state.isLoading) {
+            loading = <Block className="text-align-center">
+                <Preloader color="orange"></Preloader>
+            </Block>;
+        }
         
         return(
             <div>
@@ -213,21 +224,27 @@ class ProductContainerWithTab extends Component {
                 </Tabs>
                 <SwipeableViews index={this.state.index} onChangeIndex={this.handleChangeIndex}>
                   <div style={Object.assign({}, styles.slide, styles.slide1)}>
+                      {loading}
                       <ProductContainerInfinite items={this.state.items1} />
                       <div
                       ref={loadingRef => (this.loadingRef = loadingRef)}
                       style={loadingCSS}
                       >
-                          <span style={loadingTextCSS}>Loading...</span>
+                        <Block className="text-align-center">
+                            <Preloader color="orange"></Preloader>
+                        </Block>
                       </div>
                   </div>
                   <div style={Object.assign({}, styles.slide, styles.slide2)}>
+                      {loading}
                       <ProductContainerInfinite items={this.state.items2} />
                       <div
                       ref={loadingRef2 => (this.loadingRef2 = loadingRef2)}
                       style={loadingCSS}
                       >
-                          <span style={loadingTextCSS}>Loading...</span>
+                          <Block className="text-align-center">
+                            <Preloader color="orange"></Preloader>
+                        </Block>
                       </div>
                   </div>
                 </SwipeableViews>

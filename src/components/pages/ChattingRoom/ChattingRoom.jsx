@@ -198,7 +198,6 @@ class ChattingRoom extends Component {
         .get(`https://go.2gaijin.com/chat_messages`, config)
         .then(res => {
             this.setState({ chatLoading: false });
-            console.log(res);
             if(res.data.status == "Success") {
                 this.setState({ messagesData: [...res.data.data.messages, ...this.state.messagesData] });
                 this.messagesTop.scrollIntoView({ behavior: "smooth" });
@@ -519,7 +518,7 @@ class ChattingRoom extends Component {
 
         // websocket onopen event listener
         ws.onopen = () => {
-            console.log("connected websocket main component");
+            //console.log("connected websocket main component");
 
             this.setState({ ws: ws });
 
@@ -529,13 +528,13 @@ class ChattingRoom extends Component {
 
         // websocket onclose event listener
         ws.onclose = e => {
-            console.log(
+            /*console.log(
                 `Socket is closed. Reconnect will be attempted in ${Math.min(
                     10000 / 1000,
                     (that.timeout + that.timeout) / 1000
                 )} second.`,
                 e.reason
-            );
+            );*/
 
             that.timeout = that.timeout + that.timeout; //increment retry interval
             connectInterval = setTimeout(this.check, Math.min(10000, that.timeout)); //call check function after timeout

@@ -34,6 +34,7 @@ import Appointment from "./components/pages/Appointment/Appointment";
 import Account from "./components/pages/Account/Account";
 import Collections from "./components/pages/Account/Collections";
 import ChattingRoom from './components/pages/ChattingRoom/ChattingRoom';
+import ProfileForVisitor from "./components/pages/ProfileForVisitor/ProfileForVisitor";
 
 const f7params = {
   // Array with app routes
@@ -43,9 +44,9 @@ const f7params = {
       path: '/',
       component: Home,
       master: true,
-      options: {
+      /*options: {
         reloadCurrent: true,
-      },
+      },*/
     },
     {
       path: '/search/:searchTerm/:category?',
@@ -163,19 +164,19 @@ const f7params = {
       path: '/see-appointment',
       component: Appointment,
       options: {
-        reloadAll: true,
+        //reloadAll: true,
       },
     },
     {
       path: '/account',
       component: Account,
       options: {
-        reloadAll: true,
+        //reloadAll: true,
       },
     },
     {
       path: '/profile/:userID',
-      component: Account,
+      component: ProfileForVisitor,
     },
     {
       path: '/collections',

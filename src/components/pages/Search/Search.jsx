@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import ProductContainerInfinite from '../../elements/ProductContainerInfinite';
-import { BlockTitle, Range, Page, Navbar, NavLeft, Link, List, ListItem, Icon, Subnavbar, Fab, Block, Popup, NavTitle, NavRight, Searchbar } from 'framework7-react';
+import { BlockTitle, Preloader, Range, Page, Navbar, NavLeft, Link, List, ListItem, Icon, Subnavbar, Fab, Block, Popup, NavTitle, NavRight, Searchbar } from 'framework7-react';
 import axios from "axios";
 import 'antd/dist/antd.css';
 import "./Search.scss";
@@ -70,6 +70,11 @@ class Search extends Component {
             this.setState({data: fetchData});
             this.setState({totalItems: response.data.data.total_items});
         });
+    }
+
+    componentWillUnmount() {
+        this.setState({ data: [] });
+        this.setState({ totalItems: 0 });
     }
 
     componentDidMount() {
@@ -211,7 +216,9 @@ class Search extends Component {
                     ref={loadingRef => (this.loadingRef = loadingRef)}
                     style={loadingCSS}
                     >
-                        <span style={loadingTextCSS}>Loading...</span>
+                        <Block className="text-align-center">
+                            <Preloader color="orange"></Preloader>
+                        </Block>
                     </div>
                 </div>
                 <Fab position="center-bottom" onClick={() => this.setState({popupOpened: true})} className="fab-filter" slot="fixed" text="Filter" color="orange">

@@ -8,6 +8,8 @@ import parse from 'html-react-parser';
 import axios from "axios";
 import { ReactComponent as NotificationIcon } from "../../icons/NotificationIcon.svg";
 import { ReactComponent as SoldOutIcon } from "../../icons/SoldOutIcon.svg";
+import GoldCoin from "../../illustrations/GoldCoin.svg";
+import SilverCoin from "../../illustrations/SilverCoin.svg";
 
 class ProductDetail extends Component {
     
@@ -108,7 +110,7 @@ class ProductDetail extends Component {
         var lat = 0.0;
         var lng = 0.0;
         var price = 0;
-        let brand, condition, yearsOwned, modelName, availability;
+        let brand, condition, yearsOwned, modelName, availability, categoryName;
         if(typeof(this.state.data.item) !== "undefined") {
             var itemInfo = this.state.data.item;
             id = itemInfo._id;
@@ -118,6 +120,7 @@ class ProductDetail extends Component {
             lng = itemInfo.location.longitude;
             images = itemInfo.images;
             price = itemInfo.price;
+            categoryName = itemInfo.category.name;
             availability = itemInfo.availability;
             images = images.map(function(image, i) {
                 var photo = { url: image["img_url"], caption: "" };
@@ -160,9 +163,10 @@ class ProductDetail extends Component {
             </Swiper></div>;
         }
 
-        let sellerName, avatarURL, goldCoins, silverCoins, appointmentBtn, chatBtn;
+        let sellerID, sellerName, avatarURL, goldCoins, silverCoins, appointmentBtn, chatBtn;
         if(typeof(this.state.data.seller) !== "undefined") {
             var sellerInfo = this.state.data.seller;
+            sellerID = sellerInfo._id;
             sellerName = sellerInfo.first_name + " " + sellerInfo.last_name;
             avatarURL = sellerInfo.avatar_url;
             goldCoins = sellerInfo.gold_coin;
@@ -243,19 +247,24 @@ class ProductDetail extends Component {
                             <div className="row" style={{marginTop: 10, padding: 10}}>
                                 <div className="col-30 seller-img-container" style={{backgroundImage: `url("${avatarURL}")`}}></div>
                                 <div className="col-70">
-                                    <div className="row" style={{marginBottom: 0}}>
+                                    <div className="row profile-banner-info" style={{ paddingBottom: 5 }}>
                                         <h5 className="seller-name">{sellerName}</h5>
                                     </div>
-                                    <div className="row trust-coin-container">
-                                        <img src="images/gold-coin.png" />{goldCoins} Gold(s) 
-                                        <img src="images/silver-coin.png" />{silverCoins} Silver(s)
+                                    <div className="row profile-banner-info" style={{ paddingBottom: 3, marginBottom: 5 }}>
+                                        <img src={GoldCoin} />{goldCoins} Gold(s) 
+                                        <img src={SilverCoin} />{silverCoins} Silver(s)
+                                    </div>
+                                    <div className="row profile-banner-info" style={{ marginBottom: 5 }}>
+                                        <div style={{ width: "100%" }}>
+                                            <Button href={`/profile/${sellerID}`} raised fill className="appointment-button" style={{  width: "75%", fontWeight: 700, color: "white" }}>See Profile</Button>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                    <ProductDisplaySlider title="Related items you might like" items={this.state.data.relateditems} />
-                    <ProductDisplaySlider title="Other items from this seller" items={this.state.data.selleritems} />
+                    <ProductDisplaySlider title="Related items you might like" seeAllLink={`/search/ /${categoryName}`} items={this.state.data.relateditems} />
+                    <ProductDisplaySlider title="Other items from this seller" seeAllLink={`/profile/${sellerID}`} items={this.state.data.selleritems} />
                 </div>
                 <Popover className="popover-appointment">
                     <List className="appointment-list">

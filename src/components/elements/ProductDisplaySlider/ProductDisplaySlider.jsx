@@ -17,12 +17,17 @@ class ProductDisplaySlider extends Component {
                 }
             }
 
+            var seeAllLink = "#";
+            if(typeof(this.props.seeAllLink) !== "undefined") {
+                seeAllLink = this.props.seeAllLink;
+            }
+
             return(
                 <div className="recommended product segments-bottom product-slider">
                     <div className="container">
                         <div className="section-title">
                             <h3>{this.props.title}
-                                <a href="#" className="see-all-link">See All</a>
+                                <a href={seeAllLink} className="see-all-link">See All</a>
                             </h3>
                             <Swiper params={{speed:500, slidesPerView: 2, spaceBetween: 10}}>
                                 { this.props.items.map(function (item, i) {

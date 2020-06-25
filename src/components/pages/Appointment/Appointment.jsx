@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import ProductContainerInfinite from '../../elements/ProductContainerInfinite';
-import { Page, Navbar, NavLeft, Link, Icon, Subnavbar, Block, Segmented, Button, NavTitle, Searchbar } from 'framework7-react';
+import { Page, Navbar, Preloader, NavLeft, Link, Icon, Subnavbar, Block, Segmented, Button, NavTitle, Searchbar } from 'framework7-react';
 import axios from "axios";
 import Toolbar from "../../elements/Toolbar";
 import AppointmentBar from '../../elements/AppointmentBar';
@@ -113,6 +113,17 @@ class Appointment extends Component {
         });
     }
 
+    componentWillUnmount() {
+        this.setState({ data: [],
+            data2: [],
+            pending: [],
+            pending2: [],
+            finished: [],
+            finished2: [],
+            accepted: [],
+            accepted2: [] });
+    }
+
     componentDidMount() {
         if(!AuthService.getCurrentUser()) {
             return "";
@@ -217,7 +228,9 @@ class Appointment extends Component {
                         <div
                         ref={loadingRef => (this.loadingRef = loadingRef)}
                         style={loadingCSS}>
-                            <span style={loadingTextCSS}>Loading...</span>
+                            <Block className="text-align-center">
+                                <Preloader color="orange"></Preloader>
+                            </Block>
                         </div>
                     </div>
                     <div style={Object.assign({}, styles.slide, styles.slide2)}>
@@ -227,7 +240,9 @@ class Appointment extends Component {
                         <div
                         ref={loadingRef2 => (this.loadingRef2 = loadingRef2)}
                         style={loadingCSS}>
-                            <span style={loadingTextCSS}>Loading...</span>
+                            <Block className="text-align-center">
+                                <Preloader color="orange"></Preloader>
+                            </Block>
                         </div>
                     </div>
                 </SwipeableViews>

@@ -31,6 +31,10 @@ class HomeTab extends Component {
         });
     }
 
+    componentWillUnmount() {
+        this.setState({ data: [] });
+    }
+
     render() {
         return (
             <React.Fragment>

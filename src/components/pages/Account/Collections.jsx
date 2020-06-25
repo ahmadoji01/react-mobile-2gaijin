@@ -3,6 +3,7 @@ import "./Collections.scss";
 import AuthService from "../../../services/auth.service.js";
 import { Col, Preloader, Sheet, PageContent, ListInput, Block, Button, Page, Navbar, NavLeft, NavRight, NavTitle, Subnavbar, Searchbar, Link, Icon, List, ListItem, Popover } from "framework7-react";
 import axios from "axios";
+import SoldOutIcon from "../../icons/SoldOutIcon.svg";
 
 class Collections extends Component {
 
@@ -21,6 +22,7 @@ class Collections extends Component {
         this.onPriceChange = this.onPriceChange.bind(this);
         this.onUpdatePriceClick = this.onUpdatePriceClick.bind(this);
         this.onEditProductClick = this.onEditProductClick.bind(this);
+        this.onMarkAsSoldClick = this.onMarkAsSoldClick.bind(this);
     }
 
     componentWillMount() {
@@ -85,17 +87,51 @@ class Collections extends Component {
         this.$f7router.navigate("/edit-category-select");
     }
 
+    onMarkAsSoldClick() {
+        var payload = {
+            "_id": this.state.selectedId
+        }
+
+        this.setState({ isLoading: true });
+        axios.post(`https://go.2gaijin.com/mark_as_sold`, payload, {
+        headers: {
+            "Authorization": localStorage.getItem("access_token")
+        }
+        }).then(response => {
+            if(response.data["status"] == "Success") {
+                this.setState({ isLoading: false });
+                var data = this.state.data;
+                if(data[this.state.selectedIndex].availability == "sold") {
+                    data[this.state.selectedIndex].availability = "available";
+                    this.setState({ data: data });
+                } else {
+                    data[this.state.selectedIndex].availability = "sold";
+                    this.setState({ data: data });
+                }
+            } else {
+                this.setState({ isLoading: false });
+            }
+        });
+    }
+
     render() {
         
         let itemLists;
         var items = this.state.data;
         items = items.map((item, i) => {
+            let soldOut;
+            if(item.availability == "sold") {
+                soldOut = <img src={SoldOutIcon} style={{ height: 24 }} />
+            }
+
             return <ListItem
+                className="collection-item"
                 href="#"
                 onClick={() => this.onListItemClick(i, item._id, item.name, item.price)}
                 title={item.name}
                 subtitle={"¥" + item.price}
                 popoverOpen=".popover-menu"
+                footer={soldOut}
                 >
                     <img slot="media" src={item.img_url} width="100" />
             </ListItem>
@@ -111,6 +147,16 @@ class Collections extends Component {
             loading = <Col style={{ width: "100%" }}>
                 <Preloader color="orange"></Preloader>
             </Col>;
+        }
+
+        let availabilityStatusText;
+        var selectedIndex = this.state.selectedIndex;
+        if(this.state.data.length > 0) {
+            if(this.state.data[selectedIndex].availability == "sold") {
+                availabilityStatusText = "Mark as Available";
+            } else {
+                availabilityStatusText = "Mark as Sold";
+            }
         }
 
         return (
@@ -134,10 +180,11 @@ class Collections extends Component {
                 <Popover className="popover-menu">
                     <List>
                         <ListItem title={this.state.selectedName} />
+                        <ListItem link={`/product/${this.state.selectedId}`} popoverClose title="See Product Details" />
                         <ListItem link="#" sheetOpen=".manage-pricing-sheet" popoverClose title="Manage Pricing" />
                         <ListItem link="#" onClick={this.onEditProductClick} popoverClose title="Edit" />
+                        <ListItem link="#" onClick={this.onMarkAsSoldClick} popoverClose title={availabilityStatusText} />
                         <ListItem link="#" popoverClose title="Delete" />
-                        <ListItem link="#" popoverClose title="Mark as Sold" />
                     </List>
                 </Popover>
                 <Sheet

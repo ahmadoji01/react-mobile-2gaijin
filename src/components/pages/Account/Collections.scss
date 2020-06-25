@@ -1,4 +1,22 @@
-.item-subtitle {
-    font-size: 24px;
+.list .collection-item .item-content .item-inner .item-subtitle {
+    font-size: 16px;
     color: orange;
+    font-weight: 700;
+}
+
+.sold-out-container {
+    width: 100%;
+    background-color: #000000AB;
+    position: absolute;
+    top: 0;
+    right: 0;
+    z-index: 9999999;
+}
+
+.sold-icon-container {
+    position: absolute;
+    right: 50%;
+    top: 50%;
+    -ms-transform: translate(50%, -50%);
+    transform: translate(50%, -50%);
 }

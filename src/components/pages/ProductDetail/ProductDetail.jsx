@@ -17,9 +17,11 @@ class ProductDetail extends Component {
             data: [],
             photos: [],
             windowWidth: 350,
+            isLoading: false,
         };
         this.handleChat = this.handleChat.bind(this);
         this.populatePhotos = this.populatePhotos.bind(this);
+        this.onMarkAsSoldClick = this.onMarkAsSoldClick.bind(this);
     }
 
     updateWindowDimensions() {
@@ -63,6 +65,33 @@ class ProductDetail extends Component {
         .get(`https://go.2gaijin.com/initiate_chat`, config)
         .then(response => {
             this.$f7router.navigate("/chatroom/" + response.data.data.room._id);
+        });
+    }
+
+    onMarkAsSoldClick() {
+        var payload = {
+            "_id": this.state.data.item._id
+        }
+
+        this.setState({ isLoading: true });
+        axios.post(`https://go.2gaijin.com/mark_as_sold`, payload, {
+        headers: {
+            "Authorization": localStorage.getItem("access_token")
+        }
+        }).then(response => {
+            if(response.data["status"] == "Success") {
+                this.setState({ isLoading: false });
+                var data = this.state.data;
+                if(data.item.availability == "sold") {
+                    data.item.availability = "available";
+                    this.setState({ data: data });
+                } else {
+                    data.item.availability = "sold";
+                    this.setState({ data: data });
+                }
+            } else {
+                this.setState({ isLoading: false });
+            }
         });
     }
 
@@ -151,7 +180,11 @@ class ProductDetail extends Component {
                     appointmentBtn = <Button raised fill className="sold-out-button" style={{color: "#565656"}}>Item Sold Out</Button>;
                 }
             } else {
-                appointmentBtn = <Button raised fill className="appointment-button">Mark As Sold</Button>
+                if(availability == "sold") {
+                    appointmentBtn = <Button raised disabled={this.state.isLoading} onClick={this.onMarkAsSoldClick} fill className="appointment-button">Mark As Available</Button>
+                } else {
+                    appointmentBtn = <Button raised disabled={this.state.isLoading} onClick={this.onMarkAsSoldClick} fill className="appointment-button">Mark As Sold</Button>
+                } 
             }
         }
 

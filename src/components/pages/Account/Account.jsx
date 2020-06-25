@@ -12,6 +12,7 @@ import Cropper from 'react-easy-crop';
 
 import CollectionIcon from "../../icons/CollectionIcon.svg";
 import HelpCenterIcon from "../../icons/HelpCenterIcon.svg";
+import  { Redirect } from 'react-router-dom';
 
 class Account extends Component {
 
@@ -147,7 +148,10 @@ class Account extends Component {
 
     componentWillMount() {
 
-        this.setState({isLoggedIn: true});
+        if(!AuthService.getCurrentUser()) {
+            this.setState({isLoggedIn: false});
+        }
+
         axios.post(`https://go.2gaijin.com/get_profile_info`, {}, {
         headers: {
             "Authorization": localStorage.getItem("access_token")
@@ -171,7 +175,6 @@ class Account extends Component {
     }
 
     componentDidMount() {
-
         var calendarDateTime = this.$f7.calendar.create({
             inputEl: '#date-time-input',
             timePicker: false
@@ -220,14 +223,18 @@ class Account extends Component {
         });
     }
 
+    redirectToHome() {
+        window.location.href = "/";
+    }
+
     onSignOutButtonClick() {
         AuthService.logout().then(() => {
-            this.$router.navigate("/");
+            this.redirectToHome();
         });
     }
 
     render() {
-        
+
         if(!AuthService.getCurrentUser()) {
             return "";
         }
@@ -239,9 +246,9 @@ class Account extends Component {
 
         let loading;
         if(this.state.isLoading) {
-            loading = <Col style={{ width: "100%" }}>
+            loading = <Block className="text-align-center">
                 <Preloader color="orange"></Preloader>
-            </Col>;
+            </Block>;
         }
 
         let profileName, avatarURL, goldCoins, silverCoins, profileBanner;

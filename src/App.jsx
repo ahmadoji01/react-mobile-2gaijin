@@ -42,6 +42,7 @@ const f7params = {
     {
       path: '/',
       component: Home,
+      master: true,
       options: {
         reloadCurrent: true,
       },

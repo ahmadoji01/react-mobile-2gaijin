@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import axios from 'axios';
 import AuthService from "../../../services/auth.service";
 import "./ChattingRoom.scss";
-import { Col, Preloader, Icon, Page, Messages, Messagebar, MessagebarAttachments, MessagebarSheet, Message, Navbar, Link, MessagebarAttachment, MessagebarSheetImage, MessagesTitle, NavTitle, NavLeft } from 'framework7-react';
+import { Block, Col, Preloader, Icon, Page, Messages, Messagebar, MessagebarAttachments, MessagebarSheet, Message, Navbar, Link, MessagebarAttachment, MessagebarSheetImage, MessagesTitle, NavTitle, NavLeft } from 'framework7-react';
 import { getCroppedImg, resizeImg } from '../../../services/imageprocessing';
 import Moment from 'react-moment';
 import ChatRoomNavbar from "../../elements/ChatRoomNavbar";
@@ -55,16 +55,16 @@ class ChattingRoom extends Component {
 
         let loading;
         if(this.state.isLoading) {
-            loading = <Col style={{ width: "100%" }}>
+            loading = <Block className="text-align-center">
                 <Preloader color="orange"></Preloader>
-            </Col>;
+            </Block>;
         }
 
         let chatloading;
         if(this.state.chatLoading) {
-            loading = <Col style={{ width: "100%" }}>
+            loading = <Block className="text-align-center">
                 <Preloader color="orange"></Preloader>
-            </Col>;
+            </Block>;
         }
 
         const loadingCSS = {
@@ -255,11 +255,11 @@ class ChattingRoom extends Component {
                 var dataToSend = { "user_id": userID, "room_id": roomID, "img_data": imageData };
                 let config = { headers: {'Authorization': localStorage.getItem("access_token"), "Content-Type": "application/json" }}
                 axios
-                .post(`https://go.2gaijin.com/insert_picture_message`, dataToSend, config)
+                .post(`https://go.2gaijin.com/insert_image_message`, dataToSend, config)
                 .then(response => {
                     if(response.data.status == "Success") {
                         var roomMsg = response.data.data.room_message;
-                        var sendToWs = { "user_id": roomMsg.user_id, "room_id": roomMsg.room_id, "image": roomMsg.image };
+                        var sendToWs = roomMsg;
                         self.setState({ isLoading: false });
                         try {
                             ws.send(JSON.stringify(sendToWs));
@@ -558,8 +558,9 @@ class ChattingRoom extends Component {
                     .post(`https://go.2gaijin.com/insert_message`, dataToSend, config)
                     .then(response => {
                         if(response.data.status == "Success") {
+                            var roomMsg = response.data.data.room_message;
                             this.setState(prevState => ({
-                                messagesData: [...this.state.messagesData, receivedData]
+                                messagesData: [...this.state.messagesData, roomMsg]
                             }));
                         }
                     });

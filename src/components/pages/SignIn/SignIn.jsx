@@ -77,7 +77,7 @@ class SignIn extends Component {
                     message: response.message
                 });
             } else {
-                this.$f7router.navigate(this.state.redirectTo);
+                this.$f7.views.main.router.navigate(this.state.redirectTo);
             }
         });
         

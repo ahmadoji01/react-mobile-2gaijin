@@ -26,6 +26,10 @@ class SearchHistory extends Component {
         });
     }
 
+    componentDidMount() {
+        this.searchInput.toggle();
+    }
+
     SearchBarChange(e) {
         this.setState({ searchterm: e.target.value });
     }

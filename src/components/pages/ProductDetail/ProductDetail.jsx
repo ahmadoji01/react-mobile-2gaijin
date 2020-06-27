@@ -20,6 +20,7 @@ class ProductDetail extends Component {
             photos: [],
             windowWidth: 350,
             isLoading: false,
+            activeIndex: 0,
         };
         this.handleChat = this.handleChat.bind(this);
         this.populatePhotos = this.populatePhotos.bind(this);
@@ -158,9 +159,20 @@ class ProductDetail extends Component {
 
         let imgGallery;
         if(images) {
-            imgGallery = <div onClick={() => this.photoBrowser.open()} ><Swiper pagination className="product-gallery" style={{ height: this.state.windowWidth }} params={{speed:500, slidesPerView: 1, spaceBetween: 0}}>
-                {images}
-            </Swiper></div>;
+            var self = this;
+            imgGallery = <div onClick={() => this.photoBrowser.open(this.state.activeIndex)} >
+                <Swiper
+                pagination 
+                className="product-gallery" 
+                style={{ height: this.state.windowWidth }} 
+                params={{speed:500, slidesPerView: 1, spaceBetween: 0, on: {
+                    slideChange: function () {
+                      self.setState({ activeIndex: this.activeIndex });
+                    },
+                }}}>
+                    {images}
+                </Swiper>
+            </div>;
         }
 
         let sellerID, sellerName, avatarURL, goldCoins, silverCoins, appointmentBtn, chatBtn;

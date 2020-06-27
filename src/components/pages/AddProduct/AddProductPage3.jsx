@@ -15,7 +15,7 @@ class AddProductPage3 extends Component {
         this.state = {
             inputWidth: 150,
             inputHeight: 150,
-            popupOpened: false,
+            imgPopupOpened: false,
             itemDescription: "",
             nameValid: 0,
             fileList: [],
@@ -70,7 +70,7 @@ class AddProductPage3 extends Component {
                     crop: { x: 0, y: 0 },
                     zoom: 1,
                     isCropping: true,
-                    popupOpened: true,
+                    imgPopupOpened: true,
                     activeImgIndex: i,
                 })
             });
@@ -79,7 +79,7 @@ class AddProductPage3 extends Component {
 
     showResult = async () => {
         this.setState({
-            popupOpened: false,
+            imgPopupOpened: false,
         })
         try {
             this.setState({
@@ -227,11 +227,11 @@ class AddProductPage3 extends Component {
                         <Button className="general-btn" style={{color: '#fff'}} onClick={this.onButtonClick} raised fill round>Review Item's Information</Button>
                     </div>
                 </div>
-                <Popup className="item-desc-popup" opened={this.state.popupOpened}>
+                <Popup className="item-desc-popup" opened={this.state.imgPopupOpened}>
                     <Page>
                         <Navbar>
                             <NavLeft>
-                                <Link onClick={() => this.setState({ popupOpened: false })}>Cancel</Link>
+                                <Link onClick={() => this.setState({ imgPopupOpened: false })}>Cancel</Link>
                             </NavLeft>
                             <NavTitle>Crop Your Image</NavTitle>
                             <NavRight>

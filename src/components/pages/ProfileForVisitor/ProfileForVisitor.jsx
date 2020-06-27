@@ -48,7 +48,6 @@ class ProfileForVisitor extends Component {
         .then(response => {
             this.setState({ userData: response.data.data.user_info });
             this.setState({ collections: response.data.data.collections });
-            console.log(response.data.data);
         });
     }
 

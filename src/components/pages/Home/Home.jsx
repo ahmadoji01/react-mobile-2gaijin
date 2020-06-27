@@ -45,8 +45,10 @@ class Home extends Component {
                 axios
                 .get(`https://go.2gaijin.com/check_notif_read`, config)
                 .then(res => {
-                    this.setState({ notifRead: res.data.data.notif_read });
-                    this.setState({ messageRead: res.data.data.message_read });
+                    if(res.data){
+                        this.setState({ notifRead: res.data.data.notif_read });
+                        this.setState({ messageRead: res.data.data.message_read });
+                    }
                 });  
             });
         }
@@ -114,8 +116,10 @@ class Home extends Component {
                         <Link href={chatLink}>{messageIcon}</Link>
                     </NavRight>
                 </Navbar>
-                <Toolbar activeTab={1} />
-                <HomeTab />
+                <PageContent>
+                    <Toolbar activeTab={1} />
+                    <HomeTab />
+                </PageContent>
             </Page>
         );    
     }

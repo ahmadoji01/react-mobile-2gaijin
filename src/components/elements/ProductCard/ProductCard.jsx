@@ -15,7 +15,7 @@ class ProductCard extends Component {
     
     componentDidMount() {
         this.updateWindowDimensions();
-        this.calcDistance();
+        //this.calcDistance();
         window.addEventListener('resize', this.updateWindowDimensions);
     }
     
@@ -59,8 +59,6 @@ class ProductCard extends Component {
             var d = R * c;
 
             this.setState({ locText: d.toFixed(1) + " km away" });
-
-            
         }
     }
 

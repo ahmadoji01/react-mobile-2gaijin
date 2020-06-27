@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import axios from 'axios';
 import AuthService from "../../../services/auth.service";
 import "./ChattingRoom.scss";
-import { Block, Col, Preloader, Icon, Page, Messages, Messagebar, MessagebarAttachments, MessagebarSheet, Message, Navbar, Link, MessagebarAttachment, MessagebarSheetImage, MessagesTitle, NavTitle, NavLeft } from 'framework7-react';
+import { Block, Col, PhotoBrowser, Preloader, Icon, Page, Messages, Messagebar, MessagebarAttachments, MessagebarSheet, Message, Navbar, Link, MessagebarAttachment, MessagebarSheetImage, MessagesTitle, NavTitle, NavLeft } from 'framework7-react';
 import { getCroppedImg, resizeImg } from '../../../services/imageprocessing';
 import Moment from 'react-moment';
 import ChatRoomNavbar from "../../elements/ChatRoomNavbar";
@@ -18,6 +18,7 @@ class ChattingRoom extends Component {
             sheetVisible: false,
             typingMessage: null,
             totalMessages: 0,
+            totalPhotos: 0,
             messagesData: [],
             ws: null,
             isLoading: false,
@@ -34,6 +35,7 @@ class ChattingRoom extends Component {
                 'https://cdn.framework7.io/placeholder/cats-400x300-9.jpg',
                 'https://cdn.framework7.io/placeholder/cats-300x150-10.jpg',
             ],
+            photos: [],
             chatPic: null,
             chatPicWidth: 0, chatPicHeight: 0,
             maxWidth: 600, maxHeight: 400,
@@ -44,8 +46,10 @@ class ChattingRoom extends Component {
         this.picInput = React.createRef();
 
         this.sendMsgWs = this.sendMsgWs.bind(this);
+        this.populatePhotos = this.populatePhotos.bind(this);
         this.onFileChange = this.onFileChange.bind(this);
         this.onFileRetrieved = this.onFileRetrieved.bind(this);
+        this.openPhotoBrowser = this.openPhotoBrowser.bind(this);
     }
 
     render() {
@@ -62,7 +66,7 @@ class ChattingRoom extends Component {
 
         let chatloading;
         if(this.state.chatLoading) {
-            loading = <Block className="text-align-center">
+            loading = <Block style={{ backgroundColor: "#F2F7FF" }} className="text-align-center">
                 <Preloader color="orange"></Preloader>
             </Block>;
         }
@@ -76,29 +80,28 @@ class ChattingRoom extends Component {
         
         var avatarURL = "images/avatar-placeholder.png";
 
-        let personInfo;
+        let personInfo, personName;
         if(typeof(this.state.people[0]) !== "undefined") {
-            personInfo = <div className="row" style={{marginTop: 10, padding: 10}}>
-                <div className="col-30 seller-img-container" style={{backgroundImage: `url("${avatarURL}")`}}>
-                </div>
-                <div className="col-70">
-                    <div className="row" style={{marginBottom: 0}}>
-                        <h5 className="seller-name">{this.state.people[0].name}</h5>
-                    </div>
-                </div>
-            </div>;
+            personName = this.state.people[0].name;
+            if(this.state.people[0].avatar_url != "") {
+                avatarURL = this.state.people[0].avatar_url;
+            }
         }
 
         return (
             <Page>
-                <Navbar>
-                    <NavLeft>
-                        <Link href="/chatlobby"><Icon f7="arrow_left_circle_fill" size="24px" color="gray"></Icon></Link>
-                    </NavLeft>
-                    <NavTitle>
-                        {personInfo}
-                    </NavTitle>
-                </Navbar>
+                <div className="row sticky-container" style={{marginTop: 0, padding: 10}}>
+                    <div className="col-5">
+                        <Link href="/chatlobby"><Icon f7="arrow_left_circle_fill" size="24px" color="black"></Icon></Link>
+                    </div>
+                    <div className="col-30 chat-avatar-container" style={{backgroundImage: `url("${avatarURL}")`, padding: "25px", width: "25px"}}></div>
+                    <div className="col-60">
+                        <div className="row profile-banner-info" style={{ paddingBottom: 5 }}>
+                            <h5 className="seller-name">{personName}</h5>
+                        </div>
+                    </div>
+                    <div className="col-5"></div>
+                </div>
         
                 <Messagebar
                 placeholder={this.placeholder}
@@ -142,7 +145,7 @@ class ChattingRoom extends Component {
                 </MessagebarSheet>
                 </Messagebar>
                 
-                <Messages scrollMessagesOnEdge ref={(el) => {this.messagesComponent = el}}>
+                <Messages style={{ backgroundColor: "#F2F7FF", marginTop: "75px" }} scrollMessagesOnEdge ref={(el) => {this.messagesComponent = el}}>
                     {chatloading}
                     {this.state.messagesData.map((message, index) => (
                         <React.Fragment>
@@ -152,6 +155,7 @@ class ChattingRoom extends Component {
                             type={message.type}
                             image={message.image}
                             name={message.name}
+                            onClick={() => this.openPhotoBrowser(message)}
                             avatar={message.avatar_url}
                             first={this.isFirstMessage(message, index)}
                             last={this.isLastMessage(message, index)}
@@ -175,10 +179,34 @@ class ChattingRoom extends Component {
                         ></Message>
                     )}
                 </Messages>
+                <PhotoBrowser
+                    photos={this.state.photos}
+                    activeIndex={this.state.totalPhotos}
+                    ref={(el) => {this.photoBrowser = el}}
+                />
                 
                 {loading}
             </Page>
         );
+    }
+
+    openPhotoBrowser(message) {
+        if(message.image != "") {
+            var activeIndex = this.state.totalMessages;
+            if(typeof(message.photo_index) !== "undefined") {
+                activeIndex = message.photo_index;
+            }
+            this.photoBrowser.open(activeIndex);
+        }
+    }
+
+    populatePhotos(images) {
+        var photos = new Array();
+        images = images.map(function(image, i) { 
+            var photo = { url: image["img_url"], caption: "" };
+            photos.push(photo);
+        });
+        this.setState({ photos: photos });
     }
 
     getItems() {
@@ -260,6 +288,12 @@ class ChattingRoom extends Component {
                         var roomMsg = response.data.data.room_message;
                         var sendToWs = roomMsg;
                         self.setState({ isLoading: false });
+
+                        var photo = { url: roomMsg.image, caption: "" };
+                        self.setState(prevState => ({
+                            photos: [...self.state.photos, photo]
+                        }));
+                        self.setState({ totalPhotos: self.state.totalPhotos + 1 });
                         try {
                             ws.send(JSON.stringify(sendToWs));
                         } catch (error) {
@@ -319,6 +353,9 @@ class ChattingRoom extends Component {
                                 var currUserID = localStorage.getItem("user_id");
                                 if(msgsData) {
                                     const people = this.state.people;
+                                    var photos = new Array();
+                                    var self = this;
+                                    var photoIndex = 0; 
                                     msgsData.map( function(message, index) {
                                         var person = people.find(person => person._id === message.user_id); 
                                         if(person.avatar_url == "") {
@@ -331,8 +368,16 @@ class ChattingRoom extends Component {
                                         } else {
                                             message.type = "sent";
                                         }
+                                        if(message.image != "") {
+                                            message.photo_index = photoIndex;
+                                            var photo = { url: message.image, caption: "" };
+                                            photos.push(photo);
+                                            photoIndex++;
+                                        }
                                         msgsTmp.push(message);
                                     });
+                                    this.setState({ totalPhotos: photoIndex });
+                                    this.setState({ photos: photos });
                                     this.setState({ messagesData: msgsTmp });
                                     this.setState({ totalMessages: response.data.data.total_messages });
                                 }

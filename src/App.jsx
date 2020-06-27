@@ -191,7 +191,7 @@ const f7params = {
 };
 
 const initialState = {
-  isRefreshing: false
+  isRefreshing: false,
 }
 
 function reducer(state = initialState, action) {

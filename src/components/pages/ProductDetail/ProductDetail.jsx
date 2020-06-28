@@ -55,8 +55,6 @@ class ProductDetail extends Component {
     }
 
     handleChat() {
-        var payload = {}
-
         let config = {
             headers: {'Authorization': localStorage.getItem("access_token") },
             params: {
@@ -67,7 +65,11 @@ class ProductDetail extends Component {
         return axios
         .get(`https://go.2gaijin.com/initiate_chat`, config)
         .then(response => {
-            this.$f7router.navigate("/chatroom/" + response.data.data.room._id);
+            if(response.data.status == "Success"){
+                this.$f7router.navigate("/chatroom/" + response.data.data.room._id);
+            } else {
+
+            }
         });
     }
 

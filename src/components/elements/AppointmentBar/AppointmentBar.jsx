@@ -63,20 +63,20 @@ class AppointmentBar extends Component {
         });
     }
 
-    handleChat() {
+    handleChat(id) {
         var payload = {}
 
         let config = {
             headers: {'Authorization': localStorage.getItem("access_token") },
             params: {
-              receiverid: this.props.item.appointment_user.user_id
+              receiverid: id
             }
         }
 
         return axios
         .get(`https://go.2gaijin.com/initiate_chat`, config)
         .then(response => {
-            this.$f7router.navigate("/chatroom/" + response.data.data.room._id);
+            this.$f7.view.main.router.navigate("/chatroom/" + response.data.data.room._id);
         });
     }
 
@@ -138,13 +138,13 @@ class AppointmentBar extends Component {
     render() {
 
         if(typeof(this.props.item) !== "undefined"){
+            var appointmentUserID = this.props.item.appointment_user._id;
             if(this.props.item.status != "rejected") {
                 var item = this.props.item;
-                var avatarURL = "image"
+                var avatarURL = "images/avatar-placeholder.png";
 
-                avatarURL = item.appointment_user.avatar_url;
-                if(avatarURL == "") {
-                    avatarURL = "images/avatar-placeholder.png";
+                if(item.appointment_user.avatar_url != "") {
+                    avatarURL = item.appointment_user.avatar_url;
                 }
                 
                 let notifButton;
@@ -180,7 +180,7 @@ class AppointmentBar extends Component {
                     if(this.state.status == "accepted") {
                         notifButton = <div className="row" style={{paddingBottom: 0, marginBottom: 0}}>
                             <div className="col-50">
-                                <Button className="general-washout-btn" style={{color: "#000", marginTop: 5}} onClick={this.handleChat} raised fill round>Chat with Seller</Button>
+                                <Button className="general-washout-btn" style={{color: "#000", marginTop: 5}} onClick={() => this.handleChat(appointmentUserID)} raised fill round>Chat with Seller</Button>
                             </div>
                         </div>
                     } else if(this.state.status == "rejected") {
@@ -190,7 +190,7 @@ class AppointmentBar extends Component {
                     } else if(this.state.status == "pending") {
                         notifButton = <div className="row" style={{paddingBottom: 0, marginBottom: 0}}>
                             <div className="col-50">
-                                <Button className="general-washout-btn" style={{color: "#000", marginTop: 5}} onClick={this.handleChat} raised fill round>Chat with Seller</Button>
+                                <Button className="general-washout-btn" style={{color: "#000", marginTop: 5}} onClick={() => this.handleChat(appointmentUserID)} raised fill round>Chat with Seller</Button>
                             </div>
                             <div className="col-50">
                                 <Button className="general-disabled-btn" style={{color: "#EF7132", marginTop: 5}} raised fill round>In Review...</Button>

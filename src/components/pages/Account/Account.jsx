@@ -264,12 +264,17 @@ class Account extends Component {
                         <input type="file" className="img-input" onChange={this.onFileChange} />
                     </div>
                     <div className="col-70">
-                        <div className="row" style={{marginBottom: 0}}>
+                        <div className="row" style={{marginBottom: 0, paddingBottom: 0 }}>
                             <h5 className="seller-name">{profileName}</h5>
                         </div>
-                        <div className="row trust-coin-container">
-                            <img src={GoldCoin} />{goldCoins} Gold(s) 
-                            <img src={SilverCoin} />{silverCoins} Silver(s)
+                        <div className="row trust-coin-container" style={{ marginBottom: 5, paddingBottom: 0 }}>
+                            <img src={GoldCoin} /><b>{goldCoins} Gold(s)</b> 
+                            <img src={SilverCoin} /><b>{silverCoins} Silver(s)</b>
+                        </div>
+                        <div className="row profile-banner-info" style={{ marginBottom: 5 }}>
+                            <div style={{ width: "100%" }}>
+                                <Button href={`/profile/${this.state.data.profile._id}`} raised fill className="appointment-button" style={{  width: "75%", fontWeight: 700, color: "white" }}>Preview My Profile</Button>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -369,9 +374,9 @@ class Account extends Component {
                             </li>
                             <ListInput
                                 outline
-                                value={this.state.shortBio}
                                 label="Short Bio"
                                 type="textarea"
+                                placeholder="Describe yourself here >"
                                 resizable
                                 onFocus={() => this.setState({ bioPopupOpened : true })}
                             />

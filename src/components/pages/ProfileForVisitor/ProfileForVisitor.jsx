@@ -34,6 +34,7 @@ class ProfileForVisitor extends Component {
         };
         this.handleTabChange = this.handleTabChange.bind(this);
         this.handleChangeIndex = this.handleChangeIndex.bind(this);
+        this.handleChat = this.handleChat.bind(this);
     }
 
     componentWillMount() {
@@ -51,14 +52,46 @@ class ProfileForVisitor extends Component {
         });
     }
 
+    handleChat() {
+        if(!localStorage.getItem("access_token")) {
+            return;
+        }
+
+        let config = {
+            headers: {'Authorization': localStorage.getItem("access_token") },
+            params: {
+              receiverid: this.props.userID
+            }
+        }
+
+        return axios
+        .get(`https://go.2gaijin.com/initiate_chat`, config)
+        .then(response => {
+            if(response.data.status == "Success"){
+                this.$f7router.navigate("/chatroom/" + response.data.data.room._id);
+            } else {
+
+            }
+        });
+    }
+
     render() {
 
-        let profileName, avatarURL, goldCoins, silverCoins, profileBanner;
+        let profileName, goldCoins, silverCoins, profileBanner;
+        var avatarURL = "images/avatar-placeholder.png";
         if(this.state.userData) {
-            avatarURL = this.state.userData.avatar_url;
+            if(this.state.userData.avatar_url != "") {
+                avatarURL = this.state.userData.avatar_url;
+            }
+            
             goldCoins = this.state.userData.gold_coin;
             silverCoins = this.state.userData.silver_coin;
             profileName = this.state.userData.first_name + " " + this.state.userData.last_name;
+        }
+
+        var chatBtnDisabled = false;
+        if(localStorage.getItem("user_id") == this.state.userData._id) {
+            chatBtnDisabled = true;
         }
 
         return(
@@ -79,7 +112,7 @@ class ProfileForVisitor extends Component {
                             </div>
                             <div className="row profile-banner-info" style={{ marginBottom: 5 }}>
                                 <div style={{ width: "100%" }}>
-                                    <Button href="#" raised fill className="appointment-button" style={{  width: "75%", fontWeight: 700, color: "white" }}>Chat with Owner</Button>
+                                    <Button href="#" disabled={chatBtnDisabled} onClick={() => this.handleChat} raised fill className="appointment-button" style={{  width: "75%", fontWeight: 700, color: "white" }}>Chat with Owner</Button>
                                 </div>
                             </div>
                         </div>

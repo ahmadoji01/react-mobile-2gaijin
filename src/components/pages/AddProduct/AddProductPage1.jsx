@@ -146,11 +146,10 @@ class AddProductPage1 extends Component {
                         />
                         <ListInput
                             outline
-                            value={this.state.itemDescription}
                             label="Item's Description"
                             type="textarea"
                             resizable
-                            placeholder="Fill your item's description"
+                            placeholder="Fill your item's description >"
                             onFocus={() => this.setState({ popupOpened : true })}
                             onInputClear={() => this.setState({ itemDescription: "" })}
                             clearButton
@@ -164,7 +163,7 @@ class AddProductPage1 extends Component {
                     <Page>
                         <Navbar title="Item's Description">
                         <NavRight>
-                            <Link popupClose>Close</Link>
+                            <Link popupClose>Confirm</Link>
                         </NavRight>
                         </Navbar>
                         <Block>

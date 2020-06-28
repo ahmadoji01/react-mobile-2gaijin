@@ -242,9 +242,7 @@ class ProductContainerWithTab extends Component {
                       ref={loadingRef2 => (this.loadingRef2 = loadingRef2)}
                       style={loadingCSS}
                       >
-                          <Block className="text-align-center">
-                            <Preloader color="orange"></Preloader>
-                        </Block>
+                        {loading}
                       </div>
                   </div>
                 </SwipeableViews>

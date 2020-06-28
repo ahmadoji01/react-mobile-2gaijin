@@ -8,6 +8,7 @@ import ProductDisplayContainer from "../../elements/ProductDisplayContainer";
 import ProductContainerInfinite from "../../elements/ProductContainerInfinite";
 import {Toolbar, Link} from 'framework7-react';
 import ProductContainerWithTab from "../../elements/ProductContainerWithTab/ProductContainerWithTab";
+import SearchRecommendation from "../../elements/SearchRecommendation";
 
 class HomeTab extends Component {
 
@@ -38,6 +39,7 @@ class HomeTab extends Component {
     render() {
         return (
             <React.Fragment>
+                <SearchRecommendation />
                 <HomeBanners items={this.state.data["featureditems"]} />
                 <div className="panel-backdrop"></div>
                 <Sidebar />

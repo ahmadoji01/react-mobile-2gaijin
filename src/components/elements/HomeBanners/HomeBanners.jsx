@@ -37,7 +37,7 @@ class HomeBanners extends Component {
             }
             
             return (
-                <div className="slider" style={{ marginTop: 100 }}>
+                <div className="slider" style={{ marginTop: 0 }}>
                     <div className="container">
                         <div className="section-title">
                             <h3>2Gaijin's Picks

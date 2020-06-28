@@ -5,6 +5,7 @@ import axios from "axios";
 import 'antd/dist/antd.css';
 import "./Search.scss";
 import { ReactComponent as FilterIcon } from "../../icons/FilterIcon.svg";
+import SearchCategoryOptions from "../../elements/SearchCategoryOptions";
 
 class Search extends Component {
 
@@ -189,6 +190,13 @@ class Search extends Component {
             stringPriceMax = "No Limit";
         }
 
+        let loading;
+        if(this.state.loading) {
+            loading = <Block className="text-align-center">
+                <Preloader color="orange"></Preloader>
+            </Block>;
+        }
+
         return(
             <Page name="search" className="page page-search page-with-subnavbar hide-navbar-on-scroll">
                 <Navbar id="navbar-search">
@@ -217,9 +225,7 @@ class Search extends Component {
                     ref={loadingRef => (this.loadingRef = loadingRef)}
                     style={loadingCSS}
                     >
-                        <Block className="text-align-center">
-                            <Preloader color="orange"></Preloader>
-                        </Block>
+                        {loading}
                     </div>
                 </div>
                 <Fab position="center-bottom" onClick={() => this.setState({popupOpened: true})} className="fab-filter" slot="fixed" text="Filter" color="orange">
@@ -271,17 +277,7 @@ class Search extends Component {
                                     smartSelectParams={{openIn: 'popup', searchbar: true, searchbarPlaceholder: 'Search category'}}
                                 >
                                     <select onChange={this.onCategoryChange.bind(this)} name="category" defaultValue={this.state.category}>
-                                        <option value="">Any</option>
-                                        <option value="Apparels">Apparels</option>
-                                        <option value="Books">Books</option>
-                                        <option value="Electronics">Electronics</option>
-                                        <option value="Footwear">Footwear</option>
-                                        <option value="Furnitures">Furnitures</option>
-                                        <option value="Kitchens">Kitchens</option>
-                                        <option value="Sports">Sports</option>
-                                        <option value="Vehicles">Vehicles</option>
-                                        <option value="White Appliances">White Appliances</option>
-                                        <option value="Miscellaneous">Miscellaneous</option>
+                                        <SearchCategoryOptions />
                                     </select>
                                 </ListItem>
                             </List>

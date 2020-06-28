@@ -52,6 +52,8 @@ class Appointment extends Component {
             accepted2: [],
             searchterm: this.props.searchTerm,
             loading: false,
+            isLoading1: false,
+            isLoading2: false,
             start: 1,
             limit: 8,
             index: 0,
@@ -82,6 +84,7 @@ class Appointment extends Component {
             }
         }          
 
+        this.setState({ isLoading1: true });
         axios
         .get(`https://go.2gaijin.com/get_seller_appointments`, config)
         .then(response => {
@@ -94,9 +97,11 @@ class Appointment extends Component {
                 this.setState({ pending: pending });
                 this.setState({ finished: finished });
                 this.setState({ accepted: accepted });
+                this.setState({ isLoading1: false });
             }
         });
-
+        
+        this.setState({ isLoading2: true });
         axios
         .get(`https://go.2gaijin.com/get_buyer_appointments`, config)
         .then(response => {
@@ -109,6 +114,7 @@ class Appointment extends Component {
                 this.setState({ pending2: pending });
                 this.setState({ finished2: finished });
                 this.setState({ accepted2: accepted });
+                this.setState({ isLoading2: false });
             }
         });
     }
@@ -208,6 +214,20 @@ class Appointment extends Component {
             <AppointmentContainer items={this.state.finished2} type="buyer" /></React.Fragment>;
         }
 
+        let loading1;
+        if(this.state.isLoading1) {
+            loading1 = <Block className="text-align-center">
+                <Preloader color="orange"></Preloader>
+            </Block>;
+        }
+
+        let loading2;
+        if(this.state.isLoading2) {
+            loading2 = <Block className="text-align-center">
+                <Preloader color="orange"></Preloader>
+            </Block>;
+        }
+
         return(
             <Page name="appointment" className="page page-appointment hide-navbar-on-scroll">
                 <Navbar id="navbar-search">
@@ -228,9 +248,7 @@ class Appointment extends Component {
                         <div
                         ref={loadingRef => (this.loadingRef = loadingRef)}
                         style={loadingCSS}>
-                            <Block className="text-align-center">
-                                <Preloader color="orange"></Preloader>
-                            </Block>
+                            {loading1}
                         </div>
                     </div>
                     <div style={Object.assign({}, styles.slide, styles.slide2)}>
@@ -240,9 +258,7 @@ class Appointment extends Component {
                         <div
                         ref={loadingRef2 => (this.loadingRef2 = loadingRef2)}
                         style={loadingCSS}>
-                            <Block className="text-align-center">
-                                <Preloader color="orange"></Preloader>
-                            </Block>
+                            {loading2}
                         </div>
                     </div>
                 </SwipeableViews>

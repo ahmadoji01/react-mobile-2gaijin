@@ -35,6 +35,9 @@ import Account from "./components/pages/Account/Account";
 import Collections from "./components/pages/Account/Collections";
 import ChattingRoom from './components/pages/ChattingRoom/ChattingRoom';
 import ProfileForVisitor from "./components/pages/ProfileForVisitor/ProfileForVisitor";
+import EmailConfirmation from "./components/pages/EmailConfirmation/EmailConfirmation";
+import PhoneConfirmation from "./components/pages/PhoneConfirmation/PhoneConfirmation";
+import Error from "./components/pages/Error/Error";
 
 const f7params = {
   // Array with app routes
@@ -181,6 +184,18 @@ const f7params = {
     {
       path: '/collections',
       component: Collections,
+    },
+    {
+      path: '/confirm_email/:email/:token',
+      component: EmailConfirmation,
+    },
+    {
+      path: '/confirm_phone/:phone/:token',
+      component: PhoneConfirmation,
+    },
+    {
+      path: '/error/:type/:redirectTo?',
+      component: Error,
     }
   ],
   // App Name

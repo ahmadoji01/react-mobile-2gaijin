@@ -37,7 +37,8 @@ class ProductContainerWithTab extends Component {
           startitems2: 1,
           limititems2: 8,
           loading: false,
-          isLoading: false,
+          isLoading1: false,
+          isLoading2: false,
           searchState: "",
           index: 0,
       };
@@ -86,14 +87,14 @@ class ProductContainerWithTab extends Component {
       }  
 
       this.setState({ searchState: "recentitems" });
-      this.setState({ isLoading: true });
+      this.setState({ isLoading1: true });
 
       return axios
       .get(`https://go.2gaijin.com/search`, config)
       .then(response => {
           this.setState({ items1: response.data.data.items });
           this.setState({ items2: [] });
-          this.setState({ isLoading: false });
+          this.setState({ isLoading1: false });
       });
     }
 
@@ -121,12 +122,14 @@ class ProductContainerWithTab extends Component {
         this.observer.observe(this.loadingRef2);
 
       this.setState({ searchState: "freeitems" });
+      this.setState({ isLoading2: true });
 
       return axios
       .get(`https://go.2gaijin.com/search`, config)
       .then(response => {
           this.setState({ items2: response.data.data.items });
           this.setState({ items1: [] });
+          this.setState({ isLoading2: false });
       });
     }
 
@@ -155,8 +158,8 @@ class ProductContainerWithTab extends Component {
     }
 
     getItems() {
-      this.setState({ loading: true });
       if(this.state.searchState == "recentitems") {
+        this.setState({ isLoading1: true });
         const lastItems = this.state.items1.length;
         let config = {
           headers: { },
@@ -170,9 +173,10 @@ class ProductContainerWithTab extends Component {
         .get(`https://go.2gaijin.com/search`, config)
         .then(res => {
           this.setState({ items1: [...this.state.items1, ...res.data.data.items] });
-          this.setState({ loading: false });
+          this.setState({ isLoading1: false });
         });  
       } else if(this.state.searchState == "freeitems") {
+        this.setState({ isLoading2: true });
         const lastItems = this.state.items2.length;
         let config = {
           headers: { },
@@ -186,7 +190,7 @@ class ProductContainerWithTab extends Component {
         .get(`https://go.2gaijin.com/search`, config)
         .then(res => {
           this.setState({ items2: [...this.state.items2, ...res.data.data.items] });
-          this.setState({ loading: false });
+          this.setState({ isLoading2: false });
         });  
       }
     }
@@ -209,9 +213,16 @@ class ProductContainerWithTab extends Component {
 
         var currLat = this.state.currLat; var currLng = this.state.currLng;
 
-        let loading;
-        if(this.state.isLoading) {
-            loading = <Block className="text-align-center">
+        let loading1;
+        if(this.state.isLoading1) {
+            loading1 = <Block className="text-align-center">
+                <Preloader color="orange"></Preloader>
+            </Block>;
+        }
+
+        let loading2;
+        if(this.state.isLoading2) {
+            loading2 = <Block className="text-align-center">
                 <Preloader color="orange"></Preloader>
             </Block>;
         }
@@ -224,25 +235,21 @@ class ProductContainerWithTab extends Component {
                 </Tabs>
                 <SwipeableViews index={this.state.index} onChangeIndex={this.handleChangeIndex}>
                   <div style={Object.assign({}, styles.slide, styles.slide1)}>
-                      {loading}
                       <ProductContainerInfinite items={this.state.items1} />
                       <div
                       ref={loadingRef => (this.loadingRef = loadingRef)}
                       style={loadingCSS}
                       >
-                        <Block className="text-align-center">
-                            <Preloader color="orange"></Preloader>
-                        </Block>
+                        {loading1}
                       </div>
                   </div>
                   <div style={Object.assign({}, styles.slide, styles.slide2)}>
-                      {loading}
                       <ProductContainerInfinite items={this.state.items2} />
                       <div
                       ref={loadingRef2 => (this.loadingRef2 = loadingRef2)}
                       style={loadingCSS}
                       >
-                        {loading}
+                        {loading2}
                       </div>
                   </div>
                 </SwipeableViews>

@@ -80,11 +80,17 @@ class ChattingRoom extends Component {
         
         var avatarURL = "images/avatar-placeholder.png";
 
+        var myName = localStorage.getItem("first_name") + " " + localStorage.getItem("last_name");
         let personInfo, personName;
-        if(typeof(this.state.people[0]) !== "undefined") {
-            personName = this.state.people[0].name;
-            if(this.state.people[0].avatar_url != "") {
-                avatarURL = this.state.people[0].avatar_url;
+        if(typeof(this.state.people) !== "undefined") {
+            var i = 0; var people = this.state.people;
+            for(i < 0; i < people.length; i++) {
+                if(people[i].name != myName) {
+                    personName = this.state.people[i].name;
+                    if(this.state.people[i].avatar_url != "") {
+                        avatarURL = this.state.people[i].avatar_url;
+                    }
+                }
             }
         }
 

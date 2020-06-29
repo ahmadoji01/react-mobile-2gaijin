@@ -75,6 +75,7 @@ class MakeAppointment extends Component {
         var calendarDateTime = this.$f7.calendar.create({
             inputEl: '#demo-calendar-date-time',
             timePicker: true,
+            footer: true,
             dateFormat: { month: 'numeric', day: 'numeric', year: 'numeric', hour: 'numeric', minute: 'numeric' },
             disabled: {
                 to: today

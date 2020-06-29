@@ -70,7 +70,7 @@ class ProfileForVisitor extends Component {
             if(response.data.status == "Success"){
                 this.$f7router.navigate("/chatroom/" + response.data.data.room._id);
             } else {
-
+                console.log(response);
             }
         });
     }
@@ -112,7 +112,7 @@ class ProfileForVisitor extends Component {
                             </div>
                             <div className="row profile-banner-info" style={{ marginBottom: 5 }}>
                                 <div style={{ width: "100%" }}>
-                                    <Button href="#" disabled={chatBtnDisabled} onClick={() => this.handleChat} raised fill className="appointment-button" style={{  width: "75%", fontWeight: 700, color: "white" }}>Chat with Owner</Button>
+                                    <Button href="#" disabled={chatBtnDisabled} onClick={this.handleChat} raised fill className="appointment-button" style={{  width: "75%", fontWeight: 700, color: "white" }}>Chat with Owner</Button>
                                 </div>
                             </div>
                         </div>
@@ -127,7 +127,10 @@ class ProfileForVisitor extends Component {
                             <ProductContainerInfinite items={this.state.collections} />
                         </div>
                         <div style={Object.assign({}, styles.slide, styles.slide2)}>
-                            
+                            <div className="container" style={{marginTop: 5}}>
+                                <h5>Short Bio</h5>
+                                <h6>{this.state.userData.short_bio}</h6>
+                            </div>
                         </div>
                         </SwipeableViews>
                     </div>

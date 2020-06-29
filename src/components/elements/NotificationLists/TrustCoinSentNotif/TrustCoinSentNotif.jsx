@@ -27,7 +27,7 @@ class TrustCoinSentNotif extends Component {
                 <React.Fragment>
                     <div className="content">
                         <div className="row" style={{paddingBottom: 0, marginBottom: 0}}>
-                            <div className="col-10 notif-img-container" style={{backgroundImage: `url("${avatarURL}")`, width: "10%"}}></div>
+                            <a href={`/profile/${notifItem.notification_user._id}`}  className="col-10 notif-img-container" style={{backgroundImage: `url("${avatarURL}")`, width: "10%"}}></a>
                             <div className="col-90">
                                 <div className="text">
                                     <h7><b>{notifItem.notification_user.first_name}</b> sent you {coinImg} {coinText}. Fancy!</h7>

@@ -251,7 +251,7 @@ class Account extends Component {
             </Block>;
         }
 
-        let profileName, avatarURL, goldCoins, silverCoins, profileBanner;
+        let profileName, avatarURL, goldCoins, silverCoins, profileBanner, emailConfirmation, phoneConfirmation;
         if(this.state.data.profile) {
             avatarURL = this.state.data.profile.avatar_url;
             goldCoins = this.state.data.profile.gold_coin;
@@ -279,6 +279,32 @@ class Account extends Component {
                     </div>
                 </div>
             </div>;
+
+            if(!this.state.data.profile.email_confirmed) {
+                emailConfirmation = <div style={{ marginTop: 20, marginBottom: 0, padding: 15, borderRadius: 8, backgroundColor: "#EF713235", color: "#EF7132" }}>
+                    <div className="row" style={{ paddingTop: 0, marginBottom: 0, paddingBottom: 0 }}>
+                        <div className="col-85">
+                            <h6 style={{color: "#EF7132"}}>To start selling, confirm your email</h6>
+                        </div>
+                        <div className="col-15">
+                            <h6 style={{color: "#EF7132"}}>OK</h6>
+                        </div>
+                    </div>
+                </div>;
+            }
+
+            if(!this.state.data.profile.phone_confirmed) {
+                phoneConfirmation = <div style={{ marginTop: 20, marginBottom: 0, padding: 15, borderRadius: 8, backgroundColor: "#EF713235", color: "#EF7132" }}>
+                    <div className="row" style={{ paddingTop: 0, marginBottom: 0, paddingBottom: 0 }}>
+                        <div className="col-85">
+                            <h6 style={{color: "#EF7132"}}>Confirm your phone</h6>
+                        </div>
+                        <div className="col-15">
+                            <h6 style={{color: "#EF7132"}}>OK</h6>
+                        </div>
+                    </div>
+                </div>
+            }
         }
 
         return(
@@ -313,6 +339,8 @@ class Account extends Component {
                 <div className="account-buyer segments" style={{marginBottom: 100}}>
                     <div className="container">
                         {profileBanner}
+                        {emailConfirmation}
+                        {phoneConfirmation}
                         <BlockTitle>Collections</BlockTitle>
                         <List>
                             <div style={{ padding: 10 }}>

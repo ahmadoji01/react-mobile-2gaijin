@@ -87,7 +87,7 @@ class ChattingRoom extends Component {
             for(i < 0; i < people.length; i++) {
                 if(people[i].name != myName) {
                     personName = this.state.people[i].name;
-                    if(this.state.people[i].avatar_url != "") {
+                    if(this.state.people[i].avatar_url != this.state.current_person.avatar_url) {
                         avatarURL = this.state.people[i].avatar_url;
                     }
                 }
@@ -479,28 +479,14 @@ class ChattingRoom extends Component {
     sendMessage() {
         const self = this;
         const text = self.messagebar.getValue().replace(/\n/g, '<br>').trim();
-        const messagesToSend = [];
-        self.state.attachments.forEach((attachment) => {
-            messagesToSend.push({
-                name: this.state.current_person.name,
-                avatar_url: this.state.current_person.avatar_url,
-                created_at: new Date().toISOString(),
-                user_id: localStorage.getItem("user_id"),
-                room_id: this.props.roomID,
-                image: attachment,
-            });
-        });
+        var messageToSend = {};
         if (text.trim().length) {
-            messagesToSend.push({
-                name: this.state.current_person.name,
-                avatar_url: this.state.current_person.avatar_url,
-                created_at: new Date().toISOString(),
+            messageToSend = {
                 user_id: localStorage.getItem("user_id"),
                 room_id: this.props.roomID,
                 message: text,
-            });
-        }
-        if (messagesToSend.length === 0) {
+            };
+        } else {
             return;
         }
 
@@ -512,9 +498,20 @@ class ChattingRoom extends Component {
         });
         self.messagebar.clear();
         
-        for(var i = 0; i<messagesToSend.length; i++) {
-            this.sendMsgWs(JSON.stringify(messagesToSend[i]));
-        }
+        let config = { headers: {'Authorization': localStorage.getItem("access_token"), "Content-Type": "application/json" }}
+        axios
+        .post(`https://go.2gaijin.com/insert_message`, messageToSend, config)
+        .then(response => {
+            if(response.data.status == "Success") {
+                var roomMsg = response.data.data.room_message;
+                self.setState(prevState => ({
+                    messagesData: [...self.state.messagesData, roomMsg]
+                }));
+                
+                self.sendMsgWs(JSON.stringify(messageToSend));
+            }
+        });
+        
 
         // Focus area
         if (text.length) self.messagebar.focus();
@@ -601,24 +598,6 @@ class ChattingRoom extends Component {
 
                 var dataToSend = receivedData;
                 delete dataToSend.created_at;
-                
-                if(typeof(receivedData.image) === "undefined" || receivedData.image == "") {
-                    let config = { headers: {'Authorization': localStorage.getItem("access_token"), "Content-Type": "application/json" }}
-                    axios
-                    .post(`https://go.2gaijin.com/insert_message`, dataToSend, config)
-                    .then(response => {
-                        if(response.data.status == "Success") {
-                            var roomMsg = response.data.data.room_message;
-                            this.setState(prevState => ({
-                                messagesData: [...this.state.messagesData, roomMsg]
-                            }));
-                        }
-                    });
-                } else {
-                    this.setState(prevState => ({
-                        messagesData: [...this.state.messagesData, receivedData]
-                    }));
-                }
             } else {
                 receivedData.type = "received";
                 this.setState(prevState => ({

@@ -59,7 +59,7 @@ class ChattingRoom extends Component {
 
         let loading;
         if(this.state.isLoading) {
-            loading = <Block className="text-align-center">
+            loading = <Block style={{ backgroundColor: "#F2F7FF" }} className="text-align-center">
                 <Preloader color="orange"></Preloader>
             </Block>;
         }
@@ -600,10 +600,10 @@ class ChattingRoom extends Component {
                 delete dataToSend.created_at;
             } else {
                 receivedData.type = "received";
-                this.setState(prevState => ({
-                    messagesData: [...this.state.messagesData, receivedData]
-                }));
             }
+            this.setState(prevState => ({
+                messagesData: [...this.state.messagesData, receivedData]
+            }));
         }
 
         // websocket onerror event listener

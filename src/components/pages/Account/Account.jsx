@@ -37,6 +37,10 @@ class Account extends Component {
             phoneNumber: "",
             isProfileUpdated: false,
             isLoading: false,
+            isEmailConfirmLoading: false,
+            confirmEmailStatus: "",
+            isPhoneConfirmLoading: false,
+            confirmPhoneStatus: "",
         };
         this.handleLogin = this.handleLogin.bind(this);
         this.onFileChange = this.onFileChange.bind(this);
@@ -50,6 +54,8 @@ class Account extends Component {
         this.onButtonClick = this.onButtonClick.bind(this);
         this.onSignOutButtonClick = this.onSignOutButtonClick.bind(this);
         this.onUpdateProfileButtonClick = this.onUpdateProfileButtonClick.bind(this);
+        this.proposeEmailConfirmation = this.proposeEmailConfirmation.bind(this);
+        this.proposePhoneConfirmation = this.proposePhoneConfirmation.bind(this);
     }
 
     handleLogin() {
@@ -233,6 +239,52 @@ class Account extends Component {
         });
     }
 
+    proposeEmailConfirmation() {
+        var payload = {
+            "email": localStorage.getItem("email"),
+            "confirm_source": "mobile_web_app"
+        }
+        
+        this.setState({ isEmailConfirmLoading: true });
+        this.setState({ confirmEmailStatus: "" });
+        return axios.post(`https://go.2gaijin.com/confirm_identity`, payload, {
+            headers: {
+                "Content-Type": "application/json"
+            }
+        }).then(response => {
+            if(response.data["status"] == "Success") {
+                this.setState({ isEmailConfirmLoading: false });
+                this.setState({ confirmEmailStatus: "success" });
+            } else {
+                this.setState({ isEmailConfirmLoading: false });
+                this.setState({ confirmEmailStatus: "error" });
+            }
+        });
+    }
+
+    proposePhoneConfirmation() {
+        var payload = {
+            "phone": this.state.phoneNumber,
+            "confirm_source": "mobile_web_app"
+        }
+        
+        this.setState({ isPhoneConfirmLoading: true });
+        this.setState({ confirmPhoneStatus: "" });
+        return axios.post(`https://go.2gaijin.com/confirm_identity`, payload, {
+            headers: {
+                "Content-Type": "application/json"
+            }
+        }).then(response => {
+            if(response.data["status"] == "Success") {
+                this.setState({ isPhoneConfirmLoading: false });
+                this.setState({ confirmPhoneStatus: "success" });
+            } else {
+                this.setState({ isPhoneConfirmLoading: false });
+                this.setState({ confirmPhoneStatus: "error" });
+            }
+        });
+    }
+
     render() {
 
         if(!AuthService.getCurrentUser()) {
@@ -280,28 +332,56 @@ class Account extends Component {
                 </div>
             </div>;
 
-            if(!this.state.data.profile.email_confirmed) {
-                emailConfirmation = <div style={{ marginTop: 20, marginBottom: 0, padding: 15, borderRadius: 8, backgroundColor: "#EF713235", color: "#EF7132" }}>
+            let okOrPreloadEmail;
+            if(this.state.isEmailConfirmLoading) {
+                okOrPreloadEmail = <Preloader color="orange"></Preloader>;
+            } else {
+                okOrPreloadEmail = <h6 style={{color: "#EF7132"}}>OK</h6>;
+            }
+            let confirmEmailStatus;
+            if(this.state.confirmEmailStatus == "success") {
+                confirmEmailStatus = <h6 style={{color: "#EF7132"}}>Confirmation sent to your email!</h6>
+            } else if(this.state.confirmEmailStatus == "error") {
+                confirmEmailStatus = <h6 style={{color: "#EF7132"}}>Something went wrong. Try again</h6>
+            }
+
+            let okOrPreloadPhone;
+            if(this.state.isPhoneConfirmLoading) {
+                okOrPreloadPhone = <Preloader color="orange"></Preloader>;
+            } else {
+                okOrPreloadPhone = <h6 style={{color: "#EF7132"}}>OK</h6>;
+            }
+            let confirmPhoneStatus;
+            if(this.state.confirmPhoneStatus == "success") {
+                confirmPhoneStatus = <h6 style={{color: "#EF7132"}}>Confirmation sent to your phone!</h6>
+            } else if(this.state.confirmPhoneStatus == "error") {
+                confirmPhoneStatus = <h6 style={{color: "#EF7132"}}>Something went wrong. Try again</h6>
+            }
+
+            if(this.state.data.profile.email_confirmed) {
+                emailConfirmation = <div onClick={this.proposeEmailConfirmation} style={{ marginTop: 20, marginBottom: 0, padding: 15, borderRadius: 8, backgroundColor: "#EF713235", color: "#EF7132" }}>
                     <div className="row" style={{ paddingTop: 0, marginBottom: 0, paddingBottom: 0 }}>
                         <div className="col-85">
                             <h6 style={{color: "#EF7132"}}>To start selling, confirm your email</h6>
                         </div>
                         <div className="col-15">
-                            <h6 style={{color: "#EF7132"}}>OK</h6>
+                            {okOrPreloadEmail}
                         </div>
+                        {confirmEmailStatus}
                     </div>
                 </div>;
             }
 
             if(!this.state.data.profile.phone_confirmed) {
-                phoneConfirmation = <div style={{ marginTop: 20, marginBottom: 0, padding: 15, borderRadius: 8, backgroundColor: "#EF713235", color: "#EF7132" }}>
+                phoneConfirmation = <div onClick={this.proposePhoneConfirmation} style={{ marginTop: 20, marginBottom: 0, padding: 15, borderRadius: 8, backgroundColor: "#EF713235", color: "#EF7132" }}>
                     <div className="row" style={{ paddingTop: 0, marginBottom: 0, paddingBottom: 0 }}>
                         <div className="col-85">
                             <h6 style={{color: "#EF7132"}}>Confirm your phone</h6>
                         </div>
                         <div className="col-15">
-                            <h6 style={{color: "#EF7132"}}>OK</h6>
+                            {okOrPreloadPhone}
                         </div>
+                        {confirmPhoneStatus}
                     </div>
                 </div>
             }

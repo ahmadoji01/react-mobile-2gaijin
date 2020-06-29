@@ -64,7 +64,7 @@ class EmailConfirmation extends Component {
                             </div>
                         </div>
                         <div style={{height: '10%', width: '100%', padding: 5}}>
-                            <Button className="general-btn" style={{color: '#fff'}} onClick={this.backToHome} raised fill round>Back to Home</Button>
+                            <Button className="general-btn" href="/" style={{color: '#fff'}} onClick={this.backToHome} raised fill round>Back to Home</Button>
                         </div>
                     </Page>
                 </Popup>

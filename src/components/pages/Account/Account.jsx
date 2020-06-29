@@ -358,7 +358,7 @@ class Account extends Component {
                 confirmPhoneStatus = <h6 style={{color: "#EF7132"}}>Something went wrong. Try again</h6>
             }
 
-            if(this.state.data.profile.email_confirmed) {
+            if(!this.state.data.profile.email_confirmed) {
                 emailConfirmation = <div onClick={this.proposeEmailConfirmation} style={{ marginTop: 20, marginBottom: 0, padding: 15, borderRadius: 8, backgroundColor: "#EF713235", color: "#EF7132" }}>
                     <div className="row" style={{ paddingTop: 0, marginBottom: 0, paddingBottom: 0 }}>
                         <div className="col-85">

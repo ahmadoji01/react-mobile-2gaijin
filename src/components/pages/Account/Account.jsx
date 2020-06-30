@@ -310,8 +310,8 @@ class Account extends Component {
             silverCoins = this.state.data.profile.silver_coin;
             profileName = localStorage.getItem("first_name") + " " + localStorage.getItem("last_name");
 
-            profileBanner = <div className="profile-container content-shadow">
-                <div className="row" style={{marginTop: 10, padding: 10}}>
+            profileBanner = <div className="profile-container content-shadow" style={{ marginTop: -25 }}>
+                <div className="row" style={{marginTop: 10, padding: 20}}>
                     <div className="col-30 seller-img-container" style={{backgroundImage: `url("${this.state.avatarURL}")`}}>
                         <input type="file" className="img-input" onChange={this.onFileChange} />
                     </div>
@@ -319,13 +319,13 @@ class Account extends Component {
                         <div className="row" style={{marginBottom: 0, paddingBottom: 0 }}>
                             <h5 className="seller-name">{profileName}</h5>
                         </div>
-                        <div className="row trust-coin-container" style={{ marginBottom: 5, paddingBottom: 0 }}>
+                        <div className="row trust-coin-container" style={{ marginBottom: 10, paddingBottom: 0 }}>
                             <img src={GoldCoin} /><b>{goldCoins} Gold(s)</b> 
                             <img src={SilverCoin} /><b>{silverCoins} Silver(s)</b>
                         </div>
-                        <div className="row profile-banner-info" style={{ marginBottom: 5 }}>
+                        <div className="row profile-banner-info" style={{ marginBottom: 5, paddingBottom: 10 }}>
                             <div style={{ width: "100%" }}>
-                                <Button href={`/profile/${this.state.data.profile._id}`} raised fill className="appointment-button" style={{  width: "75%", fontWeight: 700, color: "white" }}>Preview My Profile</Button>
+                                <Button href={`/profile/${this.state.data.profile._id}`} raised fill className="sold-out-button" style={{  width: "100%", fontWeight: 700, color: "black" }}>Preview My Profile</Button>
                             </div>
                         </div>
                     </div>
@@ -417,8 +417,8 @@ class Account extends Component {
                     </Page>
                 </Popup>
                 <div className="account-buyer segments" style={{marginBottom: 100}}>
+                    {profileBanner}
                     <div className="container">
-                        {profileBanner}
                         {emailConfirmation}
                         {phoneConfirmation}
                         <BlockTitle>Collections</BlockTitle>

@@ -9,23 +9,7 @@ class ProductCard extends Component {
     constructor(props) {
         super(props);
         this.state = { cardWidth: (window.innerWidth/2) - 25, cardHeight: (window.innerHeight/2) - 25, locText: "" };
-        this.updateWindowDimensions = this.updateWindowDimensions.bind(this);
         this.calcDistance = this.calcDistance.bind(this);
-    }
-    
-    componentDidMount() {
-        this.updateWindowDimensions();
-        //this.calcDistance();
-        window.addEventListener('resize', this.updateWindowDimensions);
-    }
-    
-    componentWillUnmount() {
-        window.removeEventListener('resize', this.updateWindowDimensions);
-    }
-    
-    updateWindowDimensions() {
-        this.setState({ cardWidth: (window.innerWidth/2) - 25 });
-        this.setState({ cardHeight: (window.innerHeight/2) - 25 });
     }
 
     calcDistance() {
@@ -62,6 +46,10 @@ class ProductCard extends Component {
         }
     }
 
+    componentDidMount() {
+        this.calcDistance();
+    }
+
     redirectToProductDetail(productID) {
         this.$f7.view.main.router.navigate("/product/" + productID);
     }
@@ -82,10 +70,10 @@ class ProductCard extends Component {
             }
 
             return(
-                <Link href={`/product/${item["_id"]}`} className="product-card" style={{ height: `${this.state.height}px`, width: `${this.state.cardWidth}px`}} >
+                <Link href={`/product/${item["_id"]}`} className="product-card" style={{ width: `${this.props.cardWidth}px`}} >
                     <div className="content content-shadow-product">
                         {soldOut}
-                        <div className="image-container" style={{backgroundImage: `url(${item["img_url"]})`, width: `${this.state.cardWidth}px`}}></div>
+                        <div className="image-container" style={{backgroundImage: `url(${item["img_url"]})`, width: `${this.props.cardWidth}px`}}></div>
                         <div className="text">
                             <p className="title-product">{item.name}</p>
                             <p className="location">by {item.seller_name}</p>

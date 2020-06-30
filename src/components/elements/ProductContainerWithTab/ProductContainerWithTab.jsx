@@ -12,7 +12,7 @@ import { orange } from '@material-ui/core/colors';
 const styles = {
   tabs: {
     background: '#fff',
-    color: orange,
+    color: "orange",
   },
   slide: {
     minHeight: 100,
@@ -161,6 +161,11 @@ class ProductContainerWithTab extends Component {
       if(this.state.searchState == "recentitems") {
         this.setState({ isLoading1: true });
         const lastItems = this.state.items1.length;
+
+        if (lastItems <= 2) {
+          return;
+        }
+
         let config = {
           headers: { },
           params: {
@@ -178,6 +183,11 @@ class ProductContainerWithTab extends Component {
       } else if(this.state.searchState == "freeitems") {
         this.setState({ isLoading2: true });
         const lastItems = this.state.items2.length;
+
+        if (lastItems <= 2) {
+          return;
+        }
+
         let config = {
           headers: { },
           params: {
@@ -229,10 +239,12 @@ class ProductContainerWithTab extends Component {
         
         return(
             <div>
-                <Tabs value={this.state.index} variant="fullWidth" onChange={this.handleTabChange} style={styles.tabs}>
-                    <Tab label="Recent Items" />
-                    <Tab label="Free Items" />
-                </Tabs>
+                <div className="sticky-div" style={{top: 35}}>
+                  <Tabs value={this.state.index} variant="fullWidth" onChange={this.handleTabChange} style={styles.tabs}>
+                      <Tab label="Recent Items" />
+                      <Tab label="Free Items" />
+                  </Tabs>
+                </div>
                 <SwipeableViews index={this.state.index} onChangeIndex={this.handleChangeIndex}>
                   <div style={Object.assign({}, styles.slide, styles.slide1)}>
                       <ProductContainerInfinite items={this.state.items1} />

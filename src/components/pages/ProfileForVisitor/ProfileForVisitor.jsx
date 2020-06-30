@@ -118,10 +118,12 @@ class ProfileForVisitor extends Component {
                         </div>
                     </div>
                     <div style={{margin: 0, padding: 0}}>
-                        <Tabs value={this.state.index} variant="fullWidth" onChange={this.handleTabChange} style={styles.tabs}>
-                            <Tab label="Collections" />
-                            <Tab label="Description" />
-                        </Tabs>
+                        <div className="sticky-div">
+                            <Tabs value={this.state.index} variant="fullWidth" onChange={this.handleTabChange} style={styles.tabs}>
+                                <Tab label="Collections" />
+                                <Tab label="Description" />
+                            </Tabs>
+                        </div>
                         <SwipeableViews index={this.state.index} onChangeIndex={this.handleChangeIndex}>
                         <div style={Object.assign({}, styles.slide, styles.slide1)}>
                             <ProductContainerInfinite items={this.state.collections} />

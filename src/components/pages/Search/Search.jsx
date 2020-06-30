@@ -234,10 +234,14 @@ class Search extends Component {
 
                 <Popup className="demo-popup" opened={this.state.popupOpened} onPopupClosed={() => this.setState({popupOpened : false})}>
                     <Page>
-                        <Navbar title="Filter Your Search">
-                        <NavRight>
-                            <Link popupClose>Cancel</Link>
-                        </NavRight>
+                        <Navbar>
+                            <NavLeft>
+                                <Link popupClose style={{ color: "grey" }}>Cancel</Link>
+                            </NavLeft>
+                            <NavTitle>Filter Your Search</NavTitle>
+                            <NavRight>
+                                <Link popupClose onClick={this.changeSearchFilter} style={{ color: "black" }}>Confirm</Link>
+                            </NavRight>
                         </Navbar>
                         <Block>
                             <BlockTitle className="display-flex block-title-text justify-content-space-between">Price Filter 

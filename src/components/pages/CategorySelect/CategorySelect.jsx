@@ -12,6 +12,7 @@ import vehicles from "../../illustrations/Vehicles.png";
 import whiteapp from "../../illustrations/WhiteApp.png";
 import misc from "../../illustrations/Misc.png";
 import AuthService from "../../../services/auth.service.js";
+import CategoryIllustration from "../../elements/CategoryIllustration";
 
 class CategorySelect extends Component {
 
@@ -81,6 +82,14 @@ class CategorySelect extends Component {
                         </div>
                         <div className="col-50">
                             <img src={misc} onClick={ () => this.onListClick("Miscellaneous") } />
+                        </div>
+                    </div>
+                    <div className="row" style={{ marginBottom: 5, paddingBottom: 0 }}>
+                        <div className="col-50">
+                            <CategoryIllustration />
+                        </div>
+                        <div className="col-50">
+                            <CategoryIllustration />
                         </div>
                     </div>
                 </div>

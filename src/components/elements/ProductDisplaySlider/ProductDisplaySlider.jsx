@@ -4,12 +4,41 @@ import { NavLink } from 'react-router-dom';
 import ProductCard from '../ProductCard';
 import SmallProductCard from '../SmallProductCard';
 import { Swiper, SwiperSlide } from 'framework7-react';
+import { geolocated } from 'react-geolocated';
 
 class ProductDisplaySlider extends Component {
+
+    state = {
+        currLat: 0.0,
+        currLng: 0.0,
+        cardWidth: (window.innerWidth/2) - 25, 
+        cardHeight: (window.innerHeight/2) - 25,
+    };
+
+    componentDidMount() {
+        this.updateWindowDimensions();
+        //this.calcDistance();
+        window.addEventListener('resize', this.updateWindowDimensions);
+    }
+    
+    componentWillUnmount() {
+        window.removeEventListener('resize', this.updateWindowDimensions);
+    }
+    
+    updateWindowDimensions() {
+        this.setState({ cardWidth: (window.innerWidth/2) - 25 });
+        this.setState({ cardHeight: (window.innerHeight/2) - 50 });
+    }
+
+    constructor(props) {
+        super(props);
+        this.updateWindowDimensions = this.updateWindowDimensions.bind(this);
+    }
     
     render() {
         if(typeof(this.props.items) !== "undefined") {
             var currLat = 0.0; var currLng = 0.0;
+            var cardHeight = this.state.cardHeight; var cardWidth = this.state.cardWidth;
             if(this.props.isGeolocationEnabled) {
                 if(this.props.coords !== null) {
                     currLat = this.props.coords.latitude;
@@ -33,7 +62,7 @@ class ProductDisplaySlider extends Component {
                                 { this.props.items.map(function (item, i) {
                                     return (
                                         <SwiperSlide className="product-swiper" key={i}>
-                                            <div key={i}><ProductCard item={item} lat={currLat} lng={currLng} /></div>
+                                            <div key={i}><ProductCard item={item} lat={currLat} lng={currLng} cardWidth={cardWidth} cardHeight={cardHeight} /></div>
                                         </SwiperSlide>
                                     );
                                 })}
@@ -48,4 +77,9 @@ class ProductDisplaySlider extends Component {
     }
 }
 
-export default ProductDisplaySlider;
+export default geolocated({
+    positionOptions: {
+        enableHighAccuracy: true,
+    },
+    userDecisionTimeout: 5000,
+  })(ProductDisplaySlider);

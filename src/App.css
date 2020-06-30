@@ -74,3 +74,10 @@ h7 {
   font-family: "Poppins";
 }
 
+.sticky-div {
+  position: sticky;
+  position: -webkit-sticky;
+  top: 0px;
+  z-index: 2134151;
+}
+

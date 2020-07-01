@@ -72,9 +72,10 @@ class SignIn extends Component {
                         />
                         <FacebookLogin
                             appId="936813033337153"
+                            autoLoad
                             onClick={this.facebookButtonClicked}
                             fields="name,first_name,last_name,email,picture"
-                            callback={this.responseFacebook} 
+                            callback={() => this.responseFacebook} 
                         />
                     </List>
                     <List>

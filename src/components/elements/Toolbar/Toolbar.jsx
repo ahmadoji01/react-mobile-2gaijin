@@ -57,7 +57,7 @@ class Toolbar extends Component {
             }
 
             return(
-                <div className="toolbar tabbar tabbar-labels toolbar-bottom custom-toolbar">
+                <div className="toolbar tabbar tabbar-labels toolbar-bottom custom-toolbar" style={{ zIndex: 9999999999 }}>
                     <div className="toolbar-inner">
                         <a href={addProductLink} className="tab-link">
                             <div className="start-selling-btn">

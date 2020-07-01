@@ -17,6 +17,7 @@ class SignIn extends Component {
 
         this.responseGoogle = this.responseGoogle.bind(this);
         this.responseFacebook = this.responseFacebook.bind(this);
+        this.facebookButtonClicked = this.facebookButtonClicked.bind(this);
     }
 
     componentWillMount() {
@@ -70,9 +71,9 @@ class SignIn extends Component {
                             cookiePolicy={'single_host_origin'}
                         />
                         <FacebookLogin
-                            appId="1145298885643699"
-                            autoLoad={true}
-                            fields="name,email,picture"
+                            appId="936813033337153"
+                            onClick={this.facebookButtonClicked}
+                            fields="name,first_name,last_name,email,picture"
                             callback={this.responseFacebook} 
                         />
                     </List>
@@ -103,8 +104,28 @@ class SignIn extends Component {
         }
     }
 
+    facebookButtonClicked = () => {
+        console.log( "Clicked!" )
+    }
+
     responseFacebook = (response) => {
         console.log(response);
+        if(typeof(response.accessToken) !== "undefined") {
+            var accessToken = response.accessToken;
+            var id = response.id;
+            AuthService.oauthFacebookLogin(id, accessToken).then(
+            response => {
+                if(!localStorage.getItem("access_token")) {
+                    console.log(response.message);
+                    this.setState({
+                        loading: false,
+                        message: response.message
+                    });
+                } else {
+                    this.$f7.views.main.router.navigate(this.state.redirectTo);
+                }
+            });
+        }
     }
 
     handleLogin(e) {

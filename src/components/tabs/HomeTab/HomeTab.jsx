@@ -9,6 +9,7 @@ import ProductContainerInfinite from "../../elements/ProductContainerInfinite";
 import {Toolbar, Link} from 'framework7-react';
 import ProductContainerWithTab from "../../elements/ProductContainerWithTab/ProductContainerWithTab";
 import SearchRecommendation from "../../elements/SearchRecommendation";
+import LoadingPage from "../../pages/LoadingPage";
 
 class HomeTab extends Component {
 
@@ -38,7 +39,7 @@ class HomeTab extends Component {
 
     render() {
         if(this.state.data.length == 0) {
-            return "";
+            return <LoadingPage />;
         } else {
             return (
                 <React.Fragment>

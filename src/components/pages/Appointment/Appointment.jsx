@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import ProductContainerInfinite from '../../elements/ProductContainerInfinite';
-import { Page, Navbar, Preloader, NavLeft, Link, Icon, Subnavbar, Block, Segmented, Button, NavTitle, Searchbar } from 'framework7-react';
+import { Page, PageContent, Navbar, Preloader, NavLeft, Link, Icon, Subnavbar, Block, Segmented, Button, NavTitle, Searchbar } from 'framework7-react';
 import axios from "axios";
 import Toolbar from "../../elements/Toolbar";
 import AppointmentBar from '../../elements/AppointmentBar';
@@ -17,7 +17,7 @@ import AuthService from '../../../services/auth.service';
 const styles = {
   tabs: {
     background: '#fff',
-    color: blue,
+    color: "orange",
   },
   slide: {
     minHeight: 100,
@@ -229,39 +229,43 @@ class Appointment extends Component {
         }
 
         return(
-            <Page name="appointment" className="page page-appointment hide-navbar-on-scroll">
-                <Navbar id="navbar-search">
-                    <NavTitle>
-                        Appointments
-                    </NavTitle>
-                </Navbar>
+            <Page name="appointment" className="page page-appointment">
                 <Toolbar activeTab={2} />
-                <Tabs value={this.state.index} variant="fullWidth" onChange={this.handleChange} style={styles.tabs}>
-                    <Tab label="Seller" />
-                    <Tab label="Buyer" />
-                </Tabs>
-                <SwipeableViews index={this.state.index} onChangeIndex={this.handleChangeIndex}>
-                    <div style={Object.assign({}, styles.slide, styles.slide1)}>
-                        {sellerContainer}
-                        {sellerContainer2}
-                        {sellerContainer3}
-                        <div
-                        ref={loadingRef => (this.loadingRef = loadingRef)}
-                        style={loadingCSS}>
-                            {loading1}
-                        </div>
+                <PageContent>
+                    <Navbar id="navbar-search">
+                        <NavTitle>
+                            Appointments
+                        </NavTitle>
+                    </Navbar>
+                    <div className="sticky-div" style={{top: 0}}>
+                        <Tabs value={this.state.index} variant="fullWidth" onChange={this.handleChange} style={styles.tabs}>
+                            <Tab label="Seller" />
+                            <Tab label="Buyer" />
+                        </Tabs>
                     </div>
-                    <div style={Object.assign({}, styles.slide, styles.slide2)}>
-                        {buyerContainer}
-                        {buyerContainer2}
-                        {buyerContainer3}
-                        <div
-                        ref={loadingRef2 => (this.loadingRef2 = loadingRef2)}
-                        style={loadingCSS}>
-                            {loading2}
+                    <SwipeableViews index={this.state.index} onChangeIndex={this.handleChangeIndex}>
+                        <div style={Object.assign({}, styles.slide, styles.slide1)}>
+                            {sellerContainer}
+                            {sellerContainer2}
+                            {sellerContainer3}
+                            <div
+                            ref={loadingRef => (this.loadingRef = loadingRef)}
+                            style={loadingCSS}>
+                                {loading1}
+                            </div>
                         </div>
-                    </div>
-                </SwipeableViews>
+                        <div style={Object.assign({}, styles.slide, styles.slide2)}>
+                            {buyerContainer}
+                            {buyerContainer2}
+                            {buyerContainer3}
+                            <div
+                            ref={loadingRef2 => (this.loadingRef2 = loadingRef2)}
+                            style={loadingCSS}>
+                                {loading2}
+                            </div>
+                        </div>
+                    </SwipeableViews>
+                </PageContent>
             </Page>
         );
     }

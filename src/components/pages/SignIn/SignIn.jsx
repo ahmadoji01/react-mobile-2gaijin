@@ -3,7 +3,6 @@ import { Page, LoginScreenTitle, List, ListInput, ListButton, BlockFooter } from
 import AuthService from "../../../services/auth.service.js";
 import GoogleLogin from 'react-google-login';
 import FacebookLogin from 'react-facebook-login';
-import axios from "axios";
 
 class SignIn extends Component {
     constructor(props) {
@@ -17,13 +16,17 @@ class SignIn extends Component {
 
         this.responseGoogle = this.responseGoogle.bind(this);
         this.responseFacebook = this.responseFacebook.bind(this);
-        this.facebookButtonClicked = this.facebookButtonClicked.bind(this);
+        this.redirect = this.redirect.bind(this);
     }
 
     componentWillMount() {
         if(typeof(this.props.redirectTo) !== "undefined") {
             this.setState({ redirectTo: "/" + this.props.redirectTo });
         }
+    }
+
+    redirect() {
+        window.location.href = this.state.redirectTo;
     }
 
     render() {
@@ -73,7 +76,6 @@ class SignIn extends Component {
                         <FacebookLogin
                             appId="936813033337153"
                             autoLoad
-                            onClick={this.facebookButtonClicked}
                             fields="name,first_name,last_name,email,picture"
                             callback={() => this.responseFacebook} 
                         />
@@ -87,26 +89,21 @@ class SignIn extends Component {
     }
 
     responseGoogle = (response) => {
-        console.log(response);
         if(typeof(response.accessToken) !== "undefined") {
             var accessToken = response.accessToken;
+            var self = this;
             AuthService.oauthLogin(accessToken).then(
             response => {
                 if(!localStorage.getItem("access_token")) {
-                    console.log(response.message);
                     this.setState({
                         loading: false,
                         message: response.message
                     });
                 } else {
-                    this.$f7.views.main.router.navigate(this.state.redirectTo);
+                    self.redirect();
                 }
             });
         }
-    }
-
-    facebookButtonClicked = () => {
-        console.log( "Clicked!" )
     }
 
     responseFacebook = (response) => {
@@ -114,16 +111,16 @@ class SignIn extends Component {
         if(typeof(response.accessToken) !== "undefined") {
             var accessToken = response.accessToken;
             var id = response.id;
+            var self = this;
             AuthService.oauthFacebookLogin(id, accessToken).then(
             response => {
                 if(!localStorage.getItem("access_token")) {
-                    console.log(response.message);
                     this.setState({
                         loading: false,
                         message: response.message
                     });
                 } else {
-                    this.$f7.views.main.router.navigate(this.state.redirectTo);
+                    self.redirect();
                 }
             });
         }
@@ -137,16 +134,16 @@ class SignIn extends Component {
             loading: true
         });
 
+        var self = this;
         AuthService.login(this.state.email, this.state.password).then(
         response => {
             if(!localStorage.getItem("access_token")) {
-                console.log(response.message);
                 this.setState({
                     loading: false,
                     message: response.message
                 });
             } else {
-                this.$f7.views.main.router.navigate(this.state.redirectTo);
+                self.redirect();
             }
         });
         

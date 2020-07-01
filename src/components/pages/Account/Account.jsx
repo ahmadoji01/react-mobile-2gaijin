@@ -176,7 +176,9 @@ class Account extends Component {
                 this.setState({ lastName: jsonData.profile.last_name });
                 this.setState({ email: jsonData.profile.email });
                 this.setState({ phoneNumber: jsonData.profile.phone });
-                this.setState({ birthday: date });
+                if(dob.getMonth()) {
+                    this.setState({ birthday: date })
+                };
                 this.setState({ shortBio: jsonData.profile.short_bio });
             }
         });
@@ -185,7 +187,8 @@ class Account extends Component {
     componentDidMount() {
         var calendarDateTime = this.$f7.calendar.create({
             inputEl: '#date-time-input',
-            timePicker: false
+            timePicker: false,
+            footer: true,
         });
     }
     
@@ -391,6 +394,8 @@ class Account extends Component {
                     </div>
                 </div>
             }
+        } else {
+            return <LoadingPage />;
         }
 
         return(

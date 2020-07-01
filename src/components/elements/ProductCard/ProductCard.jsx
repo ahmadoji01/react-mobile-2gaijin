@@ -47,7 +47,7 @@ class ProductCard extends Component {
     }
 
     componentDidMount() {
-        this.calcDistance();
+        //this.calcDistance();
     }
 
     redirectToProductDetail(productID) {

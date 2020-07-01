@@ -12,6 +12,8 @@ import Cropper from 'react-easy-crop';
 
 import CollectionIcon from "../../icons/CollectionIcon.svg";
 import HelpCenterIcon from "../../icons/HelpCenterIcon.svg";
+import Error from "../Error";
+import LoadingPage from "../LoadingPage";
 import  { Redirect } from 'react-router-dom';
 
 class Account extends Component {
@@ -288,7 +290,11 @@ class Account extends Component {
     render() {
 
         if(!AuthService.getCurrentUser()) {
-            return "";
+            return <Error type="unauthorized" />;
+        }
+
+        if(!this.state.data.profile) {
+            return <LoadingPage />
         }
         
         let updateValidation; 

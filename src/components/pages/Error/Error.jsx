@@ -15,7 +15,7 @@ class Error extends Component {
                   <div style={{height: '90%', width: '100%'}} className="display-flex justify-content-center align-items-center">
                         <div>
                            <div style={{display: 'table', margin: '0 auto'}}><img style={{ maxWidth: 300 }} src={UnauthorizedIllustration} /></div>
-                           <div style={{fontWeight: 900, display: 'table', margin: '0 auto'}}><h3><b>Email has been Confirmed!</b></h3></div>
+                           <div style={{fontWeight: 900, display: 'table', margin: '0 auto'}}><h3><b>We could not identify you</b></h3></div>
                            <div className="appointment-sent-text">
                               You have to be signed in to do this action
                            </div>
@@ -34,7 +34,7 @@ class Error extends Component {
                            <div style={{display: 'table', margin: '0 auto'}}><img style={{ maxWidth: 300 }} src={UnauthorizedIllustration} /></div>
                            <div style={{fontWeight: 900, display: 'table', margin: '0 auto'}}><h3><b>Oops... Something went wrong</b></h3></div>
                            <div className="appointment-sent-text">
-                              Don't worry. It was from us. You can try this action again...
+                              Something wrong happened. You can try this action again...
                            </div>
                         </div>
                   </div>

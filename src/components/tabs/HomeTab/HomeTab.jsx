@@ -37,17 +37,21 @@ class HomeTab extends Component {
     }
 
     render() {
-        return (
-            <React.Fragment>
-                <SearchRecommendation />
-                <HomeBanners items={this.state.data["featureditems"]} />
-                <div className="panel-backdrop"></div>
-                <Sidebar />
-                <CategorySlider />
-                <ProductDisplaySlider title="Recommended for you" items={this.state.data["featureditems"]} label="Featured" />
-                <ProductContainerWithTab title="Recommended Items" items={this.state.data["recentitems"]} items2={this.state.data["freeitems"]} />
-            </React.Fragment>
-        );
+        if(this.state.data.length == 0) {
+            return "";
+        } else {
+            return (
+                <React.Fragment>
+                    <SearchRecommendation />
+                    <HomeBanners items={this.state.data["featureditems"]} />
+                    <div className="panel-backdrop"></div>
+                    <Sidebar />
+                    <CategorySlider />
+                    <ProductDisplaySlider title="Recommended for you" items={this.state.data["featureditems"]} label="Featured" />
+                    <ProductContainerWithTab title="Recommended Items" items={this.state.data["recentitems"]} items2={this.state.data["freeitems"]} />
+                </React.Fragment>
+            );
+        }
     }
 }
 

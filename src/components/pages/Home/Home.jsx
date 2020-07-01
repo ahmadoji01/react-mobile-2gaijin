@@ -4,8 +4,18 @@ import { Navbar, NavLeft, NavTitle, NavRight, Link, Page, PageContent, Searchbar
 import { Badge } from 'antd';
 import './Home.scss';
 import HomeTab from "../../tabs/HomeTab";
+
+
+import Sidebar from '../../elements/Sidebar';
+import HomeBanners from "../../elements/HomeBanners";
+import CategorySlider from "../../elements/CategorySlider";
+import ProductDisplaySlider from "../../elements/ProductDisplaySlider";
+import ProductContainerWithTab from "../../elements/ProductContainerWithTab/ProductContainerWithTab";
+import SearchRecommendation from "../../elements/SearchRecommendation";
 import AuthService from "../../../services/auth.service";
 import Toolbar from "../../elements/Toolbar";
+import LoadingPage from "../../pages/LoadingPage";
+
 import { ReactComponent as MessageIcon } from "../../icons/MessageIcon.svg";
 import { ReactComponent as NotifIcon } from "../../icons/NotificationIcon.svg";
 
@@ -19,6 +29,9 @@ class Home extends Component {
             refreshToken: false,
             notifRead: true,
             messageRead: true,
+            data: [],
+            windowWidth: window.innerWidth,
+            windowHeight: window.innerHeight,
         }
         this.searchClick = this.searchClick.bind(this);
         this.refreshingToken = this.refreshingToken.bind(this);
@@ -31,6 +44,16 @@ class Home extends Component {
             const refreshingToken = setInterval(this.refreshingToken, 720000);
         }
         this.setState({ refreshToken: true });
+
+        fetch('https://go.2gaijin.com/')
+        .then((response) => response.json())
+        .then((responseJson) => {
+            const jsonData = responseJson.data;
+            this.setState({ data: jsonData});
+        })
+        .catch((error) => {
+            console.error(error);
+        });
     }
 
     refreshingToken() {
@@ -57,6 +80,10 @@ class Home extends Component {
     searchClick() {
         this.searchInput.disable();
         this.$f7router.navigate('/search_history');
+    }
+
+    componentWillUnmount() {
+        this.setState({ data: [] });
     }
 
     render() {
@@ -97,31 +124,41 @@ class Home extends Component {
             messageIcon = <Badge dot><MessageIcon onClick={ () => this.setState({messageRead: true}) }  size="24px" /></Badge>;
         }
 
-        return (
-            <Page name="home" className="page page-home page-with-subnavbar hide-navbar-on-scroll">
-                <Navbar id="navbar-home" className="home-nav-large">
-                    <Subnavbar inner={false}>
-                        <Searchbar
-                        placeholder="try Fridge, Table"
-                        clearButton={true}
-                        ref={(input) => { this.searchInput = input; }}
-                        onSearchbarEnable={this.searchClick}
-                        ></Searchbar>
-                    </Subnavbar>
-                    <NavLeft>
-                        {title}
-                    </NavLeft>
-                    <NavRight>
-                        <Link href={notifLink}>{notifIcon}</Link>
-                        <Link href={chatLink}>{messageIcon}</Link>
-                    </NavRight>
-                </Navbar>
-                <PageContent>
-                    <Toolbar activeTab={1} />
-                    <HomeTab />
-                </PageContent>
-            </Page>
-        );    
+        if(this.state.data.length == 0) {
+            return (<LoadingPage />)
+        } else {
+            return (
+                <Page name="home" className="page page-home page-with-subnavbar hide-navbar-on-scroll">
+                    <Navbar id="navbar-home" className="home-nav-large">
+                        <Subnavbar inner={false}>
+                            <Searchbar
+                            placeholder="try Fridge, Table"
+                            clearButton={true}
+                            ref={(input) => { this.searchInput = input; }}
+                            onSearchbarEnable={this.searchClick}
+                            ></Searchbar>
+                        </Subnavbar>
+                        <NavLeft>
+                            {title}
+                        </NavLeft>
+                        <NavRight>
+                            <Link href={notifLink}>{notifIcon}</Link>
+                            <Link href={chatLink}>{messageIcon}</Link>
+                        </NavRight>
+                    </Navbar>
+                    <PageContent>
+                        <Toolbar activeTab={1} />
+                        <SearchRecommendation />
+                        <HomeBanners items={this.state.data["featureditems"]} />
+                        <div className="panel-backdrop"></div>
+                        <Sidebar />
+                        <CategorySlider />
+                        <ProductDisplaySlider title="Recommended for you" items={this.state.data["featureditems"]} label="Featured" />
+                        <ProductContainerWithTab title="Recommended Items" items={this.state.data["recentitems"]} items2={this.state.data["freeitems"]} />
+                    </PageContent>
+                </Page>
+            ); 
+        }   
     }
 }
 

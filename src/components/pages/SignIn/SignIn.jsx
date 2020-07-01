@@ -1,6 +1,9 @@
 import React, { Component } from "react";
 import { Page, LoginScreenTitle, List, ListInput, ListButton, BlockFooter } from "framework7-react";
 import AuthService from "../../../services/auth.service.js";
+import GoogleLogin from 'react-google-login';
+import FacebookLogin from 'react-facebook-login';
+import axios from "axios";
 
 class SignIn extends Component {
     constructor(props) {
@@ -11,6 +14,9 @@ class SignIn extends Component {
             password: '',
             redirectTo: "/",
         };
+
+        this.responseGoogle = this.responseGoogle.bind(this);
+        this.responseFacebook = this.responseFacebook.bind(this);
     }
 
     componentWillMount() {
@@ -53,11 +59,52 @@ class SignIn extends Component {
                     </List>
                     <List>
                         <ListButton onClick={this.handleLogin.bind(this)}>Sign In</ListButton>
+                        
+                    </List>
+                    <List>
+                        <GoogleLogin
+                            clientId="880692175404-smp8q2u85pehekh59lk2pj2n4t39u7ha.apps.googleusercontent.com"
+                            buttonText="Sign In with Google"
+                            onSuccess={this.responseGoogle}
+                            onFailure={this.responseGoogle}
+                            cookiePolicy={'single_host_origin'}
+                        />
+                        <FacebookLogin
+                            appId="1145298885643699"
+                            autoLoad={true}
+                            fields="name,email,picture"
+                            callback={this.responseFacebook} 
+                        />
+                    </List>
+                    <List>
                         <BlockFooter>Don't have an account? <a href="/register/">Sign Up</a></BlockFooter>
                     </List>
                 </div>
             </Page>
         )
+    }
+
+    responseGoogle = (response) => {
+        console.log(response);
+        if(typeof(response.accessToken) !== "undefined") {
+            var accessToken = response.accessToken;
+            AuthService.oauthLogin(accessToken).then(
+            response => {
+                if(!localStorage.getItem("access_token")) {
+                    console.log(response.message);
+                    this.setState({
+                        loading: false,
+                        message: response.message
+                    });
+                } else {
+                    this.$f7.views.main.router.navigate(this.state.redirectTo);
+                }
+            });
+        }
+    }
+
+    responseFacebook = (response) => {
+        console.log(response);
     }
 
     handleLogin(e) {

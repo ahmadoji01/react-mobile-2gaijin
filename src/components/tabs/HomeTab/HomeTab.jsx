@@ -6,7 +6,7 @@ import './HomeTab.scss';
 import ProductDisplaySlider from "../../elements/ProductDisplaySlider";
 import ProductDisplayContainer from "../../elements/ProductDisplayContainer";
 import ProductContainerInfinite from "../../elements/ProductContainerInfinite";
-import {Toolbar, Link} from 'framework7-react';
+import {Popup} from 'framework7-react';
 import ProductContainerWithTab from "../../elements/ProductContainerWithTab/ProductContainerWithTab";
 import SearchRecommendation from "../../elements/SearchRecommendation";
 import LoadingPage from "../../pages/LoadingPage";
@@ -38,21 +38,25 @@ class HomeTab extends Component {
     }
 
     render() {
+        var homeLoadingPopupOpened = false;
         if(this.state.data.length == 0) {
-            return <LoadingPage />;
-        } else {
-            return (
-                <React.Fragment>
-                    <SearchRecommendation />
-                    <HomeBanners items={this.state.data["featureditems"]} />
-                    <div className="panel-backdrop"></div>
-                    <Sidebar />
-                    <CategorySlider />
-                    <ProductDisplaySlider title="Recommended for you" items={this.state.data["featureditems"]} label="Featured" />
-                    <ProductContainerWithTab title="Recommended Items" items={this.state.data["recentitems"]} items2={this.state.data["freeitems"]} />
-                </React.Fragment>
-            );
+            homeLoadingPopupOpened = true;
         }
+
+        return (
+            <React.Fragment>
+                <SearchRecommendation />
+                <HomeBanners items={this.state.data["featureditems"]} />
+                <div className="panel-backdrop"></div>
+                <Sidebar />
+                <CategorySlider />
+                <ProductDisplaySlider title="Recommended for you" items={this.state.data["featureditems"]} label="Featured" />
+                <ProductContainerWithTab title="Recommended Items" items={this.state.data["recentitems"]} items2={this.state.data["freeitems"]} />
+                <Popup className="item-desc-popup" opened={homeLoadingPopupOpened}>
+                    <LoadingPage />
+                </Popup>
+            </React.Fragment>
+        );
     }
 }
 

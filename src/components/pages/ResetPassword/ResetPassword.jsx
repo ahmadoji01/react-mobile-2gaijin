@@ -4,7 +4,7 @@ import AuthService from "../../../services/auth.service.js";
 import GoogleLogin from 'react-google-login';
 import FacebookLogin from 'react-facebook-login';
 
-class SignIn extends Component {
+class ResetPassword extends Component {
     constructor(props) {
         super(props);
 
@@ -26,7 +26,7 @@ class SignIn extends Component {
     }
 
     redirect() {
-        this.$f7router.navigate(this.state.redirectTo);
+        window.location.href = this.state.redirectTo;
     }
 
     render() {
@@ -150,4 +150,4 @@ class SignIn extends Component {
     }
 }
 
-export default SignIn;
+export default ResetPassword;

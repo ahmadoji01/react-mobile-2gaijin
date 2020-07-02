@@ -1,18 +1,22 @@
 import React, { Component } from 'react';
 import ChatLobbyBar from '../../elements/ChatLobbyBar';
 import './ChatLobby.scss';
-import { Icon, Link, Navbar, NavLeft, Page, NavTitle } from "framework7-react";
+import { Block, Preloader, Icon, Link, Navbar, NavLeft, Page, NavTitle } from "framework7-react";
 import axios from "axios";
 import AuthService from "../../../services/auth.service";
+import EmptyPage from "../EmptyPage";
 
 class ChatLobby extends Component {
 
     state = {
-        data: []
+        data: [],
+        isLoading: false
     }
 
     componentDidMount() {
         var payload = {}
+
+        this.setState({ isLoading: true });
         return axios
         .post(`https://go.2gaijin.com/chat_lobby`, payload, { 
             headers: {
@@ -21,6 +25,7 @@ class ChatLobby extends Component {
             }
         })
         .then(response => {
+            this.setState({ isLoading: false });
             if(response.data.data){
                 this.setState({data: response.data.data.chat_lobby});
             }
@@ -41,6 +46,17 @@ class ChatLobby extends Component {
             });
         }
 
+        let loading; let emptyPage;
+        if(this.state.isLoading) {
+            loading = <Block className="text-align-center">
+                <Preloader color="orange"></Preloader>
+            </Block>;
+        } else {
+            if(this.state.data.length == 0) {
+                emptyPage = <EmptyPage title="You have no message" explanation="Any interactions with members of our community will go here" />
+            }
+        }
+
         return (
             <Page name="chat-lobby" className="page-chat-lobby">
                 <Navbar>
@@ -51,6 +67,8 @@ class ChatLobby extends Component {
                         Messages
                     </NavTitle>
                 </Navbar>
+                {loading}
+                {emptyPage}
                 <div className="list media-list">
                     <ul>
                         {items}

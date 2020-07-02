@@ -4,6 +4,7 @@ import Toolbar from "../../elements/Toolbar";
 import AuthService from '../../../services/auth.service';
 import GoldCoin from "../../illustrations/GoldCoin.svg";
 import SilverCoin from "../../illustrations/SilverCoin.svg";
+import { ReactComponent as PeaceOutline } from "../../icons/PeaceOutline.svg";
 import { Button, Popup, Navbar, NavLeft, NavRight, Link, NavTitle, List, ListInput, ListItem, BlockTitle, Col, Preloader, Block, TextEditor } from "framework7-react";
 import axios from "axios";
 
@@ -14,7 +15,10 @@ import CollectionIcon from "../../icons/CollectionIcon.svg";
 import HelpCenterIcon from "../../icons/HelpCenterIcon.svg";
 import Error from "../Error";
 import LoadingPage from "../LoadingPage";
+import SubscriptionPage from "../SubscriptionPage";
 import  { Redirect } from 'react-router-dom';
+
+import "./Account.scss";
 
 class Account extends Component {
 
@@ -42,6 +46,7 @@ class Account extends Component {
             isEmailConfirmLoading: false,
             confirmEmailStatus: "",
             isPhoneConfirmLoading: false,
+            isSubsPageOpened: false,
             confirmPhoneStatus: "",
         };
         this.handleLogin = this.handleLogin.bind(this);
@@ -58,6 +63,7 @@ class Account extends Component {
         this.onUpdateProfileButtonClick = this.onUpdateProfileButtonClick.bind(this);
         this.proposeEmailConfirmation = this.proposeEmailConfirmation.bind(this);
         this.proposePhoneConfirmation = this.proposePhoneConfirmation.bind(this);
+        this.createCalendar = this.createCalendar.bind(this);
     }
 
     handleLogin() {
@@ -177,18 +183,24 @@ class Account extends Component {
                 this.setState({ email: jsonData.profile.email });
                 this.setState({ phoneNumber: jsonData.profile.phone });
                 if(dob.getMonth()) {
-                    this.setState({ birthday: date })
+                    this.setState({ birthday: date }, this.createCalendar);
                 };
                 this.setState({ shortBio: jsonData.profile.short_bio });
             }
         });
     }
 
-    componentDidMount() {
+    createCalendar() {
+        var date = new Date()
+        if(typeof(this.state.birthday) !== "undefined") {
+            date = new Date(this.state.birthday);
+        }
+
         var calendarDateTime = this.$f7.calendar.create({
             inputEl: '#date-time-input',
             timePicker: false,
             footer: true,
+            value: [date]
         });
     }
     
@@ -292,12 +304,13 @@ class Account extends Component {
 
     render() {
 
-        if(!AuthService.getCurrentUser()) {
-            return <Error type="unauthorized" />;
+        var loadingPopupOpened = false;
+        if(!this.state.data.profile) {
+            loadingPopupOpened = true;
         }
 
-        if(!this.state.data.profile) {
-            return <LoadingPage />
+        if(!AuthService.getCurrentUser()) {
+            return <Error type="unauthorized" />;
         }
         
         let updateValidation; 
@@ -312,12 +325,13 @@ class Account extends Component {
             </Block>;
         }
 
-        let profileName, avatarURL, goldCoins, silverCoins, profileBanner, emailConfirmation, phoneConfirmation;
+        let profileName, avatarURL, subscribeBanner, goldCoins, silverCoins, profileBanner, emailConfirmation, phoneConfirmation, isSubscribed;
         if(this.state.data.profile) {
             avatarURL = this.state.data.profile.avatar_url;
             goldCoins = this.state.data.profile.gold_coin;
             silverCoins = this.state.data.profile.silver_coin;
             profileName = localStorage.getItem("first_name") + " " + localStorage.getItem("last_name");
+            isSubscribed = this.state.data.profile.is_subscribed;
 
             profileBanner = <div className="profile-container content-shadow" style={{ marginTop: -25 }}>
                 <div className="row" style={{marginTop: 10, padding: 20}}>
@@ -394,8 +408,32 @@ class Account extends Component {
                     </div>
                 </div>
             }
-        } else {
-            return <LoadingPage />;
+
+            if(!isSubscribed) {
+                subscribeBanner = <><div onClick={ () => this.setState({ isSubsPageOpened: true }) } style={{ marginTop: 20, marginBottom: 0, padding: 15, borderRadius: 8, backgroundColor: "#EF7132", color: "#EF7132" }}>
+                    <div className="row" style={{ paddingTop: 0, marginBottom: 0, paddingBottom: 0 }}>
+                        <div className="col-20">
+                            <div className="start-selling-btn-banner">
+                                <PeaceOutline className="start-selling-icon" />
+                            </div>
+                        </div>
+                        <div className="col-80" style={{ marginTop: 10 }}>
+                            <h6 style={{color: "#FFFFFF"}}>Become 2Gaijin Member</h6>
+                            <h6 style={{color: "#FFFFFF", opacity: 0.6}}>and start selling your items today</h6>
+                        </div>
+                    </div>
+                </div>
+                <div className="row" style={{ paddingTop: 0, marginBottom: 0, paddingBottom: 0 }}>
+                    <div className="col-100">
+                        <p style={{ fontSize: 10 }}>* Your items still present even after your subscription has ended</p>
+                    </div>
+                </div>
+                </>
+            } else {
+                subscribeBanner = <div style={{ padding: 10 }}>
+                    <Button className="general-btn" style={{color: '#fff'}} onClick={this.onButtonClick} raised fill round>+ Add New Product</Button>
+                </div>
+            }
         }
 
         return(
@@ -434,9 +472,7 @@ class Account extends Component {
                         {phoneConfirmation}
                         <BlockTitle>Collections</BlockTitle>
                         <List>
-                            <div style={{ padding: 10 }}>
-                                <Button className="general-btn" style={{color: '#fff'}} onClick={this.onButtonClick} raised fill round>+ Add New Product</Button>
-                            </div>
+                            {subscribeBanner}
                             <ListItem href="/collections" title="Your Collections" footer="View and manage all collections">
                                 <img src={CollectionIcon} slot="media" />
                             </ListItem>
@@ -529,6 +565,17 @@ class Account extends Component {
                                 />
                             </Block>
                         </Page>
+                    </Popup>
+                    <Popup className="item-desc-popup" opened={loadingPopupOpened}>
+                        <LoadingPage />
+                    </Popup>
+                    <Popup className="item-desc-popup" opened={this.state.isSubsPageOpened}>
+                        <Navbar>
+                            <NavRight>
+                                <Link popupClose onClick={ () => this.setState({ isSubsPageOpened: false }) }>X</Link>
+                            </NavRight>
+                        </Navbar>
+                        <SubscriptionPage />
                     </Popup>
                 </div>
             </Page>

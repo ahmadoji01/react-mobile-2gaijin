@@ -5,6 +5,12 @@
     box-shadow: 0;
 }
 
+.start-selling-text {
+    color: #EF7132;
+    position: fixed;
+    top: 36px;
+}
+
 .start-selling-btn {
     background-color: #EF7132;
     height: 64px;
@@ -13,13 +19,7 @@
     left: auto;
     position: fixed;
     border-radius: 50%;
-}
-
-.start-selling-text {
-    color: #EF7132;
-    position: fixed;
-    top: 36px;
-}
+  }
 
 .active-indicator {
     width: 17.5%;
@@ -33,10 +33,4 @@
 .tabbar-icon-svg {
     margin-top: 5px;
     color: grey;
-}
-
-.start-selling-icon {
-    position: relative;
-    top: 22%;
-    left: 22%;
 }

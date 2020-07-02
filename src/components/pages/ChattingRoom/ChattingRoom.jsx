@@ -94,6 +94,11 @@ class ChattingRoom extends Component {
             }
         }
 
+        let msgPlaceholder = "Type your message...";
+        if(this.state.messagesData.length == 0) {
+            msgPlaceholder = "Say hi..."
+        }
+
         return (
             <Page>
                 <div className="row sticky-container" style={{marginTop: 0, padding: 10}}>
@@ -110,7 +115,7 @@ class ChattingRoom extends Component {
                 </div>
         
                 <Messagebar
-                placeholder={this.placeholder}
+                placeholder={msgPlaceholder}
                 ref={(el) => {this.messagebarComponent = el}}
                 attachmentsVisible={this.attachmentsVisible}
                 sheetVisible={this.state.sheetVisible}
@@ -151,7 +156,7 @@ class ChattingRoom extends Component {
                 </MessagebarSheet>
                 </Messagebar>
                 
-                <Messages style={{ backgroundColor: "#F2F7FF", marginTop: "75px" }} scrollMessagesOnEdge ref={(el) => {this.messagesComponent = el}}>
+                <Messages style={{ backgroundColor: "#F2F7FF", paddingTop: "75px" }} scrollMessagesOnEdge ref={(el) => {this.messagesComponent = el}}>
                     {chatloading}
                     {this.state.messagesData.map((message, index) => (
                         <React.Fragment>
@@ -503,12 +508,8 @@ class ChattingRoom extends Component {
         .post(`https://go.2gaijin.com/insert_message`, messageToSend, config)
         .then(response => {
             if(response.data.status == "Success") {
-                var roomMsg = response.data.data.room_message;
-                self.setState(prevState => ({
-                    messagesData: [...self.state.messagesData, roomMsg]
-                }));
-                
-                self.sendMsgWs(JSON.stringify(messageToSend));
+                var roomMsg = response.data.data.room_message;      
+                self.sendMsgWs(JSON.stringify(roomMsg));
             }
         });
         
@@ -601,6 +602,9 @@ class ChattingRoom extends Component {
             } else {
                 receivedData.type = "received";
             }
+            var dataToSend = { "_id": receivedData._id };
+            let config = { headers: {'Authorization': localStorage.getItem("access_token"), "Content-Type": "application/json" }}
+            axios.post(`https://go.2gaijin.com/add_message_reader`, dataToSend, config);
             this.setState(prevState => ({
                 messagesData: [...this.state.messagesData, receivedData]
             }));

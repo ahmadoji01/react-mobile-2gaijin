@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import './Notification.scss';
-import { Icon, Link, Page, Popup, NavRight, Navbar, NavLeft, NavTitle } from 'framework7-react';
+import { Block, Preloader, Icon, Link, Page, Popup, NavRight, Navbar, NavLeft, NavTitle } from 'framework7-react';
 import axios from 'axios';
 import AppointmentConfirmationNotif from "../../elements/NotificationLists/AppointmentConfirmationNotif/AppointmentConfirmationNotif";
 import TrustCoinNotif from "../../elements/NotificationLists/TrustCoinNotif/TrustCoinNotif";
@@ -8,6 +8,7 @@ import TrustCoinSentNotif from '../../elements/NotificationLists/TrustCoinSentNo
 import Moment from 'react-moment';
 import moment from 'moment';
 import AuthService from '../../../services/auth.service';
+import EmptyPage from "../EmptyPage";
 
 class Notification extends Component {
 
@@ -89,6 +90,17 @@ class Notification extends Component {
             });
         }
 
+        let loading; let emptyPage;
+        if(this.state.isLoading) {
+            loading = <Block className="text-align-center">
+                <Preloader color="orange"></Preloader>
+            </Block>;
+        } else {
+            if(this.state.notifications.length == 0) {
+                emptyPage = <EmptyPage title="You have no notification" explanation="You have pretty much caught up with us!" />
+            }
+        }
+
         return (
             <Page>
                 <Navbar>
@@ -99,6 +111,8 @@ class Notification extends Component {
                 </Navbar>
                 <div className="notifi segments">
                     <div className="container">
+                        {loading}
+                        {emptyPage}
                         {notifItems}
                     </div>
                 </div>

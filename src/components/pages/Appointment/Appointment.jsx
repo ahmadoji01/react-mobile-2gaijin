@@ -12,6 +12,7 @@ import SwipeableViews from 'react-swipeable-views';
 import AppointmentContainer from '../../elements/AppointmentContainer/AppointmentContainer';
 import { blue } from '@material-ui/core/colors';
 import "./Appointment.scss";
+import EmptyPage from "../EmptyPage";
 import AuthService from '../../../services/auth.service';
 
 const styles = {
@@ -214,19 +215,30 @@ class Appointment extends Component {
             <AppointmentContainer items={this.state.finished2} type="buyer" /></React.Fragment>;
         }
 
-        let loading1;
+        let loading1; let emptyPage1;
         if(this.state.isLoading1) {
             loading1 = <Block className="text-align-center">
                 <Preloader color="orange"></Preloader>
             </Block>;
+        } else {
+            if(this.state.data.length == 0) {
+                emptyPage1 = <EmptyPage title="You have no appointment as seller" explanation="Any orders made by buyers of your item will go here" />
+            }
         }
 
-        let loading2;
+        let loading2; let emptyPage2;
         if(this.state.isLoading2) {
             loading2 = <Block className="text-align-center">
                 <Preloader color="orange"></Preloader>
             </Block>;
+        } else {
+            if(this.state.data2.length == 0) {
+                emptyPage2 = <EmptyPage title="You have no appointment as buyer" explanation="Browse items posted by our community and you can make appointment with seller" />
+            }
         }
+
+        
+        
 
         return(
             <Page name="appointment" className="page page-appointment">
@@ -245,6 +257,7 @@ class Appointment extends Component {
                     </div>
                     <SwipeableViews index={this.state.index} onChangeIndex={this.handleChangeIndex}>
                         <div style={Object.assign({}, styles.slide, styles.slide1)}>
+                            {emptyPage1}
                             {sellerContainer}
                             {sellerContainer2}
                             {sellerContainer3}
@@ -255,6 +268,7 @@ class Appointment extends Component {
                             </div>
                         </div>
                         <div style={Object.assign({}, styles.slide, styles.slide2)}>
+                            {emptyPage2}
                             {buyerContainer}
                             {buyerContainer2}
                             {buyerContainer3}

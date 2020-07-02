@@ -146,6 +146,24 @@ class AuthService {
         });
     }
 
+    resetPassword(email) {
+        var payload = {
+            "email": email,
+            "source": "mobile_web_app"
+        }
+
+        return axios.post(`https://go.2gaijin.com/reset_password`, {}, {
+            headers: {
+                "Content-Type": "application/json"
+            }
+        }).then(response => {
+            if(response.data["status"] == "Success") {
+                var jsonData = response.data.data;
+                localStorage.setItem("access_token", jsonData.token["auth_token"]); 
+            }
+        });
+    }
+
     getCurrentUser() {
         return localStorage.getItem("access_token");
     }

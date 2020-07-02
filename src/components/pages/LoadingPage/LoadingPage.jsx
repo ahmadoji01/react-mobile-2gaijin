@@ -10,9 +10,6 @@ class LoadingPage extends Component {
                     <div>
                         <div style={{display: 'table', margin: '0 auto'}}><img style={{ maxWidth: 300 }} src={LoadingIllustration} /></div>
                         <div style={{fontWeight: 900, display: 'table', margin: '0 auto'}}><h3><b>Loading...</b></h3></div>
-                        <div className="appointment-sent-text">
-                            
-                        </div>
                     </div>
                 </div>
             </Page>

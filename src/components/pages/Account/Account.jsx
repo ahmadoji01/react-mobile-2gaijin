@@ -210,7 +210,7 @@ class Account extends Component {
 
     onUpdateProfileButtonClick() {
         var calendarPicker = document.getElementById("date-time-input");
-        var meetingTime = new Date(calendarPicker.value).getTime();
+        var birthday = new Date(calendarPicker.value).getTime();
 
         var payload = {
             "first_name": this.state.firstName,
@@ -218,7 +218,7 @@ class Account extends Component {
             "phone": this.state.phoneNumber,
             "email": this.state.email,
             "short_bio": this.state.shortBio,
-            "date_of_birth": meetingTime
+            "date_of_birth": birthday
         }
         this.setState({ isLoading: true });
         
@@ -300,6 +300,12 @@ class Account extends Component {
                 this.setState({ confirmPhoneStatus: "error" });
             }
         });
+    }
+
+    componentWillUpdate() {
+        if(this.state.isSubsPageOpened) {
+            this.setState({ isSubsPageOpened: false });
+        }
     }
 
     render() {
@@ -522,7 +528,7 @@ class Account extends Component {
                                     <div className="item-inner">
                                         <div class="item-title item-label">Birthday</div>
                                         <div className="item-input-wrap">
-                                            <input type="text" value={this.state.birthday} placeholder="Select date and time" readOnly id="date-time-input"/>
+                                            <input type="text" value={this.state.birthday} onChange={this.onBirthdayChange} placeholder="Select your date of birth" readOnly id="date-time-input"/>
                                         </div>
                                     </div>
                                 </div>
@@ -566,7 +572,7 @@ class Account extends Component {
                             </Block>
                         </Page>
                     </Popup>
-                    <Popup className="item-desc-popup" opened={loadingPopupOpened}>
+                    <Popup className="item-desc-popup" opened={this.state.isLoading}>
                         <LoadingPage />
                     </Popup>
                     <Popup className="item-desc-popup" opened={this.state.isSubsPageOpened}>

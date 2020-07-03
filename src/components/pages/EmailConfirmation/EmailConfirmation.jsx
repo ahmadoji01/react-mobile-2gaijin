@@ -15,7 +15,7 @@ class EmailConfirmation extends Component {
     }
 
     backToHome() {
-        this.$f7router.navigate("/");
+        window.location.href = "/";
     }
 
     componentDidMount() {
@@ -64,7 +64,7 @@ class EmailConfirmation extends Component {
                             </div>
                         </div>
                         <div style={{height: '10%', width: '100%', padding: 5}}>
-                            <Button className="general-btn" href="/" style={{color: '#fff'}} raised fill round>Back to Home</Button>
+                            <Button className="general-btn" onClick={ this.backToHome } style={{color: '#fff'}} raised fill round>Back to Home</Button>
                         </div>
                     </Page>
                 </Popup>

@@ -21,42 +21,26 @@ class Home extends Component {
             messageRead: true,
         }
         this.searchClick = this.searchClick.bind(this);
-        this.refreshingToken = this.refreshingToken.bind(this);
-    }
-
-    componentDidMount() {
-        this.props.dispatch({ type: "SetRefresh" });
-        if(!this.props.isRefreshing) {
-            this.refreshingToken();
-            const refreshingToken = setInterval(this.refreshingToken, 720000);
-        }
-        this.setState({ refreshToken: true });
-    }
-
-    refreshingToken() {
-        var user = AuthService.getCurrentUser();
-        if(user) {
-            AuthService.refreshToken().then(
-            () => {
-                let config = {
-                    headers: {'Authorization': localStorage.getItem("access_token") },
-                };
-        
-                axios
-                .get(`https://go.2gaijin.com/check_notif_read`, config)
-                .then(res => {
-                    if(res.data){
-                        this.setState({ notifRead: res.data.data.notif_read });
-                        this.setState({ messageRead: res.data.data.message_read });
-                    }
-                });  
-            });
-        }
     }
 
     searchClick() {
         this.searchInput.disable();
         this.$f7router.navigate('/search_history');
+    }
+
+    componentDidMount() {
+        let config = {
+            headers: {'Authorization': localStorage.getItem("access_token") },
+        };
+        
+        axios
+        .get(`https://go.2gaijin.com/check_notif_read`, config)
+        .then(res => {
+            if(res.data){
+                this.setState({ notifRead: res.data.data.notif_read });
+                this.setState({ messageRead: res.data.data.message_read });
+            }
+        });  
     }
 
     render() {

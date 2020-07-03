@@ -1,9 +1,10 @@
 import React, { Component } from "react";
 import "./Collections.scss";
 import AuthService from "../../../services/auth.service.js";
-import { Col, Preloader, Sheet, PageContent, ListInput, Block, Button, Page, Navbar, NavLeft, NavRight, NavTitle, Subnavbar, Searchbar, Link, Icon, List, ListItem, Popover } from "framework7-react";
+import { Col, Popup, Preloader, Sheet, PageContent, ListInput, Block, Button, Page, Navbar, NavLeft, NavRight, NavTitle, Subnavbar, Searchbar, Link, Icon, List, ListItem, Popover } from "framework7-react";
 import axios from "axios";
 import SoldOutIcon from "../../icons/SoldOutIcon.svg";
+import LoadingPage from "../LoadingPage";
 
 class Collections extends Component {
 
@@ -17,6 +18,8 @@ class Collections extends Component {
             selectedPrice: 0,
             selectedIndex: 0,
             isPriceUpdated: false,
+            isLoading: false,
+            isLoadingPage: false,
         }
         this.onListItemClick = this.onListItemClick.bind(this);
         this.onPriceChange = this.onPriceChange.bind(this);
@@ -30,6 +33,7 @@ class Collections extends Component {
 
         if(user) {
             this.setState({isLoggedIn: true});
+            this.setState({isLoadingPage: true});
             axios.post(`https://go.2gaijin.com/profile`, {}, {
             headers: {
                 "Authorization": localStorage.getItem("access_token")
@@ -39,6 +43,7 @@ class Collections extends Component {
                     var jsonData = response.data.data;
                     var items = jsonData.posted_items;
                     this.setState({ data: items });
+                    this.setState({isLoadingPage: false});
                 }
             });
         } else {
@@ -213,6 +218,9 @@ class Collections extends Component {
                         </div>
                     </PageContent>
                 </Sheet>
+                <Popup className="item-desc-popup" opened={this.state.isLoadingPage}>
+                    <LoadingPage />
+                </Popup>
             </Page>
         );
     }

@@ -38,6 +38,10 @@ import ProfileForVisitor from "./components/pages/ProfileForVisitor/ProfileForVi
 import EmailConfirmation from "./components/pages/EmailConfirmation/EmailConfirmation";
 import PhoneConfirmation from "./components/pages/PhoneConfirmation/PhoneConfirmation";
 import Error from "./components/pages/Error/Error";
+import Payment from "./components/pages/Payment";
+
+import AuthService from "./services/auth.service.js";
+import axios from "axios";
 
 const f7params = {
   // Array with app routes
@@ -186,6 +190,10 @@ const f7params = {
       component: Collections,
     },
     {
+      path: '/payment/:months',
+      component: Payment,
+    },
+    {
       path: '/confirm_email/:email/:token',
       component: EmailConfirmation,
     },
@@ -224,6 +232,15 @@ function reducer(state = initialState, action) {
   }
 }
 const store = createStore(reducer);
+
+function refreshingToken() {
+  var user = AuthService.getCurrentUser();
+  if(user) {
+      AuthService.refreshToken();
+  }
+}
+const refreshToken = setInterval(refreshingToken(), 720000);
+
 export default () => (
   <Provider store={store}>
     <App params={f7params}>

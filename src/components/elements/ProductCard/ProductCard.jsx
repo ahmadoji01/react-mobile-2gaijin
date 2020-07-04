@@ -3,6 +3,7 @@ import "./ProductCard.scss";
 import { Link } from 'framework7-react';
 import SoldOutIcon from "../../icons/SoldOutIcon.svg";
 import PinIcon from "../../icons/PinIcon.svg";
+import { LazyLoadImage } from 'react-lazy-load-image-component';
 
 class ProductCard extends Component {
     
@@ -73,7 +74,12 @@ class ProductCard extends Component {
                 <Link href={`/product/${item["_id"]}`} className="product-card" style={{ width: `${this.props.cardWidth}px`}} >
                     <div className="content content-shadow-product">
                         {soldOut}
-                        <div className="image-container" style={{backgroundImage: `url(${item["img_url"]})`, width: `${this.props.cardWidth}px`}}></div>
+                        <LazyLoadImage
+                            style={{ objectFit: "cover", display: "block", marginLeft: "auto", marginRight: "auto", width: `${this.props.cardWidth}px` }}
+                            alt={"Product Image"}
+                            height={this.props.cardWidth}
+                            src={item["img_url"]} // use normal <img> attributes as props
+                            width={this.props.cardWidth} />
                         <div className="text">
                             <p className="title-product">{item.name}</p>
                             <p className="location">by {item.seller_name}</p>

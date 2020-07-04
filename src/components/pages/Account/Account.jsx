@@ -47,6 +47,7 @@ class Account extends Component {
             confirmEmailStatus: "",
             isPhoneConfirmLoading: false,
             isSubsPageOpened: false,
+            isLoadingPageOpen: false,
             confirmPhoneStatus: "",
         };
         this.handleLogin = this.handleLogin.bind(this);
@@ -166,11 +167,13 @@ class Account extends Component {
             this.setState({isLoggedIn: false});
         }
 
+        this.setState({ isLoadingPageOpen: true });
         axios.post(`https://go.2gaijin.com/get_profile_info`, {}, {
         headers: {
             "Authorization": localStorage.getItem("access_token")
         }
         }).then(response => {
+            this.setState({ isLoadingPageOpen: false });
             if(response.data["status"] == "Success") {
                 var jsonData = response.data.data;
                 var dob = new Date(jsonData.profile.date_of_birth);
@@ -572,7 +575,7 @@ class Account extends Component {
                             </Block>
                         </Page>
                     </Popup>
-                    <Popup className="item-desc-popup" opened={this.state.isLoading}>
+                    <Popup className="item-desc-popup" opened={this.state.isLoadingPageOpen}>
                         <LoadingPage />
                     </Popup>
                     <Popup className="item-desc-popup" opened={this.state.isSubsPageOpened}>

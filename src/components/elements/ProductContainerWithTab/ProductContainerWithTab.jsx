@@ -82,7 +82,8 @@ class ProductContainerWithTab extends Component {
           params: {
             start: this.state.startitems1,
             limit: this.state.limititems1,
-            sortby: "newest"
+            sortby: "newest",
+            status: "available"
           }
       }  
 
@@ -111,7 +112,8 @@ class ProductContainerWithTab extends Component {
         params: {
           start: this.state.startitems2,
           limit: this.state.limititems2,
-          pricemax: 0
+          pricemax: 0,
+          status: "available"
         }
       }
       
@@ -171,7 +173,8 @@ class ProductContainerWithTab extends Component {
           params: {
             start: lastItems + 1,
             limit: lastItems + 8,
-            sortby: "newest"
+            sortby: "newest",
+            status: "available"
           }
         }
         axios
@@ -193,7 +196,8 @@ class ProductContainerWithTab extends Component {
           params: {
             start: lastItems + 1,
             limit: lastItems + 8,
-            pricemax: 0
+            pricemax: 0,
+            status: "available"
           }
         }
         axios

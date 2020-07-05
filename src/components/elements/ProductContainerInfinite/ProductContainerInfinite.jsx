@@ -46,12 +46,7 @@ class ProductContainerInfinite extends Component {
             this.findCoordinates();
             var currLat = this.state.currLat; var currLng = this.state.currLng;
             var cardHeight = this.state.cardHeight; var cardWidth = this.state.cardWidth;
-
             var items = this.props.items;
-            items = items.map(function(item, i) {
-                return <div key={i+1}><ProductCard item={item} lat={currLat} lng={currLng} cardWidth={cardWidth} cardHeight={cardHeight} /></div>
-            });
-            
             return(
                 <div className="recommended product segments-bottom">
                     <div className="section-title">
@@ -62,7 +57,9 @@ class ProductContainerInfinite extends Component {
                             breakpointCols={2}
                             className="my-masonry-grid"
                             columnClassName="my-masonry-grid_column">
-                            {items}
+                            {items.map(function(item, i) {
+                                return <div key={i+1}><ProductCard item={item} lat={currLat} lng={currLng} cardWidth={cardWidth} cardHeight={cardHeight} /></div>
+                            })}
                         </Masonry>
                     </div>
                 </div>

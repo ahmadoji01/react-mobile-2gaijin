@@ -236,7 +236,7 @@ const store = createStore(reducer);
 function refreshingToken() {
   var user = AuthService.getCurrentUser();
   if(user) {
-      AuthService.refreshToken().then(res => {console.log(res)});
+      AuthService.refreshToken();
   }
 }
 const refreshToken = setInterval(refreshingToken(), 720000);

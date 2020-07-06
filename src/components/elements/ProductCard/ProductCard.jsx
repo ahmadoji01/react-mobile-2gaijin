@@ -71,7 +71,7 @@ class ProductCard extends Component {
             }
 
             return(
-                <Link href={`/product/${item["_id"]}`} className="product-card" style={{ width: `${this.props.cardWidth}px`}} >
+                <Link href={`/product/${item["_id"]}`} className="product-card" style={{ width: `${this.state.cardWidth}px`}} >
                     <div className="content content-shadow-product">
                         {soldOut}
                         <VizSensor
@@ -80,7 +80,7 @@ class ProductCard extends Component {
                             this.setState({imgViz: isVisible})
                             }}
                         >
-                            <div className="image-container" style={{backgroundImage: `url(${item["img_url"]})`, width: `${this.props.cardWidth}px`}}></div>
+                            <div className="image-container" style={{backgroundImage: `url(${item["img_url"]})`, width: `${this.state.cardWidth}px`}}></div>
                         </VizSensor>
                         <div className="text">
                             <p className="title-product">{item.name}</p>

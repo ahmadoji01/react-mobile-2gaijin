@@ -58,7 +58,7 @@ class ProductContainerInfinite extends Component {
                             className="my-masonry-grid"
                             columnClassName="my-masonry-grid_column">
                             {items.map(function(item, i) {
-                                return <div key={i+1}><ProductCard item={item} lat={currLat} lng={currLng} cardWidth={cardWidth} cardHeight={cardHeight} /></div>
+                                return <ProductCard item={item} lat={currLat} lng={currLng} cardWidth={cardWidth} cardHeight={cardHeight} />
                             })}
                         </Masonry>
                     </div>

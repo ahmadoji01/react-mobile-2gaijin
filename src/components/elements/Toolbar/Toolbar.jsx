@@ -67,11 +67,11 @@ class Toolbar extends Component {
                         </a>
                         <a href="/" className="tab-link" data-animate="false">
                             {firstIcon}
-                            <span className="tabbar-label label-active">Storefront</span>
+                            <span className="tabbar-label label-active">Home</span>
                         </a>
                         <a href={appointmentLink} className="tab-link" data-animate="false">
                             {secondIcon}
-                            <span className="tabbar-label label-active" >Appointment</span>
+                            <span className="tabbar-label label-active" >Transaction</span>
                         </a>
                         <a href={accountLink} className="tab-link" data-animate="false">
                             {thirdIcon}

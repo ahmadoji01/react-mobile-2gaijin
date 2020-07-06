@@ -180,9 +180,9 @@ class ProductContainerWithTab extends Component {
         axios
         .get(`https://go.2gaijin.com/search`, config)
         .then(res => {
-          var items1 = this.state.items1;
-          items1.push(...res.data.data.items);
-          this.setState({ items1: items1 });
+          this.setState(state => ({
+            items1: state.items1.concat(res.data.data.items)
+          }));
           this.setState({ isLoading1: false });
         });  
       } else if(this.state.searchState == "freeitems") {
@@ -205,9 +205,9 @@ class ProductContainerWithTab extends Component {
         axios
         .get(`https://go.2gaijin.com/search`, config)
         .then(res => {
-          var items2 = this.state.items2;
-          items2.push(...res.data.data.items);
-          this.setState({ items2: items2 });
+          this.setState(state => ({
+            items2: state.items2.concat(res.data.data.items)
+          }));
           this.setState({ isLoading2: false });
         });  
       }

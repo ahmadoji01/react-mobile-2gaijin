@@ -1,10 +1,9 @@
 import React, { Component } from 'react';
 import "./ProductContainerInfinite.scss";
-import { NavLink } from 'react-router-dom';
 import ProductCard from '../ProductCard';
 import Masonry from 'react-masonry-css';
-import { Toolbar, Link } from 'framework7-react';
 import { geolocated } from 'react-geolocated';
+import shortid from  "shortid";
 
 class ProductContainerInfinite extends Component {
 
@@ -58,7 +57,7 @@ class ProductContainerInfinite extends Component {
                             className="my-masonry-grid"
                             columnClassName="my-masonry-grid_column">
                             {items.map(function(item, i) {
-                                return <ProductCard item={item} lat={currLat} lng={currLng} cardWidth={cardWidth} cardHeight={cardHeight} />
+                                return <ProductCard key={shortid.generate()} item={item} lat={currLat} lng={currLng} cardWidth={cardWidth} cardHeight={cardHeight} />
                             })}
                         </Masonry>
                     </div>

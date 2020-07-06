@@ -3,7 +3,6 @@ import "./ProductCard.scss";
 import { Link } from 'framework7-react';
 import SoldOutIcon from "../../icons/SoldOutIcon.svg";
 import PinIcon from "../../icons/PinIcon.svg";
-import VizSensor from 'react-visibility-sensor';
 
 class ProductCard extends Component {
     
@@ -74,14 +73,7 @@ class ProductCard extends Component {
                 <Link href={`/product/${item["_id"]}`} className="product-card" style={{ width: `${this.state.cardWidth}px`}} >
                     <div className="content content-shadow-product">
                         {soldOut}
-                        <VizSensor
-                            partialVisibility
-                            onChange={(isVisible) => {
-                            this.setState({imgViz: isVisible})
-                            }}
-                        >
-                            <div className="image-container" style={{backgroundImage: `url(${item["img_url"]})`, width: `${this.state.cardWidth}px`}}></div>
-                        </VizSensor>
+                        <div className="image-container" style={{backgroundImage: `url(${item["img_url"]})`, width: `${this.state.cardWidth}px`}}></div>
                         <div className="text">
                             <p className="title-product">{item.name}</p>
                             <p className="location">by {item.seller_name}</p>

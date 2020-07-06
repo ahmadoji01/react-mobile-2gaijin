@@ -1,9 +1,8 @@
 import React, { Fragment, Component } from 'react';
-import { Page, Navbar, NavLeft, List, ListInput, Tab, Tabs, Button, ListItem, TextEditor, Popup, Block, NavRight, Subnavbar, Link, Icon, Searchbar, NavTitle } from 'framework7-react';
+import { Page, Navbar, NavLeft, Button, Popup, NavRight, Link, Icon, NavTitle } from 'framework7-react';
 import parse from 'html-react-parser';
 import "./AddProductPage3.scss";
 import Cropper from 'react-easy-crop';
-import Slider from '@material-ui/core/Slider';
 import { getCroppedImg, resizeImg } from '../../../services/imageprocessing';
 
 const imagesLimit = 8;

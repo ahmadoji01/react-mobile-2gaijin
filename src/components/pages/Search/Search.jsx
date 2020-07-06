@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import ProductContainerInfinite from '../../elements/ProductContainerInfinite';
 import { BlockTitle, Preloader, Range, Page, Navbar, NavLeft, Link, List, ListItem, Icon, Subnavbar, Fab, Block, Popup, NavTitle, NavRight, Searchbar } from 'framework7-react';
 import axios from "axios";
-import 'antd/dist/antd.css';
 import "./Search.scss";
 import { ReactComponent as FilterIcon } from "../../icons/FilterIcon.svg";
 import SearchCategoryOptions from "../../elements/SearchCategoryOptions";

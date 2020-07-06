@@ -1,9 +1,8 @@
 import React, { Component } from 'react';
 import "./HomeBanners.scss";
-import { Swiper, SwiperSlide } from 'framework7-react';
 import FullWidthCard from '../FullWidthCard/FullWidthCard';
-import AutcompleteComponent from 'framework7/components/autocomplete/autocomplete';
 import { geolocated } from 'react-geolocated';
+import shortid from "shortid";
 
 class HomeBanners extends Component {
     constructor(props) {
@@ -48,7 +47,7 @@ class HomeBanners extends Component {
                     <div className="container" style={{display: 'flex', flexWrap: "nowrap", overflow: "auto"}}>
                         { this.props.items.map(function (item, i) {
                             return (
-                                <FullWidthCard item={item} lat={currLat} lng={currLng} style={{flex: '0 0 auto'}} />
+                                <FullWidthCard key={shortid.generate()} item={item} lat={currLat} lng={currLng} style={{flex: '0 0 auto'}} />
                             );
                         })}
                     </div>

@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
 import Home from './components/pages/Home';
-import ChatRoom from './components/pages/ChatRoom';
 import ChatLobby from './components/pages/ChatLobby';
 import ProductDetail from './components/pages/ProductDetail';
 import Notification from './components/pages/Notification';

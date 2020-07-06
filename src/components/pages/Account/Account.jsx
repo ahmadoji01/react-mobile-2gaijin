@@ -5,7 +5,7 @@ import AuthService from '../../../services/auth.service';
 import GoldCoin from "../../illustrations/GoldCoin.svg";
 import SilverCoin from "../../illustrations/SilverCoin.svg";
 import { ReactComponent as PeaceOutline } from "../../icons/PeaceOutline.svg";
-import { Button, Popup, Navbar, NavLeft, NavRight, Link, NavTitle, List, ListInput, ListItem, BlockTitle, Col, Preloader, Block, TextEditor } from "framework7-react";
+import { Button, Popup, Navbar, NavLeft, NavRight, Link, NavTitle, List, ListInput, ListItem, BlockTitle, Preloader, Block, TextEditor } from "framework7-react";
 import axios from "axios";
 
 import { getCroppedImg, resizeImg } from '../../../services/imageprocessing';
@@ -16,7 +16,6 @@ import HelpCenterIcon from "../../icons/HelpCenterIcon.svg";
 import Error from "../Error";
 import LoadingPage from "../LoadingPage";
 import SubscriptionPage from "../SubscriptionPage";
-import  { Redirect } from 'react-router-dom';
 import Moment from "react-moment";
 
 import "./Account.scss";

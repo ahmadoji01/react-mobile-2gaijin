@@ -1,10 +1,9 @@
 import React, { Component } from 'react';
 import "./ProductDisplaySlider.scss";
-import { NavLink } from 'react-router-dom';
 import ProductCard from '../ProductCard';
-import SmallProductCard from '../SmallProductCard';
 import { Swiper, SwiperSlide } from 'framework7-react';
 import { geolocated } from 'react-geolocated';
+import shortid from  "shortid";
 
 class ProductDisplaySlider extends Component {
 
@@ -61,8 +60,8 @@ class ProductDisplaySlider extends Component {
                             <Swiper params={{speed:500, slidesPerView: 2, spaceBetween: 10}}>
                                 { this.props.items.map(function (item, i) {
                                     return (
-                                        <SwiperSlide className="product-swiper" key={i}>
-                                            <div key={i}><ProductCard item={item} lat={currLat} lng={currLng} cardWidth={cardWidth} cardHeight={cardHeight} /></div>
+                                        <SwiperSlide className="product-swiper" key={shortid.generate()}>
+                                            <div key={shortid.generate()}><ProductCard item={item} lat={currLat} lng={currLng} cardWidth={cardWidth} cardHeight={cardHeight} /></div>
                                         </SwiperSlide>
                                     );
                                 })}

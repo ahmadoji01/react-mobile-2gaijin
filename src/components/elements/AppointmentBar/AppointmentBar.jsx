@@ -1,12 +1,10 @@
 import React, { Component } from 'react';
 import './AppointmentBar.scss';
 import { geolocated } from 'react-geolocated';
-import { Block, Button, Link, Sheet, PageContent, Col, Preloader } from "framework7-react";
+import { Button, Link, Sheet, PageContent, Col, Preloader } from "framework7-react";
 import ProductCardHorizontal from '../ProductCardHorizontal';
 import Moment from 'react-moment';
 import axios from 'axios';
-import DateFnsUtils from '@date-io/date-fns';
-import { KeyboardDateTimePicker, MuiPickersUtilsProvider } from "@material-ui/pickers";
 
 class AppointmentBar extends Component {
     

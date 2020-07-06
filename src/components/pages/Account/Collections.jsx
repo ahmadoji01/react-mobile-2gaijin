@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import "./Collections.scss";
 import AuthService from "../../../services/auth.service.js";
-import { Col, Popup, Preloader, Sheet, PageContent, ListInput, Block, Button, Page, Navbar, NavLeft, NavRight, NavTitle, Subnavbar, Searchbar, Link, Icon, List, ListItem, Popover } from "framework7-react";
+import { Col, Popup, Preloader, Sheet, PageContent, ListInput, Button, Page, Navbar, NavLeft, NavRight, NavTitle, Subnavbar, Searchbar, Link, Icon, List, ListItem, Popover } from "framework7-react";
 import axios from "axios";
 import SoldOutIcon from "../../icons/SoldOutIcon.svg";
 import LoadingPage from "../LoadingPage";

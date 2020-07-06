@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Block, BlockTitle, Button, Page, PageContent, Navbar, NavLeft, List, ListItem, NavRight, Subnavbar, Treeview, TreeviewItem, Link, Icon, Searchbar, NavTitle } from 'framework7-react';
+import { Block, Button, Page, Navbar, NavLeft, Treeview, TreeviewItem, Link, Icon, NavTitle } from 'framework7-react';
 import axios from "axios";
 
 class CategoryListSelect extends Component {

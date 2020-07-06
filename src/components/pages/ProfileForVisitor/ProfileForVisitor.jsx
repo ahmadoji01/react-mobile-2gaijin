@@ -6,7 +6,6 @@ import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
 import { orange, red, blue } from '@material-ui/core/colors';
 import ProductContainerInfinite from '../../elements/ProductContainerInfinite';
-import Sticky from 'react-sticky-el';
 
 import GoldCoin from "../../illustrations/GoldCoin.svg";
 import SilverCoin from "../../illustrations/SilverCoin.svg";

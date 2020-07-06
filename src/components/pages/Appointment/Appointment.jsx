@@ -1,16 +1,13 @@
 import React, { Component } from 'react';
 import ProductContainerInfinite from '../../elements/ProductContainerInfinite';
-import { Page, PageContent, Navbar, Preloader, NavLeft, Link, Icon, Subnavbar, Block, Segmented, Button, NavTitle, Searchbar } from 'framework7-react';
+import { Page, PageContent, Navbar, Preloader, Block, NavTitle } from 'framework7-react';
 import axios from "axios";
 import Toolbar from "../../elements/Toolbar";
 import AppointmentBar from '../../elements/AppointmentBar';
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
-import MenuItem from '@material-ui/core/MenuItem';
-import Select from '@material-ui/core/Select';
 import SwipeableViews from 'react-swipeable-views';
 import AppointmentContainer from '../../elements/AppointmentContainer/AppointmentContainer';
-import { blue } from '@material-ui/core/colors';
 import "./Appointment.scss";
 import EmptyPage from "../EmptyPage";
 import AuthService from '../../../services/auth.service';

@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Page, PageContent, Popup, Navbar, NavLeft, List, ListItem, NavRight, Subnavbar, Link, Icon, Searchbar, NavTitle } from 'framework7-react';
+import { Page, Popup, Navbar, NavLeft, Link, Icon, NavTitle } from 'framework7-react';
 import axios from "axios";
 import apparels from "../../illustrations/Apparels.png";
 import books from "../../illustrations/Books.png";

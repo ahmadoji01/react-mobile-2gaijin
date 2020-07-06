@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
-import { Page, Navbar, NavLeft, List, ListInput, Tab, Tabs, Button, ListItem, TextEditor, Popup, Block, NavRight, Subnavbar, Link, Icon, Searchbar, NavTitle } from 'framework7-react';
-import parse from 'html-react-parser';
+import { Page, Navbar, NavLeft, List, ListInput, Button, Popup, NavRight, Link, Icon, NavTitle } from 'framework7-react';
 import "./AddProductPage2.scss";
 import MapContainer from "../../elements/MapContainer/MapContainer";
 

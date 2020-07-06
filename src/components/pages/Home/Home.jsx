@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { connect } from 'react-redux';
 import { Navbar, NavLeft, NavTitle, NavRight, Link, Page, PageContent, Searchbar, Subnavbar, Block, NavTitleLarge } from 'framework7-react';
-import { Badge } from 'antd';
+import Badge from '@material-ui/core/Badge';
 import './Home.scss';
 import HomeTab from "../../tabs/HomeTab";
 import AuthService from "../../../services/auth.service";
@@ -68,19 +68,6 @@ class Home extends Component {
             title = <p className="nav-title-large">What stuff can we<br/> <b>help you find?</b></p>
         }
 
-        let notifIcon, messageIcon;
-        if(this.state.notifRead) {
-            notifIcon = <NotifIcon size="24px" />;
-        } else {
-            notifIcon = <Badge dot><NotifIcon onClick={ () => this.setState({notifRead: true}) }  size="24px" /></Badge>;
-        }
-
-        if(this.state.messageRead) {
-            messageIcon = <MessageIcon size="24px" />;
-        } else {
-            messageIcon = <Badge dot><MessageIcon onClick={ () => this.setState({messageRead: true}) }  size="24px" /></Badge>;
-        }
-
         return (
             <Page name="home" className="page page-home page-with-subnavbar hide-navbar-on-scroll">
                 <Navbar id="navbar-home" className="home-nav-large">
@@ -96,8 +83,12 @@ class Home extends Component {
                         {title}
                     </NavLeft>
                     <NavRight>
-                        <Link href={notifLink}>{notifIcon}</Link>
-                        <Link href={chatLink}>{messageIcon}</Link>
+                        <Link href={notifLink}>
+                            <Badge color="secondary" variant="dot" invisible={this.state.notifRead}><NotifIcon onClick={ () => this.setState({notifRead: true}) }  size="24px" /></Badge>
+                        </Link>
+                        <Link href={chatLink}>
+                            <Badge color="secondary" variant="dot" invisible={this.state.messageRead}><MessageIcon onClick={ () => this.setState({messageRead: true}) }  size="24px" /></Badge>
+                        </Link>
                     </NavRight>
                 </Navbar>
                 <PageContent>

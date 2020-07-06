@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import { ReactSVG } from 'react-svg';
 import './MakeAppointment.scss';
 import { Icon, Link, Page, Navbar, NavLeft, NavTitle, Button, Popup } from 'framework7-react';
 import ProductCardHorizontal from '../../elements/ProductCardHorizontal/ProductCardHorizontal';

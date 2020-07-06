@@ -64,7 +64,7 @@ class Search extends Component {
         searchTerm +
         "&category=" + categorySearch +
         "&status=" + status + 
-        "&sortby=newest" + 
+        "&sortby=relevance" + 
         "&start=1&limit=8", {}, {})
         .then(response => {
             var fetchData = response.data.data.items;

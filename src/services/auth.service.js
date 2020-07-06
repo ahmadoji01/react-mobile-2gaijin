@@ -22,6 +22,7 @@ class AuthService {
                 localStorage.setItem("first_name", data.first_name);
                 localStorage.setItem("last_name", data.last_name);
                 localStorage.setItem("email", data.email);
+                localStorage.setItem("phone", data.phone);
                 localStorage.setItem("access_token", data.authentication_token);
                 localStorage.setItem("refresh_token", data.refresh_token);
                 return data;
@@ -50,6 +51,7 @@ class AuthService {
                 localStorage.setItem("first_name", data.first_name);
                 localStorage.setItem("last_name", data.last_name);
                 localStorage.setItem("email", data.email);
+                localStorage.setItem("phone", data.phone);
                 localStorage.setItem("access_token", data.authentication_token);
                 localStorage.setItem("refresh_token", data.refresh_token);
                 return data;
@@ -79,6 +81,7 @@ class AuthService {
                 localStorage.setItem("first_name", data.first_name);
                 localStorage.setItem("last_name", data.last_name);
                 localStorage.setItem("email", data.email);
+                localStorage.setItem("phone", data.phone);
                 localStorage.setItem("access_token", data.authentication_token);
                 localStorage.setItem("refresh_token", data.refresh_token);
                 return data;
@@ -100,6 +103,7 @@ class AuthService {
             localStorage.removeItem("first_name");
             localStorage.removeItem("last_name");
             localStorage.removeItem("email");
+            localStorage.removeItem("phone");
             localStorage.removeItem("access_token");
             localStorage.removeItem("refresh_token");
         });
@@ -125,6 +129,7 @@ class AuthService {
                     localStorage.setItem("first_name", data.first_name);
                     localStorage.setItem("last_name", data.last_name);
                     localStorage.setItem("email", data.email);
+                    localStorage.setItem("phone", data.phone);
                     localStorage.setItem("access_token", data.authentication_token);
                     localStorage.setItem("refresh_token", data.refresh_token);
                 }

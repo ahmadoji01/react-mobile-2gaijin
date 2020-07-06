@@ -193,7 +193,7 @@ class ProductDetail extends Component {
             if(currentUser != sellerInfo._id) {
                 chatBtn = <Button raised fill className="chat-button" onClick={this.handleChat}>Chat</Button>;
                 if(availability == "available") {
-                    appointmentBtn = <Button popoverOpen=".popover-appointment" raised fill className="appointment-button">Make Appointment</Button>;
+                    appointmentBtn = <Button popoverOpen=".popover-appointment" raised fill className="appointment-button">Request to Buy</Button>;
                 } else {
                     appointmentBtn = <Button raised fill className="sold-out-button" style={{color: "#565656"}}>Item Sold Out</Button>;
                 }
@@ -228,7 +228,6 @@ class ProductDetail extends Component {
                 <Toolbar id="toolbar-product-detail" tabbar labels position='bottom'>
                     <div className="toolbar-price">¥{price}</div>
                     <div className="toolbar-actions">
-                        {chatBtn}
                         {appointmentBtn}
                     </div>
                 </Toolbar>

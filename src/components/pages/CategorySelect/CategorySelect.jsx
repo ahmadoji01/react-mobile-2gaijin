@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Page, PageContent, Navbar, NavLeft, List, ListItem, NavRight, Subnavbar, Link, Icon, Searchbar, NavTitle } from 'framework7-react';
+import { Page, PageContent, Popup, Navbar, NavLeft, List, ListItem, NavRight, Subnavbar, Link, Icon, Searchbar, NavTitle } from 'framework7-react';
 import axios from "axios";
 import apparels from "../../illustrations/Apparels.png";
 import books from "../../illustrations/Books.png";
@@ -12,15 +12,41 @@ import vehicles from "../../illustrations/Vehicles.png";
 import whiteapp from "../../illustrations/WhiteApp.png";
 import misc from "../../illustrations/Misc.png";
 import AuthService from "../../../services/auth.service.js";
+import SubscriptionPage from "../SubscriptionPage";
 
 class CategorySelect extends Component {
 
     constructor(props) {
         super(props);
         this.state = {
-            searchterm: ""
+            searchterm: "",
+            isSubsPageOpened: false,
+            isError: false,
         };
         this.onListClick = this.onListClick.bind(this);
+    }
+
+    componentWillMount() {
+        let config = {
+            headers: {'Authorization': localStorage.getItem("access_token") },
+        }
+
+        return axios
+        .get(`https://go.2gaijin.com/get_subscription_status`, config)
+        .then(response => {
+            if(response.data.status == "Success") {
+                var isSubscribed = response.data.data.is_subscribed;
+                this.setState({ isSubsPageOpened: !isSubscribed });
+            } else {
+                this.setState({ isError: true });
+            }
+        });
+    }
+
+    componentWillUpdate() {
+        if(this.state.isSubsPageOpened) {
+            this.setState({ isSubsPageOpened: false });
+        }
     }
     
     onListClick(itemName) {
@@ -84,6 +110,14 @@ class CategorySelect extends Component {
                         </div>
                     </div>
                 </div>
+                <Popup className="item-desc-popup" opened={this.state.isSubsPageOpened}>
+                    <Navbar>
+                        <NavLeft>
+                            <Link href="/" popupClose><Icon f7="arrow_left_circle_fill" size="24px" color="black"></Icon></Link>
+                        </NavLeft>
+                    </Navbar>
+                    <SubscriptionPage />
+                </Popup>
             </Page>
         );
     }

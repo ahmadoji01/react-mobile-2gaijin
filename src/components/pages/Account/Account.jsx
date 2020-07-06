@@ -17,6 +17,7 @@ import Error from "../Error";
 import LoadingPage from "../LoadingPage";
 import SubscriptionPage from "../SubscriptionPage";
 import  { Redirect } from 'react-router-dom';
+import Moment from "react-moment";
 
 import "./Account.scss";
 
@@ -334,7 +335,7 @@ class Account extends Component {
             </Block>;
         }
 
-        let profileName, avatarURL, subscribeBanner, goldCoins, silverCoins, profileBanner, emailConfirmation, phoneConfirmation, isSubscribed;
+        let subsExpiry, profileName, avatarURL, subscribeBanner, goldCoins, silverCoins, profileBanner, emailConfirmation, phoneConfirmation, isSubscribed;
         if(this.state.data.profile) {
             avatarURL = this.state.data.profile.avatar_url;
             goldCoins = this.state.data.profile.gold_coin;
@@ -439,8 +440,14 @@ class Account extends Component {
                 </div>
                 </>
             } else {
-                subscribeBanner = <div style={{ padding: 10 }}>
-                    <Button className="general-btn" style={{color: '#fff'}} onClick={this.onButtonClick} raised fill round>+ Add New Product</Button>
+                subsExpiry = this.state.data.profile.subs_expiry_date;
+                subscribeBanner = <div className="row" style={{ paddingBottom: 0, marginBottom: 0 }}>
+                    <div className="col-100">
+                        <Button className="general-btn" style={{color: '#fff'}} onClick={this.onButtonClick} raised fill round>+ Add New Product</Button>
+                    </div>
+                    <div className="col-100">
+                        <p style={{ fontSize: 14 }}>Subscribed until <Moment format="YYYY-MM-DD">{subsExpiry}</Moment></p>
+                    </div>
                 </div>
             }
         }

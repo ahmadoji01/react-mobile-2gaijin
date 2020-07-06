@@ -44,7 +44,7 @@ class HomeTab extends Component {
         }
 
         return (
-            <React.Fragment>
+            <>
                 <SearchRecommendation />
                 <HomeBanners items={this.state.data["featureditems"]} />
                 <div className="panel-backdrop"></div>
@@ -55,7 +55,7 @@ class HomeTab extends Component {
                 <Popup className="item-desc-popup" opened={homeLoadingPopupOpened}>
                     <LoadingPage />
                 </Popup>
-            </React.Fragment>
+            </>
         );
     }
 }

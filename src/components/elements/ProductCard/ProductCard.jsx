@@ -3,12 +3,14 @@ import "./ProductCard.scss";
 import { Link } from 'framework7-react';
 import SoldOutIcon from "../../icons/SoldOutIcon.svg";
 import PinIcon from "../../icons/PinIcon.svg";
+import VisibilitySensor from "react-visibility-sensor";
+import shortid from 'shortid';
 
 class ProductCard extends Component {
     
     constructor(props) {
         super(props);
-        this.state = { cardWidth: (window.innerWidth/2) - 25, cardHeight: (window.innerHeight/2) - 25, locText: "", imgVis: false };
+        this.state = { cardWidth: (window.innerWidth/2) - 25, cardHeight: (window.innerHeight/2) - 25, locText: "", imgVis: false, getElement: null };
         this.calcDistance = this.calcDistance.bind(this);
     }
 
@@ -47,7 +49,11 @@ class ProductCard extends Component {
     }
 
     componentDidMount() {
-        //this.calcDistance();
+        this.setState(() => {
+          return {
+            getElement: document.getElementsByClassName("page-content-with-infinite-scroll")[0]
+          };
+        });
     }
 
     redirectToProductDetail(productID) {
@@ -55,6 +61,8 @@ class ProductCard extends Component {
     }
 
     render() {
+        var containmentDOMRect = this.state.getElement
+        ? this.state.getElement : null;
         if(typeof(this.props.item) !== 'undefined') {
             const item = this.props.item;
             let locColumn;
@@ -73,7 +81,16 @@ class ProductCard extends Component {
                 <Link href={`/product/${item["_id"]}`} className="product-card" style={{ width: `${this.state.cardWidth}px`}} >
                     <div className="content content-shadow-product">
                         {soldOut}
-                        <div className="image-container" style={{backgroundImage: `url(${item["img_url"]})`, width: `${this.state.cardWidth}px`}}></div>
+                        <VisibilitySensor key={shortid.generate()} containment={containmentDOMRect}>
+                            {({ isVisible }) => {
+                                return (
+                                    <div 
+                                    className="image-container" 
+                                    style={{backgroundImage: isVisible ? `url(${item["img_url"]})`: "", 
+                                    width: `${this.state.cardWidth}px`}} />
+                                );
+                            }}
+                        </VisibilitySensor>
                         <div className="text">
                             <p className="title-product">{item.name}</p>
                             <p className="location">by {item.seller_name}</p>

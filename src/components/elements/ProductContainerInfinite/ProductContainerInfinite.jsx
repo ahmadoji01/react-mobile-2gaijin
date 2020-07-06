@@ -40,7 +40,12 @@ class ProductContainerInfinite extends Component {
         this.setState({ cardHeight: (window.innerHeight/2) - 50 });
     }
 
+    onChange (isVisible) {
+        console.log('Element is now %s', isVisible ? 'visible' : 'hidden');
+    }
+
     render() {
+        
         if(typeof(this.props.items) !== "undefined") {
             this.findCoordinates();
             var currLat = this.state.currLat; var currLng = this.state.currLng;

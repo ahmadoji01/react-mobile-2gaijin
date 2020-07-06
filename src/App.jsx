@@ -14,8 +14,6 @@ import Register from "./components/pages/Register/Register";
 import Search from "./components/pages/Search/Search";
 import MakeAppointment from "./components/pages/MakeAppointment/MakeAppointment";
 
-import { createStore } from 'redux';
-import { Provider } from 'react-redux';
 import CategorySelect from "./components/pages/CategorySelect/CategorySelect";
 import CategoryListSelect from "./components/pages/CategoryListSelect/CategoryListSelect";
 import AddProductPage1 from "./components/pages/AddProduct/AddProductPage1";
@@ -216,22 +214,6 @@ const initialState = {
   isRefreshing: false,
 }
 
-function reducer(state = initialState, action) {
-  switch(action.type) {
-    case "SetRefresh":
-      return {
-        isRefreshing: true
-      };
-    case "UnsetRefresh":
-      return {
-        isRefreshing: false
-      };
-    default:
-      return state;
-  }
-}
-const store = createStore(reducer);
-
 function refreshingToken() {
   var user = AuthService.getCurrentUser();
   if(user) {
@@ -241,9 +223,7 @@ function refreshingToken() {
 const refreshToken = setInterval(refreshingToken(), 720000);
 
 export default () => (
-  <Provider store={store}>
-    <App params={f7params}>
-      <View main url="/" iosDynamicNavbar={false} pushState={true} pushStateSeparator='#!' />
-    </App>
-  </Provider>
+  <App params={f7params}>
+    <View main url="/" iosDynamicNavbar={false} pushState={true} pushStateSeparator='#!' />
+  </App>
 )

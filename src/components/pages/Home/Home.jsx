@@ -1,5 +1,4 @@
 import React, { Component } from "react";
-import { connect } from 'react-redux';
 import { Navbar, NavLeft, NavTitle, NavRight, Link, Page, PageContent, Searchbar, Subnavbar, Block, NavTitleLarge } from 'framework7-react';
 import Badge from '@material-ui/core/Badge';
 import './Home.scss';
@@ -100,8 +99,4 @@ class Home extends Component {
     }
 }
 
-const mapStateToProps = state => ({
-    isRefreshing: state.isRefreshing
-});
-
-export default connect(mapStateToProps)(Home);
+export default Home;

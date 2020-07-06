@@ -116,7 +116,7 @@ class ProfileForVisitor extends Component {
                             </div>
                         </div>
                     </div>
-                    <div style={{margin: 0, padding: 0}}>
+                    <div style={{margin: 0, padding: 0}} id="page-content-with-product-card">
                         <div className="sticky-div">
                             <Tabs value={this.state.index} variant="fullWidth" onChange={this.handleTabChange} style={styles.tabs}>
                                 <Tab label="Collections" />

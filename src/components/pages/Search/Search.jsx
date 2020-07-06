@@ -217,8 +217,8 @@ class Search extends Component {
                         ></Searchbar>
                     </Subnavbar>
                 </Navbar>
-                <div className="container">
-                    <h4 style={{marginTop: 10, marginBottom: 0}}>Showing results of <b>"{this.state.searchTitle}"</b> - <b>{this.state.totalItems} item(s)</b></h4>
+                <div className="container" id="page-content-with-product-card" style={{ paddingLeft: 0 }}>
+                    <h4 style={{marginTop: 10, marginBottom: 0, paddingLeft: 12}}>Showing results of <b>"{this.state.searchTitle}"</b> - <b>{this.state.totalItems} item(s)</b></h4>
                     <ProductContainerInfinite items={this.state.data} />
                     <div
                     ref={loadingRef => (this.loadingRef = loadingRef)}

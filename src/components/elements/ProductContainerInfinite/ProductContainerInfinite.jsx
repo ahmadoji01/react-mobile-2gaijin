@@ -44,8 +44,15 @@ class ProductContainerInfinite extends Component {
         console.log('Element is now %s', isVisible ? 'visible' : 'hidden');
     }
 
+    shouldComponentUpdate(nextProps, nextState) {
+        if (this.props.items === nextProps.items) {
+          return false;
+        } else {
+          return true;
+        }
+    }
+
     render() {
-        
         if(typeof(this.props.items) !== "undefined") {
             this.findCoordinates();
             var currLat = this.state.currLat; var currLng = this.state.currLng;

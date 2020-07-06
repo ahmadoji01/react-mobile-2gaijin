@@ -91,7 +91,7 @@ class Home extends Component {
                         </Link>
                     </NavRight>
                 </Navbar>
-                <PageContent id="page-content-with-infinite-scroll">
+                <PageContent id="page-content-with-product-card">
                     <Toolbar activeTab={1} />
                     <HomeTab />
                 </PageContent>

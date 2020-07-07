@@ -117,7 +117,7 @@ class MakeAppointment extends Component {
             <Page name="appointment" className="page page-appointment">
                 <Navbar>
                     <NavLeft>
-                        <Link href="/" className="link back"><Icon f7="arrow_left_circle_fill" size="24px" color="gray"></Icon></Link>
+                        <Link href="/" className="link back"><Icon f7="arrow_left_circle_fill" size="24px" color="black"></Icon></Link>
                     </NavLeft>
                     <NavTitle>Make Appointment</NavTitle>
                 </Navbar>

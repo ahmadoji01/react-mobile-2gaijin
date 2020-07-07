@@ -80,7 +80,7 @@ class AddProductPage1 extends Component {
             <Page name="search-history" className="page page-category-select">
                 <Navbar>
                     <NavLeft>
-                        <Link href="#" className="link back"><Icon f7="arrow_left_circle_fill" size="24px" color="gray"></Icon></Link>
+                        <Link href="#" className="link back"><Icon f7="arrow_left_circle_fill" size="24px" color="black"></Icon></Link>
                     </NavLeft>
                     <NavTitle>Tell us the detail of your item</NavTitle>
                 </Navbar>

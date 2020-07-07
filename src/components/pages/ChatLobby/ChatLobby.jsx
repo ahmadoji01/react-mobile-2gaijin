@@ -61,7 +61,7 @@ class ChatLobby extends Component {
             <Page name="chat-lobby" className="page-chat-lobby">
                 <Navbar>
                     <NavLeft>
-                        <Link href="/"><Icon f7="arrow_left_circle_fill" size="24px" color="gray"></Icon></Link>
+                        <Link href="/"><Icon f7="arrow_left_circle_fill" size="24px" color="black"></Icon></Link>
                     </NavLeft>
                     <NavTitle>
                         Messages

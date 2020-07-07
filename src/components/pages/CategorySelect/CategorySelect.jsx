@@ -63,7 +63,7 @@ class CategorySelect extends Component {
             <Page name="category-select" className="page page-category-select">
                 <Navbar>
                     <NavLeft>
-                        <Link href="/"><Icon f7="arrow_left_circle_fill" size="24px" color="gray"></Icon></Link>
+                        <Link href="/"><Icon f7="arrow_left_circle_fill" size="24px" color="black"></Icon></Link>
                     </NavLeft>
                     <NavTitle>What do you want to sell today?</NavTitle>
                 </Navbar>

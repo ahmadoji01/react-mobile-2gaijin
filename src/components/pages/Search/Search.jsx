@@ -5,6 +5,7 @@ import axios from "axios";
 import "./Search.scss";
 import { ReactComponent as FilterIcon } from "../../icons/FilterIcon.svg";
 import SearchCategoryOptions from "../../elements/SearchCategoryOptions";
+import LoadingPage from "../LoadingPage";
 
 class Search extends Component {
 
@@ -24,6 +25,7 @@ class Search extends Component {
             popupOpened: false,
             totalItems: 0,
             searchTitle: this.props.searchTerm,
+            isLoadingPageOpen: false,
         };
         this.SearchBarChange = this.SearchBarChange.bind(this);
         this.SearchItems = this.SearchItems.bind(this);
@@ -59,6 +61,7 @@ class Search extends Component {
         }
         this.setState({ status: status });
 
+        this.setState({ isLoadingPageOpen: true });
         return axios
         .get(`https://go.2gaijin.com/search?q=` + 
         searchTerm +
@@ -70,6 +73,7 @@ class Search extends Component {
             var fetchData = response.data.data.items;
             this.setState({data: fetchData});
             this.setState({totalItems: response.data.data.total_items});
+            this.setState({ isLoadingPageOpen: false });
         });
     }
 
@@ -200,7 +204,7 @@ class Search extends Component {
             <Page name="search" className="page page-search page-with-subnavbar hide-navbar-on-scroll">
                 <Navbar id="navbar-search">
                     <NavLeft>
-                        <Link href="/"><Icon f7="arrow_left_circle_fill" size="24px" color="gray"></Icon></Link>
+                        <Link href="/"><Icon f7="arrow_left_circle_fill" size="24px" color="black"></Icon></Link>
                     </NavLeft>
                     <NavTitle>
                         Search Results
@@ -230,6 +234,9 @@ class Search extends Component {
                 <Fab position="center-bottom" onClick={() => this.setState({popupOpened: true})} className="fab-filter" slot="fixed" text="Filter" color="orange">
                     <FilterIcon style={{ marginLeft: 20 }}/>
                 </Fab>
+                <Popup className="item-desc-popup" opened={this.state.isLoadingPageOpen}>
+                    <LoadingPage />
+                </Popup>
 
                 <Popup className="demo-popup" opened={this.state.popupOpened} onPopupClosed={() => this.setState({popupOpened : false})}>
                     <Page>

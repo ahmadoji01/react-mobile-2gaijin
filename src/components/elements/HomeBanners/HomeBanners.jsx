@@ -40,7 +40,7 @@ class HomeBanners extends Component {
                     <div className="container">
                         <div className="section-title">
                             <h3>2Gaijin's Picks
-                                <a href="#" className="see-all-link">See All</a>
+                                <a href="/profile/5da95727697d19f3f01f62b6" className="see-all-link">See All</a>
                             </h3>
                         </div>
                     </div>

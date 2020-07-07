@@ -180,7 +180,7 @@ class ProductContainerWithTab extends Component {
         axios
         .get(`https://go.2gaijin.com/search`, config)
         .then(res => {
-          if((lastItems - 4) >= this.state.items1.length) {
+          if(this.state.items1[lastItems-1] == res.data.data.items[7]) {
             return;
           }  
           this.setState({ items1: [...this.state.items1, ...res.data.data.items] });
@@ -207,7 +207,7 @@ class ProductContainerWithTab extends Component {
         .get(`https://go.2gaijin.com/search`, config)
         .then(res => {
           this.setState({ isLoading2: false });
-          if((lastItems - 4) >= this.state.items2.length) {
+          if(this.state.items2[lastItems-1] == res.data.data.items[7]) {
             return;
           }  
           this.setState({ items2: [...this.state.items2, ...res.data.data.items] });

@@ -97,7 +97,7 @@ class CategoryListSelect extends Component {
                 <Page name="category-select" className="page page-category-select">
                     <Navbar>
                         <NavLeft>
-                            <Link href="#" className="link back"><Icon f7="arrow_left_circle_fill" size="24px" color="gray"></Icon></Link>
+                            <Link href="#" className="link back"><Icon f7="arrow_left_circle_fill" size="24px" color="black"></Icon></Link>
                         </NavLeft>
                         <NavTitle>Choose {this.props.category} Category</NavTitle>
                     </Navbar>

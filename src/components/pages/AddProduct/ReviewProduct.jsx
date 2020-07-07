@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
 import { Button, Popup, Page, Link, Icon, NavTitle, Navbar, NavLeft, BlockTitle, List, ListItem } from 'framework7-react';
 import './ReviewProduct.scss';
-import { ReactComponent as AppointmentIllustration } from "../../illustrations/AppointmentIllustration.svg";
+import PublishingIllustration from "../../illustrations/PublishingIllustration.png";
 import axios from 'axios';
+import Error from '../Error';
 
 const imagesLimit = 8;
 
@@ -160,7 +161,7 @@ class ReviewProduct extends Component {
             <Page name="search-history" className="page page-category-select">
                 <Navbar>
                     <NavLeft>
-                        <Link href="#" className="link back"><Icon f7="arrow_left_circle_fill" size="24px" color="gray"></Icon></Link>
+                        <Link href="#" className="link back"><Icon f7="arrow_left_circle_fill" size="24px" color="black"></Icon></Link>
                     </NavLeft>
                     <NavTitle>Tell us the detail of your item</NavTitle>
                 </Navbar>
@@ -187,7 +188,6 @@ class ReviewProduct extends Component {
                     <Page>
                         <div style={{height: '90%', width: '100%'}} className="display-flex justify-content-center align-items-center">
                             <div>
-                                <div style={{display: 'table', margin: '0 auto'}}><AppointmentIllustration /></div>
                                 <div style={{fontWeight: 900, display: 'table', margin: '0 auto'}}><h3><b>Publishing Item...</b></h3></div>
                                 <div className="appointment-sent-text">
                                     You will be redirected to home once the publishing is done
@@ -203,17 +203,7 @@ class ReviewProduct extends Component {
                         </NavLeft>
                         <NavTitle>Oops...</NavTitle>
                     </Navbar>
-                    <Page>
-                        <div style={{height: '90%', width: '100%'}} className="display-flex justify-content-center align-items-center">
-                            <div>
-                                <div style={{display: 'table', margin: '0 auto'}}><AppointmentIllustration /></div>
-                                <div style={{fontWeight: 900, display: 'table', margin: '0 auto'}}><h3><b>Something went wrong...</b></h3></div>
-                                <div className="appointment-sent-text">
-                                    Please try again
-                                </div>
-                            </div>
-                        </div>
-                    </Page>
+                    <Error />
                 </Popup>
             </Page>
         );

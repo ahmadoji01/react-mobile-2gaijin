@@ -221,7 +221,7 @@ class ProductDetail extends Component {
             <div className="page page-product">
                 <Navbar transparent>
                     <NavLeft>
-                        <Link href="#" className="link back"><Icon f7="arrow_left_circle_fill" size="24px" color="white"></Icon></Link>
+                        <Link href="#" className="link back"><Icon f7="arrow_left_circle_fill" size="24px" color="black"></Icon></Link>
                     </NavLeft>
                     <NavTitle>{name}</NavTitle>
                 </Navbar>

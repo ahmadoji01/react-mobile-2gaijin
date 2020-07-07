@@ -81,7 +81,7 @@ class EditProductPage2 extends Component {
             <Page name="edit-product-2" className="page page-edit-product-2">
                 <Navbar>
                     <NavLeft>
-                        <Link href="#" className="link back"><Icon f7="arrow_left_circle_fill" size="24px" color="gray"></Icon></Link>
+                        <Link href="#" className="link back"><Icon f7="arrow_left_circle_fill" size="24px" color="black"></Icon></Link>
                     </NavLeft>
                     <NavTitle>How much is this item?</NavTitle>
                 </Navbar>

@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import "./ProfileForVisitor.scss"
-import { Page, Button, Link, Icon } from "framework7-react";
+import { Page, Button, Link, Icon, Popup } from "framework7-react";
 import SwipeableViews from 'react-swipeable-views';
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
@@ -10,6 +10,7 @@ import ProductContainerInfinite from '../../elements/ProductContainerInfinite';
 import GoldCoin from "../../illustrations/GoldCoin.svg";
 import SilverCoin from "../../illustrations/SilverCoin.svg";
 import EmptyPage from "../EmptyPage";
+import LoadingPage from "../LoadingPage";
 
 import axios from "axios";
 
@@ -30,7 +31,8 @@ class ProfileForVisitor extends Component {
         this.state = {
             userData: {},
             collections: [],
-            index: 0
+            index: 0,
+            isLoadingPageOpen: false,
         };
         this.handleTabChange = this.handleTabChange.bind(this);
         this.handleChangeIndex = this.handleChangeIndex.bind(this);
@@ -44,11 +46,13 @@ class ProfileForVisitor extends Component {
             }
         }
 
+        this.setState({ isLoadingPageOpen: true });
         return axios
         .get(`https://go.2gaijin.com/profile_visitor`, config)
         .then(response => {
             this.setState({ userData: response.data.data.user_info });
             this.setState({ collections: response.data.data.collections });
+            this.setState({ isLoadingPageOpen: false });
         });
     }
 
@@ -143,6 +147,9 @@ class ProfileForVisitor extends Component {
                         </SwipeableViews>
                     </div>
                 </div>
+                <Popup className="item-desc-popup" opened={this.state.isLoadingPageOpen}>
+                    <LoadingPage />
+                </Popup>
             </Page>
         );
     }

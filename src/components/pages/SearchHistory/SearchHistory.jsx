@@ -43,7 +43,7 @@ class SearchHistory extends Component {
             <Page name="search-history" className="page page-search-history">
                 <Navbar>
                     <NavLeft>
-                        <Link href="/"><Icon f7="arrow_left_circle_fill" size="24px" color="gray"></Icon></Link>
+                        <Link href="/"><Icon f7="arrow_left_circle_fill" size="24px" color="black"></Icon></Link>
                     </NavLeft>
                     <NavTitle>Search Items</NavTitle>
                     <Subnavbar inner={false}>
@@ -58,16 +58,13 @@ class SearchHistory extends Component {
                         ></Searchbar>
                     </Subnavbar>
                 </Navbar>
-                <List className="searchbar-not-found">
-                    <ListItem title="Nothing found" />
-                </List>
                 <List className="search-list searchbar-found">
-                    <ListItem title="Books" onClick={() => this.onListClick("Books")} />
-                    <ListItem title="Chair" onClick={() => this.onListClick("Chair")} />
-                    <ListItem title="Desk" onClick={() => this.onListClick("Desk")} />
-                    <ListItem title="Microwave" onClick={() => this.onListClick("Microwave")} />
-                    <ListItem title="Refrigerator" onClick={() => this.onListClick("Refrigerator")} />
-                    <ListItem title="Table" onClick={() => this.onListClick("Table")} />
+                    <ListItem href="#" title="Books" onClick={() => this.onListClick("Books")} />
+                    <ListItem href="#" title="Chair" onClick={() => this.onListClick("Chair")} />
+                    <ListItem href="#" title="Desk" onClick={() => this.onListClick("Desk")} />
+                    <ListItem href="#" title="Microwave" onClick={() => this.onListClick("Microwave")} />
+                    <ListItem href="#" title="Refrigerator" onClick={() => this.onListClick("Refrigerator")} />
+                    <ListItem href="#" title="Table" onClick={() => this.onListClick("Table")} />
                 </List>
             </Page>
         );

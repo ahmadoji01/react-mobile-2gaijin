@@ -3,6 +3,7 @@ import { Page, LoginScreenTitle, List, ListInput, ListButton, BlockFooter } from
 import AuthService from "../../../services/auth.service.js";
 import GoogleLogin from 'react-google-login';
 import FacebookLogin from 'react-facebook-login';
+import GaijinLogo from "../../illustrations/GaijinLogo.png";
 
 class SignIn extends Component {
     constructor(props) {
@@ -38,52 +39,53 @@ class SignIn extends Component {
 
         return (
             <Page noToolbar noNavbar noSwipeback loginScreen>
-            <LoginScreenTitle>2Gaijin</LoginScreenTitle>
-                <div className="container">
-                    <List form>
-                        <ListInput
-                        label="Email"
-                        type="email"
-                        placeholder="Your email"
-                        value={this.state.email}
-                        onInput={(e) => {
-                            this.setState({ email: e.target.value});
-                        }}
-                        />
-                        <ListInput
-                        label="Password"
-                        type="password"
-                        placeholder="Your password"
-                        value={this.state.password}
-                        onInput={(e) => {
-                            this.setState({ password: e.target.value});
-                        }}
-                        />
-                        {msg}
-                    </List>
-                    <List>
-                        <ListButton onClick={this.handleLogin.bind(this)}>Sign In</ListButton>
-                        
-                    </List>
-                    <List>
-                        <GoogleLogin
-                            clientId="880692175404-smp8q2u85pehekh59lk2pj2n4t39u7ha.apps.googleusercontent.com"
-                            buttonText="Sign In with Google"
-                            onSuccess={this.responseGoogle}
-                            onFailure={this.responseGoogle}
-                            cookiePolicy={'single_host_origin'}
-                        />
-                        <FacebookLogin
-                            appId="936813033337153"
-                            autoLoad
-                            fields="name,first_name,last_name,email,picture"
-                            callback={() => this.responseFacebook} 
-                        />
-                    </List>
-                    <List>
-                        <BlockFooter>Don't have an account? <a href="/register/">Sign Up</a></BlockFooter>
-                    </List>
-                </div>
+            <LoginScreenTitle><div ><img style={{ marginLeft: "auto", marginRight: "auto", width: "50%" }} src={GaijinLogo} /></div></LoginScreenTitle>
+            <h4 style={{ textAlign: "center", fontWeight: 700 }}>Secondhand Platform for Foreigners</h4>
+            <div className="container">
+                <List form>
+                    <ListInput
+                    label="Email"
+                    type="email"
+                    placeholder="Your email"
+                    value={this.state.email}
+                    onInput={(e) => {
+                        this.setState({ email: e.target.value});
+                    }}
+                    />
+                    <ListInput
+                    label="Password"
+                    type="password"
+                    placeholder="Your password"
+                    value={this.state.password}
+                    onInput={(e) => {
+                        this.setState({ password: e.target.value});
+                    }}
+                    />
+                    {msg}
+                </List>
+                <List>
+                    <ListButton onClick={this.handleLogin.bind(this)}>Sign In</ListButton>
+                    
+                </List>
+                <List>
+                    <GoogleLogin
+                        clientId="880692175404-smp8q2u85pehekh59lk2pj2n4t39u7ha.apps.googleusercontent.com"
+                        buttonText="Sign In with Google"
+                        onSuccess={this.responseGoogle}
+                        onFailure={this.responseGoogle}
+                        cookiePolicy={'single_host_origin'}
+                    />
+                    <FacebookLogin
+                        appId="936813033337153"
+                        autoLoad
+                        fields="name,first_name,last_name,email,picture"
+                        callback={() => this.responseFacebook} 
+                    />
+                </List>
+                <List>
+                    <BlockFooter>Don't have an account? <a href="/register/">Sign Up</a></BlockFooter>
+                </List>
+            </div>
             </Page>
         )
     }

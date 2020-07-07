@@ -209,7 +209,7 @@ class AddProductPage3 extends Component {
             <Page name="search-history" className="page page-category-select">
                 <Navbar>
                     <NavLeft>
-                        <Link href="#" className="link back"><Icon f7="arrow_left_circle_fill" size="24px" color="gray"></Icon></Link>
+                        <Link href="#" className="link back"><Icon f7="arrow_left_circle_fill" size="24px" color="black"></Icon></Link>
                     </NavLeft>
                     <NavTitle>Choose your item's images</NavTitle>
                 </Navbar>
@@ -230,11 +230,11 @@ class AddProductPage3 extends Component {
                     <Page>
                         <Navbar>
                             <NavLeft>
-                                <Link onClick={() => this.setState({ imgPopupOpened: false })}>Cancel</Link>
+                                <Link style={{ color: "grey" }} onClick={() => this.setState({ imgPopupOpened: false })}>Cancel</Link>
                             </NavLeft>
                             <NavTitle>Crop Your Image</NavTitle>
                             <NavRight>
-                                <Link onClick={this.showResult}>Confirm</Link>
+                                <Link style={{ color: "black" }} onClick={this.showResult}>Confirm</Link>
                             </NavRight>
                         </Navbar>
                         <Fragment>

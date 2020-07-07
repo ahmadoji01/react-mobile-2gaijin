@@ -185,7 +185,7 @@ class Collections extends Component {
                         ></Searchbar>
                     </Subnavbar>
                     <NavLeft>
-                        <Link href="/account"><Icon f7="arrow_left_circle_fill" size="24px" color="gray"></Icon></Link>
+                        <Link href="/account"><Icon f7="arrow_left_circle_fill" size="24px" color="black"></Icon></Link>
                     </NavLeft>
                     <NavTitle>Item Lists</NavTitle>
                 </Navbar>

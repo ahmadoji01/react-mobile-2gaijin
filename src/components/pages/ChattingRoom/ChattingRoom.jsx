@@ -59,7 +59,7 @@ class ChattingRoom extends Component {
 
         let loading;
         if(this.state.isLoading) {
-            loading = <Block style={{ backgroundColor: "#F2F7FF" }} className="text-align-center">
+            loading = <Block className="text-align-center">
                 <Preloader color="orange"></Preloader>
             </Block>;
         }
@@ -80,12 +80,12 @@ class ChattingRoom extends Component {
         
         var avatarURL = "images/avatar-placeholder.png";
 
-        var myName = localStorage.getItem("first_name") + " " + localStorage.getItem("last_name");
-        let personInfo, personName;
+        var myID = localStorage.getItem("user_id");
+        let personName;
         if(typeof(this.state.people) !== "undefined") {
             var i = 0; var people = this.state.people;
             for(i < 0; i < people.length; i++) {
-                if(people[i].name != myName) {
+                if(people[i]._id != myID) {
                     personName = this.state.people[i].name;
                     if(this.state.people[i].avatar_url != this.state.current_person.avatar_url) {
                         avatarURL = this.state.people[i].avatar_url;

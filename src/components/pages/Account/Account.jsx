@@ -189,7 +189,9 @@ class Account extends Component {
                 this.setState({ phoneNumber: jsonData.profile.phone });
                 if(dob.getMonth()) {
                     this.setState({ birthday: date }, this.createCalendar);
-                };
+                } else {
+                    this.createCalendar();
+                }
                 this.setState({ shortBio: jsonData.profile.short_bio });
             }
         });
@@ -209,17 +211,22 @@ class Account extends Component {
     }
 
     createCalendar() {
-        var date = new Date()
+        var date = new Date();
         if(typeof(this.state.birthday) !== "undefined") {
             date = new Date(this.state.birthday);
+            var calendarDateTime = this.$f7.calendar.create({
+                inputEl: '#date-time-input',
+                timePicker: false,
+                footer: true,
+                value: [date]
+            });
+        } else {
+            var calendarDateTime = this.$f7.calendar.create({
+                inputEl: '#date-time-input',
+                timePicker: false,
+                footer: true
+            });
         }
-
-        var calendarDateTime = this.$f7.calendar.create({
-            inputEl: '#date-time-input',
-            timePicker: false,
-            footer: true,
-            value: [date]
-        });
     }
     
     onButtonClick() {

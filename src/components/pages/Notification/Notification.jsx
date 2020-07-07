@@ -105,7 +105,7 @@ class Notification extends Component {
             <Page>
                 <Navbar>
                     <NavLeft>
-                        <Link href="/"><Icon f7="arrow_left_circle_fill" size="24px" color="gray"></Icon></Link>
+                        <Link href="/"><Icon f7="arrow_left_circle_fill" size="24px" color="black"></Icon></Link>
                     </NavLeft>
                     <NavTitle>Notification</NavTitle>
                 </Navbar>

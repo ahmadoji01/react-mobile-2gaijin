@@ -65,6 +65,7 @@ class Account extends Component {
         this.proposeEmailConfirmation = this.proposeEmailConfirmation.bind(this);
         this.proposePhoneConfirmation = this.proposePhoneConfirmation.bind(this);
         this.createCalendar = this.createCalendar.bind(this);
+        this.loadProfile = this.loadProfile.bind(this);
     }
 
     handleLogin() {
@@ -161,13 +162,14 @@ class Account extends Component {
         });
     }
 
-    componentWillMount() {
-
-        if(!AuthService.getCurrentUser()) {
-            this.setState({isLoggedIn: false});
+    refreshingToken() {
+        var user = AuthService.getCurrentUser();
+        if(user) {
+            AuthService.refreshToken();
         }
+    }
 
-        this.setState({ isLoadingPageOpen: true });
+    loadProfile() {
         axios.post(`https://go.2gaijin.com/get_profile_info`, {}, {
         headers: {
             "Authorization": localStorage.getItem("access_token")
@@ -190,6 +192,19 @@ class Account extends Component {
                 };
                 this.setState({ shortBio: jsonData.profile.short_bio });
             }
+        });
+    }
+      
+    componentWillMount() {
+        if(!AuthService.getCurrentUser()) {
+            this.setState({isLoggedIn: false});
+        }
+
+        var self = this;
+
+        this.setState({ isLoadingPageOpen: true });
+        AuthService.refreshToken().then(() => {
+            self.loadProfile();
         });
     }
 

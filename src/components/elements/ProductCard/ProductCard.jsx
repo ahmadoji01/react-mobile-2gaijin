@@ -49,6 +49,7 @@ class ProductCard extends Component {
     }
 
     componentDidMount() {
+        this.calcDistance();
         this.setState(() => {
           return {
             getElement: document.getElementsByClassName("page-content-with-infinite-scroll")[0]
@@ -81,7 +82,7 @@ class ProductCard extends Component {
                 <Link href={`/product/${item["_id"]}`} className="product-card" style={{ width: `${this.state.cardWidth}px`}} >
                     <div className="content content-shadow-product">
                         {soldOut}
-                        <VisibilitySensor key={shortid.generate()} containment={containmentDOMRect}>
+                        <VisibilitySensor partialVisibility key={shortid.generate()} containment={containmentDOMRect}>
                             {({ isVisible }) => {
                                 return (
                                     <div 

@@ -210,18 +210,6 @@ const f7params = {
   // ...
 };
 
-const initialState = {
-  isRefreshing: false,
-}
-
-function refreshingToken() {
-  var user = AuthService.getCurrentUser();
-  if(user) {
-      AuthService.refreshToken();
-  }
-}
-const refreshToken = setInterval(refreshingToken(), 720000);
-
 export default () => (
   <App params={f7params}>
     <View main url="/" iosDynamicNavbar={false} pushState={true} pushStateSeparator='#!' />

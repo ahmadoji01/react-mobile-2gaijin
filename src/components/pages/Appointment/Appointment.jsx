@@ -58,6 +58,7 @@ class Appointment extends Component {
         };
         this.SearchBarChange = this.SearchBarChange.bind(this);
         this.SearchItems = this.SearchItems.bind(this);
+        this.loadAppointments = this.loadAppointments.bind(this);
     }
 
     async SearchItems() {
@@ -67,22 +68,14 @@ class Appointment extends Component {
         this.setState({ data: fetchData });
     }
 
-    componentWillMount() {
-        var user = AuthService.getCurrentUser();
-
-        if(!user) {
-            this.$f7router.navigate("/login/appointment");
-            return;
-        }
-
+    loadAppointments() {
         let config = {
             headers: {'Authorization': localStorage.getItem("access_token") },
             params: {
               room: this.props.roomID
             }
-        }          
-
-        this.setState({ isLoading1: true });
+        } 
+        
         axios
         .get(`https://go.2gaijin.com/get_seller_appointments`, config)
         .then(response => {
@@ -99,7 +92,6 @@ class Appointment extends Component {
             }
         });
         
-        this.setState({ isLoading2: true });
         axios
         .get(`https://go.2gaijin.com/get_buyer_appointments`, config)
         .then(response => {
@@ -114,6 +106,22 @@ class Appointment extends Component {
                 this.setState({ accepted2: accepted });
                 this.setState({ isLoading2: false });
             }
+        });
+    }
+
+    componentWillMount() {
+        var user = AuthService.getCurrentUser();
+
+        if(!user) {
+            this.$f7router.navigate("/login/appointment");
+            return;
+        }
+
+        var self = this;
+        this.setState({ isLoading1: true });
+        this.setState({ isLoading2: true });
+        AuthService.refreshToken().then(() => {
+            self.loadAppointments();
         });
     }
 

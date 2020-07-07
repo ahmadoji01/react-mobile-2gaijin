@@ -17,11 +17,11 @@ class EmptyPage extends Component {
         }
 
         return (
-            <div style={{height: '100%', width: '100%', padding: 10, paddingTop: 100}} className="display-flex justify-content-center align-items-center">
+            <div style={{height: '100%', width: '100%', paddingTop: 100}} className="display-flex justify-content-center align-items-center">
                 <div>
                     <div style={{display: 'table', margin: '0 auto'}}><img style={{ maxWidth: 250 }} src={EmptyIllustration} /></div>
                     <div style={{fontWeight: 900, display: 'table', margin: '0 auto', textAlign: "center"}}><h3><b>{emptyTitle}</b></h3></div>
-                    <div style={{fontWeight: 500, display: 'table', margin: '0 auto', textAlign: "center"}}><h6><b>{emptyExplanation}</b></h6></div>
+                    <div style={{fontWeight: 500, display: 'table', margin: '0 auto', textAlign: "center", paddingLeft: 10, paddingRight: 10}}><h6><b>{emptyExplanation}</b></h6></div>
                 </div>
             </div>
         );

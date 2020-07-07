@@ -109,6 +109,13 @@ class Appointment extends Component {
         });
     }
 
+    refreshingToken() {
+        var user = AuthService.getCurrentUser();
+        if(user) {
+            AuthService.refreshToken();
+        }
+    }
+
     componentWillMount() {
         var user = AuthService.getCurrentUser();
 
@@ -125,7 +132,9 @@ class Appointment extends Component {
         });
     }
 
+    
     componentWillUnmount() {
+        clearInterval(this.intervalID);
         this.setState({ data: [],
             data2: [],
             pending: [],
@@ -140,6 +149,7 @@ class Appointment extends Component {
         if(!AuthService.getCurrentUser()) {
             return "";
         }
+        this.intervalID = setInterval(this.refreshingToken, 600000);
         
         var options = {
             root: null,
@@ -251,7 +261,7 @@ class Appointment extends Component {
                 <PageContent>
                     <Navbar id="navbar-search">
                         <NavTitle>
-                            Appointments
+                            Transactions
                         </NavTitle>
                     </Navbar>
                     <div className="sticky-div" style={{top: 0}}>

@@ -66,7 +66,7 @@ class ChattingRoom extends Component {
 
         let chatloading;
         if(this.state.chatLoading) {
-            loading = <Block style={{ backgroundColor: "#F2F7FF" }} className="text-align-center">
+            loading = <Block className="text-align-center">
                 <Preloader color="orange"></Preloader>
             </Block>;
         }
@@ -101,7 +101,7 @@ class ChattingRoom extends Component {
 
         return (
             <Page>
-                <div className="row sticky-container" style={{marginTop: 0, padding: 10}}>
+                <div className="row sticky-container" style={{marginTop: 0, marginBottom: 0, padding: 10}}>
                     <div className="col-5">
                         <Link href="/chatlobby"><Icon f7="arrow_left_circle_fill" size="24px" color="black"></Icon></Link>
                     </div>
@@ -156,7 +156,7 @@ class ChattingRoom extends Component {
                 </MessagebarSheet>
                 </Messagebar>
                 
-                <Messages style={{ backgroundColor: "#F2F7FF", paddingTop: "75px" }} scrollMessagesOnEdge ref={(el) => {this.messagesComponent = el}}>
+                <Messages style={{ paddingTop: "75px", minHeight: "80%" }} scrollMessagesOnEdge ref={(el) => {this.messagesComponent = el}}>
                     {chatloading}
                     {this.state.messagesData.map((message, index) => (
                         <React.Fragment>

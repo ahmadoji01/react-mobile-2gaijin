@@ -5,6 +5,9 @@ import { Col, Popup, Preloader, Sheet, PageContent, ListInput, Button, Page, Nav
 import axios from "axios";
 import SoldOutIcon from "../../icons/SoldOutIcon.svg";
 import LoadingPage from "../LoadingPage";
+import VisibilitySensor from "react-visibility-sensor";
+import shortid from 'shortid';
+import EmptyPage from "../EmptyPage";
 
 class Collections extends Component {
 
@@ -138,7 +141,9 @@ class Collections extends Component {
                 popoverOpen=".popover-menu"
                 footer={soldOut}
                 >
-                    <img slot="media" src={item.img_url} width="100" />
+                    <VisibilitySensor partialVisibility key={shortid.generate()}>
+                        {({ isVisible }) => { return <img slot="media" src={item.img_url} width="100" />}}
+                    </VisibilitySensor>
             </ListItem>
         });
 
@@ -164,6 +169,11 @@ class Collections extends Component {
             }
         }
 
+        let emptyPage;
+        if(this.state.data.length == 0) {
+            emptyPage = <EmptyPage title="You have not posted any items yet" explanation="Any items you have posted will go here!" />
+        }
+
         return (
             <Page name="collections" className="page page-collections page-with-subnavbar hide-navbar-on-scroll">
                 <Navbar id="navbar-collections" className="home-nav-large">
@@ -180,6 +190,7 @@ class Collections extends Component {
                     <NavTitle>Item Lists</NavTitle>
                 </Navbar>
                 <List mediaList className="search-list item-collections searchbar-found">
+                    {emptyPage}
                     {items}
                 </List>
                 <Popover className="popover-menu">
@@ -189,7 +200,6 @@ class Collections extends Component {
                         <ListItem link="#" sheetOpen=".manage-pricing-sheet" popoverClose title="Manage Pricing" />
                         <ListItem link="#" onClick={this.onEditProductClick} popoverClose title="Edit" />
                         <ListItem link="#" onClick={this.onMarkAsSoldClick} popoverClose title={availabilityStatusText} />
-                        <ListItem link="#" popoverClose title="Delete" />
                     </List>
                 </Popover>
                 <Sheet

@@ -86,7 +86,6 @@ class LoadingPage extends Component {
                                 <p style={{ textAlign: "right" }}><b>¥300</b><br />per month</p>
                             </div>
                             <div className="col-15">
-                                <img src={DiscountBadge} />
                             </div>
                         </div>
                     </div>
@@ -102,7 +101,6 @@ class LoadingPage extends Component {
                                 <p style={{ textAlign: "right" }}><b>¥500</b><br />per month</p>
                             </div>
                             <div className="col-15">
-                                <img src={DiscountBadge} />
                             </div>
                         </div>
                     </div>
@@ -118,7 +116,6 @@ class LoadingPage extends Component {
                                 <p style={{ textAlign: "right" }}><b>¥700</b><br />per month</p>
                             </div>
                             <div className="col-15">
-                                <img src={DiscountBadge} />
                             </div>
                         </div>
                     </div>
@@ -134,11 +131,10 @@ class LoadingPage extends Component {
                                 <p style={{ textAlign: "right" }}><b>¥900</b><br />per month</p>
                             </div>
                             <div className="col-15">
-                                <img src={DiscountBadge} />
                             </div>
                         </div>
                     </div>
-                    <div style={{height: '10%', width: '100%', padding: 5, paddingLeft: 25, paddingRight: 25}}>
+                    <div style={{height: '10%', marginTop: 10, padding: 10 }}>
                         <Button className="general-btn" onClick={ this.goToPaymentPage } style={{color: '#fff'}} raised fill round>Subscribe and Start Selling</Button>
                     </div>
                 </div>

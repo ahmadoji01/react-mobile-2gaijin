@@ -9,6 +9,7 @@ import ProductContainerInfinite from '../../elements/ProductContainerInfinite';
 
 import GoldCoin from "../../illustrations/GoldCoin.svg";
 import SilverCoin from "../../illustrations/SilverCoin.svg";
+import EmptyPage from "../EmptyPage";
 
 import axios from "axios";
 
@@ -93,6 +94,11 @@ class ProfileForVisitor extends Component {
             chatBtnDisabled = true;
         }
 
+        let emptyPage;
+        if(this.state.collections.length === 0) {
+            emptyPage = <EmptyPage title="This user has not added any items yet" explanation="" />
+        }
+
         return(
             <Page>
                 <div className="profile-visitor-container content-shadow">
@@ -125,6 +131,7 @@ class ProfileForVisitor extends Component {
                         </div>
                         <SwipeableViews index={this.state.index} onChangeIndex={this.handleChangeIndex}>
                         <div style={Object.assign({}, styles.slide, styles.slide1)}>
+                            {emptyPage}
                             <ProductContainerInfinite items={this.state.collections} />
                         </div>
                         <div style={Object.assign({}, styles.slide, styles.slide2)}>

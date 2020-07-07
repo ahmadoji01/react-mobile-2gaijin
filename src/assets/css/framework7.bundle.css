@@ -15003,7 +15003,6 @@ table.data-table {
 .messages {
   display: flex;
   flex-direction: column;
-  min-height: 100%;
   position: relative;
   z-index: 1;
 }

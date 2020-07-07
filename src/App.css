@@ -86,3 +86,11 @@ h7 {
   top: 22%;
   left: 22%;
 }
+
+.navbar-bg {
+  background-color: white !important;
+}
+
+.subnavbar {
+  background-color: white !important;
+}

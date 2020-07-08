@@ -132,19 +132,20 @@ class Collections extends Component {
                 soldOut = <img src={SoldOutIcon} style={{ height: 24 }} />
             }
 
-            return <ListItem
-                className="collection-item"
-                href="#"
-                onClick={() => this.onListItemClick(i, item._id, item.name, item.price)}
-                title={item.name}
-                subtitle={"¥" + item.price}
-                popoverOpen=".popover-menu"
-                footer={soldOut}
-                >
-                    <VisibilitySensor partialVisibility key={shortid.generate()}>
-                        {({ isVisible }) => { return <img slot="media" src={item.img_url} width="100" />}}
-                    </VisibilitySensor>
-            </ListItem>
+            return <VisibilitySensor partialVisibility key={shortid.generate()}>
+                {({ isVisible }) => { return <ListItem
+                    className="collection-item"
+                    href="#"
+                    onClick={() => this.onListItemClick(i, item._id, item.name, item.price)}
+                    title={item.name}
+                    subtitle={"¥" + item.price}
+                    popoverOpen=".popover-menu"
+                    footer={soldOut}
+                    >
+                        <img slot="media" src={isVisible ? `${item["img_url"]}`: ""} width="100" />
+                    </ListItem> 
+                }}
+            </VisibilitySensor>
         });
 
         let updateValidation; 

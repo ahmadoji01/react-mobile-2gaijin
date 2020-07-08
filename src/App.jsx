@@ -83,9 +83,6 @@ const f7params = {
     {
       path: '/sign-in/:redirectTo?',
       component: SignIn,
-      options: {
-        reloadCurrent: true,
-      },
     },
     {
       path: '/sign-up/:redirectTo?',

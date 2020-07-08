@@ -78,8 +78,10 @@ class ProductCard extends Component {
                 </div>;
             }
 
+            var cardWidth = this.props.cardWidth;
+
             return(
-                <Link href={`/product/${item["_id"]}`} className="product-card" style={{ width: `${this.state.cardWidth}px`}} >
+                <Link href={`/product/${item["_id"]}`} className="product-card" style={{ width: `${cardWidth}px`}} >
                     <div className="content content-shadow-product">
                         {soldOut}
                         <VisibilitySensor partialVisibility key={shortid.generate()} containment={containmentDOMRect}>
@@ -88,7 +90,7 @@ class ProductCard extends Component {
                                     <div 
                                     className="image-container" 
                                     style={{backgroundImage: isVisible ? `url(${item["img_url"]})`: "", 
-                                    width: `${this.state.cardWidth}px`}} />
+                                    width: `${cardWidth}px`}} />
                                 );
                             }}
                         </VisibilitySensor>

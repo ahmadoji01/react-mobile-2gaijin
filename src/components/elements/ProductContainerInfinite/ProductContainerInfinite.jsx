@@ -27,7 +27,6 @@ class ProductContainerInfinite extends Component {
 
     componentDidMount() {
         this.updateWindowDimensions();
-        //this.calcDistance();
         window.addEventListener('resize', this.updateWindowDimensions);
     }
     
@@ -38,10 +37,6 @@ class ProductContainerInfinite extends Component {
     updateWindowDimensions() {
         this.setState({ cardWidth: (window.innerWidth/2) - 25 });
         this.setState({ cardHeight: (window.innerHeight/2) - 50 });
-    }
-
-    onChange (isVisible) {
-        console.log('Element is now %s', isVisible ? 'visible' : 'hidden');
     }
 
     shouldComponentUpdate(nextProps, nextState) {

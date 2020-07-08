@@ -1,9 +1,10 @@
 import React, { Component } from "react";
-import { Page, LoginScreenTitle, List, ListInput, ListButton, BlockFooter } from "framework7-react";
+import { Page, LoginScreenTitle, List, ListItem, ListInput, ListButton, BlockFooter } from "framework7-react";
 import AuthService from "../../../services/auth.service.js";
 import GoogleLogin from 'react-google-login';
 import FacebookLogin from 'react-facebook-login';
 import GaijinLogo from "../../illustrations/GaijinLogo.png";
+import "./SignIn.scss";
 
 class SignIn extends Component {
     constructor(props) {
@@ -13,6 +14,7 @@ class SignIn extends Component {
             email: '',
             password: '',
             redirectTo: "/",
+            valid: false,
         };
 
         this.responseGoogle = this.responseGoogle.bind(this);
@@ -47,25 +49,31 @@ class SignIn extends Component {
                     label="Email"
                     type="email"
                     placeholder="Your email"
+                    required
+                    validate
                     value={this.state.email}
                     onInput={(e) => {
                         this.setState({ email: e.target.value});
                     }}
+                    onValidate={(isValid) => this.setState({ valid: isValid })}
                     />
                     <ListInput
                     label="Password"
                     type="password"
                     placeholder="Your password"
+                    required
+                    validate
                     value={this.state.password}
                     onInput={(e) => {
                         this.setState({ password: e.target.value});
                     }}
+                    onValidate={(isValid) => this.setState({ valid: isValid })}
                     />
                     {msg}
+                    <ListItem><a href={`/reset-password/`}>Forgot password?</a></ListItem>
                 </List>
                 <List>
                     <ListButton onClick={this.handleLogin.bind(this)}>Sign In</ListButton>
-                    
                 </List>
                 <List>
                     <GoogleLogin
@@ -83,7 +91,7 @@ class SignIn extends Component {
                     />
                 </List>
                 <List>
-                    <BlockFooter>Don't have an account? <a href="/register/">Sign Up</a></BlockFooter>
+                    <BlockFooter>Don't have an account? <a href={`/sign-up${this.state.redirectTo}`}>Sign Up</a></BlockFooter>
                 </List>
             </div>
             </Page>
@@ -136,19 +144,20 @@ class SignIn extends Component {
             loading: true
         });
 
-        var self = this;
-        AuthService.login(this.state.email, this.state.password).then(
-        response => {
-            if(!localStorage.getItem("access_token")) {
-                this.setState({
-                    loading: false,
-                    message: response.message
-                });
-            } else {
-                self.redirect();
-            }
-        });
-        
+        if(this.state.valid) {
+            var self = this;
+            AuthService.login(this.state.email, this.state.password).then(
+            response => {
+                if(!localStorage.getItem("access_token")) {
+                    this.setState({
+                        loading: false,
+                        message: response.message
+                    });
+                } else {
+                    self.redirect();
+                }
+            });
+        }
     }
 }
 

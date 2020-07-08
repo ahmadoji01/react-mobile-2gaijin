@@ -157,15 +157,30 @@ class AuthService {
             "source": "mobile_web_app"
         }
 
-        return axios.post(`https://go.2gaijin.com/reset_password`, {}, {
+        return axios.post(`https://go.2gaijin.com/reset_password`, payload, {
             headers: {
                 "Content-Type": "application/json"
             }
         }).then(response => {
-            if(response.data["status"] == "Success") {
-                var jsonData = response.data.data;
-                localStorage.setItem("access_token", jsonData.token["auth_token"]); 
+            var data = response.data;
+            return data;
+        });
+    }
+
+    updatePassword(email, password, resetToken) {
+        var payload = {
+            "email": email,
+            "password": password,
+            "reset_token": resetToken
+        }
+
+        return axios.post(`https://go.2gaijin.com/update_password`, payload, {
+            headers: {
+                "Content-Type": "application/json"
             }
+        }).then(response => {
+            var data = response.data;
+            return data;
         });
     }
 

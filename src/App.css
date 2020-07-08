@@ -94,3 +94,7 @@ h7 {
 .subnavbar {
   background-color: white !important;
 }
+
+.item-input-error-message {
+  margin-top: 0px !important;
+}

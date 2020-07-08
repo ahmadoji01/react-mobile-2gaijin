@@ -39,6 +39,9 @@ import Payment from "./components/pages/Payment";
 
 import AuthService from "./services/auth.service.js";
 import axios from "axios";
+import SignUp from "./components/pages/SignUp/SignUp";
+import ResetPassword from "./components/pages/ResetPassword/ResetPassword";
+import UpdatePassword from "./components/pages/UpdatePassword/UpdatePassword";
 
 const f7params = {
   // Array with app routes
@@ -48,9 +51,6 @@ const f7params = {
       path: '/',
       component: Home,
       master: true,
-      /*options: {
-        reloadCurrent: true,
-      },*/
     },
     {
       path: '/search/:searchTerm/:category?',
@@ -78,14 +78,6 @@ const f7params = {
       component: ProductDetail,
       options: {
         transition: 'f7-circle',
-        reload: true,
-      },
-    },
-    {
-      path: '/login/:redirectTo?',
-      component: Login,
-      options: {
-        reloadCurrent: true,
       },
     },
     {
@@ -94,6 +86,18 @@ const f7params = {
       options: {
         reloadCurrent: true,
       },
+    },
+    {
+      path: '/sign-up/:redirectTo?',
+      component: SignUp,
+    },
+    {
+      path: '/reset-password',
+      component: ResetPassword,
+    },
+    {
+      path: '/update-password/:email/:resetToken',
+      component: UpdatePassword,
     },
     {
       path: '/register',

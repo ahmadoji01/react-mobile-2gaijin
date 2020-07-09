@@ -24,7 +24,7 @@ class UpdatePassword extends Component {
     }
 
     redirect() {
-        window.location.href = "/";
+        this.$f7router.navigate("/sign-in");
     }
 
     render() {
@@ -75,7 +75,7 @@ class UpdatePassword extends Component {
                         {msg}
                     </List>
                     <List>
-                        <ListButton onClick={this.handleReset.bind(this)}>Send Request to Reset</ListButton>
+                        <ListButton onClick={this.handleReset.bind(this)}>Update Password</ListButton>
                     </List>
                 </div>
             </Page>
@@ -107,7 +107,7 @@ class UpdatePassword extends Component {
 
         if(this.state.valid) {
             var self = this;
-            AuthService.resetPassword(this.state.email, this.state.password, this.state.resetToken).then(
+            AuthService.updatePassword(this.state.email, this.state.password, this.state.resetToken).then(
             response => {
                 if(response.status == "Success") {
                     self.redirect();

@@ -116,7 +116,6 @@ class Notification extends Component {
                         {notifItems}
                     </div>
                 </div>
-
                 <Popup className="demo-popup-trust-coin" swipeToClose swipeHandler=".swipe-handler">
                     <Page>
                         <Navbar title="Successfully Sent!">

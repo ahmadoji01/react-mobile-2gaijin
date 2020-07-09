@@ -84,17 +84,7 @@ class UpdatePassword extends Component {
 
     handleReset(e) {
         e.preventDefault();
-
-        this.setState({
-            message: "",
-            isLoading: true
-        });
-
-        this.setState({
-            message: "",
-            isLoading: true
-        });
-
+        
         if(this.state.password !== this.state.confirmPassword) {
             this.setState({ message: "Password does not match", isLoading: false });
             return;
@@ -105,18 +95,21 @@ class UpdatePassword extends Component {
             return;
         }
 
-        if(this.state.valid) {
-            var self = this;
-            AuthService.updatePassword(this.state.email, this.state.password, this.state.resetToken).then(
-            response => {
-                if(response.status == "Success") {
-                    self.redirect();
-                } else {
-                    this.setState({ message: response.message });
-                    self.setState({ isLoading: false });
-                }
-            });
-        }
+        this.setState({
+            message: "",
+            isLoading: true
+        });
+
+        var self = this;
+        AuthService.updatePassword(this.state.email, this.state.password, this.state.resetToken).then(
+        response => {
+            if(response.status == "Success") {
+                self.redirect();
+            } else {
+                this.setState({ message: response.message });
+                self.setState({ isLoading: false });
+            }
+        });
     }
 }
 

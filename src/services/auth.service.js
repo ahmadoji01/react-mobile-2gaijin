@@ -179,6 +179,7 @@ class AuthService {
                 "Content-Type": "application/json"
             }
         }).then(response => {
+            console.log(response.data);
             var data = response.data;
             return data;
         });

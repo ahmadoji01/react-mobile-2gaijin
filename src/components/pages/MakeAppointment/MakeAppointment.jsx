@@ -1,10 +1,11 @@
 import React, { Component } from 'react';
 import './MakeAppointment.scss';
-import { Icon, Link, Page, Navbar, NavLeft, NavTitle, Button, Popup } from 'framework7-react';
+import { Icon, Link, Page, Navbar, NavLeft, NavTitle, Button, Popup, Block, Preloader } from 'framework7-react';
 import ProductCardHorizontal from '../../elements/ProductCardHorizontal/ProductCardHorizontal';
 import { geolocated } from 'react-geolocated';
 import { ReactComponent as AppointmentIllustration } from "../../illustrations/AppointmentIllustration.svg";
 import axios from 'axios';
+import AuthService from "../../../services/auth.service.js";
 
 class MakeAppointment extends Component {
 
@@ -17,6 +18,8 @@ class MakeAppointment extends Component {
             sellerID: "",
             isDelivery: false,
             validateInput: 0,
+            isLoading: false,
+            message: "",
         };
         this.submitAppointment = this.submitAppointment.bind(this);
         this.backToHome = this.backToHome.bind(this);
@@ -39,19 +42,26 @@ class MakeAppointment extends Component {
                 "is_delivery": this.state.isDelivery
             }
             
-            return axios
-            .post(`https://go.2gaijin.com/insert_appointment`, payload, { 
-                headers: {
-                    'Authorization': localStorage.getItem("access_token"),
-                    'Content-Type': 'application/json'
-                }
+            var self = this;
+            AuthService.refreshToken().then(() => {
+                self.setState({ message: "", isLoading: true });
+                return axios
+                .post(`https://go.2gaijin.com/insert_appointment`, payload, { 
+                    headers: {
+                        'Authorization': localStorage.getItem("access_token"),
+                        'Content-Type': 'application/json'
+                    }
+                })
+                .then(response => {
+                    if(response.data.status == "Success") {
+                        self.setState({ message: "", isLoading: false });
+                        self.setState({submitted: true});
+                        self.setState({ validateInput: 0 });
+                    } else {
+                        self.setState({ message: response.data.message, isLoading: false });
+                    }
+                });
             })
-            .then(response => {
-                if(response.data.status == "Success") {
-                    this.setState({submitted: true});
-                    this.setState({ validateInput: 0 });
-                }
-            });
         }
     }
 
@@ -113,6 +123,20 @@ class MakeAppointment extends Component {
             validMsg = <p></p>;
         }
 
+        let loading;
+        if(this.state.isLoading) {
+            loading = <Block className="text-align-center">
+                <Preloader color="orange"></Preloader>
+            </Block>;
+        }
+
+        let message;
+        if(this.state.message) {
+            message = <Block className="text-align-center">
+                {this.state.message}
+            </Block>;
+        }
+
         return(
             <Page name="appointment" className="page page-appointment">
                 <Navbar>
@@ -139,7 +163,9 @@ class MakeAppointment extends Component {
                             </ul>
                         </div>
                         {validMsg}
-                        <Button className="general-btn" style={{color: "#fff", marginTop: 20}} onClick={this.submitAppointment} raised fill round>Confirm Appointment Request</Button>
+                        {loading}
+                        {message}
+                        <Button className="general-btn" disabled={this.state.isLoading} style={{color: "#fff", marginTop: 20}} onClick={this.submitAppointment} raised fill round>Confirm Appointment Request</Button>
                     </div>
                 </div>
 

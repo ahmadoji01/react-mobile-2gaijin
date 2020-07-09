@@ -86,6 +86,11 @@ class ProductCardHorizontal extends Component {
             const item = this.props.item;
             const meetingTime = this.props.meeting_time;      
 
+            var meetingTimeInfo;
+            if(meetingTime) {
+                meetingTimeInfo = <><img src={CalendarIcon} style={{ width: 20, height: 20, float: "left" }} /><b> <Moment calendar={calendarStrings}>{meetingTime}</Moment></b></>;
+            }
+
             return(
                 <div className="profile-container content-shadow">
                     <div className="row" style={{paddingBottom: 0}}>
@@ -95,7 +100,7 @@ class ProductCardHorizontal extends Component {
                                 <p className="title-product" style={{lineHeight: "1em", height: "2em", marginTop: 10, marginBottom: 0, fontWeight: 600, color: "black"}}>{item.name}</p>
                                 <p className="location" style={{marginBottom: 0}}>by {item.seller_name}</p>
                                 <p className="price" style={{marginBottom: 0}}>¥{item.price}</p>
-                                <p className="appointment-time-text" style={{ display: "inline" }}><img src={CalendarIcon} style={{ width: 20, height: 20, float: "left" }} /><b> <Moment calendar={calendarStrings}>{meetingTime}</Moment></b></p>
+                                <p className="appointment-time-text" style={{ display: "inline" }}>{meetingTimeInfo}</p>
                             </div>
                         </div>
                     </div>

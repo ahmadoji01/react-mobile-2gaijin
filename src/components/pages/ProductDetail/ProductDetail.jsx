@@ -131,7 +131,7 @@ class ProductDetail extends Component {
             });
 
             appLink1 = "/appointment/" + id + "/false";
-            appLink2 = "/appointment/" + id + "/true";
+            appLink2 = "/appointment-with-delivery/" + id;
             
             if(this.state.data.details.brand != "") {
                 brand = <tr>

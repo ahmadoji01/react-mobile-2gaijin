@@ -41,6 +41,7 @@ import axios from "axios";
 import SignUp from "./components/pages/SignUp/SignUp";
 import ResetPassword from "./components/pages/ResetPassword/ResetPassword";
 import UpdatePassword from "./components/pages/UpdatePassword/UpdatePassword";
+import MakeAppointmentWithDelivery from "./components/pages/MakeAppointmentWithDelivery/MakeAppointmentWithDelivery";
 
 const f7params = {
   // Array with app routes
@@ -116,6 +117,10 @@ const f7params = {
     {
       path: '/appointment/:productID/:withDelivery',
       component: MakeAppointment,
+    },
+    {
+      path: '/appointment-with-delivery/:productID',
+      component: MakeAppointmentWithDelivery,
     },
     {
       path: '/category-select',

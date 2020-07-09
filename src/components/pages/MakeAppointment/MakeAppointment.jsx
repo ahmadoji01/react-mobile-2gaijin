@@ -143,7 +143,7 @@ class MakeAppointment extends Component {
                     <NavLeft>
                         <Link href="/" className="link back"><Icon f7="arrow_left_circle_fill" size="24px" color="black"></Icon></Link>
                     </NavLeft>
-                    <NavTitle>Make Appointment</NavTitle>
+                    <NavTitle>Request to Buy This Item</NavTitle>
                 </Navbar>
                 <div className="notifi segments">
                     <div className="container">

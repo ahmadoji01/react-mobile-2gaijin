@@ -42,6 +42,7 @@ class Account extends Component {
             lastName: "",
             phoneNumber: "",
             isProfileUpdated: false,
+            isPaymentUpdated: false,
             isLoading: false,
             isEmailConfirmLoading: false,
             confirmEmailStatus: "",
@@ -49,6 +50,12 @@ class Account extends Component {
             isSubsPageOpened: false,
             isLoadingPageOpen: false,
             confirmPhoneStatus: "",
+            paypal: "",
+            wechat: "",
+            bankNumber: "",
+            bankAccountName: "",
+            bankName: "",
+            cod: false,
         };
         this.handleLogin = this.handleLogin.bind(this);
         this.onFileChange = this.onFileChange.bind(this);
@@ -66,6 +73,14 @@ class Account extends Component {
         this.proposePhoneConfirmation = this.proposePhoneConfirmation.bind(this);
         this.createCalendar = this.createCalendar.bind(this);
         this.loadProfile = this.loadProfile.bind(this);
+
+        this.onUpdatePaymentMethodClick = this.onUpdatePaymentMethodClick.bind(this);
+        this.onPayPalChange = this.onPayPalChange.bind(this);
+        this.onBankAccountNameChange = this.onBankAccountNameChange.bind(this);
+        this.onBankAccountNumberChange = this.onBankAccountNumberChange.bind(this);
+        this.onBankNameChange = this.onBankNameChange.bind(this);
+        this.onWeChatChange = this.onWeChatChange.bind(this);
+        this.onCODChange = this.onCODChange.bind(this); 
     }
 
     handleLogin() {
@@ -134,6 +149,30 @@ class Account extends Component {
         this.setState({ birthday: e.target.value });
     }
 
+    onPayPalChange(e) {
+        this.setState({ paypal: e.target.value });
+    }
+
+    onBankAccountNameChange(e) {
+        this.setState({ bankAccountName: e.target.value });
+    }
+
+    onBankAccountNumberChange(e) {
+        this.setState({ bankNumber: e.target.value });
+    }
+
+    onBankNameChange(e) {
+        this.setState({ bankName: e.target.value });
+    }
+
+    onWeChatChange(e) {
+        this.setState({ wechat: e.target.value });
+    }
+
+    onCODChange(e) {
+        this.setState({ cod: e.target.checked });
+    }
+
     showResult = async () => {
         const croppedImage = await getCroppedImg(
             this.state.imageSrc,
@@ -193,6 +232,13 @@ class Account extends Component {
                     this.createCalendar();
                 }
                 this.setState({ shortBio: jsonData.profile.short_bio });
+
+                this.setState({ paypal: jsonData.payment_method.paypal });
+                this.setState({ wechat: jsonData.payment_method.wechat });
+                this.setState({ bankNumber: jsonData.payment_method.bank_account_number });
+                this.setState({ bankAccountName: jsonData.payment_method.bank_account_name });
+                this.setState({ bankName: jsonData.payment_method.bank_name });
+                this.setState({ cod: jsonData.payment_method.cod });
             }
         });
     }
@@ -267,6 +313,34 @@ class Account extends Component {
             } else {
                 this.setState({ isLoading: false });
                 this.setState({ isProfileUpdated: false });
+            }
+        });
+    }
+
+    onUpdatePaymentMethodClick() {
+        var payload = {
+            "paypal": this.state.paypal,
+            "wechat": this.state.wechat,
+            "bank_account_number": this.state.bankNumber,
+            "bank_account_name": this.state.bankAccountName,
+            "bank_name": this.state.bankName,
+            "cod": this.state.cod,
+        }
+        this.setState({ isLoading2: true });
+        
+        return axios.post(`https://go.2gaijin.com/update_payment_method`, payload, {
+            headers: {
+                "Authorization": localStorage.getItem("access_token"),
+                "Content-Type": "application/json"
+            }
+        }).then(response => {
+            console.log(response.data.message);
+            if(response.data["status"] == "Success") {
+                this.setState({ isLoading2: false });
+                this.setState({ isPaymentUpdated: true });
+            } else {
+                this.setState({ isLoading2: false });
+                this.setState({ isPaymentUpdated: false });
             }
         });
     }
@@ -352,6 +426,18 @@ class Account extends Component {
         let loading;
         if(this.state.isLoading) {
             loading = <Block className="text-align-center">
+                <Preloader color="orange"></Preloader>
+            </Block>;
+        }
+
+        let updateValidation2; 
+        if(this.state.isPaymentUpdated) {
+            updateValidation2 = <p>Payment method has been updated</p>;
+        }
+
+        let loading2;
+        if(this.state.isLoading2) {
+            loading2 = <Block className="text-align-center">
                 <Preloader color="orange"></Preloader>
             </Block>;
         }
@@ -576,6 +662,61 @@ class Account extends Component {
                                 {updateValidation}
                                 {loading}
                                 <Button className="general-btn" style={{color: '#fff'}} disabled={this.state.isLoading} onClick={this.onUpdateProfileButtonClick} raised fill round>Update Profile Info</Button>
+                            </div> 
+                        </List>
+                        <BlockTitle>Available Payment Method</BlockTitle>
+                        <List>
+                            <ListInput
+                                outline
+                                onChange={this.onPayPalChange}
+                                value={this.state.paypal}
+                                ref={formName => (this.formName = formName)}
+                                label="PayPal"
+                                type="text"
+                                placeholder="Enter your PayPal Account Link"
+                                required
+                                validate
+                            />
+                            <ListInput
+                                outline
+                                onChange={this.onWeChatChange}
+                                value={this.state.wechat}
+                                ref={formName => (this.formName = formName)}
+                                label="WeChat"
+                                type="text"
+                                placeholder="Enter your WeChat Account ID"
+                                required
+                                validate
+                            />
+                            <ListInput
+                                outline
+                                onChange={this.onBankAccountNumberChange}
+                                value={this.state.bankNumber}
+                                placeholder="Enter your Account Number"
+                                label="Bank Account Number"
+                                type="email"
+                            />
+                            <ListInput
+                                outline
+                                onChange={this.onBankAccountNameChange}
+                                value={this.state.bankAccountName}
+                                placeholder="Enter your Bank Account Name"
+                                label="Bank Account Holder's Name"
+                                type="text"
+                            />
+                            <ListInput
+                                outline
+                                onChange={this.onBankNameChange}
+                                value={this.state.bankName}
+                                placeholder="Enter the Bank Name You are Registered"
+                                label="Bank Name"
+                                type="text"
+                            />
+                            <ListItem checkbox title="Accept Cash on Delivery" onChange={this.onCODChange} checked={this.state.cod}></ListItem>
+                            <div style={{ padding: 10 }}>
+                                {updateValidation2}
+                                {loading2}
+                                <Button className="general-btn" style={{color: '#fff'}} disabled={this.state.isLoading2} onClick={this.onUpdatePaymentMethodClick} raised fill round>Update Payment Method</Button>
                             </div> 
                         </List>
                         <BlockTitle>Profile Action</BlockTitle>

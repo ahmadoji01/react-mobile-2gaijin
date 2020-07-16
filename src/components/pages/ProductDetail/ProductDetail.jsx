@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import HomeBanners from "../../elements/HomeBanners";
 import ProductDisplaySlider from "../../elements/ProductDisplaySlider";
-import { App, Button, Navbar, NavLeft, Page, PhotoBrowser, Swiper, SwiperSlide, Icon, Toolbar, Link, List, ListItem, NavTitle, Popover } from "framework7-react";
+import { App, Block, Sheet, PageContent, Button, Navbar, NavLeft, Page, PhotoBrowser, Swiper, SwiperSlide, Icon, Toolbar, Link, List, ListItem, NavTitle, Popover, BlockTitle } from "framework7-react";
 import './ProductDetail.scss';
 import Framework7 from "framework7";
 import parse from 'html-react-parser';
@@ -10,6 +10,10 @@ import { ReactComponent as NotificationIcon } from "../../icons/NotificationIcon
 import { ReactComponent as SoldOutIcon } from "../../icons/SoldOutIcon.svg";
 import GoldCoin from "../../illustrations/GoldCoin.svg";
 import SilverCoin from "../../illustrations/SilverCoin.svg";
+import BankIcon from "../../icons/BankIcon.png";
+import CODIcon from "../../icons/CODIcon.png";
+import PayPalIcon from "../../icons/PayPalIcon.png";
+import WeChatIcon from "../../icons/WeChatIcon.png";
 
 class ProductDetail extends Component {
     
@@ -18,6 +22,9 @@ class ProductDetail extends Component {
         this.state = {
             data: [],
             photos: [],
+            relatedItems: [],
+            sellerItems: [],
+            paymentMethod: [],
             windowWidth: 350,
             isLoading: false,
             activeIndex: 0,
@@ -48,10 +55,14 @@ class ProductDetail extends Component {
             const jsonData = responseJson.data;
             this.populatePhotos(jsonData.item.images);
             this.setState({ data: jsonData});
+            console.log(jsonData.payment_method);
+            this.setState({ paymentMethod: jsonData.payment_method });
         })
         .catch((error) => {
             console.error(error);
         });
+
+
     }
 
     handleChat() {
@@ -269,9 +280,82 @@ class ProductDetail extends Component {
                                     </div>
                                     <div className="row profile-banner-info" style={{ marginBottom: 5 }}>
                                         <div style={{ width: "100%" }}>
-                                            <Button href={`/profile/${sellerID}`} raised fill className="appointment-button" style={{  width: "75%", fontWeight: 700, color: "white" }}>See Profile</Button>
+                                            <Button href={`/profile/${sellerID}`} raised fill className="appointment-button" style={{  width: "90%", fontWeight: 700, color: "white" }}>See Profile</Button>
                                         </div>
                                     </div>
+                                </div>
+                            </div>
+                            <div className="row">
+                                <h5 style={{ textAlign: "center", padding: 5 }}>This Seller Accepts These Payment Method</h5>
+                                <div className="col-25 payment-icon">
+                                    {this.state.paymentMethod.paypal && <><Button className="payment-btn" sheetOpen=".paypal-sheet" ><img src={PayPalIcon} className="payment-icon-img" /> </Button>
+                                        <Sheet
+                                            className="paypal-sheet"
+                                            style={{height: 'auto', '--f7-sheet-bg-color': '#fff'}}
+                                            swipeToClose
+                                            backdrop
+                                            >
+                                            <PageContent>
+                                                <BlockTitle large>PayPal Link</BlockTitle>
+                                                <Block>
+                                                    <p><a href={this.state.paymentMethod.paypal}>{this.state.paymentMethod.paypal}</a></p>
+                                                </Block>
+                                            </PageContent>
+                                        </Sheet>
+                                    </> }
+                                </div>
+                                <div className="col-25 payment-icon">
+                                    {this.state.paymentMethod.wechat && <><Button className="payment-btn" sheetOpen=".wechat-sheet" ><img src={WeChatIcon} className="payment-icon-img" /></Button>
+                                    <Sheet
+                                    className="wechat-sheet"
+                                    style={{height: 'auto', '--f7-sheet-bg-color': '#fff'}}
+                                    swipeToClose
+                                    backdrop
+                                    >
+                                        <PageContent>
+                                            <BlockTitle large>WeChat Link</BlockTitle>
+                                            <Block>
+                                                <p>{this.state.paymentMethod.wechat}</p>
+                                            </Block>
+                                        </PageContent>
+                                    </Sheet>
+                                    </> }
+                                </div>
+                                <div className="col-25 payment-icon">
+                                    { this.state.paymentMethod.bank_account_number && <><Button className="payment-btn" sheetOpen=".bank-sheet" ><img src={BankIcon} className="payment-icon-img" /></Button> 
+                                    <Sheet
+                                    className="bank-sheet"
+                                    style={{height: 'auto', '--f7-sheet-bg-color': '#fff'}}
+                                    swipeToClose
+                                    backdrop
+                                    >
+                                        <PageContent>
+                                            <BlockTitle large>Bank Transfer</BlockTitle>
+                                            <Block>
+                                                <p>Bank Account's Number</p>
+                                                <p>{this.state.paymentMethod.bank_account_number}</p>
+                                                <p>Bank Account's Name</p>
+                                                <p>{this.state.paymentMethod.bank_account_name}</p>
+                                                <p>Bank Name</p>
+                                                <p>{this.state.paymentMethod.bank_name}</p>
+                                            </Block>
+                                        </PageContent>
+                                    </Sheet>
+                                    </> }
+                                </div>
+                                <div className="col-25 payment-icon">
+                                    { this.state.paymentMethod.cod && <><Button className="payment-btn" sheetOpen=".cod-sheet" ><img src={CODIcon} className="payment-icon-img" /></Button> 
+                                    <Sheet
+                                    className="cod-sheet"
+                                    style={{height: 'auto', '--f7-sheet-bg-color': '#fff'}}
+                                    swipeToClose
+                                    backdrop
+                                    >
+                                        <PageContent>
+                                            <BlockTitle large>Cash on Delivery</BlockTitle>
+                                        </PageContent>
+                                    </Sheet>
+                                    </> }
                                 </div>
                             </div>
                         </div>
@@ -283,10 +367,8 @@ class ProductDetail extends Component {
                     <List className="appointment-list">
                         <ListItem title="Appointment Menu" />
                         <ListItem link={appLink1} popoverClose title="Create Appointments" footer="Set a schedule to meet with owner">
-                            
                         </ListItem>
                         <ListItem link={appLink2} popoverClose title="Deliver to Me" footer="Send with our courier's partners to my place">
-                            
                         </ListItem>
                     </List>
                 </Popover>

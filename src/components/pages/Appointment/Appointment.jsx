@@ -252,9 +252,6 @@ class Appointment extends Component {
             }
         }
 
-        
-        
-
         return(
             <Page name="appointment" className="page page-appointment">
                 <Toolbar activeTab={2} />

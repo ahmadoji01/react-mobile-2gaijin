@@ -5,7 +5,7 @@ import AuthService from '../../../services/auth.service';
 import GoldCoin from "../../illustrations/GoldCoin.svg";
 import SilverCoin from "../../illustrations/SilverCoin.svg";
 import { ReactComponent as PeaceOutline } from "../../icons/PeaceOutline.svg";
-import { Button, Popup, Navbar, NavLeft, NavRight, Link, NavTitle, List, ListInput, ListItem, BlockTitle, Preloader, Block, TextEditor } from "framework7-react";
+import { Button, Popup, Sheet, PageContent, Navbar, NavLeft, NavRight, Link, NavTitle, List, ListInput, ListItem, BlockTitle, Preloader, Block, TextEditor } from "framework7-react";
 import axios from "axios";
 
 import { getCroppedImg, resizeImg } from '../../../services/imageprocessing';
@@ -50,12 +50,15 @@ class Account extends Component {
             isSubsPageOpened: false,
             isLoadingPageOpen: false,
             confirmPhoneStatus: "",
+            isConfirmLoading: false,
+            phoneConfirmedStatus: "",
             paypal: "",
             wechat: "",
             bankNumber: "",
             bankAccountName: "",
             bankName: "",
             cod: false,
+            phoneConfirmSheetOpened: false
         };
         this.handleLogin = this.handleLogin.bind(this);
         this.onFileChange = this.onFileChange.bind(this);
@@ -71,6 +74,8 @@ class Account extends Component {
         this.onUpdateProfileButtonClick = this.onUpdateProfileButtonClick.bind(this);
         this.proposeEmailConfirmation = this.proposeEmailConfirmation.bind(this);
         this.proposePhoneConfirmation = this.proposePhoneConfirmation.bind(this);
+        this.confirmPhone = this.confirmPhone.bind(this);
+        this.onPhoneConfirmCodeChange = this.onPhoneConfirmCodeChange.bind(this); 
         this.createCalendar = this.createCalendar.bind(this);
         this.loadProfile = this.loadProfile.bind(this);
 
@@ -171,6 +176,10 @@ class Account extends Component {
 
     onCODChange(e) {
         this.setState({ cod: e.target.checked });
+    }
+
+    onPhoneConfirmCodeChange(e) {
+        this.setState({ phoneConfirmCode: e.target.value });
     }
 
     showResult = async () => {
@@ -380,23 +389,49 @@ class Account extends Component {
 
     proposePhoneConfirmation() {
         var payload = {
-            "phone": this.state.phoneNumber,
-            "confirm_source": "mobile_web_app"
+            "phone": this.state.phoneNumber
         }
+
+        if(!this.state.phoneNumber) { this.setState({ confirmPhoneStatus: "empty" }); return; }
         
         this.setState({ isPhoneConfirmLoading: true });
         this.setState({ confirmPhoneStatus: "" });
-        return axios.post(`https://go.2gaijin.com/confirm_identity`, payload, {
+        return axios.post(`https://go.2gaijin.com/generate_phone_confirm_code`, payload, {
             headers: {
+                "Authorization": localStorage.getItem("access_token"),
                 "Content-Type": "application/json"
             }
         }).then(response => {
             if(response.data["status"] == "Success") {
                 this.setState({ isPhoneConfirmLoading: false });
+                this.setState({ phoneConfirmSheetOpened: true });
                 this.setState({ confirmPhoneStatus: "success" });
             } else {
                 this.setState({ isPhoneConfirmLoading: false });
                 this.setState({ confirmPhoneStatus: "error" });
+            }
+        });
+    }
+
+    confirmPhone() {
+        var payload = {
+            "phone_confirm_code": this.state.phoneConfirmCode
+        }
+        
+        this.setState({ isConfirmLoading: true });
+        this.setState({ phoneConfirmedStatus: "" });
+        return axios.post(`https://go.2gaijin.com/confirm_phone`, payload, {
+            headers: {
+                "Authorization": localStorage.getItem("access_token"),
+                "Content-Type": "application/json"
+            }
+        }).then(response => {
+            if(response.data["status"] == "Success") {
+                this.setState({ isConfirmLoading: false });
+                this.setState({ phoneConfirmedStatus: "Phone has been confirmed" });
+            } else {
+                this.setState({ isPhoneConfirmLoading: false });
+                this.setState({ phoneConfirmedStatus: response.data.message });
             }
         });
     }
@@ -438,6 +473,18 @@ class Account extends Component {
         let loading2;
         if(this.state.isLoading2) {
             loading2 = <Block className="text-align-center">
+                <Preloader color="orange"></Preloader>
+            </Block>;
+        }
+
+        let confirmValidation; 
+        if(this.state.phoneConfirmedStatus) {
+            confirmValidation = <p>{this.state.phoneConfirmedStatus}</p>;
+        }
+
+        let confirmLoading;
+        if(this.state.isConfirmLoading) {
+            confirmLoading = <Block className="text-align-center">
                 <Preloader color="orange"></Preloader>
             </Block>;
         }
@@ -496,6 +543,8 @@ class Account extends Component {
                 confirmPhoneStatus = <h6 style={{color: "#EF7132"}}>Confirmation sent to your phone!</h6>
             } else if(this.state.confirmPhoneStatus == "error") {
                 confirmPhoneStatus = <h6 style={{color: "#EF7132"}}>Something went wrong. Try again</h6>
+            } else if(this.state.confirmPhoneStatus == "empty") {
+                confirmPhoneStatus = <h6 style={{color: "#EF7132"}}>You have to update your profile filled with phone number first</h6>
             }
 
             if(!this.state.data.profile.email_confirmed) {
@@ -756,6 +805,32 @@ class Account extends Component {
                         <SubscriptionPage />
                     </Popup>
                 </div>
+                <Sheet
+                    position="bottom"
+                    className={`phone-confirm-sheet`}
+                    style={{height: 'auto', backgroundColor: "white"}}
+                    backdrop
+                    opened={this.state.phoneConfirmSheetOpened}
+                    onSheetClosed={() => this.setState({isPhoneConfirmed: false, phoneConfirmSheetOpened: false})}
+                    >
+                        <PageContent>
+                            <List>
+                                <ListInput
+                                    outline
+                                    onChange={this.onPhoneConfirmCodeChange}
+                                    value={this.state.phoneConfirmCode}
+                                    placeholder="Enter 6-Digit Code Sent to Your Phone"
+                                    label="6-Digit Confirmation Code"
+                                    type="text"
+                                />
+                            </List>
+                            <div style={{ padding: 10 }}>
+                                {confirmValidation}
+                                {confirmLoading}
+                                <Button className="general-btn" style={{color: '#fff'}} disabled={this.state.isConfirmLoading} onClick={this.confirmPhone} raised fill round>Confirm Code</Button>
+                            </div>
+                        </PageContent>
+                    </Sheet>
             </Page>
         );
     }

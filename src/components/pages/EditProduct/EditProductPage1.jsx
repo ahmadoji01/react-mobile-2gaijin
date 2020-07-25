@@ -178,7 +178,6 @@ class EditProductPage1 extends Component {
                         />
                         <ListInput
                             outline
-                            value={this.state.itemDescription}
                             label="Item's Description"
                             type="textarea"
                             resizable

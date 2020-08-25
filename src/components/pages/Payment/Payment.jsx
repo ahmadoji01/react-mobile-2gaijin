@@ -94,7 +94,6 @@ class Payment extends Component {
                     <ListItem link="#" id="creditCardBtn" title="Credit Card" footer="Pay with your own credit card">
                         <Icon slot="media" icon="demo-list-icon"></Icon>
                     </ListItem>
-                    
                 </List>
             </Page>
         );

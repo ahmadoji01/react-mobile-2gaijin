@@ -42,6 +42,7 @@ import SignUp from "./components/pages/SignUp/SignUp";
 import ResetPassword from "./components/pages/ResetPassword/ResetPassword";
 import UpdatePassword from "./components/pages/UpdatePassword/UpdatePassword";
 import MakeAppointmentWithDelivery from "./components/pages/MakeAppointmentWithDelivery/MakeAppointmentWithDelivery";
+import {isMobile} from "react-device-detect";
 
 const f7params = {
   // Array with app routes
@@ -208,6 +209,14 @@ const f7params = {
       component: Error,
     }
   ],
+  on: {
+    // each object key means same name event handler
+    pageInit: function (page) {
+      if(!isMobile) {
+        window.location.href = "https://webbeta06012020.2gaijin.com"
+      }
+    }
+  },
   // App Name
   name: '2Gaijin App',
   // App id

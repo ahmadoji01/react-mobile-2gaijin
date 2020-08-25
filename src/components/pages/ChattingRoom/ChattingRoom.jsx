@@ -195,7 +195,6 @@ class ChattingRoom extends Component {
                     activeIndex={this.state.totalPhotos}
                     ref={(el) => {this.photoBrowser = el}}
                 />
-                
                 {loading}
             </Page>
         );

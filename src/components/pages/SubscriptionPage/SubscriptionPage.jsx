@@ -8,7 +8,7 @@ class LoadingPage extends Component {
     
     constructor(props) {
         super(props);
-        this.state = {activeClasses: [false, false, false, false, false], activeIndex: 0};
+        this.state = {activeClasses: [false, false, false, false, false, false], activeIndex: 0};
         this.toggleSelectedPricing = this.toggleSelectedPricing.bind(this);
         this.goToPaymentPage = this.goToPaymentPage.bind(this);
     }
@@ -42,6 +42,8 @@ class LoadingPage extends Component {
             months = 7;
         } else if(activeIndex == 4) {
             months = 9;
+        } else if(activeIndex == 5) {
+            months = 12;
         }
             
         this.$f7.view.main.router.navigate("/payment/" + months)
@@ -68,7 +70,7 @@ class LoadingPage extends Component {
                                 <p>1 month</p>
                             </div>
                             <div className="col-30">
-                                <p style={{ textAlign: "right" }}><b>¥100</b><br />per month</p>
+                                <p style={{ textAlign: "right" }}><b>¥100</b><br />total</p>
                             </div>
                             <div className="col-15">
                             </div>
@@ -83,7 +85,7 @@ class LoadingPage extends Component {
                                 <p>3 months</p>
                             </div>
                             <div className="col-30">
-                                <p style={{ textAlign: "right" }}><b>¥300</b><br />per month</p>
+                                <p style={{ textAlign: "right" }}><b>¥300</b><br />total</p>
                             </div>
                             <div className="col-15">
                             </div>
@@ -98,7 +100,7 @@ class LoadingPage extends Component {
                                 <p>5 months</p>
                             </div>
                             <div className="col-30">
-                                <p style={{ textAlign: "right" }}><b>¥500</b><br />per month</p>
+                                <p style={{ textAlign: "right" }}><b>¥500</b><br />total</p>
                             </div>
                             <div className="col-15">
                             </div>
@@ -113,13 +115,13 @@ class LoadingPage extends Component {
                                 <p>7 months</p>
                             </div>
                             <div className="col-30">
-                                <p style={{ textAlign: "right" }}><b>¥700</b><br />per month</p>
+                                <p style={{ textAlign: "right" }}><b>¥700</b><br />total</p>
                             </div>
                             <div className="col-15">
                             </div>
                         </div>
                     </div>
-                    <div onClick={() => this.toggleSelectedPricing(4)} className={`pricing-list-item pricing-last ${activeClasses[4]? "pricing-selected" : ""}`}>
+                    <div onClick={() => this.toggleSelectedPricing(4)} className={`pricing-list-item ${activeClasses[4]? "pricing-selected" : ""}`}>
                         <div className="row pricing-item-inner">
                             <div className="col-15 align-self-center">
                                 <Radio name="demo-radio-inline" checked={activeClasses[4]? true : false} value="1"/>
@@ -128,7 +130,22 @@ class LoadingPage extends Component {
                                 <p>9 months</p>
                             </div>
                             <div className="col-30">
-                                <p style={{ textAlign: "right" }}><b>¥900</b><br />per month</p>
+                                <p style={{ textAlign: "right" }}><b>¥900</b><br />total</p>
+                            </div>
+                            <div className="col-15">
+                            </div>
+                        </div>
+                    </div>
+                    <div onClick={() => this.toggleSelectedPricing(5)} className={`pricing-list-item pricing-last ${activeClasses[5]? "pricing-selected" : ""}`}>
+                        <div className="row pricing-item-inner">
+                            <div className="col-15 align-self-center">
+                                <Radio name="demo-radio-inline" checked={activeClasses[5]? true : false} value="1"/>
+                            </div>
+                            <div className="col-40 align-self-center">
+                                <p>12 months</p>
+                            </div>
+                            <div className="col-30">
+                                <p style={{ textAlign: "right" }}><b>¥1200</b><br />total</p>
                             </div>
                             <div className="col-15">
                             </div>

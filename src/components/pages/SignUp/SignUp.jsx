@@ -191,8 +191,8 @@ class SignUp extends Component {
             var self = this;
             AuthService.register(
                 this.state.email,
-                this.state.firstname,
-                this.state.lastname,
+                this.state.firstName,
+                this.state.lastName,
                 this.state.password
             ).then( response => {
                 if(localStorage.getItem("access_token")) {

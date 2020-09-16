@@ -87,7 +87,7 @@ class SignIn extends Component {
                         appId="936813033337153"
                         autoLoad
                         fields="name,first_name,last_name,email,picture"
-                        callback={() => this.responseFacebook} 
+                        callback={this.responseFacebook} 
                     />
                 </List>
                 <List>

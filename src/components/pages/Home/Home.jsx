@@ -5,6 +5,7 @@ import './Home.scss';
 import HomeTab from "../../tabs/HomeTab";
 import AuthService from "../../../services/auth.service";
 import Toolbar from "../../elements/Toolbar";
+import { ReactComponent as DeliveryIcon } from "../../icons/DeliveryIcon.svg";
 import { ReactComponent as MessageIcon } from "../../icons/MessageIcon.svg";
 import { ReactComponent as NotifIcon } from "../../icons/NotificationIcon.svg";
 
@@ -44,11 +45,13 @@ class Home extends Component {
 
     render() {
 
-        let notifLink, chatLink;
+        let deliveryLink, notifLink, chatLink;
         if(!AuthService.getCurrentUser()) {
+            deliveryLink = "/sign-in/order_delivery";
             notifLink = "/sign-in/notification";
             chatLink = "/sign-in/chatlobby";
         } else {
+            deliveryLink = "/order_delivery";
             notifLink = "/notification";
             chatLink = "/chatlobby";
         }
@@ -82,6 +85,9 @@ class Home extends Component {
                         {title}
                     </NavLeft>
                     <NavRight>
+                        <Link href={deliveryLink}>
+                            <Badge color="secondary" ><DeliveryIcon size="24px" color="black" /></Badge>
+                        </Link>
                         <Link href={notifLink}>
                             <Badge color="secondary" variant="dot" invisible={this.state.notifRead}><NotifIcon onClick={ () => this.setState({notifRead: true}) }  size="24px" /></Badge>
                         </Link>

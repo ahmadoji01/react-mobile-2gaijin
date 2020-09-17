@@ -9,7 +9,6 @@ import "./SignIn.scss";
 class SignIn extends Component {
     constructor(props) {
         super(props);
-
         this.state = {
             email: '',
             password: '',

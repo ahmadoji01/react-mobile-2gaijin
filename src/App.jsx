@@ -43,6 +43,7 @@ import ResetPassword from "./components/pages/ResetPassword/ResetPassword";
 import UpdatePassword from "./components/pages/UpdatePassword/UpdatePassword";
 import MakeAppointmentWithDelivery from "./components/pages/MakeAppointmentWithDelivery/MakeAppointmentWithDelivery";
 import {isMobile} from "react-device-detect";
+import Delivery from "./components/pages/Delivery/Delivery";
 
 const f7params = {
   // Array with app routes
@@ -173,6 +174,13 @@ const f7params = {
     {
       path: '/see-appointment',
       component: Appointment,
+      options: {
+        //reloadAll: true,
+      },
+    },
+    {
+      path: '/order_delivery',
+      component: Delivery,
       options: {
         //reloadAll: true,
       },

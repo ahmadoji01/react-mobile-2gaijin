@@ -9,15 +9,35 @@ class Payment extends Component {
         super(props);
         this.state = {
             isLoading: false,
+            isPaymentSuccessful: true,
         }
         this.sendCardPayment = this.sendCardPayment.bind(this);
         this.sendKonbiniPayment = this.sendKonbiniPayment.bind(this);
     }
 
+    componentWillMount() {
+        let config = {
+            headers: {'Authorization': localStorage.getItem("access_token") },
+        }
+
+        return axios
+        .get(`https://go.2gaijin.com/get_subscription_status`, config)
+        .then(response => {
+            if(response.data.status == "Success") {
+                var isSubscribed = response.data.data.is_subscribed;
+                if(isSubscribed) {
+                    this.$f7.view.main.router.navigate("/category-select/");
+                }
+            } else {
+                this.setState({ isError: true });
+            }
+        });
+    }
+
     componentDidMount() {
         const { OmiseCard, Omise } = window;
 
-        var charge = 100;
+        var charge = 110;
         var monthsSubscribed = parseInt(this.props.months);
         var total = monthsSubscribed * charge;
 
@@ -54,12 +74,18 @@ class Payment extends Component {
             "months_subscribed": monthsSubscribed,
         }
 
+        this.setState({ isPaymentSuccessful: true });
+
         return axios.post(`https://go.2gaijin.com/credit_card_payment`, payload, {
             headers: {
                 "Authorization": localStorage.getItem("access_token")
             }
         }).then(response => {
-            console.log(response.data);
+            if(response.data.status == "Success") {
+                this.$f7.view.main.router.navigate("/category-select/");
+            } else if(response.data.status == "Error") {
+                this.setState({ isPaymentSuccessful: false });
+            }
         });
     }
 
@@ -94,6 +120,9 @@ class Payment extends Component {
                     <ListItem link="#" id="creditCardBtn" title="Credit Card" footer="Pay with your own credit card">
                         <Icon slot="media" icon="demo-list-icon"></Icon>
                     </ListItem>
+                    { !this.state.isPaymentSuccessful && <ListItem id="creditCardBtn" title="Payment Unsuccessful" footer="You can try to pay again. Do not worry, your previous payment attempt is not charged">
+                        <Icon slot="media" icon="demo-list-icon"></Icon>
+                    </ListItem> }
                 </List>
             </Page>
         );
